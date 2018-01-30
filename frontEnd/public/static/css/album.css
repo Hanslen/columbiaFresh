@@ -20,12 +20,14 @@
 }
 
 .jumbotron-heading {
-  font-weight: 300;
+  font-weight: 400;
   color:white;
 }
 
 .jumbotron .container {
-  max-width: 40rem;
+  /* max-width: 40rem; */
+
+  max-width: 60rem;
   margin-top:50px;
 }
 #jumbotron-sub{

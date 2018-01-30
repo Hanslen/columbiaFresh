@@ -1,11 +1,8 @@
-.test{
-    color:red;
-}
 #mainBgPic{
-    background-image: url('https://s3-media3.fl.yelpcdn.com/assets/srv0/yelp_large_assets/65e6a224ada4/assets/img/home/hero_photos/cz8iYo13MpBBGlFLlkA8Sw.jpg');
+    background-image: url('https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_large_assets/dde93fe399aa/assets/img/home/hero_photos/Xs7es0q4jmFY5CV3uTeuPw.jpg');
     background-size: cover;
     margin-top: -86px;
-    height: 500px;
+    height: 600px;
 }
 #cardTypeLabel{
     position: absolute;
@@ -16,4 +13,11 @@
     font-family: 'Open Sans', sans-serif;
     font-size: 2em;
     font-weight: bolder;
+}
+
+#btnDeep{
+    color:white;
+    background-Color:#C0392B;
+    /* border:none; */
+    border-color: #C0392B;
 }

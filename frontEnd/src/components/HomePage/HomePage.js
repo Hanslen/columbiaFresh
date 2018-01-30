@@ -1,16 +1,17 @@
 import React,  {Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './HomePage.css'
+import SearchBox from '../UI/SearchBox/SearchBox';
 
 class homePage extends Component{
     state = {
         categories: [
             {type: "Breakfast", src: "/static/img/breakfast.png"},
-            {type: "Lunch", src: "/static/img/lunch.png"},
-            {type: "Dinner", src: "/static/img/dinner.png"},
-            {type: "Soup", src: "/static/img/test.png"},
-            {type: "Vegan", src: "/static/img/test.png"},
-            {type: "Sandwich", src: "/static/img/test.png"}
+            {type: "Lunch", src: "/static/img/breakfast.png"},
+            {type: "Dinner", src: "/static/img/breakfast.png"},
+            {type: "Wrap", src: "/static/img/breakfast.png"},
+            {type: "Vegan", src: "/static/img/breakfast.png"},
+            {type: "Burger", src: "/static/img/breakfast.png"}
         ]
     };
     render(){
@@ -38,11 +39,14 @@ class homePage extends Component{
                 <section className="jumbotron text-center" id={classes.mainBgPic}>
                     <div className="container">
                     <h1 className="jumbotron-heading"><strong>Columbia Fresh</strong></h1>
+                    <br/><br/>
                     <p className="lead" id="jumbotron-sub">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
-                    <p>
+                    <br/><br/>
+                    {/* <p>
                         <input type="text" className="form-control" placeholder="Tell us what you want to eat...0.0"/><br/>
                         <Link to="/search"><button type="button" className="btn btn-primary" style={{color:"white",backgroundColor:"#f3d861",border:"none"}}>Search</button></Link>
-                    </p>
+                    </p> */}
+                    <SearchBox btnStyle={classes.btnDeep}/>
                     </div>
                 </section>
                 <div className="album py-5 bg-light">

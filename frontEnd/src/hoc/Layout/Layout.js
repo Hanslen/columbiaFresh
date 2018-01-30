@@ -3,13 +3,13 @@ import Aux from '../Aux/Aux';
 import Navigation from '../../components/Navigation/Navigation';
 import Footer from '../../components/Footer/Footer';
 import {Route, Switch, Redirect, withRouter} from 'react-router-dom';
+import StaticRouter from 'react-router-dom/StaticRouter';
 
 class Layout extends Component{
     render() {
         return (
             <Aux>
-                {/* <Navigation /> */}
-                <Route path="/" exact component={Navigation}/>
+                <Route path="/" component={Navigation}/>
                 <main>
                     {this.props.children}
                 </main>
@@ -18,4 +18,5 @@ class Layout extends Component{
         )
     }
 };
+
 export default Layout;

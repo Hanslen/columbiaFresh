@@ -4,24 +4,25 @@
 .authBox button{
     margin-right: 20px;
 }
-.logInBtn{
+/* .logInBtn{
     border: 2px solid white;
     width: 100px;
-}
-.signUpBtn{
+} */
+/* .signUpBtn{
     border: 2px solid white;
     background-color: #343a40;
     color: white;
     width: 100px;
-}
+} */
 .logo{
-    width: 20%;
+    width: 15%;
 }
 .navDown{
     margin-top: 25px;
 }
-.bgOrange{
-    background-color: #f3d861;
+.bgColor{
+    background-color: #E74C3C;
+    margin-top: 0px;
 }
 .toggleColor{
     display:inline-block;
@@ -53,15 +54,41 @@ Link{
         border: none;
         text-align: left;
     }
+    .navDown{
+        margin-top: 0px;
+        background-color: #E74C3C;
+    }
 }
-
-#signModalLabel{
-    margin-left: 45%;
+#signHeader{
+    border-bottom: none;
+    margin-bottom: -40px;
+    z-index: 100;
 }
 #signSubmit{
-    background-color: #f3d861;
+    background-color: #C0392B;
     color:white;
     border: none;
     margin: 0 auto;
-    width: 30%;
+    width: 80%;
+    height: 50px;
+    font-size: 1.1em;
+}
+#signModalSub{
+    background-color: white;
+    color:#C0392B;
+    border: 2px solid #C0392B;
+    float: right;
+    width: 20%;
+    text-align: center;
+}
+.signModalP{
+    float: left;
+    margin-left: 0px;
+}
+
+#btnDeep{
+    color:white;
+    background-Color: #C0392B;
+    /* border: none; */
+    border-color: #C0392B;
 }
