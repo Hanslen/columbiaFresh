@@ -21,10 +21,15 @@
 
 .jumbotron-heading {
   font-weight: 300;
+  color:white;
 }
 
 .jumbotron .container {
   max-width: 40rem;
+  margin-top:50px;
+}
+#jumbotron-sub{
+  color:white;
 }
 
 footer {

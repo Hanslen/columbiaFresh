@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {Route, Switch, Redirect} from 'react-router-dom';
+import {Route, Switch, Redirect, withRouter} from 'react-router-dom';
 import Layout from './hoc/Layout/Layout';
 import HomePage from './components/HomePage/HomePage';
 import Search from './components/Search/Search';
@@ -24,4 +24,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

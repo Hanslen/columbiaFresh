@@ -1,0 +1,67 @@
+.authBox{
+    float: right;
+}
+.authBox button{
+    margin-right: 20px;
+}
+.logInBtn{
+    border: 2px solid white;
+    width: 100px;
+}
+.signUpBtn{
+    border: 2px solid white;
+    background-color: #343a40;
+    color: white;
+    width: 100px;
+}
+.logo{
+    width: 20%;
+}
+.navDown{
+    margin-top: 25px;
+}
+.bgOrange{
+    background-color: #f3d861;
+}
+.toggleColor{
+    display:inline-block;
+    width:1.5em;
+    height:1.5em;
+    vertical-align:middle;
+    content:"";
+    background:no-repeat center center;
+    background-size:100% 100%;
+    background-image:url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+#myNavLink{
+    color: rgba(255,255,255,1);
+    /* font-size: 1.3em; */
+    border: 2px solid white;
+    font-weight: bolder;
+    border-radius: 0.5em;
+    margin-right: 30px;
+    width: 140px;
+    text-align: center;
+}
+Link{
+    outline:none;
+}
+
+@media (max-width: 992px) {
+    #myNavLink {
+        border: none;
+        text-align: left;
+    }
+}
+
+#signModalLabel{
+    margin-left: 45%;
+}
+#signSubmit{
+    background-color: #f3d861;
+    color:white;
+    border: none;
+    margin: 0 auto;
+    width: 30%;
+}
