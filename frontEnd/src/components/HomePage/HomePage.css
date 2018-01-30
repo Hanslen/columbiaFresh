@@ -1,0 +1,19 @@
+.test{
+    color:red;
+}
+#mainBgPic{
+    background-image: url('https://s3-media3.fl.yelpcdn.com/assets/srv0/yelp_large_assets/65e6a224ada4/assets/img/home/hero_photos/cz8iYo13MpBBGlFLlkA8Sw.jpg');
+    background-size: cover;
+    margin-top: -86px;
+    height: 500px;
+}
+#cardTypeLabel{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2em;
+    font-weight: bolder;
+}

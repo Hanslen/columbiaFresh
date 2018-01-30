@@ -12,4 +12,5 @@ Notes:
 Current finished:
 <ul>
 	<li>Navigation Bar</li>
+	<li>HomePage migration</li>
 </ul>
