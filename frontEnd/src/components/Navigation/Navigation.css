@@ -4,18 +4,8 @@
 .authBox button{
     margin-right: 20px;
 }
-/* .logInBtn{
-    border: 2px solid white;
-    width: 100px;
-} */
-/* .signUpBtn{
-    border: 2px solid white;
-    background-color: #343a40;
-    color: white;
-    width: 100px;
-} */
 .logo{
-    width: 15%;
+    width: 24%;
 }
 .navDown{
     margin-top: 25px;
@@ -91,4 +81,91 @@ Link{
     background-Color: #C0392B;
     /* border: none; */
     border-color: #C0392B;
+}
+
+.userIcon{
+    width: 45px;
+    display: block;
+    border-radius: 2em;
+    margin-top: 2px;
+}
+.shoppingCart{
+    height: 35px;
+    margin-right: 35px;
+}
+.shoppingBox{
+    width: 250px;
+    height: 100px;
+    /* background-color: white; */
+    display: none;
+    /* display: block; */
+    margin-left: -312px;
+    position: absolute;
+}
+#shoppingCartSvg:hover + .shoppingBox{
+    display: block;
+}
+
+.shoppingBox:hover{
+    display: block;
+}
+.userProfileBox{
+    margin-top:-26px;
+    /* width: 250px; */
+    width: 100%;
+    height: 100px;
+    /* background-color: white; */
+    display: none;
+    /* margin-left: -140px; */
+    position: absolute; 
+}
+
+#userProfileImg:hover + .userProfileBox{
+    display: block;
+}
+
+.userProfileBox:hover{
+    display: block;
+}
+#userBoxSub{
+    display: block; 
+    margin-top:-70px
+}
+#shoppingCartSub{
+    display: block;
+    margin-top: -100px;
+    margin-left: 53px;;
+    width:300px;
+}
+#shoppingCartSubBtn{
+    background-color: #C0392B;
+    color:white;
+    margin-top: -16px;
+    margin-bottom: -8px;
+    text-align: center;
+}
+#shoppingCartItem img{
+    width: 50px;
+    height: 50px;
+}
+
+#shoppingCartItem h6{
+    width: 150px;
+    text-align: left;
+    word-wrap: break-word;
+    white-space:normal;
+}
+#shoppingCartItem span{
+    font-size: 0.8em;
+}
+#shoppingCartItem a{
+    text-align: left;
+    float: left;
+    background-color: #C0392B;
+    padding: 0.3em;
+    color:white;
+}
+#shoppingCartItem p{
+    color:#C0392B;
+    text-align: right;
 }

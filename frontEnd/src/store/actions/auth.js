@@ -76,7 +76,8 @@ export const authLogIn = (email, password) => {
             password: password            
         };
         
-        localStorage.setItem('token', '1234');
+        localStorage.setItem('token', email);
+        dispatch(authSuccess(email, "1"));
 
         // web
         // let url = 'logInURL';
@@ -98,15 +99,15 @@ export const authCheckState = () => {
             dispatch(logout());
         }
         else{
-            const expirationDate = new Date(localStorage.getItem('expirationDate'));
-            if(expirationDate > new Date()){
+            // const expirationDate = new Date(localStorage.getItem('expirationDate'));
+            // if(expirationDate > new Date()){
                 const userId = localStorage.getItem('userId');
                 dispatch(authSuccess(token, userId));
-                dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime())/1000));
-            }
-            else{
-                dispatch(logout());
-            }
+            //     dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime())/1000));
+            // }
+            // else{
+            //     dispatch(logout());
+            // }
             
         }
     };

@@ -37,7 +37,7 @@ class homePage extends Component{
         return(
             <div>
                 <section className="jumbotron text-center" id={classes.mainBgPic}>
-                    <div className="container">
+                    <div className="container" id={classes.headingBox}>
                     <h1 className="jumbotron-heading"><strong>Columbia Fresh</strong></h1>
                     <br/><br/>
                     <p className="lead" id="jumbotron-sub">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
@@ -46,7 +46,9 @@ class homePage extends Component{
                         <input type="text" className="form-control" placeholder="Tell us what you want to eat...0.0"/><br/>
                         <Link to="/search"><button type="button" className="btn btn-primary" style={{color:"white",backgroundColor:"#f3d861",border:"none"}}>Search</button></Link>
                     </p> */}
-                    <SearchBox btnStyle={classes.btnDeep}/>
+                    <SearchBox btnStyle={classes.btnDeep} placeHolder="Tell us what you want to eat :D "/>
+                    <p className="lead" id="jumbotron-sub" style={{fontSize:"0.8em",marginTop:"8%",fontWeight:"bolder"}}>Rowser New American Coffee<br/> Photo by MyThy H.</p>
+                    
                     </div>
                 </section>
                 <div className="album py-5 bg-light">

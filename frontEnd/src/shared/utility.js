@@ -32,6 +32,14 @@ export const checkValidity = ( value, rules ) => {
         const pattern = /^\d+$/;
         isValid = pattern.test( value ) && isValid
     }
+    return isValid;
+}
 
+export const checkFormValidity = (inputs) => {
+    let isValid = true;
+    var keys = Object.keys(inputs);
+    for(var i=0; i<keys.length; i++){
+        isValid = isValid && inputs[keys[i]].valid;
+    }
     return isValid;
 }

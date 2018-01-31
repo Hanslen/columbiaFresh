@@ -20,7 +20,7 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer, composeEnhancers(
     applyMiddleware(thunk)
 ));
-// const store = createStore(rootReducer);
+// const store = createStore(rootReducer, applyMiddleware);
 
 const app = (
     <Provider store={store}>

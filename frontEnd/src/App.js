@@ -7,15 +7,17 @@ import Layout from './hoc/Layout/Layout';
 import HomePage from './components/HomePage/HomePage';
 import Search from './components/Search/Search';
 import * as actions from './store/actions/index';
+import laoshi from './components/laoshi';
 class App extends Component {
   componentDidMount(){
-    this.props.onTryAutoSignup();
+    // this.props.onTryAutoSignup();
   }
   render() {
     let routes = (
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/search" exact component={Search}/>
+        <Route path="/laoshi" exact component={laoshi}/>
       </Switch>
     );
     return (

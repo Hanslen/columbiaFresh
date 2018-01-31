@@ -5,7 +5,7 @@ import classes from './Input.css';
 const input = ( props ) => {
     let inputElement = null;
     const inputClasses = ["form-control"];
-
+    // console.log(props);
     if (props.invalid && props.shouldValidate && props.touched) {
         inputClasses.push(classes.Invalid);
     }
