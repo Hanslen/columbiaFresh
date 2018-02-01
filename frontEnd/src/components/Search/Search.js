@@ -10,22 +10,14 @@ class search extends React.Component{
         return (
             <div className="container">
                 <div className="row standard-blank">
-                    <div className="col-2"></div>
-                    <div className="col-6">
-                        <div className="input-group">
-                            <input type="text" className="form-control" />
-                            <div className="input-group-append">
-                                <Link to="/searchMenu"><button type="button" className="btn btn-primary">Search</button></Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-4"></div>
+                    level 1 > level 2 > level 3
                 </div>
-                <div className="row">
+                <div className="row mt-3">
                     <div className="col-2">
                         <Sidebar />
                     </div>
                     <div className="col-6">
+                        <h3>Search Key Word</h3>
                         <SearchRes />
                     </div>
                     <div className="col-4">
