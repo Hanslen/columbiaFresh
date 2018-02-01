@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios';
+import axios from '../../axios-config';
 
 export const authStart = () => {
     return{
@@ -77,10 +77,14 @@ export const authLogIn = (email, password) => {
         };
         
         localStorage.setItem('token', email);
-        dispatch(authSuccess(email, "1"));
+        setTimeout(() => {
+            console.log("._.");
+            dispatch(authSuccess(email, "1"));
+        },2000);
+        // dispatch(authSuccess(email, "1"));
 
         // web
-        // let url = 'logInURL';
+        // let url = '/guestLogin';
         // axios.post(url, authData)
         //     .then(response => {
         //         const expirationDate = new Date(new Date().getTime() + response.data.expiresIn*1000);
@@ -90,6 +94,27 @@ export const authLogIn = (email, password) => {
         //         dispatch(authSuccess(response.data.idToken, response.data.localId));
         //         dispatch(checkAuthTimeout(response.data.expiresIn));
         //     });
+    }
+}
+
+export const authSignUp = (email, username, password) => {
+    return dispatch => {
+        dispatch(authStart());
+        const authData = {
+            email: email,
+            guest_name: username,
+            password: password
+        };
+        let url = '/guestRegister';
+        axios.post(url, authData)
+            .then(response => {
+                console.log(response.data);
+                dispatch(authSuccess(email, username));
+            })
+            .catch(error => {
+                console.log("Error...."+error);
+            });
+
     }
 }
 export const authCheckState = () => {

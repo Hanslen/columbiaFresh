@@ -5,7 +5,7 @@ class laoshi extends Component{
         name: null
     };
     wow = () => {
-        axios.post('http://160.39.138.252:8111/teacher', {
+        axios.post('http://160.39.198.131:8111/guestRegister', {
             email: 'laoshi@mail.com',
             guest_name: 'Lao Shi',
             password: "nicai:-)"

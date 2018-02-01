@@ -169,3 +169,12 @@ Link{
     color:#C0392B;
     text-align: right;
 }
+#noDecoration{
+    background-color: white;
+    color: black;
+}
+
+.dropdown-item:active{
+    color: black;
+    background-color: white;
+}

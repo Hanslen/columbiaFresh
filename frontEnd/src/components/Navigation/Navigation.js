@@ -3,30 +3,35 @@ import {Link} from 'react-router-dom';
 import classes from './Navigation.css';
 import SearchBox from '../UI/SearchBox/SearchBox';
 import Input from '../UI/Input/Input';
+import Spinner from '../UI/Spinner/Spinner';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import { link } from 'fs';
 import ReactSVG from 'react-svg';
 import $ from 'jquery'; 
-import { updateObject, checkValidity, checkFormValidity} from '../../shared/utility';
+import { updateObject, checkValidity, checkFormValidity, removeArray} from '../../shared/utility';
 
 class navigation extends Component{
   state = {
+    price: 0,
     items: [{
+      id: 1,
       name: "Big Delicious Beef Cheese burger",
-      price: "10",
+      price: 10,
       number: 1,
       src: "/static/img/shoppingcart.jpg"
     },
     {
+      id: 2,
       name: "Big Big Beef Cheese burger",
-      price: "1000",
+      price: 1000,
       number: 3,
       src: "/static/img/shoppingcart.jpg"
     },
     {
+      id: 3,
       name: "Big Big Big Beef Cheese burger",
-      price: "10",
+      price: 10,
       number: 1,
       src: "/static/img/shoppingcart.jpg"
     }],
@@ -231,23 +236,33 @@ class navigation extends Component{
 
   submitHandler = () => {
     if(checkFormValidity(this.state.controls)){
-      console.log("All is true...");
       $("#signModal .close").click();
     }
     else{
-      console.log("Contained false...");
       alert("Error....");
       return ;
     }
     if(this.state.sign == "Sign Up"){
-      console.log("Sign Up Button Click...");
-      
-      this.props.onLogIn(this.state.controls.email.value, this.state.controls.password.value);
+      this.props.onSignUp(this.state.controls.email.value, this.state.controls.username.value, this.state.controls.password.value);
     }
     else{
-      console.log("Log In Button Click...");
       this.props.onLogIn(this.state.controls.email.value, this.state.controls.password.value);
     }
+  }
+  deleteItemHandler = (id) => {
+    const deleteArray = removeArray(this.state.items, id);
+    this.setState({items: deleteArray});
+    this.calculatePrice();
+  }
+  calculatePrice = () => {
+    let price = 0;
+    this.state.items.map(item => {
+      price += item.price;
+    });
+    this.setState({price: price});
+  }
+  componentDidMount(){
+    this.calculatePrice();
   }
 
   render(){
@@ -294,7 +309,7 @@ class navigation extends Component{
                   <div className="col-md-9">
                       <h6>{item.name}</h6>
                       <span>
-                        <a>Delete</a>
+                        <a onClick={(id) => this.deleteItemHandler(item.id)}>Delete</a>
                         <p>{item.number}x${item.price}</p>
                       </span>
                    </div>
@@ -304,6 +319,11 @@ class navigation extends Component{
           </div>
         ));
 
+        let checkOutBox = (<div><p className="dropdown-item">Total Price: ${this.state.price}</p>
+        <a className="dropdown-item" href="#" id={classes.shoppingCartSubBtn}>Checkout</a></div>);
+        if(this.state.items.length === 0){
+          checkOutBox = (<a className="dropdown-item" href="#" id={classes.shoppingCartSubBtn}>Cart is Empty...</a>);
+        }
 
     return (
         <nav className={navBar.join(' ')}>
@@ -333,9 +353,8 @@ class navigation extends Component{
                           <a id={classes.shoppingCartSvg}><ReactSVG path="/static/img/cart.svg" className={classes.shoppingCart} style={{width:25, fill: "white"}} /></a>
                           <div className={classes.shoppingBox}>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" id={classes.shoppingCartSub}>
-                                {shoppingCart}
-                                <p className="dropdown-item">Total Price: 100</p>
-                                <a className="dropdown-item" href="#" id={classes.shoppingCartSubBtn}>Checkout</a>
+                              {shoppingCart}
+                              {checkOutBox}
                             </div>
                           </div>
                           </div>
@@ -346,9 +365,10 @@ class navigation extends Component{
                           <img className={classes.userIcon} id={classes.userProfileImg} src="/static/img/user.jpg"/>
                           <div className={classes.userProfileBox}>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" id={classes.userBoxSub}>
+                              <div className="dropdown-item" id={classes.noDecoration}>Hi, <strong>User</strong></div>
                               <a className="dropdown-item" href="#">My Orders</a>
-                              <a className="dropdown-item" href="#">Edit Profiles</a><div className="dropdown-divider"></div>
-                              <a className="dropdown-item" onClick={this.props.onLogOut}>LogOut</a>
+                              <a className="dropdown-item" href="#" id={classes.noClickDecoration}>Edit Profiles</a><div className="dropdown-divider"></div>
+                              <a className="dropdown-item" id={classes.noClickDecoration}onClick={this.props.onLogOut}>LogOut</a>
                             </div>
                           </div>
                   </li>:null
@@ -373,7 +393,14 @@ class navigation extends Component{
                     {form}
                   </form>
                   </div>
-                    <button type="button" className="btn btn-primary" id={classes.signSubmit} onClick={this.submitHandler}>{this.state.sign}</button>
+                    <button 
+                      type="button" 
+                      className="btn btn-primary" 
+                      id={classes.signSubmit} 
+                      onClick={this.submitHandler}>{this.state.sign}</button>
+                      {/* <div style={{position:"absolute",marginTop:"10px"}}> */}
+                        <Spinner/>
+                      {/* </div> */}
                     <br/>
                   <div className="modal-footer">
                   <button type="button" className="btn" disabled="true">{this.state.signMsg}</button>
@@ -388,13 +415,15 @@ class navigation extends Component{
 }
 const mapStateToProps = state => {
   return {
-      isAuthenticated: state.auth.token !== null
+      isAuthenticated: state.auth.token !== null,
+      loading: state.auth.loading
   };
 }
 const mapDispatchToProps = dispatch => {
   return {
       onLogIn: (email, password) => dispatch(actions.authLogIn(email, password)),
-      onLogOut: () => dispatch(actions.logout())
+      onLogOut: () => dispatch(actions.logout()),
+      onSignUp: (email, username, password) => dispatch(actions.authSignUp(email, username, password))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(navigation);

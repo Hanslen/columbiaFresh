@@ -5,5 +5,6 @@ export{
     authSuccess,
     logout,
     authCheckState,
-    authLogIn
+    authLogIn,
+    authSignUp
 }from './auth';

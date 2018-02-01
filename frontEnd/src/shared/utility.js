@@ -43,3 +43,17 @@ export const checkFormValidity = (inputs) => {
     }
     return isValid;
 }
+
+
+export const removeArray = (arr, id) => {
+    let index = 0;
+    for(var i = 0; i < arr.length; i++){
+      if(arr[i].id === id){
+        index = i;
+        break;
+      }
+    }
+    const deleteArray = arr;
+    deleteArray.splice(index, 1);
+    return deleteArray;
+}
