@@ -8,6 +8,7 @@ import HomePage from './components/HomePage/HomePage';
 import Search from './components/Search/Search';
 import * as actions from './store/actions/index';
 import laoshi from './components/laoshi';
+import Account from './components/Account/Account';
 class App extends Component {
   componentDidMount(){
     // this.props.onTryAutoSignup();
@@ -18,6 +19,7 @@ class App extends Component {
         <Route path="/" exact component={HomePage} />
         <Route path="/search" exact component={Search}/>
         <Route path="/laoshi" exact component={laoshi}/>
+        <Route path="/myprofile" exact component={Account}/>
       </Switch>
     );
     return (

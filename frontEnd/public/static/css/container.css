@@ -9,3 +9,40 @@ li.borderless {
     background-color: white;
     color:black;
 }
+.accountContainer{
+    width: 90%;
+    margin: 0 auto;
+}
+.greyBg{
+    background-color: rgb(244,245,247);
+    height: 100%;
+}
+.AccountMenu{
+    background-color: #E74C3C;
+    color: white;
+    font-weight: bolder;
+}
+.AccountMenu:hover{
+    background-color: #C0392B;
+    color: white;
+}
+.AccountMenu.active{
+    background-color:#C0392B;
+    border-color: #C0392B;
+}
+.accountHeader{
+    color: white;
+    width: 25%;
+    border: none;
+}
+.accountHeader:hover{
+    color: #C0392B;
+    /* background-color: #C0392B; */
+    border: none;
+}
+.accountHeader.active > .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+    color: white;
+    background-color: #C0392B;
+    border: none;
+    margin-bottom: 0px;
+}

@@ -365,7 +365,7 @@ class navigation extends Component{
                           <img className={classes.userIcon} id={classes.userProfileImg} src="/static/img/user.jpg"/>
                           <div className={classes.userProfileBox}>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" id={classes.userBoxSub}>
-                              <div className="dropdown-item" id={classes.noDecoration}>Hi, <strong>User</strong></div>
+                              <Link className="dropdown-item" to="/myprofile">Hi, <strong>Teacher Ding</strong></Link>
                               <a className="dropdown-item" href="#">My Orders</a>
                               <a className="dropdown-item" href="#" id={classes.noClickDecoration}>Edit Profiles</a><div className="dropdown-divider"></div>
                               <a className="dropdown-item" id={classes.noClickDecoration}onClick={this.props.onLogOut}>LogOut</a>
