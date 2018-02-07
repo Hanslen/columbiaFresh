@@ -1,0 +1,12 @@
+#rightBox{
+    width: 100%;
+    border-radius: 0.5em;
+    background-color: white;
+    border: 2px solid #E74C3C;
+    padding-left: 5%;
+    padding-right: 30%;
+}
+#rightBox h4{
+    color: #C0392B;
+    padding-top: 2%;
+}
