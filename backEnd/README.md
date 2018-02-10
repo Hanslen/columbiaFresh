@@ -1,7 +1,7 @@
-#Requirements
+# Requirements
 database: MySQL
 
-#Usage
+# Usage
 init database (currently only Customer table):
 ```
 python3 manage.py init_db
