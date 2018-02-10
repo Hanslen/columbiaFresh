@@ -1,7 +1,16 @@
-Connect the local database and generate mock user data:
-```
-python connect_db.py
-```
-Each table contains 10 records (guest and supplier), with the attributes "id, name, gender, email, password".
+#Requirements
+database: MySQL
 
-Still need to be modified.
+#Usage
+init database (currently only Customer table):
+```
+python3 manage.py init_db
+```
+
+test the server-side functions:
+```
+workon backEnd
+pip install -r requirements.txt
+python3 manage.py server
+```
+
