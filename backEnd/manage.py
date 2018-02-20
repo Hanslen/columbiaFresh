@@ -1,6 +1,7 @@
 from flask_script import Manager, Server
 from flask_migrate import Migrate, MigrateCommand
 from app import app, db
+from flask import render_template, url_for
 
 manager = Manager(app)
 migrate = Migrate(app, db)
@@ -10,9 +11,18 @@ manager.add_command("server",
 
 @manager.command
 def test_send_email():
+    from app.models import Customer
     from app.email import send_mail
-    send_mail.send("dingyi0116@gmail.com", u'please confirm your account', "ding", "1234")
+    customer = Customer(cname='dingyi', email='dingyi0116@gmail.com', password='12345')
+    db.session.add(customer)
+    db.session.commit()
+    token = customer.generate_confirm_token(expires_in=3600)
+    send_mail.send(customer.email, u'please confirm your account', token)
 
+@manager.command
+def test_confirm():
+    from app.models import Customer
+    Customer.verify_confirm_token("eyJhbGciOiJIUzI1NiIsImlhdCI6MTUxOTE2Nzc0OSwiZXhwIjoxNTE5MTcxMzQ5fQ.eyJpZCI6MTB9.B-_ph9YcSX2PUJHGnmwzKepZMhHRLtM2TMu38GvAqN0")
 
 @manager.option('-m', '--msg', dest='msg_val', default='world')
 def hello_world(msg_val):

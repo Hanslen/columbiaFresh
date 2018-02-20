@@ -1,5 +1,5 @@
 from app import app, db
-from flask import request, jsonify
+from flask import request, flash, jsonify
 from ..models import Customer
 from ..email import send_mail
 
@@ -12,13 +12,26 @@ def register():
         db.session.add(customer)
         db.session.commit()
         token = customer.generate_confirm_token(expires_in=3600)
-        send_mail.send(customer.email, u'please confirm your account', customer, token)
+        send_mail.send(customer.email, u'please confirm your account', token)
         return jsonify({"info": "success"})
 
     except Exception as e:
         print (e)
         return jsonify({"info" : "fail"})
 
+@app.route('/confirm/<token>')
+def confirm_email(token):
+    try:
+        result =  Customer.confirmed(token)
+        if result is 0:
+            return jsonify({"info" : "fail"})
+        elif result is 1:
+            return jsonify({"info": "success"})
+        else:
+            return jsonify({"info": "already confirm"})
+
+    except Exception as e:
+        print (e)
 
 @app.route('/signin', methods=['POST','GET'])
 def signin():
