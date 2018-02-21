@@ -84,7 +84,7 @@ class favoritelist extends Component{
                     <div className="col-9">
                         <div className={classes.folderContent}>
                             {items}
-                            <button className="btn btn-default btn-primary" id={classes.loadMoreBtn}>More</button>
+                            <button className="btn btn-default btn-primary" id={classes.loadMoreBtn}>Next Page</button>
                         </div>
                     </div>
                 </div>
