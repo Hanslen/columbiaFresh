@@ -16,7 +16,7 @@ class myheader extends Component{
                 </div>
                 <nav>
                     <div className={navItem.join(" ")} id="nav-tab" role="tablist">
-                        <a className="nav-item nav-link accountHeader" 
+                        <a className="nav-item nav-link accountHeader active" 
                             id="nav-myOrder-tab" 
                             data-toggle="tab" 
                             href="#nav-myOrder" 
@@ -24,7 +24,7 @@ class myheader extends Component{
                             aria-controls="nav-myOrder" 
                             aria-selected="true">
                             <i className="fas fa-home" style={{color:"#00c091"}}></i>My Orders</a>
-                        <a className="nav-item nav-link accountHeader active" 
+                        <a className="nav-item nav-link accountHeader" 
                             id="nav-favoriteList-tab" 
                             data-toggle="tab" 
                             href="#nav-favoriteList" 

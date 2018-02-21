@@ -74,7 +74,7 @@ class favoritelist extends Component{
             </div>);
         });
         return (
-            <div className="tab-pane fade show active" id="nav-favoriteList" role="tabpanel" aria-labelledby="nav-favoriteList-tab">
+            <div className="tab-pane fade" id="nav-favoriteList" role="tabpanel" aria-labelledby="nav-favoriteList-tab">
                 <div className="row">
                     <div className="col-3">
                         <div className="list-group" id="list-tab" role="tablist">
@@ -88,6 +88,7 @@ class favoritelist extends Component{
                         </div>
                     </div>
                 </div>
+                <br/>
             </div>
         );
     }
