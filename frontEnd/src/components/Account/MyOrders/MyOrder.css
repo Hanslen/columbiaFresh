@@ -14,15 +14,49 @@
 .folderContent{
     box-shadow: 0 0 0 1px #eee;
     background-color: white;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
 }
-#loadMoreBtn{
-    width: 50%;
-    margin-top:20px;
+.orderBtn button{
+    width: 200px;
+    margin-top:10px;
     border: none;
     background-color: #E74C3C;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+}
+.orderBtn button:hover{
+    background-color: #C0392B;
+}
+.orderBox{
+    height: 150px;
+    /* margin-bottom:10px; */
+    border: 1px solid #eee;
+    box-shadow: 0 0 0 1px #eee;
+}
+.orderSubTitle{
+    text-align: center;
+    color:grey;
+    font-size: 0.8em;
+    padding-top: 5%;
+    padding-bottom: -5%;
+}
+.orderSubLeft{
+    width: 100%;
+}
+.orderSubLeft img{
+    width: 100px;
+    height: 100px;
+    float: left;
+}
+.subStatus{
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+.description{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin-left: 5%;
+    float: left;
+}
+.description a{
+    color: #E74C3C;
 }

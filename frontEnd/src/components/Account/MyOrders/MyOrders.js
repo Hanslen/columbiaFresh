@@ -3,7 +3,37 @@ import MyHeader from '../MyHeader/MyHeader';
 import classes from './MyOrder.css';
 class myorders extends Component{
     state = {
-        myFolders:["Delivered", "Dispatching", "Preparing","Cancelled"]
+        myFolders:["Delivered", "Dispatching", "Preparing","Cancelled"],
+        orders: [{
+            orderdate: "January 13, 2018",
+            deliverdate: "Jan 17, 2018",
+            price: "10.79",
+            shipTo: "Teacher",
+            orderId: "1129051",
+            title: "Quaker Instant Oatmeal Variety Pack",
+            soldBy: "Amazon.com Services, Inc.",
+            src: "/static/img/order.jpg"
+        },
+        {
+            orderdate: "January 13, 2018",
+            deliverdate: "Jan 17, 2018",
+            price: "10.79",
+            shipTo: "Teacher",
+            orderId: "1129051",
+            title: "Quaker Instant Oatmeal Variety Pack",
+            soldBy: "Amazon.com Services, Inc.",
+            src: "/static/img/order.jpg"
+        },
+        {
+            orderdate: "January 13, 2018",
+            deliverdate: "Jan 17, 2018",
+            price: "10.79",
+            shipTo: "Teacher",
+            orderId: "1129051",
+            title: "Quaker Instant Oatmeal Variety Pack",
+            soldBy: "Amazon.com Services, Inc.",
+            src: "/static/img/order.jpg"
+        }]
     }
     activeHandler = (folder) => {
         for(var f in this.state.myFolders){
@@ -24,6 +54,52 @@ class myorders extends Component{
             }
                 
         });
+        let orders = this.state.orders.map(order => (
+            <div>
+                <div className={classes.folderContent}>
+                    <div className="row" style={{marginLeft:"0px",marginRight:"0px",backgroundColor:"#eee",border: "1px solid #dcdcdc"}}>
+                        <div className="col-md-3">
+                            <p className={classes.orderSubTitle}>ORDER PLACED<br/>
+                            <strong>{this.state.orders[0].orderdate}</strong></p>
+                        </div>
+                        <div className="col-md-3">
+                             <p className={classes.orderSubTitle}>TOTAL<br/>
+                             <strong>${this.state.orders[0].price}</strong></p>
+                        </div>
+                        <div className="col-md-3">
+                             <p className={classes.orderSubTitle}>SHIPTO<br/>
+                             <strong>{this.state.orders[0].shipTo}</strong></p>
+                         </div>
+                         <div className="col-md-3">
+                             <p className={classes.orderSubTitle}>ORDER ID<br/>
+                             <strong>#{this.state.orders[0].orderId}</strong></p>
+                        </div>
+                    </div>
+                    <div className="row" style={{marginLeft:"0px",marginRight:"0px",border: "1px solid #dcdcdc"}}>
+                         <div className="col-md-9">
+                             <h6 className={classes.subStatus}><strong>Delivered {this.state.orders[0].deliverdate}</strong></h6>
+                            <div className={classes.orderSubLeft}>
+                                <img src={this.state.orders[0].src}/>
+                                 <div className={classes.description}>
+                                    <a href=""><strong>{this.state.orders[0].title}</strong></a>
+                                    <p>Sold by: {this.state.orders[0].soldBy}</p>
+                                    <p>${this.state.orders[0].price}</p>
+                                 </div>
+                            </div>
+                         </div>
+                        <div className="col-md-3">
+                            <div className={classes.orderBtn}>
+                                <button className="btn btn-default btn-primary">Order details</button>
+                                {/* <button className="btn btn-default btn-primary">Track Package</button> */}
+                                 <button className="btn btn-default btn-primary">Write a product review</button>
+                             </div>
+                        </div>
+                     </div>
+                </div>
+
+                <div style={{height: "10px", backgroundColor:"rgb(244,245,247)", border:"none"}}></div>
+            </div>
+        ));
         return (
             <div className="tab-pane fade show active" id="nav-myOrder" role="tabpanel" aria-labelledby="nav-myOrder-tab">
                 <div className="row">
@@ -33,9 +109,7 @@ class myorders extends Component{
                         </div>
                     </div>
                     <div className="col-9">
-                        <div className={classes.folderContent}>
-                            <button className="btn btn-default btn-primary" id={classes.loadMoreBtn}>More</button>
-                        </div>
+                        {orders}
                     </div>
                 </div>
                 <br/>
