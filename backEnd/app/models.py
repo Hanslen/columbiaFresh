@@ -34,14 +34,14 @@ class Customer(db.Model):
                 if(customer.confirmed is False):
                     customer.confirmed = True
                     customer.confirmed_on = datetime.datetime.now()
-                    return 1
-                else: return 2
+                    return 'Success'
+                else: return 'Already confirm'
 
-            else: return 0
+            else: return 'Fail'
 
         except BaseException as e:
             print (e)
-            return 0
+            return e
 
     #could not read password
     @property

@@ -13,7 +13,7 @@ def register():
         db.session.commit()
         token = customer.generate_confirm_token(expires_in=3600)
         send_mail.send(customer.email, u'please confirm your account', token)
-        return jsonify({"info": "success"})
+        return jsonify({"token": token})
 
     except Exception as e:
         print (e)
@@ -22,28 +22,24 @@ def register():
 @app.route('/confirm/<token>')
 def confirm_email(token):
     try:
-        result =  Customer.confirmed(token)
-        if result is 0:
-            return jsonify({"info" : "fail"})
-        elif result is 1:
-            return jsonify({"info": "success"})
-        else:
-            return jsonify({"info": "already confirm"})
-
+        return jsonify({"info": str(Customer.verify_confirm_token(token))})
     except Exception as e:
-        print (e)
+        return jsonify({"info": str(e)})
 
 @app.route('/signin', methods=['POST','GET'])
 def signin():
     try:
         # read the posted values from the UI
         content = request.json
-        customer = Customer(cname=content['name'], email=content['email'], password=content['pwd'])
-        db.session.add(customer)
-        db.session.commit()
-        app.logger.info(customer.id)
-        return jsonify({"id": customer.id})
+        customer = Customer.query.filter(Customer.email == content['email']).first()
+        if(customer is None):
+            return jsonify({"error" : "Email does not exist"})
+
+        if(customer.check_password_hash(content['password'])):
+            return jsonify({"name": customer.cname})
+
+        return jsonify({"error": "Password is not correct"})
 
     except Exception as e:
         print (e)
-        return jsonify({"id" : None})
+        return jsonify({"error" : str(e)})
