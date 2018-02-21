@@ -99,6 +99,11 @@
     ]
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "env": {
+      "browser": true,
+      "node": true,
+      "jquery": true
+    }
   }
 }

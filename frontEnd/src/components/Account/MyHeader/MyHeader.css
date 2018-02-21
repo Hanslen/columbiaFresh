@@ -6,6 +6,7 @@
     background-image: url(https://s3-media3.fl.yelpcdn.com/assets/srv0/yelp_large_assets/b0108eaaf115/assets/img/home/hero_photos/xetgX7L_0aF2pxuTh4gARA.jpg);
     background-position: 50%;
     line-height: 0px;
+    box-shadow: 0 0 0 1px #eee;
 }
 .imgIcon{
     width: 60px;
@@ -32,7 +33,14 @@
     padding: 4px;
 }
 .profileNav{
-    background-color: #E74C3C;
-    color: white;
+    background-color: white;
+    color: black;
     text-align: center;
+    box-shadow: 0 0 0 1px #eee
+}
+.profileNav a{
+    color:black;
+}
+.profileNav i{
+    margin-right: 10px;
 }

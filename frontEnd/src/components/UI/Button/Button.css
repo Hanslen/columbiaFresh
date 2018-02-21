@@ -1,0 +1,9 @@
+#buttonC{
+    background-color: #C0392B;
+    color:white;
+    border: none;
+    margin: 0 auto;
+    width: 80%;
+    height: 50px;
+    font-size: 1.1em;
+}

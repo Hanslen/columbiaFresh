@@ -4,6 +4,7 @@ import classes from '../Account.css';
 import Input from '../../UI/Input/Input';
 import { updateObject, checkValidity, checkFormValidity, removeArray} from '../../../shared/utility';
 import { read } from 'fs';
+import Button from '../../UI/Button/Button';
 class settings extends Component{
     state = {
         FirstName: "Teacher",
@@ -92,7 +93,7 @@ class settings extends Component{
                   elementType: 'textarea',
                   elementConfig: {
                       type: 'email',
-                      placehold: 'Please introduce yourself :D'
+                      placeholder: 'Please introduce yourself :D'
                   },
                   boxStyle:{
                       width: '100%',
@@ -112,7 +113,7 @@ class settings extends Component{
                   elementType: 'input',
                   elementConfig: {
                       type: 'text',
-                      placehold: 'Enter old password'
+                      placeholder: 'Enter old password'
                   },
                   boxStyle:{
                       width: '100%',
@@ -130,7 +131,7 @@ class settings extends Component{
                   elementType: 'input',
                   elementConfig: {
                       type: 'text',
-                      placehold: 'Enter new password'
+                      placeholder: 'Enter new password'
                   },
                   boxStyle:{
                       width: '100%',
@@ -148,7 +149,7 @@ class settings extends Component{
                   elementType: 'input',
                   elementConfig: {
                       type: 'text',
-                      placehold: 'Enter new password again'
+                      placeholder: 'Enter new password again'
                   },
                   boxStyle:{
                       width: '100%',
@@ -168,7 +169,7 @@ class settings extends Component{
                   elementType: 'input',
                   elementConfig: {
                       type: 'text',
-                      placehold: 'Street and number, P.O. box, c/o'
+                      placeholder: 'Street and number, P.O. box, c/o'
                   },
                   boxStyle:{
                       width: '100%',
@@ -186,7 +187,7 @@ class settings extends Component{
                   elementType: 'input',
                   elementConfig: {
                       type: 'text',
-                      placehold: 'Apartment, suite, unit, building, floor, etc.'
+                      placeholder: 'Apartment, suite, unit, building, floor, etc.'
                   },
                   boxStyle:{
                       width: '100%',
@@ -204,7 +205,7 @@ class settings extends Component{
                   elementType: 'input',
                   elementConfig: {
                       type: 'text',
-                      placehold: ''
+                      placeholder: ''
                   },
                   boxStyle:{
                       width: '100%',
@@ -222,7 +223,7 @@ class settings extends Component{
                   elementType: 'input',
                   elementConfig: {
                       type: 'text',
-                      placehold: ''
+                      placeholder: ''
                   },
                   boxStyle:{
                       width: '100%',
@@ -240,7 +241,7 @@ class settings extends Component{
                   elementType: 'input',
                   elementConfig: {
                       type: 'text',
-                      placehold: ''
+                      placeholder: ''
                   },
                   boxStyle:{
                       width: '100%',
@@ -260,7 +261,7 @@ class settings extends Component{
                   elementType: 'input',
                   elementConfig: {
                       type: 'text',
-                      placehold: ''
+                      placeholder: ''
                   },
                   boxStyle:{
                       width: '100%',
@@ -278,10 +279,46 @@ class settings extends Component{
                   elementType: 'input',
                   elementConfig: {
                       type: 'text',
-                      placehold: ''
+                      placeholder: ''
                   },
                   boxStyle:{
                       width: '100%',
+                      float: 'left'
+                  },
+                  value: '',
+                  validation:{
+                      required: true
+                  },
+                  valid: false,
+                  touched: false
+            },
+            ExpirationMonth:{
+                label: "Expiration Date",
+                  elementType: 'input',
+                  elementConfig: {
+                      type: 'text',
+                      placeholder: 'Month'
+                  },
+                  boxStyle:{
+                      width: '30%',
+                      float: 'left'
+                  },
+                  value: '',
+                  validation:{
+                      required: true
+                  },
+                  valid: false,
+                  touched: false
+            },
+            ExpirationYear:{
+                label: '_',
+                  elementType: 'input',
+                  elementConfig: {
+                      type: 'text',
+                      placeholder: 'Year'
+                  },
+                  boxStyle:{
+                      width: '30%',
                       float: 'left'
                   },
                   value: '',
@@ -301,7 +338,7 @@ class settings extends Component{
             case 'basic':this.setState({controls: this.state.basiccontrols, boxTitle: "Update Basic Information"});break;
             case 'password':this.setState({controls: this.state.passwordControl, boxTitle: "Update password"});break;
             case 'address':this.setState({controls: this.state.addressControl,boxTitle:"Update Address"});break;
-            case 'credit':break;
+            case 'credit':this.setState({controls: this.state.creditControl, boxTitle: "Update Credit Card Information"});break;
             default:break;
         }
         console.log(type);
@@ -340,7 +377,7 @@ class settings extends Component{
           
         ) );
         return (
-            <div className="tab-pane fade show active" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+            <div className="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
                 <div className="row">
                     <div className="col-3">
                         <div className="list-group" id="list-tab" role="tablist">
@@ -356,23 +393,10 @@ class settings extends Component{
                                 <form>
                                     {form}
                                 </form>
-                        {/* <div className="tab-content" id="nav-tabContent">
-                            <div className="tab-pane fade show active" id="list-basic" role="tabpanel" aria-labelledby="list-basic-list">
-                                <h4>{this.state.boxTitle}</h4>
-                                <form>
-                                    {form}
-                                </form>
-                            </div>
-                            <div className="tab-pane fade" id="list-password" role="tabpanel" aria-labelledby="list-password-list">
-                                <h4>Update Password</h4>
-                                <form>
-                                    <Input />
-                                </form>
-                            </div>
-                            <div className="tab-pane fade" id="list-address" role="tabpanel" aria-labelledby="list-address-list">B</div>
-                            <div className="tab-pane fade" id="list-creditCard" role="tabpanel" aria-labelledby="list-creditCard-list">C</div>
-                            <div className="tab-pane fade" id="list-logOut" role="tabpanel" aria-labelledby="list-logOut-list">D</div>
-                        </div> */}
+                                <br/>
+                                <br/>
+                                <br/>
+                                <Button value="Submit"/>
                     </div>
                 </div>
                 <br/>

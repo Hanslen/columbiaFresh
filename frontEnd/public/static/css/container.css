@@ -41,8 +41,12 @@ li.borderless {
     border: none;
 }
 .accountHeader.active > .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
-    color: white;
-    background-color: #C0392B;
+    color: #E74C3C;
     border: none;
+    /* width: 80%; */
+    border-bottom: 4px solid #E74C3C;
     margin-bottom: 0px;
+    width: 17%;
+    margin-left: 4%;
+    margin-right: 4%;
 }
