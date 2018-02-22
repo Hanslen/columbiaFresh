@@ -16,7 +16,7 @@ class myheader extends Component{
                 </div>
                 <nav>
                     <div className={navItem.join(" ")} id="nav-tab" role="tablist">
-                        <a className="nav-item nav-link accountHeader" 
+                        <a className="nav-item nav-link accountHeader active" 
                             id="nav-myOrder-tab" 
                             data-toggle="tab" 
                             href="#nav-myOrder" 
@@ -32,7 +32,7 @@ class myheader extends Component{
                             aria-controls="nav-favoriteList" 
                             aria-selected="false">
                             <i className="fas fa-star" style={{color:"#fb7299"}}></i>Favorite List</a>
-                        <a className="nav-item nav-link accountHeader active" 
+                        <a className="nav-item nav-link accountHeader" 
                             id="nav-shoppingCart-tab" 
                             data-toggle="tab" 
                             href="#nav-shoppingCart" 

@@ -5,34 +5,71 @@ class shoppingcart extends Component{
     state = {
         items: [{
             name: "Quaker Instant Oatmeal Variety Pack",
-            quality: "3",
+            quantity: 3,
             src: "/static/img/order.jpg",
-            price: "12.3"
+            price: 12.3
+        },
+        {
+            name: "Quaker Instant Oatmeal Variety Pack",
+            quantity: 3,
+            src: "/static/img/order.jpg",
+            price: 12.3
+        },
+        {
+            name: "Quaker Instant Oatmeal Variety Pack",
+            quantity: 3,
+            src: "/static/img/order.jpg",
+            price: 12.3
+        },
+        {
+            name: "Quaker Instant Oatmeal Variety Pack",
+            quantity: "3",
+            src: "/static/img/order.jpg",
+            price: 12.3
         }]
     }
+    addQuantityHandler = (id) => {
+        let oldState = this.state.items;
+        oldState[id].quantity += 1;
+        this.setState({items: oldState});
+    }
+    substractQuantityHandler = (id) => {
+        let oldState = this.state.items;
+        if(oldState[id].quantity > 1){
+            oldState[id].quantity -= 1;
+        }
+        this.setState({items: oldState});
+    }
     render(){
-        return (
-            <div className="tab-pane fade show active" id="nav-shoppingCart" role="tabpanel" aria-labelledby="nav-shoppingCart-tab">
-                <div className={classes.shoppingCart}>
-                    <div className="row">
-                        <div className="col-md-8">Items</div>
-                        <div className="col-md-2">Price</div>
-                        <div className="col-md-2">Quantity</div>
-                    </div>
-                    <hr/>
-                    <div className={classes.item}>
-                        <div className="row">
-                            <div className="col-md-8">
-                                <img src={this.state.items[0].src}/>
-                                <a href="#">{this.state.items[0].name}</a>
-                            </div>
-                            <div className="col-md-2">
-                                <p>${this.state.items[0].price}</p>
-                            </div>
-                            <div className="col-md-2"><p>{this.state.items[0].quality}</p></div>
-                        </div>
-                    </div>
+        let items = this.state.items.map((item, id) => (
+            <div className={classes.item} key={id}>
+            <div className="row">
+                <div className="col-md-8">
+                    <img src={item.src}/>
+                    <a href="#"><strong>{item.name}</strong></a>
+                    <a id={classes.deleteBtn}>Delete</a>
                 </div>
+                <div className="col-md-2">
+                    <p><strong style={{color:"#C0392B"}}><font>${parseFloat(item.price * item.quantity).toFixed(2)}</font></strong></p>
+                </div>
+                <div className="col-md-2">
+                    <p>
+                        <i className="fas fa-caret-left" onClick={()=>this.substractQuantityHandler(id)} id={classes.modifyQuantity}></i>
+                        {item.quantity}
+                        <i className="fas fa-caret-right" onClick={()=>this.addQuantityHandler(id)} id={classes.modifyQuantity}></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+        ));
+        return (
+            <div className="tab-pane fade" id="nav-shoppingCart" role="tabpanel" aria-labelledby="nav-shoppingCart-tab">
+                <div className={classes.shoppingCart}>
+                    {items}
+                    <button className="btn btn-default btn-primary" id={classes.checkOut}>CheckOut</button>
+                </div>
+                <br/>
+                <br/>
             </div>    
         );
     }

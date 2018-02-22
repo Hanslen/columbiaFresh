@@ -19,7 +19,7 @@ class myorders extends Component{
             deliverdate: "Jan 17, 2018",
             price: "10.79",
             shipTo: "Teacher",
-            orderId: "1129051",
+            orderId: "1129052",
             title: "Quaker Instant Oatmeal Variety Pack",
             soldBy: "Amazon.com Services, Inc.",
             src: "/static/img/order.jpg"
@@ -29,7 +29,7 @@ class myorders extends Component{
             deliverdate: "Jan 17, 2018",
             price: "10.79",
             shipTo: "Teacher",
-            orderId: "1129051",
+            orderId: "1129053",
             title: "Quaker Instant Oatmeal Variety Pack",
             soldBy: "Amazon.com Services, Inc.",
             src: "/static/img/order.jpg"
@@ -55,7 +55,7 @@ class myorders extends Component{
                 
         });
         let orders = this.state.orders.map(order => (
-            <div>
+            <div key={order.orderId}>
                 <div className={classes.folderContent}>
                     <div className="row" style={{marginLeft:"0px",marginRight:"0px",backgroundColor:"#eee",border: "1px solid #dcdcdc"}}>
                         <div className="col-md-3">
@@ -101,7 +101,7 @@ class myorders extends Component{
             </div>
         ));
         return (
-            <div className="tab-pane fade" id="nav-myOrder" role="tabpanel" aria-labelledby="nav-myOrder-tab">
+            <div className="tab-pane fade show active" id="nav-myOrder" role="tabpanel" aria-labelledby="nav-myOrder-tab">
                 <div className="row">
                     <div className="col-3">
                         <div className="list-group" id="list-tab" role="tablist">
