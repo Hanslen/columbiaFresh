@@ -21,11 +21,13 @@
 .item a{
     margin-left: 20px;
     color: #0066c0;
-    font-size: 1.2em;
+    font-size: 1.0em;
 }
 #deleteBtn{
     font-size: 0.9em;
     color: #0066c0;
+    float:right;
+    margin-top: 37px;
 }
 
 #deleteBtn:hover{
@@ -46,4 +48,9 @@
     height: 40px;
     border:none;
     float: right;
+}
+.detailBox{
+    width: 100%;
+    height: 200px;
+    background-color: red;
 }

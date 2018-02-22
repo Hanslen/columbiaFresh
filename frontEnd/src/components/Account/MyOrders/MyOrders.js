@@ -101,7 +101,7 @@ class myorders extends Component{
             </div>
         ));
         return (
-            <div className="tab-pane fade show active" id="nav-myOrder" role="tabpanel" aria-labelledby="nav-myOrder-tab">
+            <div className="tab-pane fade" id="nav-myOrder" role="tabpanel" aria-labelledby="nav-myOrder-tab">
                 <div className="row">
                     <div className="col-3">
                         <div className="list-group" id="list-tab" role="tablist">
