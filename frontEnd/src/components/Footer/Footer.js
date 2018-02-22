@@ -1,13 +1,14 @@
 import React from 'react';
 import classes from './Footer.css';
 const footer = () => (
-  <footer className="text-muted">
+  <footer className="text-muted" id={classes.footerBody}>
       <div className="container">
         <p className="float-right">
           <a href="#">Back to top</a>
         </p>
-        <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-        <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
+        <p>Columbia Fresh &copy; ASE, team member: Cai Ningchao, Chen Jiahe, Ding Yi, Zhang Hanyi</p>
+        <p>Suppiler</p>
+        <p>Others</p>
       </div>
     </footer>
 );
