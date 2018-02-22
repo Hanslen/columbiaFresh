@@ -5,8 +5,13 @@
 .item{
     background-color: white;
     box-shadow: 0 0 0 1px #eee;
+    display: relative;
 }
 .item img{
     width: 100px;
     height: 100px;
+}
+.item a{
+    display: absolute;
+    margin-top: 10px;
 }

@@ -7,7 +7,7 @@ class shoppingcart extends Component{
             name: "Quaker Instant Oatmeal Variety Pack",
             quality: "3",
             src: "/static/img/order.jpg",
-            price: "123"
+            price: "12.3"
         }]
     }
     render(){
@@ -27,7 +27,6 @@ class shoppingcart extends Component{
                                 <a href="#">{this.state.items[0].name}</a>
                             </div>
                             <div className="col-md-2">
-                                <div className={classes.vertical}
                                 <p>${this.state.items[0].price}</p>
                             </div>
                             <div className="col-md-2"><p>{this.state.items[0].quality}</p></div>
