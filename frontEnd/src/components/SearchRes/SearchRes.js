@@ -34,10 +34,10 @@ class Sidebar extends React.Component {
                             </a>
                         </li>
                         {pages}
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
+                        <li className="page-item">
+                            <a className="page-link" href="#" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
+                                <span className="sr-only">Next</span>
                             </a>
                         </li>
                     </ul>
