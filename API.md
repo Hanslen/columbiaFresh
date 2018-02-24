@@ -1,5 +1,7 @@
 ### Recipe
 
+#### get recipe information
+
 url
 ```
 /recipe
