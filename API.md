@@ -1,5 +1,3 @@
-# API:
-
 ### Sign Up
 #### post user information and get activate token
 
@@ -24,6 +22,7 @@ status: string
 info: string
 }
 ```
+
 ### Log In
 #### post user information and get login token
 
@@ -52,10 +51,29 @@ info: list of string
 
 ### Recipe
 #### get recipe information
+||||||| merged common ancestors
+#### get recipe information
+=======
+### search recipes
+>>>>>>> c7c44cc132dd5b9e110d3384fe3cbe47ea5aad16
 
 url
 ```
-/recipe
+GET /search
+```
+
+parameters
+```
+{
+  query: string
+}
+```
+
+### get recipe information
+
+url
+```
+GET /recipe
 ```
 
 parameters
@@ -70,16 +88,15 @@ response
 {
   author: string,
   calorie: string,
-  category: string,
+  category: [string],
   description: string,
-  direction: list of string,
-  footnote: list of string,
-  img: string,
-  ingredients: list of string,
-  reviews: string
-  stars: string
-  time: string,
-  title: string,
-  url: string
+  direction: [string],
+  footnote: [string],
+  img: string, imgurl
+  ingredients: [string],
+  reviews: string,
+  stars: string,
+  time: string, cooking time
+  title: string, recipe name
 }
 ```
