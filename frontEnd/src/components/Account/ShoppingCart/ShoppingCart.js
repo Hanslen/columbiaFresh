@@ -7,28 +7,28 @@ class shoppingcart extends Component{
             recipeId: 1,
             name: "365 Everyday Value, Organic Baby Spinach",
             quantity: 1,
-            src: "/static/img/veg.jpg",
+            src: "/static/img/breakfast.png",
             price: 50.99
         },
         {
             recipeId: 2,
             name: "Jennie-O, Lean Ground Turkey",
             quantity: 3,
-            src: "/static/img/meat.jpg",
+            src: "/static/img/test.png",
             price: 3.82
         },
         {
             recipeId: 3,
             name: "Organic Valley Organic Free-Range Large Brown Eggs",
             quantity: 1,
-            src: "/static/img/egg.jpg",
+            src: "/static/img/wrap.png",
             price: 4.69
         },
         {
             recipeId: 4,
             name: "Aqua Star, Raw, Peeled, Deveined, Tail-off Shrimp, 41-50 Count",
             quantity: 1,
-            src: "/static/img/shrimp.jpg",
+            src: "/static/img/breakfast.png",
             price: 12.3
         }],
         selectedDetail:[{
@@ -150,7 +150,7 @@ class shoppingcart extends Component{
             )
         });
         return (
-            <div className="tab-pane fade active show" id="nav-shoppingCart" role="tabpanel" aria-labelledby="nav-shoppingCart-tab">
+            <div className="tab-pane fade" id="nav-shoppingCart" role="tabpanel" aria-labelledby="nav-shoppingCart-tab">
                 <div className={classes.shoppingCart}>
                     {recipes}
                     <button className="btn btn-default btn-primary" id={classes.checkOut}>CheckOut</button>

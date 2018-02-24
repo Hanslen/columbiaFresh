@@ -4,6 +4,7 @@ import FavoriteList from './FavoriteList/FavoriteList';
 import Settings from './Settings/Settings';
 import MyOrders from './MyOrders/MyOrders';
 import ShoppingCart from './ShoppingCart/ShoppingCart';
+import MyRecipes from '../MyRecipes/MyRecipes';
 class account extends Component{
     render(){
         return (
@@ -14,6 +15,7 @@ class account extends Component{
                         <MyOrders/>
                         <FavoriteList/>
                         <ShoppingCart/>
+                        <MyRecipes/>
                         <Settings/>
                     </div>
                 </div>

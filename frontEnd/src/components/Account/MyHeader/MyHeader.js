@@ -25,14 +25,6 @@ class myheader extends Component{
                             aria-selected="true">
                             <i className="fas fa-home" style={{color:"#00c091"}}></i>My Orders</a>
                         <a className="nav-item nav-link accountHeader" 
-                            id="nav-favoriteList-tab" 
-                            data-toggle="tab" 
-                            href="#nav-favoriteList" 
-                            role="tab" 
-                            aria-controls="nav-favoriteList" 
-                            aria-selected="false">
-                            <i className="fas fa-star" style={{color:"#fb7299"}}></i>Favorite List</a>
-                        <a className="nav-item nav-link accountHeader active" 
                             id="nav-shoppingCart-tab" 
                             data-toggle="tab" 
                             href="#nav-shoppingCart" 
@@ -40,6 +32,22 @@ class myheader extends Component{
                             aria-controls="nav-shoppingCart" 
                             aria-selected="false">
                             <i className="fas fa-shopping-cart" style={{color:"#02b5da"}}></i>Shopping Cart</a>
+                        <a className="nav-item nav-link accountHeader" 
+                            id="nav-myRecipes-tab" 
+                            data-toggle="tab" 
+                            href="#nav-myRecipes" 
+                            role="tab" 
+                            aria-controls="nav-myRecipes" 
+                            aria-selected="false">
+                            <i className="fas fa-utensils" style={{color:"#ff5d47"}}></i>My Recipes</a>
+                        <a className="nav-item nav-link accountHeader active" 
+                            id="nav-favoriteList-tab" 
+                            data-toggle="tab" 
+                            href="#nav-favoriteList" 
+                            role="tab" 
+                            aria-controls="nav-favoriteList" 
+                            aria-selected="false">
+                            <i className="fas fa-star" style={{color:"#fb7299"}}></i>Favorite List</a>
                         <a className="nav-item nav-link accountHeader" 
                             id="nav-settings-tab" 
                             data-toggle="tab" 
