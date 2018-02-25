@@ -6,8 +6,8 @@ class myRecipes extends Component{
         selectedFolder: "ChineseFood",        
         items: [{
             id: 1,
-            title: "Amazing and delicious breakfast Porridge",
-            src: "/static/img/breakfast.png"
+            title: "Burger:P",
+            src: "/static/img/burger.png"
         },
         {
             id: 2,
@@ -28,6 +28,21 @@ class myRecipes extends Component{
             id: 5,
             title: "BBQ",
             src: "/static/img/bbq2.png"
+        },
+        {
+            id: 6,
+            title: "Vegetable wrap",
+            src: "/static/img/wrap2.png"
+        },
+        {
+            id: 7,
+            title: "Roasted platter",
+            src: "/static/img/lunch.png"
+        },
+        {
+            id: 8,
+            title: "Cheese Sandwich",
+            src: "/static/img/test.png"
         }]
     }
     activeHandler = (folder) => {
@@ -49,23 +64,34 @@ class myRecipes extends Component{
             }
                 
         });
-        let recipes = this.state.items.map((item,id) => (
-            <div className={classes.item} key={id}>
-            <div className="row">
-                <div className="col-md-8" onClick={() => this.showDetailHandler(item.id)}>
-                    <img src={item.src}/>
-                    <a href="#"><strong>{item.title}</strong></a>
-                </div>
-                <div className="col-md-1">
-                </div>
-                <div className="col-md-1">
-                </div>
-                <div className="col-md-2">
-                    <p>Category</p>
-                </div>
-            </div>
-        </div>
-        ));
+        // let recipes = this.state.items.map((item,id) => (
+        //     <div className={classes.item} key={id}>
+        //     <div className="row">
+        //         <div className="col-md-8" onClick={() => this.showDetailHandler(item.id)}>
+        //             <img src={item.src}/>
+        //             <a href="#"><strong>{item.title}</strong></a>
+        //         </div>
+        //         <div className="col-md-1">
+        //         </div>
+        //         <div className="col-md-1">
+        //         </div>
+        //         <div className="col-md-2">
+        //             <p>Category</p>
+        //         </div>
+        //     </div>
+        // </div>
+        // ));
+        let recipes = this.state.items.map(item => {
+            let imgUrl = "url("+item.src+")";
+            return(
+                <div>
+                    <div className={classes.folderItem} key={item.id} style={{backgroundImage:imgUrl}}>
+                    </div>
+                    <div className={classes.subFolder}>
+                        <p>{item.title}</p>
+                    </div>
+                </div>);
+        });
         return (
             <div className="tab-pane fade" id="nav-myRecipes" role="tabpanel" aria-labelledby="nav-myRecipes-tab">
                 <div className="row">
@@ -75,7 +101,9 @@ class myRecipes extends Component{
                          </div>
                     </div>
                     <div className="col-9">
-                        {recipes}
+                        <div className={classes.folderContent}>
+                            {recipes}
+                        </div>
                     </div>
                 </div>
                 <br/>
