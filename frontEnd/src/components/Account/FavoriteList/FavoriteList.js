@@ -69,12 +69,16 @@ class favoritelist extends Component{
         let items = this.state.items.map(item => {
             let imgUrl = "url("+item.src+")";
             return(
-            <div className={classes.folderItem} key={item.id} style={{backgroundImage:imgUrl}}>
-                <p>{item.title}</p>
-            </div>);
+                <div>
+                    <div className={classes.folderItem} key={item.id} style={{backgroundImage:imgUrl}}>
+                    </div>
+                    <div className={classes.subFolder}>
+                        <p>{item.title}</p>
+                    </div>
+                </div>);
         });
         return (
-            <div className="tab-pane fade" id="nav-favoriteList" role="tabpanel" aria-labelledby="nav-favoriteList-tab">
+            <div className="tab-pane fade active show" id="nav-favoriteList" role="tabpanel" aria-labelledby="nav-favoriteList-tab">
                 <div className="row">
                     <div className="col-3">
                         <div className="list-group" id="list-tab" role="tablist">

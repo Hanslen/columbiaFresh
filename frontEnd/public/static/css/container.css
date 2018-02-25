@@ -32,7 +32,7 @@ li.borderless {
 }
 .accountHeader{
     color: white;
-    width: 25%;
+    width: 20%;
     border: none;
 }
 .accountHeader:hover{
@@ -46,7 +46,7 @@ li.borderless {
     /* width: 80%; */
     border-bottom: 4px solid #E74C3C;
     margin-bottom: 0px;
-    width: 17%;
+    /* width: 17%;
     margin-left: 4%;
-    margin-right: 4%;
+    margin-right: 4%; */
 }
