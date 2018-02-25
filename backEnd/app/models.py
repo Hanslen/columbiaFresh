@@ -6,9 +6,9 @@ from flask import url_for
 
 class Customer(db.Model):
     __tablename__ = 'customer'
-    id = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(128), nullable=True, unique=True)
-    cname = db.Column(db.String(64), index=True)
+    uname = db.Column(db.String(64), index=True)
     confirmed = db.Column(db.Boolean, default=False)
     password_hash = db.Column(db.String(128), nullable=True)
     registered_on = datetime.datetime.now()
@@ -57,4 +57,13 @@ class Customer(db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return '<Customer {}--{}>'.format(self.cname, self.email)
+        return '<Customer {}--{}>'.format(self.uname, self.email)
+
+
+
+class LoginInfo(db.Model):
+    __tablename__ = 'login_info'
+    uid = db.Column(db.Integer, primary_key=True)
+    token = db.Column(db.String(150), nullable=False)
+    expired = db.Column(db.DateTime, nullable=False)
+

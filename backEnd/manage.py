@@ -12,7 +12,7 @@ manager.add_command("server",
 def test_send_email():
     from app.models import Customer
     from app.email import send_mail
-    customer = Customer(cname='dingyi', email='dingyi0116@gmail.com', password='12345')
+    customer = Customer(uname='dingyi', email='dingyi0116@gmail.com', password='12345')
     db.session.add(customer)
     db.session.commit()
     token = customer.generate_confirm_token(expires_in=3600)
@@ -29,12 +29,10 @@ def hello_world(msg_val):
 
 
 @manager.command
-def init_db():
+def test_db_connect():
     from app.models import Customer
     try:
-        db.drop_all()
-        db.create_all()
-        Customer_john = Customer(cname='john', email='john@columbia.edu', password='123')
+        Customer_john = Customer(uname='john', email='john@columbia.edu', password='123')
         app.logger.info(Customer_john.password_hash)
         db.session.add(Customer_john)
         db.session.commit()
@@ -45,7 +43,7 @@ def init_db():
 @manager.command
 def query_all():
     from app.models import Customer
-    print(Customer.query.filter_by(cname='john').first())
+    print(Customer.query.filter_by(uname='john').first())
 
 if __name__ == "__main__":
     manager.run()
