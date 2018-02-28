@@ -28,6 +28,11 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
+test:
+  override:
+    # run local unit tests
+    - python backEnd/tests/test_app.py
+
       #- run:
       #    name: run tests
       #    command: |
