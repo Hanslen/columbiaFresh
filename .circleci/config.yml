@@ -12,13 +12,13 @@ machine:
     AWS_CODE_DEPLOY_S3_BUCKET: Columbia-fresh
     AWS_CODE_DEPLOY_DEPLOYMENT_DESCRIPTION: "Deployed via CircleCI on $(date)"
 
-deployment:
-  production:
-    branch: development
-    commands:
-      - bash bin/aws-code-deploy.sh
-
 jobs:
+  deployment:
+    branch: development
+    steps:
+      - type: deploy
+          name: "Deploy to dev"
+        command: bash bin/aws-code-deploy.sh
   build:
     docker:
       - image: circleci/python:3.6.1
