@@ -84,8 +84,8 @@ class myRecipes extends Component{
         let recipes = this.state.items.map(item => {
             let imgUrl = "url("+item.src+")";
             return(
-                <div>
-                    <div className={classes.folderItem} key={item.id} style={{backgroundImage:imgUrl}}>
+                <div key={item.id}>
+                    <div className={classes.folderItem} style={{backgroundImage:imgUrl}}>
                     </div>
                     <div className={classes.subFolder}>
                         <p>{item.title}</p>
