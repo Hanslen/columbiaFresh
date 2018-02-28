@@ -20,7 +20,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install - requirements.txt
+            pip install -r requirements.txt
             echo "The first test!"
 
       - save_cache:

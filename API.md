@@ -74,11 +74,7 @@ info: list of string
 
 ### Recipe
 #### get recipe information
-||||||| merged common ancestors
-#### get recipe information
-=======
 ### search recipes
->>>>>>> c7c44cc132dd5b9e110d3384fe3cbe47ea5aad16
 
 url
 ```
