@@ -3,4 +3,4 @@ from flask import request, jsonify
 
 @app.route("/")
 def index():
-    return "Hello World!"
+    return jsonify(status=200, info='Hello World!')
