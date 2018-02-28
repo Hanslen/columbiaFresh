@@ -19,7 +19,7 @@ response
 ```python
 {
 status: string #Fail or Success
-token: string
+info: string
 }
 ```
 ### Sign Up Verification URL generation
@@ -31,10 +31,11 @@ url
 ```
 
 parameters
-```
+```python
 {
 email: string
-token: string
+url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
+
 }
 ```
 
@@ -64,21 +65,15 @@ pwd: string
 ```
 
 response
-```
+```python
 {
 status: string
-info: list of string
+info: string # if success, response token
 }
 
 ```
 
-### Recipe
-#### get recipe information
-||||||| merged common ancestors
-#### get recipe information
-=======
-### search recipes
->>>>>>> c7c44cc132dd5b9e110d3384fe3cbe47ea5aad16
+### Search recipes
 
 url
 ```
@@ -92,7 +87,8 @@ parameters
 }
 ```
 
-### get recipe information
+### Recipe
+#### get recipe information
 
 url
 ```
