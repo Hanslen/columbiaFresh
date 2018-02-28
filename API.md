@@ -39,6 +39,19 @@ url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<
 }
 ```
 
+### Confirm register
+#### post user token to update the confirm info in database
+
+url
+```
+/confirm/<token>
+```
+
+parameters
+```python
+None
+```
+
 response
 ```
 {
@@ -74,6 +87,7 @@ info: string # if success, response token
 ```
 
 ### Search recipes
+#### get recipe information
 
 url
 ```

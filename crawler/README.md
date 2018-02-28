@@ -6,7 +6,7 @@ Crawl recipes from [allrecipes](allrecipes.com).
 
 ```
 pip install Scrapy
-scrapy crawl recipe  // in derectory crawler/crawler
+scrapy crawl recipe  // in directory crawler/crawler
 ```
 
 Recipe information is stored in the variable `item` in the function `parseRecipe()` in `RecipeSpider.py` .
