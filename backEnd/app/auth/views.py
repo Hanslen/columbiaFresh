@@ -8,38 +8,55 @@ def register():
     try:
         # read the posted values from the UI
         content = request.json
-        customer = Customer(cname=content['name'], email=content['email'], password=content['pwd'])
+        customer = Customer(uname=content['name'], email=content['email'], password_hash=content['pwd'])
+        print (content)
         db.session.add(customer)
         db.session.commit()
-        token = customer.generate_confirm_token(expires_in=3600)
-        send_mail.send(customer.email, u'please confirm your account', token)
-        return jsonify({"token": token})
+        token = customer.generate_confirm_token(expires_in=3600*24)
+        return jsonify({"status": "Success", "info": str(token)})
 
     except Exception as e:
         print (e)
-        return jsonify({"info" : "fail"})
+        return jsonify({"status" : "Fail","info": str(e)})
 
-@app.route('/confirm/<token>')
+@app.route('/register/confirm_url', methods=['POST','GET'])
+def register_confirm_url():
+    try:
+        # read the posted values from the UI
+        content = request.json
+        email = content['email']
+        url = content['url']
+
+        send_mail.send(email, u'please confirm your account', url)
+        return jsonify({"status":"Success", "info" : ""})
+
+    except Exception as e:
+        print (e)
+        return jsonify({"status":"Fail", "info" : str(e)})
+
+
+@app.route('/confirm/<token>', methods=['POST','GET'])
 def confirm_email(token):
     try:
-        return jsonify({"info": str(Customer.verify_confirm_token(token))})
-    except Exception as e:
-        return jsonify({"info": str(e)})
+        return Customer.verify_confirm_token(token)
 
-@app.route('/signin', methods=['POST','GET'])
+    except Exception as e:
+        return jsonify({"status":"Fail", "info": str(e)})
+
+@app.route('/login', methods=['POST','GET'])
 def signin():
     try:
         # read the posted values from the UI
         content = request.json
         customer = Customer.query.filter(Customer.email == content['email']).first()
         if(customer is None):
-            return jsonify({"error" : "Email does not exist"})
+            return jsonify({"status" : "Fail", "info" : "Email does not exist"})
 
         if(customer.check_password_hash(content['password'])):
-            return jsonify({"name": customer.cname})
+            return jsonify({"status": "Success", "info": str(customer.generate_token())})
 
-        return jsonify({"error": "Password is not correct"})
+        return jsonify({"status": "Fail", "info": "Password is not correct"})
 
     except Exception as e:
         print (e)
-        return jsonify({"error" : str(e)})
+        return jsonify({"status": "Fail", "info": str(e)})

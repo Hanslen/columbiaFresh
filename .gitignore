@@ -1,0 +1,28 @@
+Last login: Tue Feb 27 22:32:37 on ttys000
+DINGYIdeMacBook-Pro:~ dingyi$ cd /Users/dingyi/Documents/graduate/ai/hw2/2048_AI 
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+".gitignore" 101L, 1157C
+.idea/

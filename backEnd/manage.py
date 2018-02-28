@@ -27,7 +27,6 @@ def test_confirm():
 def hello_world(msg_val):
     print ('hello ' + msg_val)
 
-
 @manager.command
 def test_db_connect():
     from app.models import Customer
