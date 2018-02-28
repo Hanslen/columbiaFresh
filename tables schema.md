@@ -6,7 +6,7 @@ CREATE TABLE `Columbia_Fresh`.`customer` (
   `uname` VARCHAR(64) NOT NULL,
   `email` VARCHAR(128) NOT NULL,
   `confirmed` TINYINT NOT NULL DEFAULT 0,
-  `password_hash` VARCHAR(150) NOT NULL,
+  `password_hash` VARCHAR(300) NOT NULL,
   `registered_on` DATETIME NULL,
   `confirmed_on` DATETIME NULL,
   PRIMARY KEY (`uid`),
@@ -269,7 +269,7 @@ CREATE TABLE `Columbia_Fresh`.`favorite_lists_contain` (
 
 ```
 CREATE TABLE `Columbia_Fresh`.`login_info` (
-  `token` VARCHAR(150) NOT NULL,
+  `token` VARCHAR(300) NOT NULL,
   `uid` INT NOT NULL,
   `expired` DATETIME NOT NULL,
   UNIQUE INDEX `token_UNIQUE` (`token` ASC),

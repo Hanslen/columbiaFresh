@@ -16,6 +16,43 @@ pwd: string
 ```
 
 response
+```python
+{
+status: string #Fail or Success
+info: string
+}
+```
+### Sign Up Verification URL generation
+#### post user email and activate token
+
+url
+```
+/register/confirm_url
+```
+
+parameters
+```python
+{
+email: string
+url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
+
+}
+```
+
+### Confirm register
+#### post user token to update the confirm info in database
+
+url
+```
+/confirm/<token>
+```
+
+parameters
+```python
+None
+```
+
+response
 ```
 {
 status: string
@@ -41,21 +78,16 @@ pwd: string
 ```
 
 response
-```
+```python
 {
 status: string
-info: list of string
+info: string # if success, response token
 }
 
 ```
 
-### Recipe
+### Search recipes
 #### get recipe information
-||||||| merged common ancestors
-#### get recipe information
-=======
-### search recipes
->>>>>>> c7c44cc132dd5b9e110d3384fe3cbe47ea5aad16
 
 url
 ```
@@ -69,7 +101,8 @@ parameters
 }
 ```
 
-### get recipe information
+### Recipe
+#### get recipe information
 
 url
 ```
