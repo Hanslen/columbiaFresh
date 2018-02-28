@@ -1,0 +1,163 @@
+[
+   {
+      "category": "appetizers-and-snacks",
+      "img": "https://images.media-allrecipes.com/userphotos/250x250/39538.jpg",
+      "title": "Japanese Chicken Wings",
+      "url": "http://allrecipes.com/recipe/23312/japanese-chicken-wings/",
+      "stars": "4.69000005722046",
+      "reviews": "1074",
+      "description": "Chicken wings are egged and fried in butter, then baked in a tangy sauce of soy sauce, water, sugar, vinegar, garlic powder and salt.  Delicious, sticky chicken wings!",
+      "author": " TLTRN",
+      "descriptions": "\r\n\"Chicken wings are egged and fried in butter, then baked in a tangy sauce of soy sauce, water, sugar, vinegar, garlic powder and salt.  Delicious, sticky chicken wings!\"        ",
+      "time": "1 h",
+      "calorie": "675",
+      "ingredients": [
+         "chicken wings",
+         "egg",
+         "all-purpose",
+         "butter",
+         "soy sauce",
+         "water",
+         "white sugar",
+         "white vinegar",
+         "garlic powder",
+         "salt"
+      ],
+      "directions": [
+         "Preheat oven to 350 degrees F (175 degrees C).",
+         "Cut wings in half, dip in egg and coat with flour.",
+         "Heat butter in a large, deep skillet over medium-high heat.  Fry wings until deep brown.  Place in a shallow roasting pan.",
+         "In a small bowl combine soy sauce, water, sugar, vinegar, garlic powder and salt.  Pour over wings.",
+         "Bake in preheated oven for 30 to 45 minutes, basting wings with sauce often."
+      ],
+      "footnotes": [
+         "Aluminum foil can be used to keep food moist, cook it evenly, and make clean-up easier."
+      ]
+   },
+   {
+      "category": "appetizers-and-snacks",
+      "img": "https://images.media-allrecipes.com/userphotos/250x250/4536841.jpg",
+      "title": "Annie's Fruit Salsa and Cinnamon Chips",
+      "url": "http://allrecipes.com/recipe/26692/annies-fruit-salsa-and-cinnamon-chips/",
+      "stars": "4.78000020980835",
+      "reviews": "3250",
+      "description": "This delicious salsa made with fresh kiwis, apples and berries is a sweet, succulent treat when served on homemade cinnamon tortilla chips. Enjoy it as a summer appetizer or an easy dessert.",
+      "author": " Ann Page",
+      "descriptions": "\r\n\"Easy to make, tasty fruit salsa and cinnamon tortilla chips. Great as an appetizer or a snack. Great for anytime!\"        ",
+      "time": "45 m",
+      "calorie": "312",
+      "ingredients": [
+         "kiwi fruit",
+         "apples",
+         "raspberries",
+         "strawberries",
+         "white sugar",
+         "brown sugar",
+         "fruit preserves",
+         "flour tortillas",
+         "butter flavored cooking spray",
+         "cinnamon sugar"
+      ],
+      "directions": [
+         "In a large bowl, thoroughly mix kiwis, Golden Delicious apples, raspberries, strawberries, white sugar, brown sugar and fruit preserves. Cover and chill in the refrigerator at least 15 minutes.",
+         "Preheat oven to 350 degrees F (175 degrees C).",
+         "Coat one side of each flour tortilla with butter flavored cooking spray. Cut into wedges and arrange in a single layer on a large baking sheet. Sprinkle wedges with desired amount of cinnamon sugar. Spray again with cooking spray.",
+         "Bake in the preheated oven 8 to 10 minutes. Repeat with any remaining tortilla wedges. Allow to cool approximately 15 minutes. Serve with chilled fruit mixture."
+      ],
+      "footnotes": [
+         "Aluminum foil can be used to keep food moist, cook it evenly, and make clean-up easier."
+      ]
+   },
+   {
+      "category": "appetizers-and-snacks",
+      "img": "https://images.media-allrecipes.com/userphotos/250x250/3095600.jpg",
+      "title": "Buffalo Chicken Dip",
+      "url": "http://allrecipes.com/recipe/68461/buffalo-chicken-dip/",
+      "stars": "4.69999980926514",
+      "reviews": "3409",
+      "description": "Five simple ingredients in your slow cooker make this creamy, cheesy, zesty hot dip that tastes just like Buffalo chicken wings.",
+      "author": " NUNPUNCH",
+      "descriptions": "\r\n\"This tangy, creamy dip tastes just like Buffalo chicken wings. It's best served hot with crackers and celery sticks. Everyone loves the results!\"        ",
+      "time": "45 m",
+      "calorie": "284",
+      "ingredients": [
+         "chicken",
+         "cream cheese",
+         "Ranch dressing",
+         "pepper sauce",
+         "Cheddar cheese",
+         "celery",
+         "crackers"
+      ],
+      "directions": [
+         "Heat chicken and hot sauce in a skillet over medium heat, until heated through.",
+         "Stir in cream cheese and ranch dressing.",
+         "Cook, stirring until well blended and warm.",
+         "Mix in half of the shredded cheese, and transfer the mixture to a slow cooker.",
+         "Sprinkle the remaining cheese over the top, cover, and cook on Low setting until hot and bubbly.",
+         "Serve with celery sticks and crackers."
+      ],
+      "footnotes": [
+         "Aluminum foil can be used to keep food moist, cook it evenly, and make clean-up easier."
+      ]
+   },
+   {
+      "category": "appetizers-and-snacks",
+      "img": "https://images.media-allrecipes.com/userphotos/250x250/811729.jpg",
+      "title": "Guacamole",
+      "url": "http://allrecipes.com/recipe/14231/guacamole/",
+      "stars": "4.80999994277954",
+      "reviews": "4217",
+      "description": "Cilantro and cayenne give this classic guacamole a tasty kick. Serve it smooth or chunky.",
+      "author": " Bob Cody",
+      "descriptions": "\r\n\"You can make this avocado salad smooth or chunky depending on your tastes.\"        ",
+      "time": "10 m",
+      "calorie": "262",
+      "ingredients": [
+         "avocados",
+         "lime",
+         "salt",
+         "onion",
+         "cilantro",
+         "tomatoes",
+         "garlic",
+         "cayenne pepper"
+      ],
+      "directions": [
+         "In a medium bowl, mash together the avocados, lime juice, and salt.",
+         "Mix in onion, cilantro, tomatoes, and garlic.",
+         "Stir in cayenne pepper.",
+         "Refrigerate 1 hour for best flavor, or serve immediately."
+      ],
+      "footnotes": []
+   },
+   {
+      "category": "appetizers-and-snacks",
+      "img": "https://images.media-allrecipes.com/userphotos/250x250/1119769.jpg",
+      "title": "Cheesy Burrito Game Day Dip",
+      "url": "http://allrecipes.com/recipe/234476/cheesy-burrito-game-day-dip/",
+      "stars": "4.19999980926514",
+      "reviews": "5",
+      "description": "Cheesy burrito dip has all the ingredients to fill a burrito in the form of a dip and is a great accompaniment to watching football games.",
+      "author": " R. J. Nequette",
+      "descriptions": "\r\n\"A quick and easy recipe that has become our favorite for football game day. It is so tasty and is filling too. Low fat cheese works well in this also. Serve with tortilla or corn chips and side of guacamole.\"        ",
+      "time": "45 m",
+      "calorie": "595",
+      "ingredients": [
+         "cooking spray",
+         "ground beef",
+         "beans",
+         "Colby-Monterey Jack cheese",
+         "sour cream",
+         "cream cheese",
+         "taco seasoning mix"
+      ],
+      "directions": [
+         "Preheat oven to 350 degrees F (175 degrees C). Spray a 9x13-inch baking dish with cooking spray.",
+         "Heat a large skillet over medium-high heat. Cook and stir beef in the hot skillet until browned and crumbly, 5 to 7 minutes; drain and discard grease.",
+         "Stir ground beef, refried beans, 3 cups Colby-Monterey Jack cheese, sour cream, cream cheese, and taco seasoning mix together in a bowl until well mixed. Spread mixture into the prepared baking dish.",
+         "Bake in the preheated oven for 20 minutes; sprinkle with remaining 1 cup Colby-Monterey Jack cheese. Continue baking until cheese is melted, about 5 more minutes."
+      ],
+      "footnotes": []
+   }
+]
