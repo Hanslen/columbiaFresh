@@ -16,6 +16,29 @@ pwd: string
 ```
 
 response
+```python
+{
+status: string #Fail or Success
+token: string
+}
+```
+### Sign Up Verification URL generation
+#### post user email and activate token
+
+url
+```
+/register/confirm_url
+```
+
+parameters
+```
+{
+email: string
+token: string
+}
+```
+
+response
 ```
 {
 status: string
