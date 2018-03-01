@@ -26,6 +26,13 @@ jobs:
             . venv/bin/activate
             pip install -r requirements.txt
             echo "The first test!"
+      - run:
+          name: run tests
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            python backEnd/tests/test_app.py
+
       - save_cache:
           paths:
             - ./venv
@@ -45,10 +52,12 @@ jobs:
   #       - store_artifacts:
   #          path: test-reports
   #          destination: test-reports
+
   test:
     docker:
       - image: circleci/python:3.6.1
       - image: circleci/mysql:5.7.19
+
     steps:
       - checkout
       - run:
@@ -56,8 +65,9 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
+            pip install -r requirements.txt
             python backEnd/tests/test_app.py
-      
+
   deploy-job:
     docker:
       - image: circleci/python:3.6.1
@@ -75,5 +85,5 @@ workflows:
   build_test_deploy:
     jobs:
       - build
-      # - test
-      - deploy-job
+      #- test
+      #- deploy-job
