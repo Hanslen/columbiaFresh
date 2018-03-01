@@ -26,6 +26,7 @@ jobs:
             . venv/bin/activate
             pip install -r requirements.txt
             pip install awscli
+            python backEnd/tests/test_app.py
             echo "The first test!"
 
       - save_cache:
