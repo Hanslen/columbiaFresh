@@ -54,6 +54,7 @@ jobs:
       - run:
           name: run tests
           command: |
+            . venv/bin/activate
             python backEnd/tests/test_app.py
       
   deploy-job:
