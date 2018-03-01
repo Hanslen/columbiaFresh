@@ -10,7 +10,7 @@ jobs:
     #     - apt-get update && apt-get install -y awscli
 
     steps:
-        - checkout
+      - checkout
 
       # Download and cache dependencies
       - restore_cache:
@@ -31,7 +31,7 @@ jobs:
           name: run tests
           command: |
             python backEnd/tests/test_app.py
-            
+
       - save_cache:
           paths:
             - ./venv
@@ -69,5 +69,5 @@ workflows:
   build_test_deploy:
     jobs:
       - build
-      - test
+      #- test
       #- deploy-job
