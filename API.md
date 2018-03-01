@@ -87,7 +87,7 @@ info: string # if success, response token
 ```
 
 ### Search recipes
-#### get recipe information
+#### get recipe search results
 
 url
 ```
@@ -98,10 +98,25 @@ parameters
 ```
 {
   query: string
+  page: int
 }
 ```
 
-### Recipe
+response
+```
+{
+  recipes: [{
+    id: int, recipe id
+    title: string, recipe name
+    img: string, image url
+    ingredients: [string],
+    stars/likes: float/int,
+    author: string
+  }*20]
+}
+```
+
+### Recipe (undetermined)
 #### get recipe information
 
 url
@@ -112,7 +127,7 @@ GET /recipe
 parameters
 ```
 {
-  id: string
+  id: int, recipe id
 }
 ```
 
@@ -127,8 +142,8 @@ response
   footnote: [string],
   img: string, imgurl
   ingredients: [string],
-  reviews: string,
-  stars: string,
+  reviews: int,
+  stars: float,
   time: string, cooking time
   title: string, recipe name
 }
