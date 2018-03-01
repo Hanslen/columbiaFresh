@@ -26,7 +26,6 @@ jobs:
             . venv/bin/activate
             pip install -r requirements.txt
             echo "The first test!"
-            python backEnd/tests/test_app.py
       - save_cache:
           paths:
             - ./venv
@@ -54,6 +53,8 @@ jobs:
       - run:
           name: run tests
           command: |
+            python3 -m venv venv
+            . venv/bin/activate
             python backEnd/tests/test_app.py
       
   deploy-job:
