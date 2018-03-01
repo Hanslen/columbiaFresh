@@ -67,7 +67,8 @@ jobs:
           name: Deploy to S3 if tests pass and branch is Master._.
           command: |
             sudo pip install awscli
-            aws s3 sync frontEnd/ s3://Columbia-fresh/ --delete
+            pwd
+            aws s3 sync / s3://Columbia-fresh/ --delete
 
 workflows:
   version: 2
