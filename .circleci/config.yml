@@ -5,6 +5,10 @@ jobs:
       - image: circleci/python:3.6.1
       - image: circleci/mysql:5.7.19
 
+    dependencies:
+      pre:
+        - apt-get update && apt-get install -y awscli
+
     steps:
       - checkout
 
@@ -18,7 +22,6 @@ jobs:
       - run: 
           name: install dependencies
           command: |
-            pip install awscli --upgrade --user
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
