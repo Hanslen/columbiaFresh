@@ -50,7 +50,7 @@ jobs:
     docker:
       - image: circleci/python:3.6.1
       - image: circleci/mysql:5.7.19
-    working_directory: /backEnd
+    working_directory: backEnd/
     steps:
       - run:
           name: run tests
