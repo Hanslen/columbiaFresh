@@ -27,6 +27,15 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
+  deploy-job:
+    docker:
+      - image: circleci/python:3.6.1
+      - image: circleci/mysql:5.7.19
+    working_directory: /
+    steps:
+      - run:
+          name: Deploy to S3 if tests pass and branch is Master
+          command: aws s3 sync frontEnd/ s3://Columbia-fresh/ --delete
 
 test:
   override:
@@ -42,17 +51,15 @@ test:
       #- store_artifacts:
       #    path: test-reports
       #    destination: test-reports
-deployment:
-  staging:
-    branch: master
-    codedeploy:
-      Columbia-fresh:
-        application_root: /
-        region: us-east-1
-        revision_location:
-          revision_type: S3
-          s3_location:
-            bucket: Columbia-fresh
-            key_pattern: Columbia-fresh-{master}-{dbbfd84}
-        deployment_group: columbiaFresh
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+      - deploy-job:
+          requires:
+            - build-job
+          filters:
+            branches:
+              only: master
 
