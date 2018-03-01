@@ -28,24 +28,24 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
   
-  # test:
-  #   override:
-  #     # run local unit tests
-  #     - python backEnd/tests/test_app.py
-
-  #       #- run:
-  #       #    name: run tests
-  #       #    command: |
-  #       #      . venv/bin/activate
-  #       #      python manage.py test
-
-  #       #- store_artifacts:
-  #       #    path: test-reports
-  #       #    destination: test-reports
   test:
-    - run:
-      command: |
-        python backEnd/tests/test_app.py
+    # override:
+    #   # run local unit tests
+    #   - python backEnd/tests/test_app.py
+
+        - run:
+           name: run tests
+           command: |
+             . venv/bin/activate
+             python backEnd/tests/test_app.py
+
+        - store_artifacts:
+           path: test-reports
+           destination: test-reports
+  # test:
+  #   - run:
+  #     command: |
+  #       python backEnd/tests/test_app.py
       
   deploy-job:
     docker:
