@@ -2,8 +2,6 @@ import sys
 import os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, 'app')))
 print (os.path.abspath(os.curdir))
-
-import ..backEnd
 from app import app
 import unittest
 from flask import request
