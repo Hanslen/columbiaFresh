@@ -50,6 +50,7 @@ jobs:
       - image: circleci/python:3.6.1
       - image: circleci/mysql:5.7.19
     steps:
+      - checkout
       - run:
           name: run tests
           command: |
