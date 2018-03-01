@@ -50,12 +50,12 @@ jobs:
     docker:
       - image: circleci/python:3.6.1
       - image: circleci/mysql:5.7.19
-    working_directory: backEnd/
+    working_directory: /
     steps:
       - run:
           name: run tests
           command: |
-            python tests/test_app.py
+            python backEnd/tests/test_app.py
       
   deploy-job:
     docker:
