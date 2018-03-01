@@ -1,9 +1,8 @@
 import sys
-import os.path
+import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, 'app')))
-print (os.path.abspath(os.curdir))
+print (sys.path)
 
-import ..backEnd
 from app import app
 import unittest
 from flask import request
@@ -21,4 +20,5 @@ class SetUpTest(unittest.TestCase):
         assert(b"Hello World!" in rv.data)
 
 if __name__ == '__main__':
+    print (os.getcwd())
     unittest.main()
