@@ -64,6 +64,7 @@ jobs:
       - image: circleci/mysql:5.7.19
     # working_directory: /home/circleci/project
     steps:
+      - checkout
       - run:
           name: Deploy to S3 if tests pass and branch is Master._.
           command: |
