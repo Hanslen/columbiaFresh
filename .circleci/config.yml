@@ -53,6 +53,7 @@ jobs:
       - run:
           name: run tests
           command: |
+            ls
             python backEnd/tests/test_app.py
       
   deploy-job:
@@ -65,7 +66,6 @@ jobs:
           name: Deploy to S3 if tests pass and branch is Master._.
           command: |
             sudo pip install awscli
-            pwd
             aws s3 sync / s3://Columbia-fresh/ --delete
 workflows:
   version: 2
