@@ -25,8 +25,6 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
-            pip install awscli
-            python backEnd/tests/test_app.py
             echo "The first test!"
 
       - save_cache:
@@ -52,11 +50,12 @@ jobs:
     docker:
       - image: circleci/python:3.6.1
       - image: circleci/mysql:5.7.19
+    working_directory: /backEnd
     steps:
       - run:
         name: run tests
         command: |
-          python backEnd/tests/test_app.py
+          python tests/test_app.py
       
   deploy-job:
     docker:
@@ -68,7 +67,6 @@ jobs:
           name: Deploy to S3 if tests pass and branch is Master._.
           command: |
             sudo pip install awscli
-            pwd
             aws s3 sync / s3://Columbia-fresh/ --delete
 
 workflows:
