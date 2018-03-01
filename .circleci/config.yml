@@ -42,3 +42,9 @@ test:
       #- store_artifacts:
       #    path: test-reports
       #    destination: test-reports
+deployment:
+  prod:
+    branch: master
+    commands:
+      - aws s3 sync frontEnd/ s3://Columbia-fresh --delete
+
