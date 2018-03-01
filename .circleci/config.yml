@@ -55,6 +55,7 @@ jobs:
       - run:
           name: run tests
           command: |
+            ls
             python backEnd/tests/test_app.py
       
   deploy-job:
