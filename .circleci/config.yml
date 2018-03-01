@@ -73,4 +73,4 @@ workflows:
     jobs:
       - build
       - test
-      # - deploy-job
+      - deploy-job
