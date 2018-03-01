@@ -8,6 +8,7 @@ def register():
     try:
         # read the posted values from the UI
         content = request.json
+        print (content)
         customer = Customer(uname=content['name'], email=content['email'], password_hash=content['pwd'])
         print (content)
         db.session.add(customer)
