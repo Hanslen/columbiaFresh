@@ -426,14 +426,6 @@ class settings extends Component{
                             <Button value="Submit"/>
                             <br/><br/><br/>
                         </div>
-                    {/* <h4>{this.state.boxTitle}</h4>
-                        <form>
-                            {form}
-                        </form>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <Button value="Submit"/> */}
                     </div>
                 </div>
                 <br/>
