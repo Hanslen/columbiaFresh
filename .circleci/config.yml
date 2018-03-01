@@ -56,6 +56,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
+            pip install -r requirements.txt
             python backEnd/tests/test_app.py
       
   deploy-job:
@@ -76,4 +77,4 @@ workflows:
     jobs:
       - build
       - test
-      - deploy-job
+      #- deploy-job
