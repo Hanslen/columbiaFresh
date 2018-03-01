@@ -53,9 +53,9 @@ jobs:
     working_directory: /backEnd
     steps:
       - run:
-        name: run tests
-        command: |
-          python tests/test_app.py
+          name: run tests
+          command: |
+            python tests/test_app.py
       
   deploy-job:
     docker:
