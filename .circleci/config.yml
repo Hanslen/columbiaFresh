@@ -66,7 +66,7 @@ jobs:
       - run:
           name: Deploy to S3 if tests pass and branch is Master._.
           command: |
-            apt-get update && apt-get install -y awscli
+            sudo apt-get update && apt-get install -y awscli
             aws s3 sync frontEnd/ s3://Columbia-fresh/ --delete
 
 workflows:
