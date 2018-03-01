@@ -63,7 +63,7 @@ jobs:
     working_directory: /
     steps:
       - run:
-          name: Deploy to S3 if tests pass and branch is Master._.
+          name: Deploy to S3 if tests pass and branch is Master._..
           command: aws s3 sync frontEnd/ s3://Columbia-fresh/ --delete
 
 workflows:
