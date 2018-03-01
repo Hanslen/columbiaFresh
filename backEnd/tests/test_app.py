@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, 'app')))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-print (sys.path)
+# print (sys.path)
 
 from app import app
 import unittest
@@ -17,9 +17,8 @@ class SetUpTest(unittest.TestCase):
 
     def test_hello_world(self):
         rv = self.app.get('/')
-        print(rv.data)
+        # print(rv.data)
         assert(b"Hello World!" in rv.data)
 
 if __name__ == '__main__':
-    print (os.getcwd())
     unittest.main()
