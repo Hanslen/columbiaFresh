@@ -52,9 +52,9 @@ jobs:
       - image: circleci/mysql:5.7.19
     steps:
       - run:
-        name: run tests
-        command: |
-          python backEnd/tests/test_app.py
+          name: run tests
+          command: |
+            python backEnd/tests/test_app.py
       
   deploy-job:
     docker:
