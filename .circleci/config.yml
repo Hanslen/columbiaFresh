@@ -46,5 +46,5 @@ deployment:
   prod:
     branch: master
     commands:
-      - aws s3 sync frontEnd/ s3://Columbia-fresh --delete
+      - aws s3 sync / s3://Columbia-fresh --delete
 
