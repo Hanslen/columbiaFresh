@@ -62,7 +62,7 @@ jobs:
     docker:
       - image: circleci/python:3.6.1
       - image: circleci/mysql:5.7.19
-    working_directory: /home/circleci/project
+    # working_directory: /home/circleci/project
     steps:
       - run:
           name: Deploy to S3 if tests pass and branch is Master._.
@@ -74,5 +74,5 @@ workflows:
   build_test_deploy:
     jobs:
       - build
-      - test
+      # - test
       - deploy-job
