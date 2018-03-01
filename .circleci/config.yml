@@ -27,6 +27,22 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
+  
+  test:
+    override:
+      # run local unit tests
+      - python backEnd/tests/test_app.py
+
+        #- run:
+        #    name: run tests
+        #    command: |
+        #      . venv/bin/activate
+        #      python manage.py test
+
+        #- store_artifacts:
+        #    path: test-reports
+        #    destination: test-reports
+      
   deploy-job:
     docker:
       - image: circleci/python:3.6.1
@@ -37,25 +53,12 @@ jobs:
           name: Deploy to S3 if tests pass and branch is Master
           command: aws s3 sync frontEnd/ s3://Columbia-fresh/ --delete
 
-test:
-  override:
-    # run local unit tests
-    - python backEnd/tests/test_app.py
-
-      #- run:
-      #    name: run tests
-      #    command: |
-      #      . venv/bin/activate
-      #      python manage.py test
-
-      #- store_artifacts:
-      #    path: test-reports
-      #    destination: test-reports
 workflows:
   version: 2
   build-deploy:
     jobs:
       - build:
+      - test:
       - deploy-job:
           requires:
             - build-job
