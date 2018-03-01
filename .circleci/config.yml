@@ -54,5 +54,5 @@ deployment:
           s3_location:
             bucket: Columbia-fresh
             key_pattern: Columbia-fresh-{master}-{dbbfd84}
-        deployment_group: my-deployment-group
+        deployment_group: columbiaFresh
 
