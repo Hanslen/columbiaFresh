@@ -30,6 +30,10 @@ jobs:
       - image: circleci/python:3.6.1
       - image: circleci/mysql:5.7.19
 
+    # dependencies:
+    #   pre:
+    #     - apt-get update && apt-get install -y awscli
+
     steps:
       - checkout
 
@@ -47,18 +51,64 @@ jobs:
             . venv/bin/activate
             pip install -r requirements.txt
             echo "The first test!"
+      - run:
+          name: run tests
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            python backEnd/tests/test_app.py
 
       - save_cache:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
+  
+  # test:
+  #   # override:
+  #   #   # run local unit tests
+  #   #   - python backEnd/tests/test_app.py
 
-      #- run:
-      #    name: run tests
-      #    command: |
-      #      . venv/bin/activate
-      #      python manage.py test
+  #       - run:
+  #          name: run tests
+  #          command: |
+  #            . venv/bin/activate
+  #            python backEnd/tests/test_app.py
 
-      #- store_artifacts:
-      #    path: test-reports
-      #    destination: test-reports
+  #       - store_artifacts:
+  #          path: test-reports
+  #          destination: test-reports
+
+  test:
+    docker:
+      - image: circleci/python:3.6.1
+      - image: circleci/mysql:5.7.19
+
+    steps:
+      - checkout
+      - run:
+          name: run tests
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+            python backEnd/tests/test_app.py
+
+  deploy-job:
+    docker:
+      - image: circleci/python:3.6.1
+      - image: circleci/mysql:5.7.19
+    # working_directory: /home/circleci/project
+    steps:
+      - checkout
+      - run:
+          name: Deploy to S3 if tests pass and branch is Master._.
+          command: |
+            sudo pip install awscli
+            aws s3 sync /home/circleci/project s3://Columbia-fresh/ --delete
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - build
+      #- test
+      #- deploy-job

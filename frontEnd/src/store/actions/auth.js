@@ -101,18 +101,28 @@ export const authSignUp = (email, username, password) => {
     return dispatch => {
         dispatch(authStart());
         const authData = {
+            name: username,
             email: email,
-            guest_name: username,
-            password: password
+            pwd: password
         };
-        let url = '/guestRegister';
+        let url = '/register';
         axios.post(url, authData)
             .then(response => {
                 console.log(response.data);
-                dispatch(authSuccess(email, username));
+                // dispatch(authSuccess(email, username));
+                const data = {
+                    email: email,
+                    url: "http://192.168.0.114:3000/verifyEmail/"+response.data.info
+                };
+                axios.post('/register/confirm_url', data)
+                    .then(response => {
+                        console.log(response);
+                    }).catch(error=>{
+                        console.log(error);
+                    })
             })
             .catch(error => {
-                console.log("Error...."+error);
+                console.log(error);
             });
 
     }

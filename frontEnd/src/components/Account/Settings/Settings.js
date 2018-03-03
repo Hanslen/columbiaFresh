@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import MyHeader from '../MyHeader/MyHeader';
-import classes from '../Account.css';
+import classes from './Settings.css';
 import Input from '../../UI/Input/Input';
 import { updateObject, checkValidity, checkFormValidity, removeArray} from '../../../shared/utility';
 import { read } from 'fs';
 import Button from '../../UI/Button/Button';
 class settings extends Component{
     state = {
+        myFolders:["BasicInformation", "Password", "Address","CreditCard"],
+        folderIcon:["fas fa-user", "fas fa-lock", "fas fa-address-card","far fa-credit-card"],
         FirstName: "Teacher",
         LastName: "Ding",
         Gender: "female",
@@ -23,7 +25,7 @@ class settings extends Component{
                   placeholder: 'Enter firstName'
                 },
                 boxStyle: {
-                    width:'40%',
+                    width:'100%',
                     float:'left'
                 },
                 value: '',
@@ -41,7 +43,7 @@ class settings extends Component{
                   placeholder: 'Enter LastName'
                 },
                 boxStyle: {
-                    width:'40%',
+                    width:'100%',
                     float:'right'
                 },
                 value: '',
@@ -293,14 +295,14 @@ class settings extends Component{
                   touched: false
             },
             ExpirationMonth:{
-                label: "Expiration Date",
+                label: "Expiration Month",
                   elementType: 'input',
                   elementConfig: {
                       type: 'text',
                       placeholder: 'Month'
                   },
                   boxStyle:{
-                      width: '30%',
+                      width: '40%',
                       float: 'left'
                   },
                   value: '',
@@ -311,15 +313,16 @@ class settings extends Component{
                   touched: false
             },
             ExpirationYear:{
-                label: '_',
+                label: 'Year',
                   elementType: 'input',
                   elementConfig: {
                       type: 'text',
                       placeholder: 'Year'
                   },
                   boxStyle:{
-                      width: '30%',
-                      float: 'left'
+                      width: '40%',
+                      float: 'left',
+                      marginLeft: '20%'
                   },
                   value: '',
                   validation:{
@@ -330,19 +333,41 @@ class settings extends Component{
             }
         }
     }
+    activeHandler = (folder) => {
+        for(var f in this.state.myFolders){
+            $('#'+this.state.myFolders[f]).removeClass(classes.folderactive);
+        }
+        $('#'+folder).addClass(classes.folderactive);
+        this.setState({selectedFolder:folder});
+        switch(folder){
+            case 'BasicInformation':
+                this.setState({controls: this.state.basiccontrols, boxTitle: "Update Basic Information"});
+                break;
+            case 'Password':
+                this.setState({controls: this.state.passwordControl, boxTitle: "Update password"});    
+                break;
+            case 'Address':
+                this.setState({controls: this.state.addressControl,boxTitle:"Update Address"});
+                break;
+            case 'CreditCard':
+                this.setState({controls: this.state.creditControl, boxTitle: "Update Credit Card Information"});
+                break;
+            default: break;
+        }
+    }
     componentWillMount(){
         this.setState({controls: this.state.basiccontrols, boxTitle: "Basic Information"});
     }
-    updateSettingBox(type){
-        switch(type){
-            case 'basic':this.setState({controls: this.state.basiccontrols, boxTitle: "Update Basic Information"});break;
-            case 'password':this.setState({controls: this.state.passwordControl, boxTitle: "Update password"});break;
-            case 'address':this.setState({controls: this.state.addressControl,boxTitle:"Update Address"});break;
-            case 'credit':this.setState({controls: this.state.creditControl, boxTitle: "Update Credit Card Information"});break;
-            default:break;
-        }
-        console.log(type);
-    }
+    // updateSettingBox(type){
+    //     switch(type){
+    //         case 'basic':this.setState({controls: this.state.basiccontrols, boxTitle: "Update Basic Information"});break;
+    //         case 'password':this.setState({controls: this.state.passwordControl, boxTitle: "Update password"});break;
+    //         case 'address':this.setState({controls: this.state.addressControl,boxTitle:"Update Address"});break;
+    //         case 'credit':this.setState({controls: this.state.creditControl, boxTitle: "Update Credit Card Information"});break;
+    //         default:break;
+    //     }
+    //     console.log(type);
+    // }
     inputChangedHandler = (event, controlName) => {
         const updatedControls = updateObject(this.state.controls, {
           [controlName]: updateObject(this.state.controls[controlName],{
@@ -354,6 +379,16 @@ class settings extends Component{
         this.setState({controls: updatedControls});
       }
     render(){
+        let folderCss = ["fas", "fa-folder-open",classes.folderIcon];
+        let folderA = ["list-group-item", classes.foldera];
+        let folders = this.state.myFolders.map((folder,id) => {
+            if(id == 0){
+                return(<a className={folderA.concat(classes.folderactive).join(" ")} key={folder} onClick={(id)=>this.activeHandler(folder)} id={folder}><i className={this.state.folderIcon[id]} id={classes.folderIcon}></i>{folder}</a>);
+            }
+            else{
+                return(<a className={folderA.join(" ")} key={folder} onClick={(id)=>this.activeHandler(folder)} id={folder}><i className={this.state.folderIcon[id]} id={classes.folderIcon}></i>{folder}</a>);
+            }    
+        });
         const formElementsArray = [];
         for ( let key in this.state.controls ) {
             formElementsArray.push( {
@@ -377,26 +412,20 @@ class settings extends Component{
           
         ) );
         return (
-            <div className="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+            <div className="tab-pane fade active show" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
                 <div className="row">
                     <div className="col-3">
                         <div className="list-group" id="list-tab" role="tablist">
-                            <a className="list-group-item list-group-item-action AccountMenu active" id="list-basic-list" data-toggle="list" href="#list-basic" role="tab" aria-controls="list-basic" aria-selected="true" onClick={() => this.updateSettingBox('basic')}>Basic Information</a>
-                            <a className="list-group-item list-group-item-action AccountMenu" id="list-password-list" data-toggle="list" href="#list-password" role="tab" aria-controls="list-password" aria-selected="false" onClick={() => this.updateSettingBox('password')}>Password</a>
-                            <a className="list-group-item list-group-item-action AccountMenu" id="list-address-list" data-toggle="list" href="#list-address" role="tab" aria-controls="list-address" aria-selected="false" onClick={() => this.updateSettingBox('address')}>Address</a>
-                            <a className="list-group-item list-group-item-action AccountMenu" id="list-creditCard-list" data-toggle="list" href="#list-creditCard" role="tab" aria-controls="list-creditCard" aria-selected="false" onClick={() => this.updateSettingBox('credit')}>Credit Card</a>
-                            <a className="list-group-item list-group-item-action AccountMenu" id="list-logOut-list" data-toggle="list" href="#list-logOut" role="tab" aria-controls="list-logOut" aria-selected="false">Log Out</a>
-                         </div>
+                            {folders}    
+                        </div>
                     </div>
-                    <div className="col-9" id={classes.rightBox}>
-                    <h4>{this.state.boxTitle}</h4>
-                                <form>
-                                    {form}
-                                </form>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <Button value="Submit"/>
+                    <div className="col-9">
+                        <div className={classes.folderContent}>
+                            <h4>{this.state.boxTitle}</h4>
+                            {form}
+                            <Button value="Submit"/>
+                            <br/><br/><br/>
+                        </div>
                     </div>
                 </div>
                 <br/>

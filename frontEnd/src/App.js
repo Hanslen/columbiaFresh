@@ -10,6 +10,8 @@ import Recipe from './components/Recipe/Recipe';
 import * as actions from './store/actions/index';
 import laoshi from './components/laoshi';
 import Account from './components/Account/Account';
+import accountManage from './components/Navigation/AccountManage/AccountManage';
+
 
 class App extends Component {
   componentDidMount(){
@@ -23,6 +25,7 @@ class App extends Component {
         <Route path="/recipe/:id" exact component={Recipe}/>
         <Route path="/laoshi" exact component={laoshi}/>
         <Route path="/myprofile" exact component={Account}/>
+        <Route path="/verifyEmail/:token" exact component={accountManage}/>
       </Switch>
     );
     return (

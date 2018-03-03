@@ -399,7 +399,7 @@ class navigation extends Component{
                       id={classes.signSubmit} 
                       onClick={this.submitHandler}>{this.state.sign}</button>
                       {/* <div style={{position:"absolute",marginTop:"10px"}}> */}
-                        <Spinner/>
+                        {/* <Spinner/> */}
                       {/* </div> */}
                     <br/>
                   <div className="modal-footer">

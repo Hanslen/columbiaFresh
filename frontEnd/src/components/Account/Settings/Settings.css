@@ -1,0 +1,22 @@
+#folderIcon{
+    margin-right: 15px;
+}
+.foldera:hover{
+    background-color: #eee;
+}
+.folderactive{
+    background-color: #E74C3C;
+    color:white !important
+}
+.folderactive:hover{
+    background-color: #E74C3C;
+}
+.folderContent{
+    box-shadow: 0 0 0 1px #eee;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 3% 10% 0 10%;
+}

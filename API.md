@@ -19,7 +19,7 @@ response
 ```python
 {
 status: string #Fail or Success
-token: string
+info: string
 }
 ```
 ### Sign Up Verification URL generation
@@ -31,11 +31,25 @@ url
 ```
 
 parameters
-```
+```python
 {
 email: string
-token: string
+url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
+
 }
+```
+
+### Confirm register
+#### post user token to update the confirm info in database
+
+url
+```
+/confirm/<token>
+```
+
+parameters
+```python
+None
 ```
 
 response
@@ -64,17 +78,16 @@ pwd: string
 ```
 
 response
-```
+```python
 {
 status: string
-info: list of string
+info: string # if success, response token
 }
 
 ```
 
-### Recipe
-#### get recipe information
-### search recipes
+### Search recipes
+#### get recipe search results
 
 url
 ```
@@ -85,10 +98,26 @@ parameters
 ```
 {
   query: string
+  page: int
 }
 ```
 
-### get recipe information
+response
+```
+{
+  recipes: [{
+    id: int, recipe id
+    title: string, recipe name
+    img: string, image url
+    ingredients: [string],
+    stars/likes: float/int,
+    author: string
+  }*20]
+}
+```
+
+### Recipe (undetermined)
+#### get recipe information
 
 url
 ```
@@ -98,7 +127,7 @@ GET /recipe
 parameters
 ```
 {
-  id: string
+  id: int, recipe id
 }
 ```
 
@@ -113,8 +142,8 @@ response
   footnote: [string],
   img: string, imgurl
   ingredients: [string],
-  reviews: string,
-  stars: string,
+  reviews: int,
+  stars: float,
   time: string, cooking time
   title: string, recipe name
 }

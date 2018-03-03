@@ -18,15 +18,10 @@ def test_send_email():
     token = customer.generate_confirm_token(expires_in=3600)
     send_mail.send(customer.email, u'please confirm your account', token)
 
-@manager.command
-def test_confirm():
-    from app.models import Customer
-    Customer.verify_confirm_token("eyJhbGciOiJIUzI1NiIsImlhdCI6MTUxOTE2Nzc0OSwiZXhwIjoxNTE5MTcxMzQ5fQ.eyJpZCI6MTB9.B-_ph9YcSX2PUJHGnmwzKepZMhHRLtM2TMu38GvAqN0")
 
 @manager.option('-m', '--msg', dest='msg_val', default='world')
 def hello_world(msg_val):
     print ('hello ' + msg_val)
-
 
 @manager.command
 def test_db_connect():
