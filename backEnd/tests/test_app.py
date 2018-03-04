@@ -1,13 +1,9 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, 'app')))
-<<<<<<< HEAD
-print (os.path.abspath(os.curdir))
-=======
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 # print (sys.path)
-
->>>>>>> 464dd2b05341e01b6eb39d8d2ec0adf29738a803
 from app import app
 import unittest
 from flask import request
