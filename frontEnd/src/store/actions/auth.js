@@ -7,11 +7,11 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (token, userId) => {
+export const authSuccess = (email, username) => {
     return{
         type: actionTypes.AUTH_SUCCESS,
-        idToken: token,
-        userId: userId
+        email: email,
+        username: username
     };
 };
 export const authConfirm = (email, username) => {
@@ -82,24 +82,22 @@ export const authLogIn = (email, password) => {
             password: password            
         };
         
-        localStorage.setItem('token', email);
-        setTimeout(() => {
-            console.log("._.");
-            dispatch(authSuccess(email, "1"));
-        },2000);
-        // dispatch(authSuccess(email, "1"));
+        // setTimeout(() => {
+        //     dispatch(authSuccess(email, "1"));
+        // },2000);
+        dispatch(authSuccess(email, "1"));
 
         // web
-        let url = '/guestLogin';
-        axios.post(url, authData)
-            .then(response => {
-                const expirationDate = new Date(new Date().getTime() + response.data.expiresIn*1000);
-                localStorage.setItem('token',response.data.idToken);
-                localStorage.setItem('expirationDate', expirationDate);
-                localStorage.setItem('userId', response.data.localId);
-                dispatch(authSuccess(response.data.idToken, response.data.localId));
-                dispatch(checkAuthTimeout(response.data.expiresIn));
-            });
+        // let url = '/guestLogin';
+        // axios.post(url, authData)
+        //     .then(response => {
+        //         // const expirationDate = new Date(new Date().getTime() + response.data.expiresIn*1000);
+        //         localStorage.setItem('username',response.data.idToken);
+        //         // localStorage.setItem('expirationDate', expirationDate);
+        //         localStorage.setItem('email', response.data.localId);
+        //         dispatch(authSuccess(response.data.idToken, response.data.localId));
+        //         dispatch(checkAuthTimeout(response.data.expiresIn));
+        //     });
     }
 }
 
