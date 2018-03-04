@@ -3,14 +3,22 @@ import React, {Component} from 'react';
 import classes from './AccountManage.css';
 import Button from '../../UI/Button/Button';
 import axios from '../../../axios-config';
+import {withRouter} from "react-router-dom";
 
 class accountManage extends Component{
     confirmHanlder = () => {
-        console.log(this.props.match.params.token);
-        axios.post('/confirm/' + this.props.match.params.token)
+        // console.log(this.props.match.params.token);
+        const token = this.props.match.params.token.split("'");
+        console.log(token[1]);
+        axios.post('/confirm/' + token[1])
                     .then(response => {
                         console.log(response);
+                        if(response.data.status == "Success"){
+                            console.log("Confirm Success..");
+                            this.props.history.push("/");
+                        }
                     }).catch(error=>{
+                        alert("Verfication Failed..");
                         console.log(error);
                     })
     }
@@ -25,4 +33,4 @@ class accountManage extends Component{
         );
     }
 }
-export default accountManage;
+export default withRouter(accountManage);

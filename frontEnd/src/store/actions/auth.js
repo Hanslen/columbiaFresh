@@ -112,7 +112,7 @@ export const authSignUp = (email, username, password) => {
                 // dispatch(authSuccess(email, username));
                 const data = {
                     email: email,
-                    url: "http://192.168.0.114:3000/verifyEmail/"+response.data.info
+                    url: "http://localhost:3000/verifyEmail/"+response.data.info
                 };
                 axios.post('/register/confirm_url', data)
                     .then(response => {
