@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './SearchRes.css';
 
-class Sidebar extends React.Component {
+class SearchRes extends React.Component {
     render() {
         let range = [1, 2, 3, 4, 5];
         let liClasses = ["media", "standard-blank"];
@@ -47,4 +47,4 @@ class Sidebar extends React.Component {
     }
 }
 
-export default Sidebar;
+export default SearchRes;

@@ -53,3 +53,34 @@ li.borderless {
     margin-left: 4%;
     margin-right: 4%; */
 }
+.favorite {
+    height: 40px;
+    margin: 10px 10px;
+}
+.textlike {
+    line-height: 40px;
+    font-size: 18px;
+}
+.direction-list {
+    padding: 20px 0;
+}
+.direction-num {
+    padding: 5px 20px 5px 10px;
+    color: #C0392B;
+    font-size: 24px;
+}
+.float-right {
+    float: right;
+}
+.pos-bottom {
+    position: absolute;
+    bottom: 1px;
+}
+.tag {
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+    border-color: #428bca;
+    margin: 0 3px;
+    padding: 3px 5px; 
+}
