@@ -21,6 +21,11 @@ parts/
 sdist/
 var/
 wheels/
+
+# DS
+.DS_Store
+backend/.DS_Store
+
 ".gitignore" 101L, 1157C
 .idea/
 .DS_Store

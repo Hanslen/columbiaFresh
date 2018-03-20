@@ -7,14 +7,20 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (token, userId) => {
+export const authSuccess = (email, username) => {
     return{
         type: actionTypes.AUTH_SUCCESS,
-        idToken: token,
-        userId: userId
+        email: email,
+        username: username
     };
 };
-
+export const authConfirm = (email, username) => {
+    localStorage.setItem("email", email);
+    localStorage.setItem("username", username);
+    return {
+        type: actionTypes.AUTH_CONFIRM
+    }
+}
 export const authFail = (error) => {
     return{
         type: actionTypes.AUTH_FAIL,
@@ -23,9 +29,9 @@ export const authFail = (error) => {
 };
 
 export const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expirationDate');
-    localStorage.removeItem('userId');
+    localStorage.removeItem('email');
+    // localStorage.removeItem('expirationDate');
+    localStorage.removeItem('username');
     return {
         type: actionTypes.AUTH_LOGOUT
     };
@@ -76,21 +82,19 @@ export const authLogIn = (email, password) => {
             password: password            
         };
         
-        localStorage.setItem('token', email);
-        setTimeout(() => {
-            console.log("._.");
-            dispatch(authSuccess(email, "1"));
-        },2000);
-        // dispatch(authSuccess(email, "1"));
+        // setTimeout(() => {
+        //     dispatch(authSuccess(email, "1"));
+        // },2000);
+        dispatch(authSuccess(email, "1"));
 
         // web
         // let url = '/guestLogin';
         // axios.post(url, authData)
         //     .then(response => {
-        //         const expirationDate = new Date(new Date().getTime() + response.data.expiresIn*1000);
-        //         localStorage.setItem('token',response.data.idToken);
-        //         localStorage.setItem('expirationDate', expirationDate);
-        //         localStorage.setItem('userId', response.data.localId);
+        //         // const expirationDate = new Date(new Date().getTime() + response.data.expiresIn*1000);
+        //         localStorage.setItem('username',response.data.idToken);
+        //         // localStorage.setItem('expirationDate', expirationDate);
+        //         localStorage.setItem('email', response.data.localId);
         //         dispatch(authSuccess(response.data.idToken, response.data.localId));
         //         dispatch(checkAuthTimeout(response.data.expiresIn));
         //     });
@@ -112,7 +116,7 @@ export const authSignUp = (email, username, password) => {
                 // dispatch(authSuccess(email, username));
                 const data = {
                     email: email,
-                    url: "http://192.168.0.114:3000/verifyEmail/"+response.data.info
+                    url: "http://localhost:3000/verifyEmail/"+response.data.info
                 };
                 axios.post('/register/confirm_url', data)
                     .then(response => {
@@ -129,15 +133,15 @@ export const authSignUp = (email, username, password) => {
 }
 export const authCheckState = () => {
     return dispatch => {
-        const token = localStorage.getItem('token');
-        if(!token){
+        const email = localStorage.getItem('email');
+        if(!email){
             dispatch(logout());
         }
         else{
             // const expirationDate = new Date(localStorage.getItem('expirationDate'));
             // if(expirationDate > new Date()){
-                const userId = localStorage.getItem('userId');
-                dispatch(authSuccess(token, userId));
+                const username = localStorage.getItem('username');
+                dispatch(authSuccess(email, username));
             //     dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime())/1000));
             // }
             // else{

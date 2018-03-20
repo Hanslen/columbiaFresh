@@ -5,8 +5,8 @@ import Sidebar from './Sidebar/Sidebar';
 import SearchRes from './SearchRes/SearchRes';
 import Reservation from '../Reservation/Reservation';
 
-class search extends React.Component{
-    render(){
+class Search extends React.Component{
+    render() {
         return (
             <div className="container">
                 <div className="row standard-blank">
@@ -29,4 +29,4 @@ class search extends React.Component{
     }
 }
 
-export default search;
+export default Search;
