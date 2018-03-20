@@ -6,7 +6,7 @@ class Notes extends React.Component{
             <div>
                 <h4>Notes</h4>
                 <hr />
-                <p>some notes...</p>
+                <p>{this.props.notes}</p>
             </div>
         );
     }

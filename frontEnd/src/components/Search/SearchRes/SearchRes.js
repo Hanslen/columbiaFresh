@@ -1,19 +1,21 @@
 import React from 'react';
-
-import styles from './SearchRes.css';
+import Link from 'react-router-dom/Link';
 
 class SearchRes extends React.Component {
     render() {
         let range = [1, 2, 3, 4, 5];
-        let liClasses = ["media", "standard-blank"];
         let listItems = range.map(i => 
-            <li key={i} className={liClasses.join(' ')}>
-                <img className="mr-3" src="http://via.placeholder.com/128x128" />
-                <div className="media-body">
-                    <h5 className="mt-1 mb-1">Menu</h5>
-                    <div className="mb-1">ingredients</div>
-                    <div className="mb-1">Author</div>
-                </div>
+            <li key={i} className="list-group-item borderless">
+                <Link to='/recipe/1'>
+                    <div className="media">
+                        <img className="mr-3" src="http://via.placeholder.com/128x128" />
+                        <div className="media-body">
+                            <h5 className="mt-1 mb-1">Menu</h5>
+                            <div className="mb-1">ingredients</div>
+                            <div className="mb-1">Author</div>
+                        </div>
+                    </div>
+                </Link>
             </li>
         );
         let pages = range.map(i => 
