@@ -25,7 +25,7 @@ class Directions extends React.Component{
                         </div>
                     </div>
                 </div>
-                <hr />
+                <hr className="mt-1 mb-1"/>
                 <ul className="list-group">{listItems}</ul>
             </div>
         );

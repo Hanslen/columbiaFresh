@@ -44,7 +44,7 @@ class Ingredients extends React.Component{
                         </div>
                     </div>
                 </div>
-                <hr />
+                <hr className="mt-1 mb-1"/>
                 <ul className="list-group list-group-flush">{listItems}</ul>
                 <button className="btn btn-info float-right" onClick={this.handleAdd} >Add to cart</button>
             </div>
