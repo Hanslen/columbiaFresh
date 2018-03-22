@@ -6,5 +6,6 @@ export{
     logout,
     authCheckState,
     authLogIn,
-    authSignUp
+    authSignUp,
+    authConfirm
 }from './auth';

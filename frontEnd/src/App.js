@@ -15,7 +15,7 @@ import accountManage from './components/Navigation/AccountManage/AccountManage';
 
 class App extends Component {
   componentDidMount(){
-    // this.props.onTryAutoSignup();
+    this.props.onTryAutoSignup();
   }
   render() {
     let routes = (

@@ -1,8 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 import {updateObject} from '../../shared/utility';
 const initialState = {
-    token: null,
-    userId: null,
+    username: null,
+    email: null,
     error: null,
     loading: false,
     authRedirectPath: '/'
@@ -14,8 +14,8 @@ const authStart = (state, action) => {
 
 const authSuccess = (state, action) =>{
     return updateObject(state, {
-        token: action.idToken,
-        userId: action.userId,
+        username: action.username,
+        email: action.email,
         error: null,
         loading: false
     });
@@ -30,14 +30,22 @@ const authFail = (state, action) => {
 
 const authLogout = (state, action) => {
     return updateObject(state, {
-        token: null,
-        userId: null
+        username: null,
+        email: null
+    });
+}
+const authConfirm = (state, action) => {
+    return updateObject(state, {
+        username: action.username,
+        email: action.email,
+        error: null,
+        loading: false
     });
 }
 
 const authLogIn = (state, action) => {
     return updateObject(state, {
-        token: action.token,
+        username: action.username,
         error: null,
         loading: false
     })
@@ -45,7 +53,7 @@ const authLogIn = (state, action) => {
 
 const authSignUp = (state, action) => {
     return updateObject(state, {
-        token: action.token,
+        username: action.username,
         error: null,
         loading: false
     })
@@ -66,7 +74,9 @@ const reducer = (state = initialState, action) => {
         case actionTypes.AUTH_LOGOUT:
             return authLogout(state, action);
         case actionTypes.AUTH_SIGNUP:
-            return authSignUp(state, actionTypes);
+            return authSignUp(state, action);
+        case actionTypes.AUTH_CONFIRM:
+            return authConfirm(state, action);
         default:
             return state
     }
