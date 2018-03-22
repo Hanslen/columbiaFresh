@@ -12,6 +12,15 @@ One order contains:
 - img
 - id
 
+```
+{
+    orderDate: "",
+    ...
+}
+```
+
+
+
 ## Shopping Cart:
 
 - img
@@ -20,6 +29,17 @@ One order contains:
 - number
 - item list[] (id, img, title, price, number)
 - id
+
+```
+{
+    "img":"xxx",
+    items: [{
+        
+    }..]
+}
+```
+
+
 
 ## My Recipe
 
