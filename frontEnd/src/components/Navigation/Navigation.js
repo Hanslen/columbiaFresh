@@ -138,7 +138,7 @@ class navigation extends Component{
                     }
                   }});
   }
-
+  
   setToSignUp = () => {
     this.setState({sign: "Sign Up", 
                   signMsg: "Already have an account!",
@@ -415,7 +415,7 @@ class navigation extends Component{
 }
 const mapStateToProps = state => {
   return {
-      isAuthenticated: state.auth.email !== null,
+      isAuthenticated: state.auth.email === null,
       loading: state.auth.loading
   };
 }

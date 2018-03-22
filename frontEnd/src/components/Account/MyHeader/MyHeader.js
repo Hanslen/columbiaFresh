@@ -47,7 +47,7 @@ class myheader extends Component{
                             role="tab" 
                             aria-controls="nav-favoriteList" 
                             aria-selected="false">
-                            <i className="fas fa-star" style={{color:"#fb7299"}}></i>Favorite List</a>
+                            <i className="fas fa-star" style={{color:"#fb7299"}}></i>My Favorites</a>
                         <a className="nav-item nav-link accountHeader active" 
                             id="nav-settings-tab" 
                             data-toggle="tab" 
