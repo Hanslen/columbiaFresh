@@ -6,21 +6,22 @@ class Ingredients extends React.Component{
 
     constructor(props) {
         super(props);
+        this.state = { message: '' };
         
         this.handleAdd = this.handleAdd.bind(this);
     }
 
     handleAdd() {
         axios.post('/addToCart', {
-            firstName: 'Fred',
-            lastName: 'Flintstone'
+            // uid: this.props.uid,
+            // rid: this.props.rid
         }).then(function (response) {
             console.log(response);
         }).catch(function (error) {
             console.log(error);
         });
         this.setState({
-
+            message: 'add successfully!'
         });
     }
 
@@ -30,6 +31,24 @@ class Ingredients extends React.Component{
             <li key={i} className={liClasses.join(' ')}>
                 {ingredient}
             </li>
+        );
+
+        let modal = (
+            <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            {this.state.message}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Continue browsing</button>
+                            <Link to="/" style={{"textDecoration": "none"}}>
+                                <button type="button" className="btn btn-primary" data-dismiss="modal">View shopping cart</button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
         return (
             <div className="mt-3">
@@ -46,7 +65,12 @@ class Ingredients extends React.Component{
                 </div>
                 <hr className="mt-1 mb-1"/>
                 <ul className="list-group list-group-flush">{listItems}</ul>
-                <button className="btn btn-info float-right" onClick={this.handleAdd} >Add to cart</button>
+                <button className="btn btn-info float-right" 
+                    data-toggle="modal" data-target="#exampleModal"
+                    onClick={this.handleAdd} >
+                    Add to cart
+                </button>
+                {modal}
             </div>
         );
     }

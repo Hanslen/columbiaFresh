@@ -1,13 +1,25 @@
-import { SEARCH_KEYWORD } from '../actions/search.js';
+import { SEARCH_KEYWORD, GET_RESULTS } from '../actions/search.js';
 
-const reducer = (state='', action) => {
+export const searchReducer = (state='', action) => {
     switch (action.type) {
         case SEARCH_KEYWORD:
-            console.log('search: '+action.keyword);
+            console.log('keyword: '+action.keyword);
             return action.keyword;
         default:
             return state;
     }
 };
 
-export default reducer;
+export const resultsReducer = (state={ keyword: '', results: [] }, action) => {
+    switch (action.type) {
+        case GET_RESULTS:
+            console.log('get '+action.results.length+' results.');
+            //return state.concat(state, action.results);
+            return {
+                keyword: action.keyword,
+                results: action.results
+            };
+        default:
+            return state;
+    }
+};

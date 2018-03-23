@@ -1,23 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from '../../axios-config';
 import Ingredients from './Ingredients/Ingredients';
 import Directions from './Directions/Directions';
 import Reservation from '../Reservation/Reservation';
 import Notes from './Notes/Notes';
-import { searchRecipe } from '../../store/actions/search';
+import { searchKeyword, searchRecipes } from '../../store/actions/search';
 
 class Recipe extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            rid: 1,
+            rid: this.props.match.params.token,
             title: 'title',
             img: 'http://via.placeholder.com/600x400',
+            likes: 321,
+            isLiked: false,
             tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
-            uid: 123,
+            aid: 123,
             avatar: 'http://via.placeholder.com/40x40',
             author: 'Author Name',
             discription: 'say something',
@@ -28,50 +30,89 @@ class Recipe extends React.Component{
             notes: 'some notes...'
         }
 
-        this.handleSave = this.handleSave.bind(this);
+        this.handleLike = this.handleLike.bind(this);
     }
 
     componentDidMount() {
-        axios.post('/getRecipe', {
-            recipeId: 1
-        }).then(function(response) {
+        axios.get('/getRecipe?rid='+this.state.rid)
+        .then(function(response) {
             console.log(response);
         }).catch(function (error) {
             console.log(error);
         });
     }
 
-    handleSave() {
-        axios.post('/saveRecipe', {
-            firstName: 'Fred',
-            lastName: 'Flintstone'
+    handleLike() {
+        axios.post('/likeRecipe', {
+            // uid: this.props.uid,
+            // rid: this.state.rid,
+            // like: !this.state.isLiked
         }).then(function (response) {
             console.log(response);
+            // update likes, isLiked
         }).catch(function (error) {
             console.log(error);
         });
         this.setState({
-
+            likes: this.state.likes+1,
+            isLiked: !this.state.isLiked
         });
     }
 
     handleSearch(keyword, e) {
         this.props.onSearch(keyword);
+        this.props.onGetResults(keyword);
     }
 
     render() {
-        let tagItems = this.state.tags.map(tag =>
-            <span key={tag} className="tag" 
-                onClick={(e) => this.handleSearch(tag, e)}>
-                {tag}
-            </span>
-        )
+        let likeInfo = (
+            <div className="row favorite">
+                <div className="col-10 textlike">
+                    <span className="text-danger">{this.state.likes}</span> likes
+                </div>
+                <div className="col-2">
+                    <i className={this.state.isLiked ? "fas fa-heart like-icon" : "far fa-heart like-icon"} 
+                        onClick={this.handleLike}></i>
+                </div>
+            </div>
+        );
+
+        let tagItems = this.state.tags.map(tag => {
+            let tagURL = "/search?"+tag;
+            return (
+                <Link to={tagURL} style={{"textDecoration": "none"}}>
+                    <span key={tag} className="tag" 
+                        onClick={(e) => this.handleSearch(tag, e)}>
+                        {tag}
+                    </span>
+                </Link>
+            );
+        });
+
+        let authorURL = "/user/"+this.state.aid;
+        let authorInfo = (
+            <div>
+                <Link to={authorURL} style={{"textDecoration": "none"}}>
+                    <div className="media mt-3 mb-2">
+                        <img className="mr-3 rounded-circle" src={this.state.avatar} />
+                        <div className="media-body" style={{lineHeight: 40+'px'}}>
+                            {this.state.author}
+                        </div>
+                    </div>
+                </Link>
+                <p>
+                    {this.state.discription}
+                </p>
+            </div>
+        );
+
+        let searchURL = "/search?"+this.props.keyword;
         return (
             <div className="container">
                 <div className="row standard-blank">
                     <Link to="/"><span className="text-danger">home</span></Link>
                     <div className="ml-1 mr-1">></div>
-                    <Link to="/search"><span className="text-danger">search word</span></Link>
+                    <Link to={searchURL}><span className="text-danger">{this.props.keyword}</span></Link>
                     <div className="ml-1 mr-1">></div>
                     <div><span className="text-secondary">{this.state.title}</span></div>
                 </div>
@@ -80,32 +121,17 @@ class Recipe extends React.Component{
                         <h1>{this.state.title}</h1>
                         <img src={this.state.img} />
 
-                        <div className="row favorite">
-                            <div className="col-10 textlike">
-                                <span className="text-danger">3</span> likes
-                            </div>
-                            <div className="col-2">
-                                <button className="btn btn-danger" onClick={this.handleSave}>like</button>
-                            </div>
-                        </div>
-
+                        {likeInfo}
                         {tagItems}
+                        {authorInfo}
 
-                        <Link to='/user/123'>
-                            <div className="media mt-3 mb-2">
-                                <img className="mr-3 rounded-circle" src={this.state.avatar} />
-                                <div className="media-body" style={{lineHeight: 40+'px'}}>
-                                    {this.state.author}
-                                </div>
-                            </div>
-                        </Link>
-                        <p>
-                            {this.state.discription}
-                        </p>
-
-                        <Ingredients calorie={this.state.calorie} items={this.state.ingredients}/>
-                        <Directions preptime={this.state.preptime} items={this.state.directions}/>
-                        <Notes notes={this.state.notes}/>
+                        <Ingredients rid={this.state.rid} 
+                            calorie={this.state.calorie} 
+                            items={this.state.ingredients} />
+                        <Directions 
+                            preptime={this.state.preptime} 
+                            items={this.state.directions} />
+                        <Notes notes={this.state.notes} />
                     </div>
                     <div className="col-4">
                         <Reservation />
@@ -116,12 +142,21 @@ class Recipe extends React.Component{
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        keyword: state.resultsReducer.keyword
+    };
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         onSearch: (keyword) => {
-            dispatch(searchRecipe(keyword))
+            dispatch(searchKeyword(keyword))
+        },
+        onGetResults: (keyword) => {
+            dispatch(searchRecipes(keyword))
         }
     }
 }
 
-export default connect(null, mapDispatchToProps)(Recipe);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Recipe));

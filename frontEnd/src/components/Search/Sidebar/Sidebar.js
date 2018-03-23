@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from '../../../axios-config';
-import { searchRecipe } from '../../../store/actions/search';
+import { searchKeyword, searchRecipes } from '../../../store/actions/search';
 
 class Sidebar extends React.Component {
 
@@ -44,18 +44,24 @@ class Sidebar extends React.Component {
 
     handleSearch(keyword, e) {
         this.props.onSearch(keyword);
+        this.props.onGetResults(keyword);
     }
 
     render() {
-        let listItems = this.state.menus.map((menu, i) => 
-            <li key={i} className="list-group-item list-group-item-action borderless sidebar-item"
-                onMouseOver={(e) => this.handleMouseOver(i, e)} 
-                onMouseOut={(e) => this.handleMouseOut(e)} 
-                onClick={(e) => this.handleSearch(menu.name, e)}
-                style={{ color: menu.isSelect ? 'red' : 'none' }}>
-                {menu.name}
-            </li>
-        );
+        let listItems = this.state.menus.map((menu, i) => {
+            let itemURL = "/search?"+menu.name;
+            return (
+                <Link to={itemURL} key={i} style={{"textDecoration": "none"}}>
+                    <li className="list-group-item list-group-item-action borderless sidebar-item"
+                        onMouseOver={(e) => this.handleMouseOver(i, e)} 
+                        onMouseOut={(e) => this.handleMouseOut(e)} 
+                        onClick={(e) => this.handleSearch(menu.name, e)}
+                        style={{ color: menu.isSelect ? 'red' : 'black' }}>
+                        {menu.name}
+                    </li>
+                </Link>
+            );
+        });
         return (
             <div>
                 <ul className="list-group">{listItems}</ul>
@@ -67,7 +73,10 @@ class Sidebar extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSearch: (keyword) => {
-            dispatch(searchRecipe(keyword))
+            dispatch(searchKeyword(keyword))
+        },
+        onGetResults: (keyword) => {
+            dispatch(searchRecipes(keyword))
         }
     }
 }

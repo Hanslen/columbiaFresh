@@ -35,7 +35,6 @@ parameters
 {
 email: string
 url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
-
 }
 ```
 
@@ -83,10 +82,26 @@ response
 status: string
 info: string # if success, response token
 }
-
 ```
 
 ### Search recipes
+
+#### get hot menus (hot search word)
+
+url
+
+```
+GET /hotMenu
+```
+
+response
+
+```
+{
+    menus: [string], list of menus
+}
+```
+
 #### get recipe search results
 
 url
@@ -97,54 +112,114 @@ GET /search
 parameters
 ```
 {
-  query: string
-  page: int
+	query: string
+	page: int
 }
 ```
 
 response
 ```
 {
-  recipes: [{
-    id: int, recipe id
-    title: string, recipe name
-    img: string, image url
-    ingredients: [string],
-    stars/likes: float/int,
-    author: string
-  }*20]
+	recipes: [{
+    	rid: int, recipe id
+    	url: '/recipe/'+id,
+    	imgurl: string, image url
+    	title: string, recipe name
+    	author: string
+    	likes: int,
+    	ingredients: [string],
+  	}*20]
 }
 ```
 
-### Recipe (undetermined)
+### Recipe
 #### get recipe information
 
 url
 ```
-GET /recipe
+GET /recipe?rid=...
 ```
 
 parameters
 ```
 {
-  id: int, recipe id
+	rid: int, recipe id
 }
 ```
 
 response
 ```
 {
-  author: string,
-  calorie: string,
-  category: [string],
-  description: string,
-  direction: [string],
-  footnote: [string],
-  img: string, imgurl
-  ingredients: [string],
-  reviews: int,
-  stars: float,
-  time: string, cooking time
-  title: string, recipe name
+	rid: int,
+    title: string, recipe title
+    img: string, image url
+    likes: int,
+    isLiked: bool | false, whether user likes the recipe, default false
+    tags: [string],
+    aid: int, author uid
+    avatar: string, url of user avatar
+    author: string, username of author
+    discription: string,
+    calorie: int,
+    preptime: int, in min
+    ingredients: [string],
+    directions: [string],
+    notes: string, footnote
 }
 ```
+
+#### add ingredients to shopping cart
+
+url
+
+```
+POST /addToCart
+```
+
+parameters
+
+```
+{
+    uid: int, user id
+    rid: int, recipe id
+}
+```
+
+response
+
+```
+{
+    state: 'success'|'fail'
+    message: string
+}
+```
+
+#### like recipe
+
+url
+
+```
+POST /likeRecipe
+```
+
+parameters
+
+```
+{
+    uid: int, user id
+    rid: int, recipe id
+    like: bool
+}
+```
+
+response
+
+```
+{
+    state: 'success'|'fail'
+    message: string,
+    like: bool
+}
+```
+
+#### 

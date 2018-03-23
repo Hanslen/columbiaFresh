@@ -1,34 +1,36 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { searchRecipe } from '../../../store/actions/search';
+import axios from '../../../axios-config';
+import { searchKeyword, searchRecipes } from '../../../store/actions/search';
 import classes from './SearchBox.css';
 
 class SearchBox extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { keyword: this.props.keyword };
+        this.state = { keyword: '' };
     
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
     }
 
     handleInputChange(event) {
-        this.setState({ keyword: event.target.value });
+        this.props.onSearch(event.target.value);
     }
 
     handleSearch(event) {
-        this.props.onSearch(this.state.keyword);
+        this.props.onGetResults(this.props.keyword);
     }
 
     render() {
-        return(
+        let searchURL = "/search?"+this.props.keyword;
+        return (
             <div className="input-group" style={this.props.searchBoxStyle}>
                 <input type="text" className="form-control" placeholder={this.props.placeHolder} 
-                    value={this.state.keyword} onChange={this.handleInputChange}/>
+                    value={this.props.keyword} onChange={this.handleInputChange}/>
                 <div className="input-group-append">
-                    <Link to="/search">
+                    <Link to={searchURL}>
                         <button type="button" className="btn btn-primary" id={this.props.btnStyle} 
                             onClick={this.handleSearch}>
                             Search
@@ -42,16 +44,19 @@ class SearchBox extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        keyword: state.search
+        keyword: state.searchReducer
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onSearch: (keyword) => {
-            dispatch(searchRecipe(keyword))
+            dispatch(searchKeyword(keyword))
+        },
+        onGetResults: (keyword) => {
+            dispatch(searchRecipes(keyword))
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBox);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SearchBox));
