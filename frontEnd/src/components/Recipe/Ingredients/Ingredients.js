@@ -1,14 +1,54 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from '../../../axios-config';
 
 class Ingredients extends React.Component{
+
+    constructor(props) {
+        super(props);
+        this.state = { message: '' };
+        
+        this.handleAdd = this.handleAdd.bind(this);
+    }
+
+    handleAdd() {
+        axios.post('/addToCart', {
+            // uid: this.props.uid,
+            // rid: this.props.rid
+        }).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
+        this.setState({
+            message: 'add successfully!'
+        });
+    }
+
     render() {
-        let range = [1, 2, 3, 4, 5];
         let liClasses = ["list-group-item", "borderless"];
-        let listItems = range.map(i => 
+        let listItems = this.props.items.map((ingredient, i) => 
             <li key={i} className={liClasses.join(' ')}>
-                Ingredient
+                {ingredient}
             </li>
+        );
+
+        let modal = (
+            <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            {this.state.message}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Continue browsing</button>
+                            <Link to="/" style={{"textDecoration": "none"}}>
+                                <button type="button" className="btn btn-primary" data-dismiss="modal">View shopping cart</button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
         return (
             <div className="mt-3">
@@ -19,13 +59,18 @@ class Ingredients extends React.Component{
                     <div className="col-3">
                         <div className="pos-bottom">
                             <i className="fas fa-balance-scale"></i>
-                            <span> 150 cal</span>
+                            <span> {this.props.calorie} cal</span>
                         </div>
                     </div>
                 </div>
-                <hr />
+                <hr className="mt-1 mb-1"/>
                 <ul className="list-group list-group-flush">{listItems}</ul>
-                <button className="btn btn-info float-right">Add to cart</button>
+                <button className="btn btn-info float-right" 
+                    data-toggle="modal" data-target="#exampleModal"
+                    onClick={this.handleAdd} >
+                    Add to cart
+                </button>
+                {modal}
             </div>
         );
     }

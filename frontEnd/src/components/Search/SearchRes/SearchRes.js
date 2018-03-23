@@ -1,21 +1,29 @@
 import React from 'react';
-
-import styles from './SearchRes.css';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class SearchRes extends React.Component {
     render() {
-        let range = [1, 2, 3, 4, 5];
-        let liClasses = ["media", "standard-blank"];
-        let listItems = range.map(i => 
-            <li key={i} className={liClasses.join(' ')}>
-                <img className="mr-3" src="http://via.placeholder.com/128x128" />
-                <div className="media-body">
-                    <h5 className="mt-1 mb-1">Menu</h5>
-                    <div className="mb-1">ingredients</div>
-                    <div className="mb-1">Author</div>
-                </div>
-            </li>
+        let recipeInfos = this.props.results;
+        let listItems = recipeInfos.map(recipeInfo => {
+                return (
+                    <li key={recipeInfo.rid} className="list-group-item borderless">
+                        <Link to={recipeInfo.url} style={{"textDecoration": "none"}}>
+                            <div className="media">
+                                <img className="mr-3" src={recipeInfo.imgurl} />
+                                <div className="media-body">
+                                    <h5 className="mt-1 mb-1">{recipeInfo.title}</h5>
+                                    <div className="mb-1">{recipeInfo.ingredients}</div>
+                                    <div className="mb-1">{recipeInfo.likes}</div>
+                                    <div className="mb-1">{recipeInfo.author}</div>
+                                </div>
+                            </div>
+                        </Link>
+                    </li>
+                )
+            }
         );
+        let range = [1, 2, 3, 4, 5]
         let pages = range.map(i => 
             <li key={i} className="page-item">
                 <a className="page-link" href="#">{i}</a>
@@ -47,4 +55,10 @@ class SearchRes extends React.Component {
     }
 }
 
-export default SearchRes;
+const mapStateToProps = (state) => {
+    return {
+        results: state.resultsReducer.results
+    };
+};
+
+export default connect(mapStateToProps)(SearchRes);

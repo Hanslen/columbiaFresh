@@ -5,8 +5,8 @@ class Notes extends React.Component{
         return (
             <div>
                 <h4>Notes</h4>
-                <hr />
-                <p>some notes...</p>
+                <hr className="mt-1 mb-2"/>
+                <p>{this.props.notes}</p>
             </div>
         );
     }
