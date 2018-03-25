@@ -22,6 +22,7 @@ CREATE TABLE `Columbia_Fresh`.`customer` (
   `CVV` VARCHAR(3) NULL,
   `expirationMonth` VARCHAR(2) NULL,
   `expirationYear` VARCHAR(2) NULL,
+  `img` LONGTEXT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC));
 
