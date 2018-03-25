@@ -249,19 +249,6 @@ CREATE TABLE `Columbia_Fresh`.`recipe_in_cate` (
     ON UPDATE CASCADE);
 ```
 
-### favorite_lists_contain
-
-```
-CREATE TABLE `Columbia_Fresh`.`favorite_lists_contain` (
-  `uid` INT NOT NULL,
-  PRIMARY KEY (`uid`),
-  CONSTRAINT `customer_favorite_lists_contain`
-    FOREIGN KEY (`uid`)
-    REFERENCES `Columbia_Fresh`.`customer` (`uid`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-```
-
 
 ### login_info
 
