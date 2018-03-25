@@ -60,18 +60,16 @@ CREATE TABLE `Columbia_Fresh`.`recipe_category` (
   PRIMARY KEY (`rcid`));
 ```
 
-### favorite_list
+### favorite_list_[#USERID#]
 
 ```
-CREATE TABLE `Columbia_Fresh`.`favorite_list` (
-  `uid` INT NOT NULL,
-  `fid` VARCHAR(45) NOT NULL,
-  `uname` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`uid`),
-  UNIQUE INDEX `fid_UNIQUE` (`fid` ASC),
-  CONSTRAINT `customer_favorite_list`
-    FOREIGN KEY (`uid`)
-    REFERENCES `Columbia_Fresh`.`customer` (`uid`)
+CREATE TABLE `Columbia_Fresh`.`favorite_list_[userid]` (
+  `addedtime` DATETIME NOT NULL,
+  `rid` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`addedtime`),
+  CONSTRAINT `[userid]_favorite_list`
+    FOREIGN KEY (`rid`)
+    REFERENCES `Columbia_Fresh`.`recipe` (`rid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 ```
@@ -247,19 +245,6 @@ CREATE TABLE `Columbia_Fresh`.`recipe_in_cate` (
   CONSTRAINT `recipe_category_recipe_in_cate`
     FOREIGN KEY (`rcid`)
     REFERENCES `Columbia_Fresh`.`recipe_category` (`rcid`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-```
-
-### favorite_lists_contain
-
-```
-CREATE TABLE `Columbia_Fresh`.`favorite_lists_contain` (
-  `uid` INT NOT NULL,
-  PRIMARY KEY (`uid`),
-  CONSTRAINT `customer_favorite_lists_contain`
-    FOREIGN KEY (`uid`)
-    REFERENCES `Columbia_Fresh`.`customer` (`uid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 ```
