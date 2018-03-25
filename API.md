@@ -137,12 +137,14 @@ response
 
 url
 ```
-GET /recipe?rid=...
+POST /getRecipe
 ```
 
 parameters
 ```
 {
+	token: string,
+	uid: int, user id
 	rid: int, recipe id
 }
 ```
@@ -180,6 +182,7 @@ parameters
 
 ```
 {
+	token: string,
     uid: int, user id
     rid: int, recipe id
 }
@@ -206,6 +209,7 @@ parameters
 
 ```
 {
+	token: string,
     uid: int, user id
     rid: int, recipe id
     like: bool
@@ -218,7 +222,8 @@ response
 {
     state: 'success'|'fail'
     message: string,
-    like: bool
+    likes: int,
+    isLiked: bool
 }
 ```
 
