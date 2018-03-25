@@ -9,6 +9,20 @@ CREATE TABLE `Columbia_Fresh`.`customer` (
   `password_hash` VARCHAR(300) NOT NULL,
   `registered_on` DATETIME NULL,
   `confirmed_on` DATETIME NULL,
+  `firstname` VARCHAR(50) NULL,
+  `lastname` VARCHAR(50) NULL,
+  `gender` INT(1) NULL,
+  `introduction` VARCHAR(300) NULL,
+  `streetAddress1` VARCHAR(50) NULL,
+  `streetAddress2` VARCHAR(50) NULL,
+  `city` VARCHAR(50) NULL,
+  `state_province_reigion` VARCHAR(50) NULL,
+  `zipCode` VARCHAR(6) NULL,
+  `cardNumber` VARCHAR(16) NULL,
+  `CVV` VARCHAR(3) NULL,
+  `expirationMonth` VARCHAR(2) NULL,
+  `expirationYear` VARCHAR(2) NULL,
+  `img` LONGTEXT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC));
 
@@ -47,7 +61,23 @@ CREATE TABLE `Columbia_Fresh`.`supplier` (
 ```
 CREATE TABLE `Columbia_Fresh`.`recipe` (
   `rid` INT NOT NULL AUTO_INCREMENT,
-  `rname` VARCHAR(45) NOT NULL,
+  `title` VARCHAR(45) NOT NULL ,
+  `img` LONGTEXT NULL AFTER `title`,
+  `likes` INT(255) NULL AFTER `img`,
+  `description` VARCHAR(300) NULL AFTER `likes`,
+  `calories` INT(5) NULL AFTER `description`,
+  `notes` VARCHAR(100) NULL AFTER `calories`,
+  `directions` LONGTEXT NULL AFTER `notes`,
+  `preptime` INT(255) NULL AFTER `directions`,
+  `uid` INT(11) NOT NULL AFTER `preptime`,
+  PRIMARY KEY (`rid`)),
+  INDEX `recipe_customer_create_recipe_idx` (`uid` ASC),
+  CONSTRAINT `recipe_customer_create_recipe`
+  FOREIGN KEY (`uid`)
+  REFERENCES `Columbia_Fresh`.`customer` (`uid`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
   PRIMARY KEY (`rid`));
 ```
 
@@ -60,18 +90,16 @@ CREATE TABLE `Columbia_Fresh`.`recipe_category` (
   PRIMARY KEY (`rcid`));
 ```
 
-### favorite_list
+### favorite_list_[#USERID#]
 
 ```
-CREATE TABLE `Columbia_Fresh`.`favorite_list` (
-  `uid` INT NOT NULL,
-  `fid` VARCHAR(45) NOT NULL,
-  `uname` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`uid`),
-  UNIQUE INDEX `fid_UNIQUE` (`fid` ASC),
-  CONSTRAINT `customer_favorite_list`
-    FOREIGN KEY (`uid`)
-    REFERENCES `Columbia_Fresh`.`customer` (`uid`)
+CREATE TABLE `Columbia_Fresh`.`favorite_list_[userid]` (
+  `addedtime` DATETIME NOT NULL,
+  `rid` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`addedtime`),
+  CONSTRAINT `[userid]_favorite_list`
+    FOREIGN KEY (`rid`)
+    REFERENCES `Columbia_Fresh`.`recipe` (`rid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 ```
@@ -251,19 +279,6 @@ CREATE TABLE `Columbia_Fresh`.`recipe_in_cate` (
     ON UPDATE CASCADE);
 ```
 
-### favorite_lists_contain
-
-```
-CREATE TABLE `Columbia_Fresh`.`favorite_lists_contain` (
-  `uid` INT NOT NULL,
-  PRIMARY KEY (`uid`),
-  CONSTRAINT `customer_favorite_lists_contain`
-    FOREIGN KEY (`uid`)
-    REFERENCES `Columbia_Fresh`.`customer` (`uid`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-```
-
 
 ### login_info
 
@@ -281,3 +296,23 @@ CREATE TABLE `Columbia_Fresh`.`login_info` (
     ON UPDATE CASCADE);
 ```
 
+### customer_like_recipe
+
+```
+CREATE TABLE `Columbia_Fresh`.`customer_like_recipe` (
+  `uid` INT(11) NOT NULL,
+  `rid` INT(11) NOT NULL,
+  `liked_time` DATETIME NOT NULL,
+  PRIMARY KEY (`uid`, `rid`),
+  INDEX `recipe_customer_like_idx` (`rid` ASC),
+  CONSTRAINT `customer_recipe_like`
+    FOREIGN KEY (`uid`)
+    REFERENCES `Columbia_Fresh`.`customer` (`uid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `recipe_customer_like`
+    FOREIGN KEY (`rid`)
+    REFERENCES `Columbia_Fresh`.`recipe` (`rid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+```

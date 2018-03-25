@@ -1,5 +1,6 @@
 from app import app, db
 from flask import request, flash, jsonify
+import datetime
 from ..models import Customer
 from ..email import send_mail
 
@@ -9,12 +10,17 @@ def register():
         # read the posted values from the UI
         content = request.json
         print (content)
-        customer = Customer(uname=content['name'], email=content['email'], password_hash=content['pwd'])
+        # mush use password rather than password_hash, otherwise it won't save the hash value
+        customer = Customer(uname=content['name'],
+                            email=content['email'],
+                            password=content['pwd'],
+                            registered_on=datetime.datetime.now()
+                            )
         print (content)
         db.session.add(customer)
         db.session.commit()
         token = customer.generate_confirm_token(expires_in=3600*24)
-        return jsonify({"status": "Success", "info": str(token)})
+        return jsonify({"status": "Success", "token": str(token)})
 
     except Exception as e:
         print (e)
@@ -44,17 +50,27 @@ def confirm_email(token):
     except Exception as e:
         return jsonify({"status":"Fail", "info": str(e)})
 
+
 @app.route('/login', methods=['POST','GET'])
-def signin():
+def login():
     try:
         # read the posted values from the UI
         content = request.json
         customer = Customer.query.filter(Customer.email == content['email']).first()
         if(customer is None):
             return jsonify({"status" : "Fail", "info" : "Email does not exist"})
-
         if(customer.check_password_hash(content['password'])):
-            return jsonify({"status": "Success", "info": str(customer.generate_token())})
+            login_token = str(customer.generate_token())
+
+            return jsonify({"status": "Success",
+                            "info": {
+                                "uid": customer.uid,
+                                "token": login_token,
+                                "email": customer.email,
+                                "img": customer.img,
+                                "uname": customer.uname
+                                }
+                            })
 
         return jsonify({"status": "Fail", "info": "Password is not correct"})
 
