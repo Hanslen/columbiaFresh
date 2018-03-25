@@ -60,7 +60,7 @@ def login():
         if(customer is None):
             return jsonify({"status" : "Fail", "info" : "Email does not exist"})
         if(customer.check_password_hash(content['password'])):
-            login_token = customer.generate_token()
+            login_token = str(customer.generate_token())
             print(login_token)
             return jsonify({"status": "Success",
                             "info": {
