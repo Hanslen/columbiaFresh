@@ -280,3 +280,23 @@ CREATE TABLE `Columbia_Fresh`.`login_info` (
     ON UPDATE CASCADE);
 ```
 
+### customer_like_recipe
+
+```
+CREATE TABLE `Columbia_Fresh`.`customer_like_recipe` (
+  `uid` INT(11) NOT NULL,
+  `rid` INT(11) NOT NULL,
+  `liked_time` DATETIME NOT NULL,
+  PRIMARY KEY (`uid`, `rid`),
+  INDEX `recipe_customer_like_idx` (`rid` ASC),
+  CONSTRAINT `customer_recipe_like`
+    FOREIGN KEY (`uid`)
+    REFERENCES `Columbia_Fresh`.`customer` (`uid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `recipe_customer_like`
+    FOREIGN KEY (`rid`)
+    REFERENCES `Columbia_Fresh`.`recipe` (`rid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+```
