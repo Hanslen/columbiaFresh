@@ -390,6 +390,9 @@ class settings extends Component{
             console.log(firstName+" "+lastName+" "+1+" "+email+" "+introduction);
             this.props.updateBasic(this.props.userId, this.props.token, firstName, lastName, 1, email, introduction);
         }
+        else if(this.state.controls.oldPassword != undefined){
+            
+        }
 
         // console.log(this.state.controls);
     }
