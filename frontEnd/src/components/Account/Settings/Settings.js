@@ -6,6 +6,7 @@ import { updateObject, checkValidity, checkFormValidity, removeArray} from '../.
 import { read } from 'fs';
 import Button from '../../UI/Button/Button';
 import Axios from '../../../axios-config';
+import * as actions from '../../../store/actions/index';
 import { connect } from 'react-redux';
 class settings extends Component{
     state = {
@@ -96,7 +97,7 @@ class settings extends Component{
                   label: "Introduction",
                   elementType: 'textarea',
                   elementConfig: {
-                      type: 'email',
+                      type: 'text',
                       placeholder: 'Please introduce yourself :D'
                   },
                   boxStyle:{
@@ -359,27 +360,24 @@ class settings extends Component{
     }
     componentWillMount(){
         this.setState({controls: this.state.basiccontrols, boxTitle: "Basic Information"});
-        // console.log("componentWillMount "+this.props.userId);
-    }
-    componentDidMount(){
-        // console.log("componentDidMount "+this.props.userId);
-        Axios.get('/settings/basic?userId=11').then(response => {
-            console.log(response);
+        Axios.get('/settings/basic?userId='+this.props.userId).then(response => {
+            if(response.data.email != null){
+                const updatedControls = updateObject(this.state.controls, {
+                    ["email"]: updateObject(this.state.controls["email"], {
+                        value: response.data.email[0],
+                        valid: true,
+                        touched: false
+                    })
+                });
+                console.log(updatedControls);
+                this.setState({controls: updatedControls});
+            }
         }).catch(err => {
             console.log(err);
         })
-        // console.log(this.props.userId);
     }
-    // updateSettingBox(type){
-    //     switch(type){
-    //         case 'basic':this.setState({controls: this.state.basiccontrols, boxTitle: "Update Basic Information"});break;
-    //         case 'password':this.setState({controls: this.state.passwordControl, boxTitle: "Update password"});break;
-    //         case 'address':this.setState({controls: this.state.addressControl,boxTitle:"Update Address"});break;
-    //         case 'credit':this.setState({controls: this.state.creditControl, boxTitle: "Update Credit Card Information"});break;
-    //         default:break;
-    //     }
-    //     console.log(type);
-    // }
+
+    
 
     updateInformation = () => {
         if(this.state.controls.firstname != undefined){
@@ -389,7 +387,8 @@ class settings extends Component{
             let gender = this.state.controls.gender.value;
             let email = this.state.controls.email.value;
             let introduction = this.state.controls.intro.value;
-            console.log(firstName+" "+lastName+" "+gender+" "+email+" "+introduction);
+            console.log(firstName+" "+lastName+" "+1+" "+email+" "+introduction);
+            this.props.updateBasic(this.props.userId, this.props.token, firstName, lastName, 1, email, introduction);
         }
 
         // console.log(this.state.controls);
@@ -431,7 +430,7 @@ class settings extends Component{
                 elementType={formElement.config.elementType}
                 elementConfig={formElement.config.elementConfig}
                 boxStyle={formElement.config.boxStyle}
-                value={this.state[formElement.config.label]}
+                value={formElement.config.value}
                 invalid={!formElement.config.valid}
                 shouldValidate={formElement.config.validation}
                 touched={formElement.config.touched}
@@ -464,13 +463,14 @@ class settings extends Component{
 
 const mapStateToProps = state =>{
     return {
-        userId: state.auth.userId
+        userId: localStorage.getItem("uid"),
+        token: localStorage.getItem("token")
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-
+        updateBasic: (userId, token, firstname, lastname, gender, email, introduction) => dispatch(actions.updateBasicInformation(userId, token, firstname, lastname,gender, email, introduction))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(settings);

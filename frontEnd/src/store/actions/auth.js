@@ -98,6 +98,8 @@ export const authLogIn = (email, password) => {
                     localStorage.setItem('username',response.data.info.uname);
                     // localStorage.setItem('expirationDate', expirationDate);
                     localStorage.setItem('email', response.data.info.email);
+                    localStorage.setItem('uid', response.data.info.uid);
+                    localStorage.setItem('token', response.data.info.token);
                     dispatch(authSuccess(response.data.info.email, response.data.info.uname, response.data.info.uid));
                     // dispatch(checkAuthTimeout(response.data.expiresIn));
                 }
