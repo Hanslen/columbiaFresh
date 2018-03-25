@@ -321,7 +321,8 @@ response
   name: string,
   cardNumber: string,
   expirationMonth: string,
-  expirationYear:string
+  expirationYear:string,
+  cvv: string
 }
 ```
 #### update credit card
@@ -337,16 +338,15 @@ postData
   name: string,
   cardNumber: string,
   expirationMonth: string,
-  expirationYear:string
+  expirationYear:string,
+  cvv: string
 }
 ```
 response
 ```
 {
-  name: string,
-  cardNumber: string,
-  expirationMonth: string,
-  expirationYear:string
+  success: bool,
+  msg: string
 }
 ```
 
