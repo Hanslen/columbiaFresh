@@ -34,6 +34,7 @@ def get_address():
         "state_province_region": None,
         "zipCode": None
     }
+
     if customer is not None:
         result["streetAdress1"] = customer.streetAddress1
         result["streetAddress2"] = customer.streetAddress2

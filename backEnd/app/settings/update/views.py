@@ -19,12 +19,12 @@ def update_info():
         content = request.json
         token = content['token']
         (result, customer) = Customer.verify_token(token)
-        if result is False or customer.uid is not content['userId']:
+        if result is False:
             return jsonify({"success": False, "info": "Token Error"})
 
         customer.firstname = content['firstname']
         customer.lastname = content['lastname']
-        customer.gender = int(content['lastname'])
+        customer.gender = content['gender']
         customer.introduction = content['introduction']
 
         db.session.commit()
@@ -40,7 +40,7 @@ def update_password():
     content = request.json
     token = content['token']
     (result, customer) = Customer.verify_token(token)
-    if result is False or customer.uid is not content['userId']:
+    if result is False:
         return jsonify({"success": False, "msg": "Token Error"})
     if (customer.check_password_hash(content['oldPassword']) is False):
         return jsonify({"success": False, "msg": "Password Error"})
@@ -53,7 +53,7 @@ def update_address():
     content = request.json
     token = content['token']
     (result, customer) = Customer.verify_token(token)
-    if result is False or customer.uid is not content['userId']:
+    if result is False:
         return jsonify({"success": False, "msg": "Token Error"})
 
     customer.streetAddress1 = content['streetAddress1']

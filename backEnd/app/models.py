@@ -7,7 +7,6 @@ from flask import jsonify
 class Customer(db.Model):
     __tablename__ = 'customer'
     uid = db.Column(db.Integer, primary_key=True)
-    # img = db.Column(db.Text, nullable=True)
     email = db.Column(db.String(128), nullable=True, unique=True)
     uname = db.Column(db.String(64), index=True)
     firstname = db.Column(db.String(50))
@@ -71,7 +70,6 @@ class Customer(db.Model):
             data = s.loads(token)
             confirm_id = data.get('id')
             customer = Customer.query.filter(Customer.uid == confirm_id).first()
-
             if (customer is not None):
                 return (True, customer)
             else:
