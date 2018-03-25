@@ -9,6 +9,20 @@ CREATE TABLE `Columbia_Fresh`.`customer` (
   `password_hash` VARCHAR(300) NOT NULL,
   `registered_on` DATETIME NULL,
   `confirmed_on` DATETIME NULL,
+  `firstname` VARCHAR(50) NULL,
+  `lastname` VARCHAR(50) NULL,
+  `gender` INT(1) NULL,
+  `introduction` VARCHAR(300) NULL,
+  `streetAddress1` VARCHAR(50) NULL,
+  `streetAddress2` VARCHAR(50) NULL,
+  `city` VARCHAR(50) NULL,
+  `state_province_reigion` VARCHAR(50) NULL,
+  `zipCode` VARCHAR(6) NULL,
+  `cardNumber` VARCHAR(16) NULL,
+  `CVV` VARCHAR(3) NULL,
+  `expirationMonth` VARCHAR(2) NULL,
+  `expirationYear` VARCHAR(2) NULL,
+  `img` LONGTEXT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC));
 
@@ -47,7 +61,14 @@ CREATE TABLE `Columbia_Fresh`.`supplier` (
 ```
 CREATE TABLE `Columbia_Fresh`.`recipe` (
   `rid` INT NOT NULL AUTO_INCREMENT,
-  `rname` VARCHAR(45) NOT NULL,
+  `title` VARCHAR(45) NOT NULL ,
+  `img` LONGTEXT NULL AFTER `title`,
+  `likes` INT(10000) NULL AFTER `img`,
+  `description` VARCHAR(300) NULL AFTER `likes`,
+  `calories` INT(5) NULL AFTER `description`,
+  `notes` VARCHAR(100) NULL AFTER `calories`,
+  `directions` LONGTEXT NULL AFTER `notes`,
+  `preptime` INT(10000) NULL AFTER `directions`;
   PRIMARY KEY (`rid`));
 ```
 
@@ -266,3 +287,23 @@ CREATE TABLE `Columbia_Fresh`.`login_info` (
     ON UPDATE CASCADE);
 ```
 
+### customer_like_recipe
+
+```
+CREATE TABLE `Columbia_Fresh`.`customer_like_recipe` (
+  `uid` INT(11) NOT NULL,
+  `rid` INT(11) NOT NULL,
+  `liked_time` DATETIME NOT NULL,
+  PRIMARY KEY (`uid`, `rid`),
+  INDEX `recipe_customer_like_idx` (`rid` ASC),
+  CONSTRAINT `customer_recipe_like`
+    FOREIGN KEY (`uid`)
+    REFERENCES `Columbia_Fresh`.`customer` (`uid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `recipe_customer_like`
+    FOREIGN KEY (`rid`)
+    REFERENCES `Columbia_Fresh`.`recipe` (`rid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+```
