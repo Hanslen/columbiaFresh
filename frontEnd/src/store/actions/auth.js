@@ -170,7 +170,24 @@ export const updateBasicInformation = (userId, token, firstname, lastname, gende
             });
     }
 };
-
+export const updatePassword = (userId, token, oldPassword, newPassword) => {
+    return dispatch => {
+        const updateData = {
+            userId: userId,
+            token: token,
+            oldPassword: oldPassword,
+            newPassword: newPassword
+        };
+        let url = "/settings/update/password";
+        axios.post(url, updateData)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+}
 export const authCheckState = () => {
     return dispatch => {
         const email = localStorage.getItem('email');

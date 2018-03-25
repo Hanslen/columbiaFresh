@@ -117,7 +117,7 @@ class settings extends Component{
                 label: "Old Password",
                   elementType: 'input',
                   elementConfig: {
-                      type: 'text',
+                      type: 'password',
                       placeholder: 'Enter old password'
                   },
                   boxStyle:{
@@ -135,7 +135,7 @@ class settings extends Component{
                 label: "New Password",
                   elementType: 'input',
                   elementConfig: {
-                      type: 'text',
+                      type: 'password',
                       placeholder: 'Enter new password'
                   },
                   boxStyle:{
@@ -153,7 +153,7 @@ class settings extends Component{
                 label: "New Password Again",
                   elementType: 'input',
                   elementConfig: {
-                      type: 'text',
+                      type: 'password',
                       placeholder: 'Enter new password again'
                   },
                   boxStyle:{
@@ -391,7 +391,8 @@ class settings extends Component{
             this.props.updateBasic(this.props.userId, this.props.token, firstName, lastName, 1, email, introduction);
         }
         else if(this.state.controls.oldPassword != undefined){
-            
+            let oldPassword = this.state.controls.oldPassword;
+            let newPassword = this.state.controls.newPassword;
         }
 
         // console.log(this.state.controls);

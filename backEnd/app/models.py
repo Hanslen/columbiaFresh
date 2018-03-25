@@ -70,6 +70,7 @@ class Customer(db.Model):
             s = Serializer(app.config['SECRET_KEY'])
             data = s.loads(token)
             confirm_id = data.get('id')
+            print(confirm_id)
             customer = Customer.query.filter(Customer.uid == confirm_id).first()
 
             if (customer is not None):
