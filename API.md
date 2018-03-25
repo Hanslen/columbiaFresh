@@ -248,11 +248,13 @@ response
 #### update password
 url
 ```
-POST /settings/update/password?userId=xxxxx
+POST /settings/update/password
 ```
 postData
 ```
 {
+  userId=string,
+  token=string,
   oldPassword: string,
   newPassword: string
 }
