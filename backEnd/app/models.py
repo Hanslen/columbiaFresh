@@ -2,7 +2,7 @@ from manage import app, db
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import check_password_hash, generate_password_hash
 import datetime
-from flask import url_for, jsonify
+from flask import jsonify
 
 class Customer(db.Model):
     __tablename__ = 'customer'
