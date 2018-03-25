@@ -23,17 +23,6 @@ def test_send_email():
 def hello_world(msg_val):
     print ('hello ' + msg_val)
 
-@manager.command
-def test_db_connect():
-    from app.models import Customer
-    try:
-        Customer_john = Customer(uname='john', email='john@columbia.edu', password='123')
-        app.logger.info(Customer_john.password_hash)
-        db.session.add(Customer_john)
-        db.session.commit()
-
-    except Exception as e:
-        print (e)
 
 @manager.command
 def add_user():
@@ -62,9 +51,9 @@ def delete_user():
 
 
 @manager.command
-def query_all():
+def query_user():
     from app.models import Customer
-    print(Customer.query.filter_by(uname='john').first())
+    customer = Customer.query.filter_by(uname='ding1').first()
 
 if __name__ == "__main__":
     manager.run()
