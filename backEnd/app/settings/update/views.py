@@ -35,4 +35,4 @@ def update_info():
         print(e)
         return jsonify({"success": False, "msg": str(e)})
 
-@app.route('/settings/update/password?userId=xxxxx')
+#@app.route('/settings/update/password'):
