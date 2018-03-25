@@ -224,11 +224,13 @@ response
 #### update basic information
 url
 ```
-POST /settings/update/basic?userId=xxxx
+POST /settings/update/basic
 ```
 postData
 ```
 {
+  userId: string,
+  token: string,
   firstname: string,
   lastname: string,
   gender: int,
@@ -265,7 +267,7 @@ response
 #### get address
 url
 ```
-GET /settings/address?userId=xxxxx
+GET /settings/address?userId=xxx
 ```
 response
 ```
