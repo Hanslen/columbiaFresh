@@ -2,7 +2,7 @@ from manage import app, db
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import check_password_hash, generate_password_hash
 import datetime
-from flask import url_for, jsonify
+from flask import jsonify
 
 class Customer(db.Model):
     __tablename__ = 'customer'
@@ -70,7 +70,6 @@ class Customer(db.Model):
             data = s.loads(token)
             confirm_id = data.get('id')
             customer = Customer.query.filter(Customer.uid == confirm_id).first()
-
             if (customer is not None):
                 return (True, customer)
             else:
