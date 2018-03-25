@@ -148,3 +148,26 @@ response
   title: string, recipe name
 }
 ```
+
+### Order
+#### get user orders
+url
+```
+GET /order?userId=xxxxx
+```
+response
+```
+{
+  orderPlaceDate: string,
+  totalPrice: string,
+  shipTo: string,
+  orderID: string,
+  deliveredDate: string,
+  soldBy: string,
+  title: string,
+  img: string,
+  id: string
+}
+```
+
+
