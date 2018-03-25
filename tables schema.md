@@ -63,12 +63,12 @@ CREATE TABLE `Columbia_Fresh`.`recipe` (
   `rid` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NOT NULL ,
   `img` LONGTEXT NULL AFTER `title`,
-  `likes` INT(10000) NULL AFTER `img`,
+  `likes` INT(255) NULL AFTER `img`,
   `description` VARCHAR(300) NULL AFTER `likes`,
   `calories` INT(5) NULL AFTER `description`,
   `notes` VARCHAR(100) NULL AFTER `calories`,
   `directions` LONGTEXT NULL AFTER `notes`,
-  `preptime` INT(10000) NULL AFTER `directions`;
+  `preptime` INT(255) NULL AFTER `directions`;
   PRIMARY KEY (`rid`));
 ```
 
