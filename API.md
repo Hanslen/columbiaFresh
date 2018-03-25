@@ -18,8 +18,8 @@ pwd: string
 response
 ```python
 {
-status: string #Fail or Success
-info: string
+  status: string #Fail or Success
+  token: string
 }
 ```
 ### Sign Up Verification URL generation
@@ -33,8 +33,8 @@ url
 parameters
 ```python
 {
-email: string
-url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
+  email: string
+  url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
 
 }
 ```
@@ -55,8 +55,12 @@ None
 response
 ```
 {
-status: string
-info: string
+  status: string
+  info: {
+    uid: string,
+    email: string,
+    uname: string
+  }
 }
 ```
 
@@ -80,8 +84,15 @@ pwd: string
 response
 ```python
 {
-status: string
-info: string # if success, response token
+  status: string //Fail, Success
+  info: string # if Fail, return string 
+               # if success, return {
+                                        uid: string,
+                                        token: string,
+                                        email: string,
+                                        img: string,
+                                        uname: string
+                                     }
 }
 
 ```
