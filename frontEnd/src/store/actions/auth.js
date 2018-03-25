@@ -145,6 +145,29 @@ export const authSignUp = (email, username, password) => {
 
     }
 }
+
+export const updateBasicInformation = (userId, token, firstname, lastname, gender, email, introduction) => {
+    return dispatch => {
+        const updateData = {
+            userId: userId,
+            token: token,
+            firstname: firstname,
+            lastname: lastname,
+            gender: gender,
+            email: email,
+            introduction: introduction
+        };
+        let url = "/settings/update/basic";
+        axios.post(url, updateData)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+};
+
 export const authCheckState = () => {
     return dispatch => {
         const email = localStorage.getItem('email');

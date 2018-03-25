@@ -5,15 +5,17 @@ import Input from '../../UI/Input/Input';
 import { updateObject, checkValidity, checkFormValidity, removeArray} from '../../../shared/utility';
 import { read } from 'fs';
 import Button from '../../UI/Button/Button';
+import Axios from '../../../axios-config';
+import { connect } from 'react-redux';
 class settings extends Component{
     state = {
         myFolders:["BasicInformation", "Password", "Address","CreditCard"],
         folderIcon:["fas fa-user", "fas fa-lock", "fas fa-address-card","far fa-credit-card"],
-        FirstName: "Teacher",
-        LastName: "Ding",
-        Gender: "female",
-        Email: "teacherStrong@gmail.com",
-        Introduction: "Why Teacher Ding is so blood?!",
+        // FirstName: "",
+        // LastName: "",
+        // Gender: "",
+        // Email: "teacherStrong@gmail.com",
+        // Introduction: "Why Teacher Ding is so blood?!",
         controls: null,
         boxTitle: null,
         basiccontrols: {
@@ -357,6 +359,16 @@ class settings extends Component{
     }
     componentWillMount(){
         this.setState({controls: this.state.basiccontrols, boxTitle: "Basic Information"});
+        // console.log("componentWillMount "+this.props.userId);
+    }
+    componentDidMount(){
+        // console.log("componentDidMount "+this.props.userId);
+        Axios.get('/settings/basic?userId=11').then(response => {
+            console.log(response);
+        }).catch(err => {
+            console.log(err);
+        })
+        // console.log(this.props.userId);
     }
     // updateSettingBox(type){
     //     switch(type){
@@ -368,7 +380,22 @@ class settings extends Component{
     //     }
     //     console.log(type);
     // }
+
+    updateInformation = () => {
+        if(this.state.controls.firstname != undefined){
+            console.log("update Basic infor");
+            let firstName = this.state.controls.firstname.value;
+            let lastName = this.state.controls.lastname.value;
+            let gender = this.state.controls.gender.value;
+            let email = this.state.controls.email.value;
+            let introduction = this.state.controls.intro.value;
+            console.log(firstName+" "+lastName+" "+gender+" "+email+" "+introduction);
+        }
+
+        // console.log(this.state.controls);
+    }
     inputChangedHandler = (event, controlName) => {
+        // console.log(updatedControls);
         const updatedControls = updateObject(this.state.controls, {
           [controlName]: updateObject(this.state.controls[controlName],{
             value: event.target.value,
@@ -376,6 +403,7 @@ class settings extends Component{
             touched: true
           })
         });
+        // console.log(updatedControls);
         this.setState({controls: updatedControls});
       }
     render(){
@@ -423,7 +451,7 @@ class settings extends Component{
                         <div className={classes.folderContent}>
                             <h4>{this.state.boxTitle}</h4>
                             {form}
-                            <Button value="Submit"/>
+                            <Button btnValue="Submit" onClick={this.updateInformation}/>
                             <br/><br/><br/>
                         </div>
                     </div>
@@ -433,4 +461,16 @@ class settings extends Component{
             );
     }
 }
-export default settings;
+
+const mapStateToProps = state =>{
+    return {
+        userId: state.auth.userId
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(settings);

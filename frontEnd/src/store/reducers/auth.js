@@ -60,6 +60,12 @@ const authSignUp = (state, action) => {
         loading: false
     })
 }
+const updateBasic = (state, action) => {
+    return updateObject(state, {
+        error: null,
+        loading: false
+    })
+}
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
@@ -79,6 +85,8 @@ const reducer = (state = initialState, action) => {
             return authSignUp(state, action);
         case actionTypes.AUTH_CONFIRM:
             return authConfirm(state, action);
+        case actionTypes.UPDATE_BASIC:
+            return 
         default:
             return state
     }
