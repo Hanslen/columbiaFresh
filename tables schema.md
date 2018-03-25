@@ -61,7 +61,14 @@ CREATE TABLE `Columbia_Fresh`.`supplier` (
 ```
 CREATE TABLE `Columbia_Fresh`.`recipe` (
   `rid` INT NOT NULL AUTO_INCREMENT,
-  `rname` VARCHAR(45) NOT NULL,
+  `title` VARCHAR(45) NOT NULL ,
+  `img` LONGTEXT NULL AFTER `title`,
+  `likes` INT(10000) NULL AFTER `img`,
+  `description` VARCHAR(300) NULL AFTER `likes`,
+  `calories` INT(5) NULL AFTER `description`,
+  `notes` VARCHAR(100) NULL AFTER `calories`,
+  `directions` LONGTEXT NULL AFTER `notes`,
+  `preptime` INT(10000) NULL AFTER `directions`;
   PRIMARY KEY (`rid`));
 ```
 
