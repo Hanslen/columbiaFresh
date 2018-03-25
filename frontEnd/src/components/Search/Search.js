@@ -1,17 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
-import classes from './Search.css';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Sidebar from './Sidebar/Sidebar';
 import SearchRes from './SearchRes/SearchRes';
 import Reservation from '../Reservation/Reservation';
 
 class Search extends React.Component{
     render() {
-        let keyWord = "Search Key Word";
+        let keyWord = this.props.keyword;
         return (
             <div className="container">
                 <div className="row standard-blank">
-                    <a href="/"><span className="text-danger">home</span></a>
+                    <Link to="/"><span className="text-danger">home</span></Link>
                     <div className="ml-1 mr-1">></div>
                     <div><span className="text-secondary">{keyWord}</span></div>
                 </div>
@@ -32,4 +32,10 @@ class Search extends React.Component{
     }
 }
 
-export default Search;
+const mapStateToProps = (state) => {
+    return {
+        keyword: state.resultsReducer.keyword
+    };
+};
+
+export default connect(mapStateToProps)(Search);

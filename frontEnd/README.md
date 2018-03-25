@@ -6,11 +6,29 @@ then
 ```
 npm start
 ```
-Notes: 
+
+
+#### Notes
+
 /public/static  -- store global css
 
-Current finished:
-<ul>
-	<li>Navigation Bar</li>
-	<li>HomePage migration</li>
-</ul>
+
+
+#### Current finished:
+
+- Navigation Bar
+- HomePage migration
+
+
+
+#### ToBeDone
+
+- like without login
+- Add to cart without login
+
+
+
+#### Problem
+
+- close modal and redirect
+

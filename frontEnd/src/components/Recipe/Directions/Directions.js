@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 
 class Directions extends React.Component{
     render() {
-        let range = [1, 2, 3, 4, 5];
         let liClasses = ["media", "direction-list"];
-        let listItems = range.map(i => 
-            <li key={i} className={liClasses.join(' ')}>
-                <div className="direction-num">{i}</div>
+        let listItems = this.props.items.map((step, i) => 
+            <li key={i+1} className={liClasses.join(' ')}>
+                <div className="direction-num">{i+1}</div>
                 <div className="media-body">
-                    <p>direction</p>
+                    <p>{step}</p>
                 </div>
             </li>
         );
@@ -22,11 +21,11 @@ class Directions extends React.Component{
                     <div className="col-3">
                         <div className="pos-bottom">
                             <i className="far fa-clock"></i>
-                            <span> 90 m</span>
+                            <span> {this.props.preptime} m</span>
                         </div>
                     </div>
                 </div>
-                <hr />
+                <hr className="mt-1 mb-1"/>
                 <ul className="list-group">{listItems}</ul>
             </div>
         );
