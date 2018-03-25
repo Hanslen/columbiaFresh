@@ -35,4 +35,18 @@ def update_info():
         print(e)
         return jsonify({"success": False, "msg": str(e)})
 
-#@app.route('/settings/update/password'):
+# @app.route('/settings/update/password', method='POST')
+# def update_password():
+#     content = request.json
+#     token = content['token']
+#     (result, customer) = Customer.verify_token(token)
+#     if result is False:
+#         return jsonify({"success": False, "msg": "Token Error"})
+#     if (customer.check_password_hash(content['oldPassword']) is False):
+#         return jsonify({"success": False, "msg": "Password Error"})
+
+
+
+
+
+
