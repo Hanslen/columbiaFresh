@@ -429,3 +429,198 @@ response
   msg: string
 }
 ```
+
+### Order
+#### get user orders
+url
+```
+GET /order?userId=xxxxx
+```
+response
+```
+{
+  orderPlaceDate: string,
+  totalPrice: string,
+  shipTo: string,
+  orderID: string,
+  deliveredDate: string,
+  soldBy: string,
+  title: string,
+  img: string,
+  id: int
+}
+```
+
+### Shopping Cart
+#### get user shopping Cart
+url
+```
+GET /shoppingCart?userId=xxxx
+```
+response
+```
+{
+  img: string,
+  title: string, 
+  price: string, (single item price)
+  number: int,
+  item: [{
+      id: int,
+      img: string,
+      title: string,
+      price: float,
+      number: int
+   }],
+  id: int
+}
+```
+
+### Settings
+#### get basic information
+url
+```
+GET /settings/basic?userId=xxxx
+```
+response
+```
+{
+  firstname: string,
+  lastname: string,
+  gender: int,
+  email: string,
+  introduction: string
+}
+```
+#### update basic information
+url
+```
+POST /settings/update/basic
+```
+postData
+```
+{
+  userId: string,
+  token: string,
+  firstname: string,
+  lastname: string,
+  gender: int,
+  email: string,
+  introduction: string
+}
+```
+response
+```
+{
+  success: bool,
+  msg: string
+}
+```
+#### update password
+url
+```
+POST /settings/update/password
+```
+postData
+```
+{
+  userId=string,
+  token=string,
+  oldPassword: string,
+  newPassword: string
+}
+```
+response
+```
+{
+  success: bool,
+  msg: string
+}
+```
+#### get address
+url
+```
+GET /settings/address?userId=xxx
+```
+response
+```
+{
+  streetAdress1: string,
+  streetAddress2: string,
+  city: string,
+  state_province_region: string
+  zipCode: string
+}
+```
+#### update address
+url
+```
+POST /settings/update/address
+```
+postData
+```
+{
+  userId: xxxx,
+  token: string,
+  streetAdress1: string,
+  streetAddress2: string,
+  city: string,
+  state_province_region: string
+  zipCode: string 
+}
+```
+response
+```
+{
+  success: bool,
+  msg: string
+}
+```
+#### get credit card
+url
+```
+POST /settings/getcredit
+```
+postData
+```
+{
+  userId: xxxx,
+  token: string
+}
+```
+response
+```
+{
+  name: string,
+  cardNumber: string,
+  expirationMonth: string,
+  expirationYear:string,
+  cvv: string
+}
+```
+#### update credit card
+url
+```
+POST /settings/update/credit
+```
+postData
+```
+{
+  userId: xxxx,
+  token: string,
+  name: string,
+  cardNumber: string,
+  expirationMonth: string,
+  expirationYear:string,
+  cvv: string
+}
+```
+response
+```
+{
+  success: bool,
+  msg: string
+}
+```
+
+
+

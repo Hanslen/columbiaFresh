@@ -36,6 +36,32 @@ def test_db_connect():
         print (e)
 
 @manager.command
+def add_user():
+    from app.models import Customer
+    try:
+        for i in range(5):
+            Customer_john = Customer(uname='ding'+str(i), email='ding'+str(i)+'@gmail.com', password='12345678')
+            app.logger.info(Customer_john.uname)
+            db.session.add(Customer_john)
+            db.session.commit()
+
+    except Exception as e:
+        print (e)
+
+@manager.command
+def delete_user():
+    from app.models import Customer
+    try:
+        customer = Customer.query.filter(Customer.email == 'chenjiaheyeah@gmail.com').first()
+        print(customer.email)
+        db.session.delete(customer)
+        db.session.commit()
+
+    except Exception as e:
+        print (e)
+
+
+@manager.command
 def query_all():
     from app.models import Customer
     print(Customer.query.filter_by(uname='john').first())

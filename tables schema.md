@@ -63,11 +63,16 @@ CREATE TABLE `Columbia_Fresh`.`recipe` (
   `rid` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NOT NULL ,
   `img` LONGTEXT NULL AFTER `title`,
+<<<<<<< HEAD
   `likes` INT(255) NULL AFTER `img`,
+=======
+  `likes` INT(10000) NULL AFTER `img`,
+>>>>>>> 81c0eb6a565dac4c39a850446e35fd51cd701860
   `description` VARCHAR(300) NULL AFTER `likes`,
   `calories` INT(5) NULL AFTER `description`,
   `notes` VARCHAR(100) NULL AFTER `calories`,
   `directions` LONGTEXT NULL AFTER `notes`,
+<<<<<<< HEAD
   `preptime` INT(255) NULL AFTER `directions`,
   `uid` INT(11) NOT NULL AFTER `preptime`,
   PRIMARY KEY (`rid`)),
@@ -78,6 +83,9 @@ CREATE TABLE `Columbia_Fresh`.`recipe` (
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 
+=======
+  `preptime` INT(10000) NULL AFTER `directions`;
+>>>>>>> 81c0eb6a565dac4c39a850446e35fd51cd701860
   PRIMARY KEY (`rid`));
 ```
 
