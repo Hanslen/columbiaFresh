@@ -34,6 +34,7 @@ parameters
 ```python
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 email: string
 url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
 =======
@@ -41,6 +42,11 @@ url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<
   url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
 
 >>>>>>> 056b2695dda56ad48178951d1383b5fd69546736
+=======
+  email: string
+  url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
+
+>>>>>>> 1329ad47621197a89f4e172af790c898a26557f6
 }
 ```
 
@@ -99,6 +105,7 @@ response
                                         uname: string
                                      }
 }
+
 ```
 
 ### Search recipes
@@ -154,12 +161,14 @@ response
 
 url
 ```
-GET /recipe?rid=...
+POST /getRecipe
 ```
 
 parameters
 ```
 {
+	token: string,
+	uid: int, user id
 	rid: int, recipe id
 }
 ```
@@ -197,6 +206,7 @@ parameters
 
 ```
 {
+	token: string,
     uid: int, user id
     rid: int, recipe id
 }
@@ -224,6 +234,7 @@ parameters
 
 ```
 {
+	token: string,
     uid: int, user id
     rid: int, recipe id
     like: bool
@@ -236,12 +247,16 @@ response
 {
     state: 'success'|'fail'
     message: string,
-    like: bool
+    likes: int,
+    isLiked: bool
 }
 ```
 
+<<<<<<< HEAD
 #### 
 =======
+=======
+>>>>>>> 1329ad47621197a89f4e172af790c898a26557f6
 ### Order
 #### get user orders
 url
@@ -335,8 +350,13 @@ POST /settings/update/password
 postData
 ```
 {
+<<<<<<< HEAD
   userId=string,
   token=string,
+=======
+  userId: string,
+  token: string,
+>>>>>>> 1329ad47621197a89f4e172af790c898a26557f6
   oldPassword: string,
   newPassword: string
 }
@@ -433,7 +453,10 @@ response
   msg: string
 }
 ```
+<<<<<<< HEAD
 
 
 
 >>>>>>> 056b2695dda56ad48178951d1383b5fd69546736
+=======
+>>>>>>> 1329ad47621197a89f4e172af790c898a26557f6
