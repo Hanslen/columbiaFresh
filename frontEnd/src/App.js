@@ -11,6 +11,7 @@ import * as actions from './store/actions/index';
 import laoshi from './components/laoshi';
 import Account from './components/Account/Account';
 import accountManage from './components/Navigation/AccountManage/AccountManage';
+import Order from './components/OrderPage/Order';
 
 
 class App extends Component {
@@ -26,6 +27,7 @@ class App extends Component {
         <Route path="/laoshi" exact component={laoshi}/>
         <Route path="/myprofile" exact component={Account}/>
         <Route path="/verifyEmail/:token" exact component={accountManage}/>
+        <Route path="/placeorder" exact component={Order}/>
       </Switch>
     );
     return (
