@@ -98,6 +98,14 @@ class Customer(db.Model):
     def __repr__(self):
         return '<Customer {}--{}>'.format(self.uname, self.email)
 
+    @staticmethod
+    def get_customer_info(uid):
+        customer = Customer.query.filter(Customer.uid == uid).first()
+        if customer is None:
+           print("The object does not exist!")
+        else:
+            return customer
+
 
 class LoginInfo(db.Model):
     __tablename__ = 'login_info'

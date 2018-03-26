@@ -23,3 +23,4 @@ from app import models, views
 from app.auth import views
 from app.settings import views
 from app.settings.update import views
+from app.search import views
