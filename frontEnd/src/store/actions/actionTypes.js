@@ -9,3 +9,4 @@ export const AUTH_SIGNUP = 'AUTH_SIGNUP';
 
 
 export const UPDATE_BASIC = 'UPDATE_BASIC';
+export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';

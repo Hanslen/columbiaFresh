@@ -345,6 +345,7 @@ class settings extends Component{
         switch(folder){
             case 'BasicInformation':
                 this.setState({controls: this.state.basiccontrols, boxTitle: "Update Basic Information"});
+                this.setBasicInformation();
                 break;
             case 'Password':
                 this.setState({controls: this.state.passwordControl, boxTitle: "Update password"});    
@@ -358,10 +359,10 @@ class settings extends Component{
             default: break;
         }
     }
-    componentWillMount(){
-        this.setState({controls: this.state.basiccontrols, boxTitle: "Basic Information"});
+
+    setBasicInformation = () => {
         Axios.get('/settings/basic?userId='+this.props.userId).then(response => {
-            console.log(response.data);
+            // console.log(response.data);
             if(response.data.email != null){
                 let updatedControls = updateObject(this.state.controls, {
                     ["email"]: updateObject(this.state.controls["email"], {
@@ -383,6 +384,10 @@ class settings extends Component{
         }).catch(err => {
             console.log(err);
         })
+    };
+    componentWillMount(){
+        this.setState({controls: this.state.basiccontrols, boxTitle: "Basic Information"});
+        this.setBasicInformation();
     }
 
     
@@ -399,8 +404,14 @@ class settings extends Component{
             this.props.updateBasic(this.props.userId, this.props.token, firstName, lastName, 1, email, introduction);
         }
         else if(this.state.controls.oldPassword != undefined){
-            let oldPassword = this.state.controls.oldPassword;
-            let newPassword = this.state.controls.newPassword;
+            let oldPassword = this.state.controls.oldPassword.value;
+            let newPassword = this.state.controls.newPassword.value;
+            let newPasswordAgain = this.state.controls.newPasswordAgain.value;
+            if(newPassword != newPasswordAgain){
+                alert("Two password does not match...");
+                return ;
+            }
+            this.props.updatePassword(this.props.userId, this.props.token, oldPassword, newPassword);
         }
 
         // console.log(this.state.controls);
@@ -482,7 +493,8 @@ const mapStateToProps = state =>{
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateBasic: (userId, token, firstname, lastname, gender, email, introduction) => dispatch(actions.updateBasicInformation(userId, token, firstname, lastname,gender, email, introduction))
+        updateBasic: (userId, token, firstname, lastname, gender, email, introduction) => dispatch(actions.updateBasicInformation(userId, token, firstname, lastname,gender, email, introduction)),
+        updatePassword: (userId, token, oldPassword, newPassword) => dispatch(actions.updatePassword(userId, token, oldPassword, newPassword))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(settings);

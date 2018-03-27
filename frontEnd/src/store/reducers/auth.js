@@ -87,7 +87,9 @@ const reducer = (state = initialState, action) => {
         case actionTypes.AUTH_CONFIRM:
             return authConfirm(state, action);
         case actionTypes.UPDATE_BASIC:
-            return 
+            return state;
+        case actionTypes.UPDATE_PASSWORD:
+            return state;
         default:
             return state
     }

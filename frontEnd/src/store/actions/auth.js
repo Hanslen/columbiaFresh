@@ -183,6 +183,7 @@ export const updatePassword = (userId, token, oldPassword, newPassword) => {
         axios.post(url, updateData)
             .then(response => {
                 console.log(response.data);
+                alert(response.data.msg);
             })
             .catch(error => {
                 console.log(error);
