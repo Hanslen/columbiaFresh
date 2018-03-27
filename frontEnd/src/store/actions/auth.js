@@ -99,7 +99,7 @@ export const authLogIn = (email, password) => {
                     // localStorage.setItem('expirationDate', expirationDate);
                     localStorage.setItem('email', response.data.info.email);
                     localStorage.setItem('uid', response.data.info.uid);
-                    localStorage.setItem('token', response.data.info.token.split("'")[1]);
+                    localStorage.setItem('token', response.data.info.token); //split
                     dispatch(authSuccess(response.data.info.email, response.data.info.uname, response.data.info.uid));
                     // dispatch(checkAuthTimeout(response.data.expiresIn));
                 }
@@ -163,6 +163,7 @@ export const updateBasicInformation = (userId, token, firstname, lastname, gende
         let url = "/settings/update/basic";
         axios.post(url, updateData)
             .then(response => {
+                alert(response.data.msg);
                 console.log(response.data);
             })
             .catch(error => {

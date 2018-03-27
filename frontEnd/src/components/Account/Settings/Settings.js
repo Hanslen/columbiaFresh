@@ -361,29 +361,23 @@ class settings extends Component{
     componentWillMount(){
         this.setState({controls: this.state.basiccontrols, boxTitle: "Basic Information"});
         Axios.get('/settings/basic?userId='+this.props.userId).then(response => {
-            console.log(response.data.lastname);
+            console.log(response.data);
             if(response.data.email != null){
                 let updatedControls = updateObject(this.state.controls, {
                     ["email"]: updateObject(this.state.controls["email"], {
                         value: response.data.email[0]
-                    })
-                });
-                updatedControls = updateObject(this.state.controls, {
-                    ["firstname"]: updateObject(this.state.controls["firstname"], {
+                    }),
+                    ["firstname"] : updateObject(this.state.controls["firstname"], {
                         value: response.data.firstname[0]
-                    })
-                });
-                updatedControls = updateObject(this.state.controls, {
+                    }),
                     ["lastname"]: updateObject(this.state.controls["lastname"], {
                         value: response.data.lastname[0]
-                    })
-                });
-                updatedControls = updateObject(this.state.controls, {
+                    }),
                     ["intro"]: updateObject(this.state.controls["intro"], {
-                        value: response.data.intro
+                        value: response.data.introduction
                     })
                 });
-                console.log(updatedControls);
+                // console.log(updatedControls);
                 this.setState({controls: updatedControls});
             }
         }).catch(err => {
