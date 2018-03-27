@@ -50,7 +50,7 @@ def get_credit():
     content = request.json
     token = content['token']
     (result, customer) = Customer.verify_token(token)
-    if result is False or customer.uid is not content['userId']:
+    if result is False:
         return jsonify({"success": False, "msg": "Token Error"})
 
     result = {
@@ -60,6 +60,7 @@ def get_credit():
         "expirationYear": None,
         "cvv": None
     }
+    
     if customer is not None:
         result["name"] = customer.uname
         result["cardNumber"] = customer.cardNumber

@@ -29,3 +29,4 @@ backend/.DS_Store
 ".gitignore" 101L, 1157C
 .idea/
 .DS_Store
+*.DS_Store

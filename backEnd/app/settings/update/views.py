@@ -57,10 +57,10 @@ def update_address():
         return jsonify({"success": False, "msg": "Token Error"})
 
     customer.streetAddress1 = content['streetAddress1']
-    customer.streetAddress2 = content['streetAddress1']
+    customer.streetAddress2 = content['streetAddress2']
     customer.city = content['city']
     customer.state_province_region = content['state_province_region']
-    customer.zipCode = customer['zipCode']
+    customer.zipCode = content['zipCode']
     db.session.commit()
 
     return jsonify({"success":True, "msg": "Successfully update address."})
@@ -72,7 +72,7 @@ def update_credit():
     token = content['token']
     (result, customer) = Customer.verify_token(token)
 
-    if result is False or customer.uid is not content['userId']:
+    if result is False:
         return jsonify({"success": False, "msg": "Token Error"})
 
     customer.cardNumber = content['cardNumber']
@@ -81,9 +81,3 @@ def update_credit():
     customer.cvv = content['CVV']
 
     return jsonify(result)
-
-
-
-
-
-

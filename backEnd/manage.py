@@ -9,15 +9,10 @@ manager.add_command("server",
         Server(host="0.0.0.0", port=5000, use_debugger=True))
 
 @manager.command
-def test_send_email():
+def query_customer_id():
     from app.models import Customer
-    from app.email import send_mail
-    customer = Customer(uname='dingyi', email='dingyi0116@gmail.com', password='12345')
-    db.session.add(customer)
-    db.session.commit()
-    token = customer.generate_confirm_token(expires_in=3600)
-    send_mail.send(customer.email, u'please confirm your account', token)
-
+    customer = Customer.get_customer_info_by_email('ding1@gmail.com')
+    print(customer.uid)
 
 @manager.option('-m', '--msg', dest='msg_val', default='world')
 def hello_world(msg_val):

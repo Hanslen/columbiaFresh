@@ -51,7 +51,7 @@ def confirm_email(token):
         return jsonify({"status":"Fail", "info": str(e)})
 
 
-@app.route('/login', methods=['POST','GET'])
+@app.route('/login', methods=['POST'])
 def login():
     try:
         # read the posted values from the UI
@@ -61,7 +61,6 @@ def login():
             return jsonify({"status" : "Fail", "info" : "Email does not exist"})
         if(customer.check_password_hash(content['password'])):
             login_token = str(customer.generate_token())
-            print(login_token)
             return jsonify({"status": "Success",
                             "info": {
                                 "uid": customer.uid,

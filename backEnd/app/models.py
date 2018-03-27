@@ -31,17 +31,18 @@ class Customer(db.Model):
     def generate_confirm_token(self, expires_in=3600*24):
         return self.generate_token(expires_in)
 
-    def generate_token(self, expires_in=3600*30):
+    def generate_token(self, expires_in=3600):
         s = Serializer(app.config['SECRET_KEY'], expires_in=expires_in)
         data = s.dumps({'id': self.uid})
-        return data
+        u8 = data.decode("utf-8")
+        print(u8)
+        return u8
 
 # need to merge with verify_token
     @staticmethod
     def verify_confirm_token(token):
         try:
             s = Serializer(app.config['SECRET_KEY'])
-            print(s)
             data = s.loads(token)
             confirm_id = data.get('id')
             customer = Customer.query.filter(Customer.uid == confirm_id).first()
@@ -105,6 +106,15 @@ class Customer(db.Model):
            print("The object does not exist!")
         else:
             return customer
+
+    @staticmethod
+    def get_customer_info_by_email(email):
+        customer = Customer.query.filter(Customer.email == email).first()
+        if customer is None:
+            print("The object does not exist!")
+        else:
+            return customer
+
 
 
 class LoginInfo(db.Model):

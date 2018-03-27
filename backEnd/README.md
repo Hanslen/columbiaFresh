@@ -10,5 +10,8 @@ pip install -r requirements.txt
 python3 manage.py server
 ```
 
+# Frontend Notification
+1. Currently token doesn't need to modify
+
 # Waiting to refactor
 1. Wrapper function for login verification.

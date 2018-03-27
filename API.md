@@ -350,13 +350,8 @@ POST /settings/update/password
 postData
 ```
 {
-<<<<<<< HEAD
-  userId=string,
-  token=string,
-=======
   userId: string,
   token: string,
->>>>>>> 1329ad47621197a89f4e172af790c898a26557f6
   oldPassword: string,
   newPassword: string
 }
@@ -453,10 +448,3 @@ response
   msg: string
 }
 ```
-<<<<<<< HEAD
-
-
-
->>>>>>> 056b2695dda56ad48178951d1383b5fd69546736
-=======
->>>>>>> 1329ad47621197a89f4e172af790c898a26557f6
