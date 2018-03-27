@@ -416,7 +416,8 @@ class navigation extends Component{
 const mapStateToProps = state => {
   return {
       isAuthenticated: state.auth.email !== null,
-      loading: state.auth.loading
+      loading: state.auth.loading,
+      userId: state.auth.userId
   };
 }
 const mapDispatchToProps = dispatch => {

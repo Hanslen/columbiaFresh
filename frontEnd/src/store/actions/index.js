@@ -7,5 +7,6 @@ export{
     authCheckState,
     authLogIn,
     authSignUp,
-    authConfirm
+    authConfirm,
+    updateBasicInformation
 }from './auth';

@@ -69,6 +69,7 @@ class Customer(db.Model):
             s = Serializer(app.config['SECRET_KEY'])
             data = s.loads(token)
             confirm_id = data.get('id')
+            print(confirm_id)
             customer = Customer.query.filter(Customer.uid == confirm_id).first()
             if (customer is not None):
                 return (True, customer)
@@ -96,6 +97,14 @@ class Customer(db.Model):
 
     def __repr__(self):
         return '<Customer {}--{}>'.format(self.uname, self.email)
+
+    @staticmethod
+    def get_customer_info(uid):
+        customer = Customer.query.filter(Customer.uid == uid).first()
+        if customer is None:
+           print("The object does not exist!")
+        else:
+            return customer
 
 
 class LoginInfo(db.Model):

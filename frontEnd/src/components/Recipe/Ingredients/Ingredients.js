@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from '../../../axios-config';
 
-class Ingredients extends React.Component{
+class Ingredients extends React.Component {
 
     constructor(props) {
         super(props);
@@ -13,8 +13,9 @@ class Ingredients extends React.Component{
 
     handleAdd() {
         axios.post('/addToCart', {
-            // uid: this.props.uid,
-            // rid: this.props.rid
+            // token: ,
+            // uid: ,
+            rid: this.props.rid
         }).then(function (response) {
             console.log(response);
         }).catch(function (error) {

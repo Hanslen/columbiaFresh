@@ -7,11 +7,12 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (email, username) => {
+export const authSuccess = (email, username, userId) => {
     return{
         type: actionTypes.AUTH_SUCCESS,
         email: email,
-        username: username
+        username: username,
+        userId: userId
     };
 };
 export const authConfirm = (email, username) => {
@@ -22,6 +23,7 @@ export const authConfirm = (email, username) => {
     }
 }
 export const authFail = (error) => {
+    // axios.po
     return{
         type: actionTypes.AUTH_FAIL,
         error: error
@@ -85,19 +87,33 @@ export const authLogIn = (email, password) => {
         // setTimeout(() => {
         //     dispatch(authSuccess(email, "1"));
         // },2000);
-        dispatch(authSuccess(email, "1"));
-
         // web
-        // let url = '/guestLogin';
-        // axios.post(url, authData)
-        //     .then(response => {
-        //         // const expirationDate = new Date(new Date().getTime() + response.data.expiresIn*1000);
-        //         localStorage.setItem('username',response.data.idToken);
-        //         // localStorage.setItem('expirationDate', expirationDate);
-        //         localStorage.setItem('email', response.data.localId);
-        //         dispatch(authSuccess(response.data.idToken, response.data.localId));
-        //         dispatch(checkAuthTimeout(response.data.expiresIn));
-        //     });
+        let url = '/login';
+        axios.post(url, authData)
+            .then(response => {
+                if(response.data.status == "Success"){
+                    console.log("Login Successfully..");
+                    console.log(response);
+                    // const expirationDate = new Date(new Date().getTime() + response.data.expiresIn*1000);
+                    localStorage.setItem('username',response.data.info.uname);
+                    // localStorage.setItem('expirationDate', expirationDate);
+                    localStorage.setItem('email', response.data.info.email);
+                    localStorage.setItem('uid', response.data.info.uid);
+                    localStorage.setItem('token', response.data.info.token.split("'")[1]);
+                    dispatch(authSuccess(response.data.info.email, response.data.info.uname, response.data.info.uid));
+                    // dispatch(checkAuthTimeout(response.data.expiresIn));
+                }
+                else{
+                    console.log("Login failed...");
+                    console.log(response);
+                }
+            }).catch(error => {
+                console.log("QAQ");
+                console.log(error);
+                alert("Connection Failed....");
+            });
+
+        // dispatch(authSuccess(email, "1"));
     }
 }
 
@@ -116,7 +132,7 @@ export const authSignUp = (email, username, password) => {
                 // dispatch(authSuccess(email, username));
                 const data = {
                     email: email,
-                    url: "http://localhost:3000/verifyEmail/"+response.data.info
+                    url: "http://localhost:3000/verifyEmail/"+response.data.token
                 };
                 axios.post('/register/confirm_url', data)
                     .then(response => {
@@ -130,6 +146,47 @@ export const authSignUp = (email, username, password) => {
             });
 
     }
+}
+
+export const updateBasicInformation = (userId, token, firstname, lastname, gender, email, introduction) => {
+    return dispatch => {
+        const updateData = {
+            userId: userId,
+            token: token,
+            firstname: firstname,
+            lastname: lastname,
+            gender: gender,
+            email: email,
+            introduction: introduction
+        };
+        console.log(updateData);
+        let url = "/settings/update/basic";
+        axios.post(url, updateData)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+};
+export const updatePassword = (userId, token, oldPassword, newPassword) => {
+    return dispatch => {
+        const updateData = {
+            userId: userId,
+            token: token,
+            oldPassword: oldPassword,
+            newPassword: newPassword
+        };
+        let url = "/settings/update/password";
+        axios.post(url, updateData)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
 }
 export const authCheckState = () => {
     return dispatch => {

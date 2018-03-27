@@ -6,3 +6,6 @@ export const AUTH_CONFIRM = 'AUTH_CONFIRM';
 
 export const AUTH_LOGIN = 'AUTH_LOGIN';
 export const AUTH_SIGNUP = 'AUTH_SIGNUP';
+
+
+export const UPDATE_BASIC = 'UPDATE_BASIC';

@@ -8,7 +8,7 @@ import Reservation from '../Reservation/Reservation';
 import Notes from './Notes/Notes';
 import { searchKeyword, searchRecipes } from '../../store/actions/search';
 
-class Recipe extends React.Component{
+class Recipe extends React.Component {
 
     constructor(props) {
         super(props);
@@ -22,7 +22,7 @@ class Recipe extends React.Component{
             aid: 123,
             avatar: 'http://via.placeholder.com/40x40',
             author: 'Author Name',
-            discription: 'say something',
+            description: 'say something',
             calorie: 150,
             preptime: 90,
             ingredients: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4', 'ingredient5'],
@@ -34,8 +34,11 @@ class Recipe extends React.Component{
     }
 
     componentDidMount() {
-        axios.get('/getRecipe?rid='+this.state.rid)
-        .then(function(response) {
+        axios.post('/getRecipe', {
+            // token: ,
+            // uid: ,
+            rid: this.state.rid
+        }).then(function(response) {
             console.log(response);
         }).catch(function (error) {
             console.log(error);
@@ -44,9 +47,10 @@ class Recipe extends React.Component{
 
     handleLike() {
         axios.post('/likeRecipe', {
-            // uid: this.props.uid,
-            // rid: this.state.rid,
-            // like: !this.state.isLiked
+            // token: ,
+            // uid: ,
+            rid: this.state.rid,
+            like: this.state.isLiked
         }).then(function (response) {
             console.log(response);
             // update likes, isLiked
@@ -101,7 +105,7 @@ class Recipe extends React.Component{
                     </div>
                 </Link>
                 <p>
-                    {this.state.discription}
+                    {this.state.description}
                 </p>
             </div>
         );

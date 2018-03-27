@@ -8,7 +8,6 @@ class input extends Component{
         if (this.props.invalid && this.props.shouldValidate && this.props.touched) {
             inputClasses.push(classes.Invalid);
         }
-    
         switch ( this.props.elementType ) {
             case ( 'input' ):
                 inputElement = <input

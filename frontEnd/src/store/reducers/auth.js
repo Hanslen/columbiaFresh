@@ -5,7 +5,9 @@ const initialState = {
     email: null,
     error: null,
     loading: false,
-    authRedirectPath: '/'
+    authRedirectPath: '/',
+    userId: null,
+    token: null
 };
 
 const authStart = (state, action) => {
@@ -16,6 +18,7 @@ const authSuccess = (state, action) =>{
     return updateObject(state, {
         username: action.username,
         email: action.email,
+        userId: action.userId,
         error: null,
         loading: false
     });
@@ -58,6 +61,12 @@ const authSignUp = (state, action) => {
         loading: false
     })
 }
+const updateBasic = (state, action) => {
+    return updateObject(state, {
+        error: null,
+        loading: false
+    })
+}
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
@@ -77,6 +86,8 @@ const reducer = (state = initialState, action) => {
             return authSignUp(state, action);
         case actionTypes.AUTH_CONFIRM:
             return authConfirm(state, action);
+        case actionTypes.UPDATE_BASIC:
+            return 
         default:
             return state
     }

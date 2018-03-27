@@ -2,6 +2,7 @@ import React,  {Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './HomePage.css'
 import SearchBox from '../UI/SearchBox/SearchBox';
+import spinner from '../UI/Spinner/Spinner';
 
 class homePage extends Component{
     state = {
@@ -12,8 +13,10 @@ class homePage extends Component{
             {type: "Wrap", src: "/static/img/breakfast.png"},
             {type: "Vegan", src: "/static/img/breakfast.png"},
             {type: "Burger", src: "/static/img/breakfast.png"}
-        ]
+        ],
+        url: "/recipe/id=100"
     };
+    did
     render(){
         let categoriesDiv = this.state.categories.map(category => (
             <div className="col-md-4" key={category.type}>
@@ -37,6 +40,7 @@ class homePage extends Component{
         return(
             <div>
                 <section className="jumbotron text-center" id={classes.mainBgPic}>
+                
                     <div className="container" id={classes.headingBox}>
                     <h1 className="jumbotron-heading"><strong>Columbia Fresh</strong></h1>
                     <br/><br/>
