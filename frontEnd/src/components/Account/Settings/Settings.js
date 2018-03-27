@@ -352,6 +352,7 @@ class settings extends Component{
                 break;
             case 'Address':
                 this.setState({controls: this.state.addressControl,boxTitle:"Update Address"});
+                this.setAddress();
                 break;
             case 'CreditCard':
                 this.setState({controls: this.state.creditControl, boxTitle: "Update Credit Card Information"});
@@ -362,7 +363,6 @@ class settings extends Component{
 
     setBasicInformation = () => {
         Axios.get('/settings/basic?userId='+this.props.userId).then(response => {
-            // console.log(response.data);
             if(response.data.email != null){
                 let updatedControls = updateObject(this.state.controls, {
                     ["email"]: updateObject(this.state.controls["email"], {
@@ -385,6 +385,29 @@ class settings extends Component{
             console.log(err);
         })
     };
+    setAddress = () => {
+        Axios.get("/settings/address?userId="+this.props.userId).then(response => {
+            console.log(response.data);
+            let updatedControls = updateObject(this.state.controls, {
+                ["street1"]: updateObject(this.state.controls["street1"], {
+                    value: response.data.streetAdress1
+                }),
+                ["street2"]: updateObject(this.state.controls["street2"], {
+                    value: response.data.streetAddress2
+                }),
+                ["City"]: updateObject(this.state.controls["City"], {
+                    value: response.data.city
+                }),
+                ["State"]: updateObject(this.state.controls["State"], {
+                    value: response.data.state_province_region
+                }),
+                ["Zip"]: updateObject(this.state.controls["Zip"], {
+                    value: response.data.zipCode
+                })
+            });
+            this.setState({controls: updatedControls});
+        })
+    }
     componentWillMount(){
         this.setState({controls: this.state.basiccontrols, boxTitle: "Basic Information"});
         this.setBasicInformation();
@@ -412,6 +435,14 @@ class settings extends Component{
                 return ;
             }
             this.props.updatePassword(this.props.userId, this.props.token, oldPassword, newPassword);
+        }
+        else if(this.state.controls.street1 != undefined){
+            let streetAdress1 = this.state.controls.street1.value;
+            let streetAdress2 = this.state.controls.street2.value;
+            let city = this.state.controls.City.value;
+            let state = this.state.controls.State.value;
+            let zipCode = this.state.controls.Zip.value;
+            this.props.updateAddress(this.props.userId, this.props.token, streetAdress1, streetAdress2, city, state,zipCode);
         }
 
         // console.log(this.state.controls);
@@ -494,7 +525,8 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch => {
     return {
         updateBasic: (userId, token, firstname, lastname, gender, email, introduction) => dispatch(actions.updateBasicInformation(userId, token, firstname, lastname,gender, email, introduction)),
-        updatePassword: (userId, token, oldPassword, newPassword) => dispatch(actions.updatePassword(userId, token, oldPassword, newPassword))
+        updatePassword: (userId, token, oldPassword, newPassword) => dispatch(actions.updatePassword(userId, token, oldPassword, newPassword)),
+        updateAddress: (userId, token, streetAddress1, streetAddress2, city, state,zip) => dispatch(actions.updateAddress(userId, token, streetAddress1, streetAddress2, city, state,zip))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(settings);

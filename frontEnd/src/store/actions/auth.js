@@ -190,6 +190,29 @@ export const updatePassword = (userId, token, oldPassword, newPassword) => {
             });
     };
 }
+export const updateAddress = (userId, token, streetAddress1, streetAddress2, city, state,zip) => {
+    return dispatch => {
+        const updateData = {
+            userId: userId, 
+            token: token, 
+            streetAddress1: streetAddress1, 
+            streetAddress2: streetAddress2, 
+            city: city, 
+            state_province_region: state,
+            zipCode: zip
+        }
+        let url = "/settings/update/address";
+        // console.log(updateData);
+        axios.post(url, updateData)
+            .then(response => {
+                console.log(response.data);
+                alert(response.data.msg);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+}
 export const authCheckState = () => {
     return dispatch => {
         const email = localStorage.getItem('email');

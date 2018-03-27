@@ -9,5 +9,6 @@ export{
     authSignUp,
     authConfirm,
     updateBasicInformation,
-    updatePassword
+    updatePassword,
+    updateAddress
 }from './auth';
