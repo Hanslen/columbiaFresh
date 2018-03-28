@@ -23,6 +23,7 @@ CREATE TABLE `Columbia_Fresh`.`customer` (
   `expirationMonth` VARCHAR(2) NULL,
   `expirationYear` VARCHAR(2) NULL,
   `img` LONGTEXT NULL,
+  `cardName` VARCHAR(50) NULL,
   PRIMARY KEY (`uid`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC));
 
@@ -63,23 +64,11 @@ CREATE TABLE `Columbia_Fresh`.`recipe` (
   `rid` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NOT NULL ,
   `img` LONGTEXT NULL AFTER `title`,
-<<<<<<< HEAD
-<<<<<<< HEAD
   `likes` INT(255) NULL AFTER `img`,
-=======
-  `likes` INT(10000) NULL AFTER `img`,
->>>>>>> 81c0eb6a565dac4c39a850446e35fd51cd701860
-=======
-  `likes` INT(255) NULL AFTER `img`,
->>>>>>> c91c1eb2a14c8180478fd210894c39f4dbdd7664
   `description` VARCHAR(300) NULL AFTER `likes`,
   `calories` INT(5) NULL AFTER `description`,
   `notes` VARCHAR(100) NULL AFTER `calories`,
   `directions` LONGTEXT NULL AFTER `notes`,
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> c91c1eb2a14c8180478fd210894c39f4dbdd7664
   `preptime` INT(255) NULL AFTER `directions`,
   `uid` INT(11) NOT NULL AFTER `preptime`,
   PRIMARY KEY (`rid`)),
@@ -89,13 +78,6 @@ CREATE TABLE `Columbia_Fresh`.`recipe` (
   REFERENCES `Columbia_Fresh`.`customer` (`uid`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
-
-<<<<<<< HEAD
-=======
-  `preptime` INT(10000) NULL AFTER `directions`;
->>>>>>> 81c0eb6a565dac4c39a850446e35fd51cd701860
-=======
->>>>>>> c91c1eb2a14c8180478fd210894c39f4dbdd7664
   PRIMARY KEY (`rid`));
 ```
 

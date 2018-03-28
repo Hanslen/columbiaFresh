@@ -333,6 +333,24 @@ class settings extends Component{
                   },
                   valid: false,
                   touched: false
+            },
+            cvv:{
+                label: 'cvv',
+                  elementType: 'input',
+                  elementConfig: {
+                      type: 'text',
+                      placeholder: 'cvv'
+                  },
+                  boxStyle:{
+                    width: '100%',
+                    float: 'left'
+                  },
+                  value: '',
+                  validation:{
+                      required: true
+                  },
+                  valid: false,
+                  touched: false
             }
         }
     }
@@ -345,50 +363,97 @@ class settings extends Component{
         switch(folder){
             case 'BasicInformation':
                 this.setState({controls: this.state.basiccontrols, boxTitle: "Update Basic Information"});
+                this.setBasicInformation();
                 break;
             case 'Password':
                 this.setState({controls: this.state.passwordControl, boxTitle: "Update password"});    
                 break;
             case 'Address':
                 this.setState({controls: this.state.addressControl,boxTitle:"Update Address"});
+                this.setAddress();
                 break;
             case 'CreditCard':
                 this.setState({controls: this.state.creditControl, boxTitle: "Update Credit Card Information"});
+                // console.log("QAQ");
+                this.setCreditCard();
                 break;
             default: break;
         }
     }
-    componentWillMount(){
-        this.setState({controls: this.state.basiccontrols, boxTitle: "Basic Information"});
+
+    setBasicInformation = () => {
         Axios.get('/settings/basic?userId='+this.props.userId).then(response => {
-            console.log(response.data.lastname);
             if(response.data.email != null){
                 let updatedControls = updateObject(this.state.controls, {
                     ["email"]: updateObject(this.state.controls["email"], {
                         value: response.data.email[0]
-                    })
-                });
-                updatedControls = updateObject(this.state.controls, {
-                    ["firstname"]: updateObject(this.state.controls["firstname"], {
+                    }),
+                    ["firstname"] : updateObject(this.state.controls["firstname"], {
                         value: response.data.firstname[0]
-                    })
-                });
-                updatedControls = updateObject(this.state.controls, {
+                    }),
                     ["lastname"]: updateObject(this.state.controls["lastname"], {
                         value: response.data.lastname[0]
-                    })
-                });
-                updatedControls = updateObject(this.state.controls, {
+                    }),
                     ["intro"]: updateObject(this.state.controls["intro"], {
-                        value: response.data.intro
+                        value: response.data.introduction
                     })
                 });
-                console.log(updatedControls);
+                // console.log(updatedControls);
                 this.setState({controls: updatedControls});
             }
         }).catch(err => {
             console.log(err);
         })
+    };
+
+    setCreditCard = () => {
+        const userData = {
+            userId: this.props.userId,
+            token: this.props.token
+        };
+        Axios.post('/settings/getcredit', userData)
+            .then(response => {
+                console.log(response.data.cardName);
+                let updatedControls = updateObject(this.state.controls, {
+                    ["cardName"] : updateObject(this.state.controls["cardName"], {
+                        value: response.data.cardName
+                    }),
+                    ["cardNum"]: updateObject(this.state.controls["cardNum"], {
+                        value: response.data.cardNumber
+                    })
+                });
+                this.setState({controls: updatedControls});
+
+            }).catch(error => {
+                console.log(error);
+            });
+    }
+    setAddress = () => {
+        Axios.get("/settings/address?userId="+this.props.userId).then(response => {
+            console.log(response.data);
+            let updatedControls = updateObject(this.state.controls, {
+                ["street1"]: updateObject(this.state.controls["street1"], {
+                    value: response.data.streetAdress1
+                }),
+                ["street2"]: updateObject(this.state.controls["street2"], {
+                    value: response.data.streetAddress2
+                }),
+                ["City"]: updateObject(this.state.controls["City"], {
+                    value: response.data.city
+                }),
+                ["State"]: updateObject(this.state.controls["State"], {
+                    value: response.data.state_province_region
+                }),
+                ["Zip"]: updateObject(this.state.controls["Zip"], {
+                    value: response.data.zipCode
+                })
+            });
+            this.setState({controls: updatedControls});
+        })
+    }
+    componentWillMount(){
+        this.setState({controls: this.state.basiccontrols, boxTitle: "Basic Information"});
+        this.setBasicInformation();
     }
 
     
@@ -405,10 +470,31 @@ class settings extends Component{
             this.props.updateBasic(this.props.userId, this.props.token, firstName, lastName, 1, email, introduction);
         }
         else if(this.state.controls.oldPassword != undefined){
-            let oldPassword = this.state.controls.oldPassword;
-            let newPassword = this.state.controls.newPassword;
+            let oldPassword = this.state.controls.oldPassword.value;
+            let newPassword = this.state.controls.newPassword.value;
+            let newPasswordAgain = this.state.controls.newPasswordAgain.value;
+            if(newPassword != newPasswordAgain){
+                alert("Two password does not match...");
+                return ;
+            }
+            this.props.updatePassword(this.props.userId, this.props.token, oldPassword, newPassword);
         }
-
+        else if(this.state.controls.street1 != undefined){
+            let streetAdress1 = this.state.controls.street1.value;
+            let streetAdress2 = this.state.controls.street2.value;
+            let city = this.state.controls.City.value;
+            let state = this.state.controls.State.value;
+            let zipCode = this.state.controls.Zip.value;
+            this.props.updateAddress(this.props.userId, this.props.token, streetAdress1, streetAdress2, city, state,zipCode);
+        }
+        else if(this.state.controls.cardName != undefined){
+            let cardName = this.state.controls.cardName.value;
+            let cardNum = this.state.controls.cardNum.value;
+            let expirationMonth = this.state.controls.ExpirationMonth.value;
+            let expirationYear = this.state.controls.ExpirationYear.value;
+            let cvv = this.state.controls.cvv.value;
+            this.props.updateCredit(this.props.userId, this.props.token, cardName, cardNum, expirationMonth, expirationYear,cvv);
+        }
         // console.log(this.state.controls);
     }
     inputChangedHandler = (event, controlName) => {
@@ -488,7 +574,10 @@ const mapStateToProps = state =>{
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateBasic: (userId, token, firstname, lastname, gender, email, introduction) => dispatch(actions.updateBasicInformation(userId, token, firstname, lastname,gender, email, introduction))
+        updateBasic: (userId, token, firstname, lastname, gender, email, introduction) => dispatch(actions.updateBasicInformation(userId, token, firstname, lastname,gender, email, introduction)),
+        updatePassword: (userId, token, oldPassword, newPassword) => dispatch(actions.updatePassword(userId, token, oldPassword, newPassword)),
+        updateAddress: (userId, token, streetAddress1, streetAddress2, city, state,zip) => dispatch(actions.updateAddress(userId, token, streetAddress1, streetAddress2, city, state,zip)),
+        updateCredit: (userId, token, name, cardNumber, expirationMonth,expirationYear, cvv) => dispatch(actions.updateCredit(userId, token, name, cardNumber, expirationMonth,expirationYear, cvv))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(settings);

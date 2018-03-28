@@ -8,5 +8,8 @@ export{
     authLogIn,
     authSignUp,
     authConfirm,
-    updateBasicInformation
+    updateBasicInformation,
+    updatePassword,
+    updateAddress,
+    updateCredit
 }from './auth';

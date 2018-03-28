@@ -99,7 +99,7 @@ export const authLogIn = (email, password) => {
                     // localStorage.setItem('expirationDate', expirationDate);
                     localStorage.setItem('email', response.data.info.email);
                     localStorage.setItem('uid', response.data.info.uid);
-                    localStorage.setItem('token', response.data.info.token.split("'")[1]);
+                    localStorage.setItem('token', response.data.info.token); //split
                     dispatch(authSuccess(response.data.info.email, response.data.info.uname, response.data.info.uid));
                     // dispatch(checkAuthTimeout(response.data.expiresIn));
                 }
@@ -163,6 +163,7 @@ export const updateBasicInformation = (userId, token, firstname, lastname, gende
         let url = "/settings/update/basic";
         axios.post(url, updateData)
             .then(response => {
+                alert(response.data.msg);
                 console.log(response.data);
             })
             .catch(error => {
@@ -182,11 +183,62 @@ export const updatePassword = (userId, token, oldPassword, newPassword) => {
         axios.post(url, updateData)
             .then(response => {
                 console.log(response.data);
+                alert(response.data.msg);
             })
             .catch(error => {
                 console.log(error);
             });
     };
+}
+export const updateAddress = (userId, token, streetAddress1, streetAddress2, city, state,zip) => {
+    return dispatch => {
+        const updateData = {
+            userId: userId, 
+            token: token, 
+            streetAddress1: streetAddress1, 
+            streetAddress2: streetAddress2, 
+            city: city, 
+            state_province_region: state,
+            zipCode: zip
+        }
+        let url = "/settings/update/address";
+        // console.log(updateData);
+        axios.post(url, updateData)
+            .then(response => {
+                console.log(response.data);
+                alert(response.data.msg);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+}
+export const updateCredit = (userId, token, name, cardNumber, expirationMonth,expirationYear, cvv) => {
+    return dispatch => {
+        const updateData = {
+            userId: userId, 
+            token: token, 
+            cardName:name, 
+            cardNumber:cardNumber, 
+            expirationMonth:expirationMonth,
+            expirationYear:expirationYear, 
+            CVV: cvv
+        };
+        let url = "/settings/update/credit";
+        axios.post(url, updateData)
+            .then(response => {
+                console.log(response.data);
+                if(response.data == true){
+                    alert("Update CreditCard Successfully!");
+                }
+                else{
+                    alert("Failed update...");
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
 }
 export const authCheckState = () => {
     return dispatch => {
