@@ -60,7 +60,7 @@ def get_credit():
         "expirationYear": None,
         "cvv": None
     }
-    
+
     if customer is not None:
         result["cardName"] = customer.cardName
         result["cardNumber"] = customer.cardNumber
