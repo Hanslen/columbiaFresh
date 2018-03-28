@@ -75,9 +75,10 @@ def update_credit():
     if result is False:
         return jsonify({"success": False, "msg": "Token Error"})
 
+    customer.cardName = content['cardName']
     customer.cardNumber = content['cardNumber']
     customer.expirationMonth = content['expirationMonth']
     customer.expirationYear = content['expirationYear']
-    customer.cvv = content['CVV']
+    customer.CVV = content['CVV']
 
     return jsonify(result)

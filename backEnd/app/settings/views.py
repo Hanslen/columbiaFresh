@@ -54,15 +54,15 @@ def get_credit():
         return jsonify({"success": False, "msg": "Token Error"})
 
     result = {
-        "name": None,
+        "cardName": None,
         "cardNumber": None,
         "expirationMonth": None,
         "expirationYear": None,
         "cvv": None
     }
-    
+
     if customer is not None:
-        result["name"] = customer.uname
+        result["cardName"] = customer.cardName
         result["cardNumber"] = customer.cardNumber
         result["expirationMonth"] = customer.expirationMonth
         result["expirationYear"] = customer.expirationYear
