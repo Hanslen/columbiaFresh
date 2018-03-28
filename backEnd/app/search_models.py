@@ -13,7 +13,7 @@ class Recipe(db.Model):
     notes = db.Column(db.String(100))
     directions = db.Column(db.Text)
     preptime = db.Column(db.Integer)
-    uid = db.Column(db.Integer, db.ForeignKey('Customer.uid'))
+    uid = db.Column(db.Integer, db.ForeignKey('customer.uid'))
 
     @staticmethod
     def get_recipe(rid):
@@ -38,8 +38,8 @@ class Recipe_category(db.Model):
 
 class Recipe_in_cate(db.Model):
     __tablename__ = 'recipe_in_cate'
-    rid = db.Column(db.Integer, db.ForeignKey('Recipe.rid'), primary_key=True)
-    rcid = db.Column(db.Integer, db.ForeignKey('Recipe_category.rcid'), primary_key=True,)
+    rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
+    rcid = db.Column(db.Integer, db.ForeignKey('recipe_category.rcid'), primary_key=True,)
 
     @staticmethod
     def get_recipe_cate(rid):
@@ -51,8 +51,8 @@ class Recipe_in_cate(db.Model):
 
 class Customer_like_recipe(db.Model):
     __tablename__ = 'customer_like_recipe'
-    uid = db.Column(db.Integer, db.ForeignKey('Customer.uid'), primary_key=True,)
-    rid = db.Column(db.Integer, db.ForeignKey('Recipe.rid'), primary_key=True,)
+    uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), primary_key=True,)
+    rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True,)
     liked_time = db.Column(db.DateTime, nullable=False)
 
     @staticmethod
@@ -97,17 +97,16 @@ class Customer_like_recipe(db.Model):
         else:
             import time
             curTime = time.strftime('%Y-%m-%d %H:%M:%S')
-            print(curTime)
-            addRecord = Customer_like_recipe(uid, rid, "")
+            addRecord = Customer_like_recipe(uid, rid, curTime)
             db.session.add(addRecord)
             temp = Customer_like_recipe.query.filter(Customer_like_recipe.uid == uid). \
                 filter(Customer_like_recipe.rid == rid).first()
-            recipe_content = Recipe.get_recipe(rid).first()
+            recipe_content = Recipe.get_recipe(rid)
             prevLikes = recipe_content.likes
             curLikes = prevLikes + 1
             recipe_content.likes = curLikes
             db.session.commit()
-            updated_recipe_content = Recipe.get_recipe(rid).first()
+            updated_recipe_content = Recipe.get_recipe(rid)
             if temp and updated_recipe_content.likes == (prevLikes + 1):
                 return True
             else:
@@ -117,4 +116,4 @@ class Customer_like_recipe(db.Model):
     def __init__(self, uid, rid, datetime):
         self.uid = uid
         self.rid = rid
-        self.datetime = datetime
+        self.liked_time = datetime
