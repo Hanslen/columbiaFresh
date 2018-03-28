@@ -92,6 +92,8 @@ const reducer = (state = initialState, action) => {
             return state;
         case actionTypes.UPDATE_ADDRESS:
             return state;
+        case actionTypes.UPDATE_CREDIT:
+            return state;
         default:
             return state
     }

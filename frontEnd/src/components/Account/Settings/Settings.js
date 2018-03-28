@@ -333,6 +333,24 @@ class settings extends Component{
                   },
                   valid: false,
                   touched: false
+            },
+            cvv:{
+                label: 'cvv',
+                  elementType: 'input',
+                  elementConfig: {
+                      type: 'text',
+                      placeholder: 'cvv'
+                  },
+                  boxStyle:{
+                    width: '100%',
+                    float: 'left'
+                  },
+                  value: '',
+                  validation:{
+                      required: true
+                  },
+                  valid: false,
+                  touched: false
             }
         }
     }
@@ -356,6 +374,8 @@ class settings extends Component{
                 break;
             case 'CreditCard':
                 this.setState({controls: this.state.creditControl, boxTitle: "Update Credit Card Information"});
+                // console.log("QAQ");
+                this.setCreditCard();
                 break;
             default: break;
         }
@@ -385,6 +405,29 @@ class settings extends Component{
             console.log(err);
         })
     };
+
+    setCreditCard = () => {
+        const userData = {
+            userId: this.props.userId,
+            token: this.props.token
+        };
+        Axios.post('/settings/getcredit', userData)
+            .then(response => {
+                console.log(response.data.cardName);
+                let updatedControls = updateObject(this.state.controls, {
+                    ["cardName"] : updateObject(this.state.controls["cardName"], {
+                        value: response.data.cardName
+                    }),
+                    ["cardNum"]: updateObject(this.state.controls["cardNum"], {
+                        value: response.data.cardNumber
+                    })
+                });
+                this.setState({controls: updatedControls});
+
+            }).catch(error => {
+                console.log(error);
+            });
+    }
     setAddress = () => {
         Axios.get("/settings/address?userId="+this.props.userId).then(response => {
             console.log(response.data);
@@ -444,7 +487,14 @@ class settings extends Component{
             let zipCode = this.state.controls.Zip.value;
             this.props.updateAddress(this.props.userId, this.props.token, streetAdress1, streetAdress2, city, state,zipCode);
         }
-
+        else if(this.state.controls.cardName != undefined){
+            let cardName = this.state.controls.cardName.value;
+            let cardNum = this.state.controls.cardNum.value;
+            let expirationMonth = this.state.controls.ExpirationMonth.value;
+            let expirationYear = this.state.controls.ExpirationYear.value;
+            let cvv = this.state.controls.cvv.value;
+            this.props.updateCredit(this.props.userId, this.props.token, cardName, cardNum, expirationMonth, expirationYear,cvv);
+        }
         // console.log(this.state.controls);
     }
     inputChangedHandler = (event, controlName) => {
@@ -526,7 +576,8 @@ const mapDispatchToProps = dispatch => {
     return {
         updateBasic: (userId, token, firstname, lastname, gender, email, introduction) => dispatch(actions.updateBasicInformation(userId, token, firstname, lastname,gender, email, introduction)),
         updatePassword: (userId, token, oldPassword, newPassword) => dispatch(actions.updatePassword(userId, token, oldPassword, newPassword)),
-        updateAddress: (userId, token, streetAddress1, streetAddress2, city, state,zip) => dispatch(actions.updateAddress(userId, token, streetAddress1, streetAddress2, city, state,zip))
+        updateAddress: (userId, token, streetAddress1, streetAddress2, city, state,zip) => dispatch(actions.updateAddress(userId, token, streetAddress1, streetAddress2, city, state,zip)),
+        updateCredit: (userId, token, name, cardNumber, expirationMonth,expirationYear, cvv) => dispatch(actions.updateCredit(userId, token, name, cardNumber, expirationMonth,expirationYear, cvv))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(settings);

@@ -18,6 +18,7 @@ class Customer(db.Model):
     city = db.Column(db.String(50))
     state_province_region = db.Column(db.String(50))
     zipCode = db.Column(db.String(6))
+    cardName = db.Column(db.String(50))
     cardNumber = db.Column(db.String(16))
     CVV = db.Column(db.String(3))
     expirationMonth = db.Column(db.String(2))

@@ -10,5 +10,6 @@ export{
     authConfirm,
     updateBasicInformation,
     updatePassword,
-    updateAddress
+    updateAddress,
+    updateCredit
 }from './auth';

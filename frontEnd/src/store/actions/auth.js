@@ -213,6 +213,33 @@ export const updateAddress = (userId, token, streetAddress1, streetAddress2, cit
             })
     }
 }
+export const updateCredit = (userId, token, name, cardNumber, expirationMonth,expirationYear, cvv) => {
+    return dispatch => {
+        const updateData = {
+            userId: userId, 
+            token: token, 
+            cardName:name, 
+            cardNumber:cardNumber, 
+            expirationMonth:expirationMonth,
+            expirationYear:expirationYear, 
+            CVV: cvv
+        };
+        let url = "/settings/update/credit";
+        axios.post(url, updateData)
+            .then(response => {
+                console.log(response.data);
+                if(response.data == true){
+                    alert("Update CreditCard Successfully!");
+                }
+                else{
+                    alert("Failed update...");
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+}
 export const authCheckState = () => {
     return dispatch => {
         const email = localStorage.getItem('email');
