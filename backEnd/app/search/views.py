@@ -77,3 +77,89 @@ def getRecipe():
     except Exception as e:
         print (e)
         return jsonify({"status" : "Fail","info": str(e)})
+
+
+@app.route('/likeRecipe', methods=['POST'])
+def like_recipe():
+    try:
+        content = request.json
+        rid = content['rid']
+        uid = content['uid']
+        curLike = content['like']
+
+        if curLike.lower() == "false":
+            curLike = False
+        elif curLike.lower() == "true":
+            curLike = True
+        else:
+            curLike = ""
+
+
+        isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
+        recipe_content = Recipe.get_recipe(rid)
+
+        if isLiked and not curLike:
+            if Customer_like_recipe.remove_customer_like(uid, rid):
+                isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
+                if isLiked == curLike:
+                    state = "success"
+                    message = "The record is modified!"
+                    likes = Recipe.get_recipe(rid).likes
+                    json = {
+                        "state": state,
+                        "message": message,
+                        "likes": likes,
+                        "isLiked": isLiked
+                    }
+                    return jsonify(json)
+                else:
+                    state = "fail"
+                    message = "The like record is not consistent."
+                    likes = Recipe.get_recipe(rid).likes
+                    json = {
+                        "state": state,
+                        "message": message,
+                        "likes": likes,
+                        "isLiked": isLiked
+                    }
+                    return jsonify(json)
+        elif not isLiked and curLike:
+            if Customer_like_recipe.add_customer_like(uid, rid):
+                isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
+                if isLiked == curLike:
+                    state = "success"
+                    message = "The record is modified!"
+                    likes = Recipe.get_recipe(rid).likes
+                    json = {
+                        "state": state,
+                        "message": message,
+                        "likes": likes,
+                        "isLiked": isLiked
+                    }
+                    return jsonify(json)
+                else:
+                    state = "fail"
+                    message = "The like record is not consistent."
+                    likes = Recipe.get_recipe(rid).likes
+                    json = {
+                        "state": state,
+                        "message": message,
+                        "likes": likes,
+                        "isLiked": isLiked
+                    }
+                    return jsonify(json)
+        else:
+            state = "fail"
+            message = "The like record can't be modified!"
+            likes = recipe_content.likes
+            json = {
+                "state" : state,
+                "message" : message,
+                "likes" : likes,
+                "isLiked" : isLiked
+            }
+            return jsonify(json)
+
+    except Exception as e:
+        print(e)
+        return jsonify({"status": "Fail", "info": str(e)})

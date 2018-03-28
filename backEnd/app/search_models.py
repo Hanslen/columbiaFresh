@@ -1,5 +1,6 @@
 from manage import app, db
 from flask import url_for, jsonify
+from .models import Customer
 
 class Recipe(db.Model):
     __tablename__ = 'recipe'
@@ -62,3 +63,58 @@ class Customer_like_recipe(db.Model):
            return False
         else:
             return True
+
+    @staticmethod
+    def remove_customer_like(uid, rid):
+        temp = Customer_like_recipe.query.filter(Customer_like_recipe.uid == uid). \
+            filter(Customer_like_recipe.rid == rid).first()
+        if temp is None:
+            print("The record doesn't exist!")
+            return False
+        else:
+            delRecord = temp
+            db.session.delete(delRecord)
+            temp = Customer_like_recipe.query.filter(Customer_like_recipe.uid == uid).\
+                filter(Customer_like_recipe.rid == rid).first()
+            recipe_content = Recipe.get_recipe(rid).first()
+            prevLikes = recipe_content.likes
+            curLikes = prevLikes - 1
+            recipe_content.likes = curLikes
+            db.session.commit()
+            updated_recipe_content = Recipe.get_recipe(rid).first()
+            if temp is None and updated_recipe_content.likes == (prevLikes - 1):
+                return True
+            else:
+                return False
+
+    @staticmethod
+    def add_customer_like(uid, rid):
+        temp = Customer_like_recipe.query.filter(Customer_like_recipe.uid == uid). \
+            filter(Customer_like_recipe.rid == rid).first()
+        if temp:
+            print("The record exists!")
+            return False
+        else:
+            import time
+            curTime = time.strftime('%Y-%m-%d %H:%M:%S')
+            print(curTime)
+            addRecord = Customer_like_recipe(uid, rid, "")
+            db.session.add(addRecord)
+            temp = Customer_like_recipe.query.filter(Customer_like_recipe.uid == uid). \
+                filter(Customer_like_recipe.rid == rid).first()
+            recipe_content = Recipe.get_recipe(rid).first()
+            prevLikes = recipe_content.likes
+            curLikes = prevLikes + 1
+            recipe_content.likes = curLikes
+            db.session.commit()
+            updated_recipe_content = Recipe.get_recipe(rid).first()
+            if temp and updated_recipe_content.likes == (prevLikes + 1):
+                return True
+            else:
+                return False
+
+    # @staticmethod
+    def __init__(self, uid, rid, datetime):
+        self.uid = uid
+        self.rid = rid
+        self.datetime = datetime
