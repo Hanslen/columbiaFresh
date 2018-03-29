@@ -23,6 +23,14 @@ class Recipe(db.Model):
         else:
             return temp
 
+    @staticmethod
+    def get_top_5_hot_recipes():
+        recipes_id = Recipe.query.order_by(Recipe.likes.desc()).limit(5).all()
+        recipesName = []
+        for recipe_id in recipes_id:
+            recipesName.append(recipe_id.title)
+        return recipesName
+
 class Recipe_category(db.Model):
     __tablename__ = 'recipe_category'
     rcid = db.Column(db.Integer, primary_key=True, index=True)

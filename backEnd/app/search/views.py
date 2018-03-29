@@ -163,3 +163,15 @@ def like_recipe():
     except Exception as e:
         print(e)
         return jsonify({"status": "Fail", "info": str(e)})
+
+@app.route('/hotMenu', methods=['GET'])
+def get_hot_menu():
+    try:
+        hotMenus = Recipe.get_top_5_hot_recipes()
+        json = {
+            "menus" : hotMenus
+        }
+        return jsonify(json)
+    except Exception as e:
+        print(e)
+        return jsonify({"status": "Fail", "info": str(e)})
