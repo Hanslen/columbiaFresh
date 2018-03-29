@@ -1,8 +1,11 @@
-from app import app, db
-from flask import request, flash, jsonify
-import datetime
+from app import app
+from flask import request, jsonify
+from collections import defaultdict
+import difflib
+import re
 from ..search_models import Recipe, Recipe_category, Recipe_in_cate, Customer_like_recipe
 from ..models import Customer
+
 
 @app.route('/getRecipe', methods=['POST'])
 def getRecipe():
@@ -175,3 +178,50 @@ def get_hot_menu():
     except Exception as e:
         print(e)
         return jsonify({"status": "Fail", "info": str(e)})
+
+
+@app.route('/search', methods=['GET'])
+def search_recipe():
+    try:
+        query = str(request.args.get('query'))
+        query = processSentence(query)
+        page_id = request.args.get('page')
+        page_id = int(page_id)
+        all_recipes = Recipe.get_all_recipes()
+        recipes_truncated = []
+        score_recipe = defaultdict()
+        for recipe in all_recipes:
+            score = difflib.SequenceMatcher(a=query.lower(), b=recipe.title.lower()).ratio()
+            score_recipe[score] = defaultdict()
+            score_recipe[score]["id"] = recipe.rid
+            score_recipe[score]["title"] = recipe.title
+        sorted_score = sorted(score_recipe, reverse=True)
+        start = 20 * (page_id - 1)
+        count = 0
+        for key in sorted_score:
+            item = score_recipe[key]
+            recipe = Recipe.get_recipe(item["id"])
+            author = Customer.get_customer_info(recipe.uid)
+            ## ingredients should be added
+            json = {
+                "rid" : recipe.rid,
+                "url" : "/recipe/" + str(recipe.rid),
+                "imgurl" : recipe.img,
+                "title" : recipe.title,
+                "author" : author.uname,
+                "likes" : recipe.likes,
+                "ingredients" : []
+            }
+            if start <= count:
+                recipes_truncated.append(json)
+            count += 1
+        json = {
+            "recipes" : recipes_truncated
+        }
+        return jsonify(json)
+    except Exception as e:
+        print(e)
+        return jsonify({"status": "Fail", "info": str(e)})
+
+def processSentence(input):
+    return re.sub('[!#$%&\'*+,;.^_`|~:]+', '', input)
