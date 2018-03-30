@@ -3,7 +3,8 @@ import MyHeader from '../MyHeader/MyHeader';
 import classes from './Favorite.css';
 class favoritelist extends Component{
     state = {
-        myFolders:["ChineseFood", "Burger", "Taco","KoreanFood", "Soup", "Snacks"],
+        myFolders: ["My Likes"],
+        // myFolders:["ChineseFood", "Burger", "Taco","KoreanFood", "Soup", "Snacks"],
         selectedFolder: "ChineseFood",
         items: [{
             id: 1,
