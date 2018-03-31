@@ -54,8 +54,8 @@ class Recipe extends React.Component {
         });
         console.log(rid);
         axios.post('/getRecipe', {
-            token: null,
-            uid: null,
+            token: this.props.token,
+            uid: this.props.uid,
             rid
         }).then(function(response) {
             console.log(response);
@@ -72,8 +72,8 @@ class Recipe extends React.Component {
             isLiked
         });
         axios.post('/likeRecipe', {
-            // token: ,
-            // uid: ,
+            token: this.props.token,
+            uid: this.props.uid,
             rid: this.state.rid,
             like: this.state.isLiked
         }).then(function (response) {
@@ -169,7 +169,9 @@ class Recipe extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        keyword: state.resultsReducer.keyword
+        keyword: state.resultsReducer.keyword,
+        uid: state.auth.userId,
+        token: state.auth.token
     };
 };
 

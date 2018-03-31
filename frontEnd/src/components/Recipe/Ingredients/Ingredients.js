@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import axios from '../../../axios-config';
 
 class Ingredients extends React.Component {
@@ -16,8 +17,8 @@ class Ingredients extends React.Component {
             message: 'add successfully!'
         });
         axios.post('/addToCart', {
-            // token: ,
-            // uid: ,
+            token: this.props.token,
+            uid: this.props.uid,
             rid: this.props.rid
         }).then(function (response) {
             console.log(response);
@@ -78,4 +79,11 @@ class Ingredients extends React.Component {
     }
 }
 
-export default Ingredients;
+const mapStateToProps = (state) => {
+    return {
+        uid: state.auth.userId,
+        token: state.auth.token
+    };
+};
+
+export default connect(mapStateToProps)(Ingredients);

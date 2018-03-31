@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from '../../axios-config';
+import ShoppingCart from '../Account/ShoppingCart/ShoppingCart';
 
 class Order extends React.Component {
 
@@ -55,6 +56,7 @@ class Order extends React.Component {
                             </div>
                         </div>
                         <div className="borderBox">
+                            <ShoppingCart />
                         </div>
                     </div>
                     <div className="col-3">
