@@ -307,8 +307,16 @@ response
 #### get basic information
 url
 ```
-GET /settings/basic?userId=xxxx
+POST /settings/basic
 ```
+postData
+```
+{
+   token: string,
+   userId: string
+}
+```
+
 response
 ```
 {
@@ -316,7 +324,8 @@ response
   lastname: string,
   gender: int,
   email: string,
-  introduction: string
+  introduction: string, (token != userId)
+  userName: string (token != userId)
 }
 ```
 #### update basic information
