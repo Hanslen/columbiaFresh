@@ -20,7 +20,8 @@ const authSuccess = (state, action) =>{
         email: action.email,
         userId: action.userId,
         error: null,
-        loading: false
+        loading: false,
+        token: action.token
     });
 }
 
