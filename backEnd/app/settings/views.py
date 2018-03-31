@@ -2,31 +2,44 @@ from app import app, db
 from flask import request, jsonify
 from ..models import Customer
 
-@app.route('/settings/basic', methods=['GET'])
+@app.route('/settings/basic', methods=['POST'])
 def get_info():
-    uid = request.args.get('userId')
-    customer = Customer.query.filter(Customer.uid == uid).first()
+    content = request.json
+    token = content['token']
+    uid = content['userId']
+    (verify, customer) = Customer.verify_token(token)
+
     result = {
         "firstname": None,
         "lastname": None,
         "gender": None,
         "email": None,
-        "introduction": None
+        "introduction": None,
+        "userName": None
     }
-    if customer is not None:
-        result["firstname"] =  customer.firstname,
-        result["lastname"] = customer.lastname,
-        result["gender"] = customer.gender,
-        result["email"] = customer.email,
+
+    if verify is True:
+        print("token is correct")
         result["introduction"] = customer.introduction
+        result["userName"] = customer.uname
+        print(customer.uid, type(customer.uid))
+        print(uid, type(uid))
+        if customer.uid == int(uid):
+            result["firstname"] = customer.firstname,
+            result["lastname"] = customer.lastname,
+            result["gender"] = customer.gender,
+            result["email"] = customer.email
 
     return jsonify(result)
 
 
-@app.route('/settings/address', methods=['GET'])
+@app.route('/settings/address', methods=['POST'])
 def get_address():
-    uid = request.args.get('userId')
-    customer = Customer.query.filter(Customer.uid == uid).first()
+    content = request.json
+    token = content['token']
+    uid = content['userId']
+    (verify, customer) = Customer.verify_token(token)
+
     result = {
         "streetAdress1": None,
         "streetAddress2": None,
@@ -35,12 +48,16 @@ def get_address():
         "zipCode": None
     }
 
-    if customer is not None:
-        result["streetAdress1"] = customer.streetAddress1
-        result["streetAddress2"] = customer.streetAddress2
-        result["city"] = customer.city
-        result["state_province_region"] = customer.state_province_region
-        result["zipCode"] = customer.zipCode
+
+    if verify is True:
+        print("token correct")
+
+        if customer.uid == int(uid):
+            result["streetAdress1"] = customer.streetAddress1
+            result["streetAddress2"] = customer.streetAddress2
+            result["city"] = customer.city
+            result["state_province_region"] = customer.state_province_region
+            result["zipCode"] = customer.zipCode
 
     return jsonify(result)
 
@@ -49,8 +66,8 @@ def get_address():
 def get_credit():
     content = request.json
     token = content['token']
-    (result, customer) = Customer.verify_token(token)
-    if result is False:
+    (verify, customer) = Customer.verify_token(token)
+    if verify is False:
         return jsonify({"success": False, "msg": "Token Error"})
 
     result = {
