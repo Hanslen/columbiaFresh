@@ -35,6 +35,8 @@ export const logout = () => {
     localStorage.removeItem('email');
     // localStorage.removeItem('expirationDate');
     localStorage.removeItem('username');
+    localStorage.removeItem("token");
+    localStorage.removeItem("uid");
     return {
         type: actionTypes.AUTH_LOGOUT
     };
@@ -106,8 +108,7 @@ export const authLogIn = (email, password) => {
                     // alert(response.data.info);
                 }
                 else{
-                    console.log("Login failed...");
-                    alert("Login failed...");
+                    alert(response.data.info);
                     // console.log("Login failed...");
                 }
             }).catch(error => {
