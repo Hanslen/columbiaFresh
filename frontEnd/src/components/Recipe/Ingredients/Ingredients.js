@@ -12,17 +12,18 @@ class Ingredients extends React.Component {
     }
 
     handleAdd() {
+        let saveMsg = (message) => this.setState({
+            message: 'add successfully!'
+        });
         axios.post('/addToCart', {
             // token: ,
             // uid: ,
             rid: this.props.rid
         }).then(function (response) {
             console.log(response);
+            saveMsg(response.data.message)
         }).catch(function (error) {
             console.log(error);
-        });
-        this.setState({
-            message: 'add successfully!'
         });
     }
 
@@ -35,7 +36,7 @@ class Ingredients extends React.Component {
         );
 
         let modal = (
-            <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-body">

@@ -21,22 +21,11 @@ export const searchRecipes = (keyword) => {
             }
         }).then(function(response) {
             console.log(response);
+            let results = response.data.recipes;
+            dispatch(getResults(keyword, results));
         }).catch(function (error) {
             console.log(error);
         });
-        let ids = [1, 2, 3, 4, 5];
-        let results = ids.map(i => {
-            return {
-                rid: i,
-                url: '/recipe/'+i,
-                imgurl: "http://via.placeholder.com/128x128",
-                title: 'Menu'+i,
-                author: 'Author'+i,
-                likes: i*11,
-                ingredients: 'ingredients'
-            };
-        });
-        dispatch(getResults(keyword, results));
     }
 }
 

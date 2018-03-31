@@ -10,7 +10,7 @@ class SearchRes extends React.Component {
                     <li key={recipeInfo.rid} className="list-group-item borderless">
                         <Link to={recipeInfo.url} style={{"textDecoration": "none"}}>
                             <div className="media">
-                                <img className="mr-3" src={recipeInfo.imgurl} />
+                                <img className="mr-3" src={recipeInfo.imgurl} width="128px" height="128px" />
                                 <div className="media-body">
                                     <h5 className="mt-1 mb-1">{recipeInfo.title}</h5>
                                     <div className="mb-1">{recipeInfo.ingredients}</div>

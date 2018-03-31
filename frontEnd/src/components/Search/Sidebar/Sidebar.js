@@ -20,9 +20,13 @@ class Sidebar extends React.Component {
     }
 
     componentDidMount() {
+        let saveHot = (menus) => this.setState({ menus });
         axios.get('/hotMenu')
         .then(function(response) {
-            console.log(response);
+            let menus = response.data.menus.map(menu => {
+                return { name: menu, isSelect: false }
+            });
+            saveHot(menus);
         }).catch(function (error) {
             console.log(error);
         });
