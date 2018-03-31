@@ -271,8 +271,16 @@ response
 #### get user shopping Cart
 url
 ```
-GET /shoppingCart?userId=xxxx
+POST /shoppingCart
 ```
+postData
+```
+{
+    userId: string,
+    token: string
+}
+```
+
 response
 ```
 {
@@ -377,7 +385,7 @@ postData
 response
 ```
 {
-  streetAdress1: string,
+  streetAddress1: string,
   streetAddress2: string,
   city: string,
   state_province_region: string
@@ -394,7 +402,7 @@ postData
 {
   userId: xxxx,
   token: string,
-  streetAdress1: string,
+  streetAddress1: string,
   streetAddress2: string,
   city: string,
   state_province_region: string
