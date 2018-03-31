@@ -255,11 +255,18 @@ response
 #### get user orders
 url
 ```
-GET /order?userId=xxxxx
+POST /order
+```
+postData
+```
+{
+    userId: string,
+    token: string
+}
 ```
 response
 ```
-{
+[{
   orderPlaceDate: string,
   totalPrice: string,
   shipTo: string,
@@ -268,8 +275,8 @@ response
   soldBy: string,
   title: string,
   img: string,
-  id: int
-}
+  link: string
+}]
 ```
 
 ### Shopping Cart
