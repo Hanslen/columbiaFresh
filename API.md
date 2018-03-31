@@ -33,20 +33,8 @@ url
 parameters
 ```python
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
 email: string
 url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
-=======
-  email: string
-  url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
-
->>>>>>> 056b2695dda56ad48178951d1383b5fd69546736
-=======
-  email: string
-  url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
-
->>>>>>> 1329ad47621197a89f4e172af790c898a26557f6
 }
 ```
 
@@ -259,6 +247,7 @@ GET /order?userId=xxxxx
 ```
 response
 ```
+data:
 {
   orderPlaceDate: string,
   totalPrice: string,
@@ -270,6 +259,8 @@ response
   img: string,
   id: int
 }
+info: string
+status: bool
 ```
 
 ### Shopping Cart
