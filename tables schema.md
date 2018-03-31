@@ -247,7 +247,7 @@ CREATE TABLE `Columbia_Fresh`.`ingredient_in_cate` (
 CREATE TABLE `Columbia_Fresh`.`ingredient_in_recipe` (
   `iid` INT NOT NULL,
   `rid` INT NOT NULL,
-  `quantity` INT NOT NULL,
+  `quantity` DECIMAL NOT NULL,
   PRIMARY KEY (`iid`, `rid`),
   INDEX `recipe_ingredient_in_recipe_idx` (`rid` ASC),
   CONSTRAINT `ingredient_ingredient_in_recipe`
