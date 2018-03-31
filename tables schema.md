@@ -57,6 +57,9 @@ CREATE TABLE `Columbia_Fresh`.`order` (
 CREATE TABLE `Columbia_Fresh`.`ingredient` (
   `iid` INT NOT NULL AUTO_INCREMENT,
   `iname` VARCHAR(100) NOT NULL,
+  `recipeMetric` VARCHAR(100) NOT NULL,
+  `orderPrice` DECIMAL NOT NULL,
+  `shouldConvert` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`iid`));
 ```
 
