@@ -34,18 +34,43 @@ class Recipe extends React.Component {
     }
 
     componentDidMount() {
+        let rid = this.props.match.params.id;
+        let saveRecipe = (data) => this.setState({
+            rid: data.rid,
+            title: data.title,
+            img: data.img,
+            likes: data.likes,
+            isLiked: data.isLiked,
+            tags: data.tags,
+            aid: data.aid,
+            avatar: data.avatar,
+            author: data.author,
+            description: data.description,
+            calorie: data.calorie,
+            preptime: data.preptime,
+            ingredients: data.ingredients,
+            directions: data.directions,
+            notes: data.notes
+        });
+        console.log(rid);
         axios.post('/getRecipe', {
-            // token: ,
-            // uid: ,
-            rid: this.state.rid
+            token: null,
+            uid: null,
+            rid
         }).then(function(response) {
             console.log(response);
+            let data = response.data;
+            saveRecipe(data);
         }).catch(function (error) {
             console.log(error);
         });
     }
 
     handleLike() {
+        let saveLike = (likes, isLiked) => this.setState({
+            likes,
+            isLiked
+        });
         axios.post('/likeRecipe', {
             // token: ,
             // uid: ,
@@ -53,13 +78,9 @@ class Recipe extends React.Component {
             like: this.state.isLiked
         }).then(function (response) {
             console.log(response);
-            // update likes, isLiked
+            saveLike(response.data.likes, response.data.isLiked);
         }).catch(function (error) {
             console.log(error);
-        });
-        this.setState({
-            likes: this.state.likes+1,
-            isLiked: !this.state.isLiked
         });
     }
 
@@ -84,7 +105,7 @@ class Recipe extends React.Component {
         let tagItems = this.state.tags.map(tag => {
             let tagURL = "/search?"+tag;
             return (
-                <Link to={tagURL} style={{"textDecoration": "none"}}>
+                <Link to={tagURL} key={tagURL} style={{"textDecoration": "none"}}>
                     <span key={tag} className="tag" 
                         onClick={(e) => this.handleSearch(tag, e)}>
                         {tag}

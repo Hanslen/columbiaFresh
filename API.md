@@ -221,7 +221,6 @@ response
 }
 ```
 
-<<<<<<< HEAD
 #### like recipe
 
 url
@@ -252,11 +251,6 @@ response
 }
 ```
 
-<<<<<<< HEAD
-#### 
-=======
-=======
->>>>>>> 1329ad47621197a89f4e172af790c898a26557f6
 ### Order
 #### get user orders
 url
@@ -448,3 +442,4 @@ response
   msg: string
 }
 ```
+

@@ -1,5 +1,6 @@
 from manage import app, db
 from flask import url_for, jsonify
+from .models import Customer
 
 class Recipe(db.Model):
     __tablename__ = 'recipe'
@@ -12,7 +13,7 @@ class Recipe(db.Model):
     notes = db.Column(db.String(100))
     directions = db.Column(db.Text)
     preptime = db.Column(db.Integer)
-    uid = db.Column(db.Integer, db.ForeignKey('Customer.uid'))
+    uid = db.Column(db.Integer, db.ForeignKey('customer.uid'))
 
     @staticmethod
     def get_recipe(rid):
@@ -21,6 +22,18 @@ class Recipe(db.Model):
            print("The object does not exist!")
         else:
             return temp
+
+    @staticmethod
+    def get_top_5_hot_recipes():
+        recipes_id = Recipe.query.order_by(Recipe.likes.desc()).limit(5).all()
+        recipesName = []
+        for recipe_id in recipes_id:
+            recipesName.append(recipe_id.title)
+        return recipesName
+
+    @staticmethod
+    def get_all_recipes():
+        return Recipe.query.all()
 
 class Recipe_category(db.Model):
     __tablename__ = 'recipe_category'
@@ -37,8 +50,8 @@ class Recipe_category(db.Model):
 
 class Recipe_in_cate(db.Model):
     __tablename__ = 'recipe_in_cate'
-    rid = db.Column(db.Integer, db.ForeignKey('Recipe.rid'), primary_key=True)
-    rcid = db.Column(db.Integer, db.ForeignKey('Recipe_category.rcid'), primary_key=True,)
+    rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
+    rcid = db.Column(db.Integer, db.ForeignKey('recipe_category.rcid'), primary_key=True,)
 
     @staticmethod
     def get_recipe_cate(rid):
@@ -50,8 +63,8 @@ class Recipe_in_cate(db.Model):
 
 class Customer_like_recipe(db.Model):
     __tablename__ = 'customer_like_recipe'
-    uid = db.Column(db.Integer, db.ForeignKey('Customer.uid'), primary_key=True,)
-    rid = db.Column(db.Integer, db.ForeignKey('Recipe.rid'), primary_key=True,)
+    uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), primary_key=True,)
+    rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True,)
     liked_time = db.Column(db.DateTime, nullable=False)
 
     @staticmethod
@@ -62,3 +75,57 @@ class Customer_like_recipe(db.Model):
            return False
         else:
             return True
+
+    @staticmethod
+    def remove_customer_like(uid, rid):
+        temp = Customer_like_recipe.query.filter(Customer_like_recipe.uid == uid). \
+            filter(Customer_like_recipe.rid == rid).first()
+        if temp is None:
+            print("The record doesn't exist!")
+            return False
+        else:
+            delRecord = temp
+            db.session.delete(delRecord)
+            temp = Customer_like_recipe.query.filter(Customer_like_recipe.uid == uid).\
+                filter(Customer_like_recipe.rid == rid).first()
+            recipe_content = Recipe.get_recipe(rid).first()
+            prevLikes = recipe_content.likes
+            curLikes = prevLikes - 1
+            recipe_content.likes = curLikes
+            db.session.commit()
+            updated_recipe_content = Recipe.get_recipe(rid).first()
+            if temp is None and updated_recipe_content.likes == (prevLikes - 1):
+                return True
+            else:
+                return False
+
+    @staticmethod
+    def add_customer_like(uid, rid):
+        temp = Customer_like_recipe.query.filter(Customer_like_recipe.uid == uid). \
+            filter(Customer_like_recipe.rid == rid).first()
+        if temp:
+            print("The record exists!")
+            return False
+        else:
+            import time
+            curTime = time.strftime('%Y-%m-%d %H:%M:%S')
+            addRecord = Customer_like_recipe(uid, rid, curTime)
+            db.session.add(addRecord)
+            temp = Customer_like_recipe.query.filter(Customer_like_recipe.uid == uid). \
+                filter(Customer_like_recipe.rid == rid).first()
+            recipe_content = Recipe.get_recipe(rid)
+            prevLikes = recipe_content.likes
+            curLikes = prevLikes + 1
+            recipe_content.likes = curLikes
+            db.session.commit()
+            updated_recipe_content = Recipe.get_recipe(rid)
+            if temp and updated_recipe_content.likes == (prevLikes + 1):
+                return True
+            else:
+                return False
+
+    # @staticmethod
+    def __init__(self, uid, rid, datetime):
+        self.uid = uid
+        self.rid = rid
+        self.liked_time = datetime
