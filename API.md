@@ -367,8 +367,16 @@ response
 #### get address
 url
 ```
-GET /settings/address?userId=xxx
+POST /settings/address
 ```
+postData
+```
+{
+    userId: string,
+    token: string
+}
+```
+
 response
 ```
 {
