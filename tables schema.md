@@ -57,6 +57,9 @@ CREATE TABLE `Columbia_Fresh`.`order` (
 CREATE TABLE `Columbia_Fresh`.`ingredient` (
   `iid` INT NOT NULL AUTO_INCREMENT,
   `iname` VARCHAR(100) NOT NULL,
+  `recipeMetric` VARCHAR(100) NOT NULL,
+  `orderPrice` DECIMAL NOT NULL,
+  `shouldConvert` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`iid`));
 ```
 
@@ -315,4 +318,13 @@ CREATE TABLE `Columbia_Fresh`.`customer_like_recipe` (
     REFERENCES `Columbia_Fresh`.`recipe` (`rid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
+```
+
+### metric_transform_table
+
+```
+CREATE TABLE `Columbia_Fresh`.`metric_transform_table` (
+  `order_metric` VARCHAR(30) NOT NULL,
+  `recipe_metirc` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`order_metric`, `recipe_metirc`));
 ```
