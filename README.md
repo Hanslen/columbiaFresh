@@ -1,5 +1,5 @@
 # columbiaFresh
-：）Amazing Team
+：）Amazing Team ：）
 
 ## CI/CD
 * App: CircleCI
