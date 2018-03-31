@@ -316,3 +316,13 @@ CREATE TABLE `Columbia_Fresh`.`customer_like_recipe` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 ```
+
+### metric_transform_table
+
+```
+CREATE TABLE `Columbia_Fresh`.`metric_transform_table` (
+  `order_metric` VARCHAR(30) NOT NULL,
+  `recipe_metirc` VARCHAR(30) NOT NULL,
+  `coeefficient` DECIMAL NOT NULL,
+  PRIMARY KEY (`order_metric`, `recipe_metirc`));
+```
