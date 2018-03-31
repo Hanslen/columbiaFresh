@@ -256,8 +256,7 @@ data:
   deliveredDate: string,
   soldBy: string,
   title: string,
-  img: string,
-  id: int
+  img: string
 }
 info: string
 status: bool
@@ -282,8 +281,7 @@ response
       title: string,
       price: float,
       number: int
-   }],
-  id: int
+   }]
 }
 ```
 
