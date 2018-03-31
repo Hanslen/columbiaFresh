@@ -415,14 +415,10 @@ class navigation extends Component{
 }
 const mapStateToProps = state => {
   return {
-<<<<<<< HEAD
       isAuthenticated: state.auth.email !== null,
       loading: state.auth.loading,
       userId: state.auth.userId
-=======
-      isAuthenticated: state.auth.email === null,
-      loading: state.auth.loading
->>>>>>> master
+
   };
 }
 const mapDispatchToProps = dispatch => {

@@ -102,10 +102,12 @@ export const authLogIn = (email, password) => {
                     localStorage.setItem('token', response.data.info.token); //split
                     dispatch(authSuccess(response.data.info.email, response.data.info.uname, response.data.info.uid));
                     // dispatch(checkAuthTimeout(response.data.expiresIn));
+                    // alert(response.data.info);
                 }
                 else{
                     console.log("Login failed...");
-                    console.log(response);
+                    alert("Login failed...");
+                    // console.log("Login failed...");
                 }
             }).catch(error => {
                 console.log("QAQ");
@@ -139,7 +141,7 @@ export const authSignUp = (email, username, password) => {
                         console.log(response);
                     }).catch(error=>{
                         console.log(error);
-                    })
+                    });
             })
             .catch(error => {
                 console.log(error);
