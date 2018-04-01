@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import classes from './Input.css';
 
 class input extends Component{
-    render(){let inputElement = null;
+    render(){
+        let inputElement = null;
         const inputClasses = ["form-control"];
         if (this.props.invalid && this.props.shouldValidate && this.props.touched) {
             inputClasses.push(classes.Invalid);
@@ -14,7 +15,8 @@ class input extends Component{
                     className={inputClasses.join(' ')}
                     {...this.props.elementConfig}
                     value={this.props.value}
-                    onChange={this.props.changed} />;
+                    onChange={this.props.changed}
+                    placeholder={this.props.placeholder} />;
                 break;
             case ( 'textarea' ):
                 inputElement = <textarea

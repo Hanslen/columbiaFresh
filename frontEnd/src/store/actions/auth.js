@@ -7,12 +7,13 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (email, username, userId) => {
+export const authSuccess = (email, username, userId, token) => {
     return{
         type: actionTypes.AUTH_SUCCESS,
         email: email,
         username: username,
-        userId: userId
+        userId: userId,
+        token: token
     };
 };
 export const authConfirm = (email, username) => {
@@ -34,6 +35,8 @@ export const logout = () => {
     localStorage.removeItem('email');
     // localStorage.removeItem('expirationDate');
     localStorage.removeItem('username');
+    localStorage.removeItem("token");
+    localStorage.removeItem("uid");
     return {
         type: actionTypes.AUTH_LOGOUT
     };
@@ -66,8 +69,8 @@ export const auth = (email, password, isSignUp) => {
                     localStorage.setItem('token',response.data.idToken);
                     localStorage.setItem('expirationDate', expirationDate);
                     localStorage.setItem('userId', response.data.localId);
-                    dispatch(authSuccess(response.data.idToken, response.data.localId));
-                    dispatch(checkAuthTimeout(response.data.expiresIn));
+                    dispatch(authSuccess(response.data.idToken, response.data.localId, response.data.token));
+                    // dispatch(checkAuthTimeout(response.data.expiresIn));
                 }
             )
             .catch(err => {
@@ -100,13 +103,12 @@ export const authLogIn = (email, password) => {
                     localStorage.setItem('email', response.data.info.email);
                     localStorage.setItem('uid', response.data.info.uid);
                     localStorage.setItem('token', response.data.info.token); //split
-                    dispatch(authSuccess(response.data.info.email, response.data.info.uname, response.data.info.uid));
+                    dispatch(authSuccess(response.data.info.email, response.data.info.uname, response.data.info.uid,response.data.info.token));
                     // dispatch(checkAuthTimeout(response.data.expiresIn));
                     // alert(response.data.info);
                 }
                 else{
-                    console.log("Login failed...");
-                    alert("Login failed...");
+                    alert(response.data.info);
                     // console.log("Login failed...");
                 }
             }).catch(error => {

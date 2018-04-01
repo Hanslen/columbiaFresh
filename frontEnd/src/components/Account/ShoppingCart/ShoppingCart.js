@@ -150,7 +150,7 @@ class shoppingcart extends Component{
             )
         });
         return (
-            <div className="tab-pane fade" id="nav-shoppingCart" role="tabpanel" aria-labelledby="nav-shoppingCart-tab">
+            <div className={this.props.displayClass} id="nav-shoppingCart" role="tabpanel" aria-labelledby="nav-shoppingCart-tab" style={this.props.style}>
                 <div className={classes.shoppingCart}>
                     {recipes}
                     <button className="btn btn-default btn-primary" id={classes.checkOut}>CheckOut</button>

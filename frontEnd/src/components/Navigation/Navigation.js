@@ -417,7 +417,8 @@ const mapStateToProps = state => {
   return {
       isAuthenticated: state.auth.email !== null,
       loading: state.auth.loading,
-      userId: state.auth.userId
+      userId: state.auth.userId,
+      token: state.auth.token
   };
 }
 const mapDispatchToProps = dispatch => {

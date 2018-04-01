@@ -118,7 +118,7 @@ class Order extends React.Component {
                             </div>
                         </div>
                         <div className="borderBox">
-                            <ShoppingCart displayClass="tab-pane fade active show" />
+                            <ShoppingCart displayClass="tab-pane fade active show" style={{marginLeft:"-15%",marginRight:"-15%"}}/>
                         </div>
                     </div>
                     <div className="col-3">

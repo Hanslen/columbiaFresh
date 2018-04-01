@@ -20,7 +20,8 @@ const authSuccess = (state, action) =>{
         email: action.email,
         userId: action.userId,
         error: null,
-        loading: false
+        loading: false,
+        token: action.token
     });
 }
 
@@ -34,7 +35,9 @@ const authFail = (state, action) => {
 const authLogout = (state, action) => {
     return updateObject(state, {
         username: null,
-        email: null
+        email: null,
+        userId: null,
+        token: null
     });
 }
 const authConfirm = (state, action) => {

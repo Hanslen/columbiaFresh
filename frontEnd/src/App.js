@@ -12,6 +12,7 @@ import laoshi from './components/laoshi';
 import Account from './components/Account/Account';
 import accountManage from './components/Navigation/AccountManage/AccountManage';
 import Order from './components/OrderPage/Order';
+import createRecipe from './components/createRecipe/createRecipe';
 
 
 class App extends Component {
@@ -24,6 +25,7 @@ class App extends Component {
         <Route path="/" exact component={HomePage} />
         <Route path="/search" exact component={Search}/>
         <Route path="/recipe/:id" exact component={Recipe}/>
+        <Route path="/createRecipe" exact component={createRecipe}/>
         <Route path="/laoshi" exact component={laoshi}/>
         <Route path="/myprofile" exact component={Account}/>
         <Route path="/verifyEmail/:token" exact component={accountManage}/>

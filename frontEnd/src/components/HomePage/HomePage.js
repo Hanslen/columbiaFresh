@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import classes from './HomePage.css'
 import SearchBox from '../UI/SearchBox/SearchBox';
 import spinner from '../UI/Spinner/Spinner';
+import shoppingcart from '../Account/ShoppingCart/ShoppingCart';
 
 class homePage extends Component{
     state = {
