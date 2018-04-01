@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import Button from '../../UI/Button/Button';
+import {connect} from 'react-redux';
+import * as actions from '../../../store/actions/index';
 class directions extends Component{
     state = {
-        directions: ["jsjsj"]
+        directions: [""]
     }
     addDirections = () => {
         let oldState = this.state.directions;
@@ -17,13 +19,19 @@ class directions extends Component{
         oldState.splice(id,1);
         this.setState({"directions":oldState});
     }
+    updateDirection = (id, e) => {
+        let oldState = this.state.directions;
+        oldState[id] = e.target.value;
+        this.setState({"directions": oldState});
+        this.props.updateDirection(id, e.target.value);
+    }
     render(){
         let liClasses = ["media", "direction-list"];
         let listItems = this.state.directions.map((step, i) => 
             <li key={i+1} className={liClasses.join(' ')}>
                 <div className="direction-num">{i+1}</div>
                 <div className="media-body">
-                    <input type="text"className="form-control addDirections" placeholder="How to cook"/>
+                    <input type="text"className="form-control addDirections" placeholder="How to cook" value={step} onChange={(e) => this.updateDirection(i, e)}/>
                     <span style={{marginTop:"8px",float:"right"}} onClick={(id) => this.deleteDirections(this.props.id)}>X</span>
                 </div>
             </li>
@@ -45,4 +53,18 @@ class directions extends Component{
         );
     }
 }
-export default directions;
+
+const mapStateToProps = state =>{
+    return {
+        directions: state.addRecip.directions
+    };
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        addDirection: () => dispatch(actions.addDirection()),
+        deleteDirection: (id) => dispatch(actions.addIngredients(id)),
+        updateDirection: (id, value) => dispatch(actions.updateDirection(id,value))
+    };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(directions);

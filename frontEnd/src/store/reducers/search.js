@@ -14,7 +14,6 @@ export const resultsReducer = (state={ keyword: '', results: [] }, action) => {
     switch (action.type) {
         case GET_RESULTS:
             console.log('get '+action.results.length+' results.');
-            //return state.concat(state, action.results);
             return {
                 keyword: action.keyword,
                 results: action.results

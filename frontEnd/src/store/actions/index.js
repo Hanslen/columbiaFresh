@@ -15,5 +15,11 @@ export{
 }from './auth';
 export{
     addIngredients,
-    deleteIngredients
+    deleteIngredients,
+    updateType,
+    updateUnit,
+    updateNum,
+    addDirection,
+    deleteDirection,
+    updateDirection
 }from './uploadIngredients';

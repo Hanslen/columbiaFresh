@@ -15,7 +15,9 @@ class createRecipe extends Component{
         authorURL: "",
         author: "Author",
         avatar: "http://via.placeholder.com/40x40",
-        ingredients: null
+        ingredients: null,
+        notes: "",
+        intro: ""
     }
   
     componentWillMount(){
@@ -29,6 +31,14 @@ class createRecipe extends Component{
     }
     listenIngChange = () => {
         this.setState({ingredients: this.props.ingredients});
+    }
+    uploadRecipe = () => {
+        console.log(this.state.title);
+        console.log(this.state.tags);
+        console.log(this.state.intro);
+        console.log(this.state.ingredients);
+        console.log(this.props.directions);
+        console.log(this.state.notes);
     }
     addTag = (e) => {
         if (e.key === 'Enter') {
@@ -45,10 +55,25 @@ class createRecipe extends Component{
         oldState.splice(id, 1);
         this.setState({tags: oldState});
     }
+    updateNotes = (e) => {
+
+        let oldState = this.state.notes;
+        oldState = e.target.value;
+        this.setState({notes: oldState});
+    }
+    updateTitle = (e) => {
+        let oldState = this.state.title;
+        oldState = e.target.value;
+        this.setState({title: oldState});
+    }
+    updateIntro = (e) => {
+        let oldState = this.state.intro;
+        oldState = e.target.value;
+        this.setState({intro: oldState});
+    }
     render(){
         let liClasses = ["list-group-item", "borderless"];
         let tagItems = this.state.tags.map(tag => {
-            // console.log(tag);
             let tagURL = "/search?"+tag;
             return (
                     <span key={tag} className="tag" onClick={() => this.deleteTag(tag)}>
@@ -82,14 +107,15 @@ class createRecipe extends Component{
             <div className="container">
                 <div className="row mt-3">
                     <div className="col-8">
-                        <Input elementType="input" placeholder="Please enter your recipe title"/>
+                        <input type="input" className="form-control" placeholder="Please enter your recipe title" onChange={(e) => this.updateTitle(e)} value={this.state.title}/>
+                        <br/>
                         <img src={this.state.img} style={{width:"100%"}} onClick={this.uploadImg}/>
                         <input type="file" id="uploadImg" style={{display:"none"}}/>
                         <br/><br/>
                         {tagItems} 
                             <input type="text" className="addTag" id="addTag" onKeyPress={this.addTag}/>
                         {authorInfo}
-                        <Input elementType="textarea" elementConfig={{placeholder:"Please enter recipe description."}} boxStyle={{marginTop:"-5%"}}/>
+                        <textarea className="form-control" placeholder="Please enter recipe description." value={this.state.intro} onChange={(e) => this.updateIntro(e)}/>
                         <div className="mt-3">
                             <div className="row">
                                 <div className="col-9">
@@ -106,12 +132,12 @@ class createRecipe extends Component{
                         <div>
                             <h4>Notes</h4>
                             <hr className="mt-1 mb-2"/>
-                            <textarea className="form-control" placeholder="What you want to tell more?"/>
+                            <textarea className="form-control" value={this.state.notes} placeholder="What you want to tell more?" onChange={(e) => this.updateNotes(e)}/>
                         </div>
                         <br/>
                         <div className="mt-3">
                             <div className="list-group">
-                                <Button btnValue="Submit"/>
+                                <Button btnValue="Submit" onClick={this.uploadRecipe}/>
                                 </div>
                         </div>
                         <br/>
@@ -125,7 +151,8 @@ class createRecipe extends Component{
 
 const mapStateToProps = state =>{
     return {
-        ingredients: state.addRecip.ingredients
+        ingredients: state.addRecip.ingredients,
+        directions: state.addRecip.directions
     };
 }
 const mapDispatchToProps = dispatch => {
