@@ -106,3 +106,7 @@ li.borderless {
 .fontBold {
     font-weight: bold;
 }
+.totalSum {
+    color: #E74C3C;
+    font-size: 24px;
+}
