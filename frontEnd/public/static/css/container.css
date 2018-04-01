@@ -106,3 +106,10 @@ li.borderless {
 .fontBold {
     font-weight: bold;
 }
+.list-group-item{
+    background-color: rgb(244,245,247);
+}
+.addIngredients{
+    width: 30%;
+    float: left;
+}
