@@ -113,3 +113,8 @@ li.borderless {
     width: 30%;
     float: left;
 }
+
+.totalSum {
+    color: #E74C3C;
+    font-size: 24px;
+}
