@@ -34,7 +34,20 @@ CREATE TABLE `Columbia_Fresh`.`customer` (
 ```
 CREATE TABLE `Columbia_Fresh`.`order` (
   `oid` INT NOT NULL AUTO_INCREMENT,
-  `order_time` DATETIME NOT NULL,
+  `orderPlaceDate` DATETIME NOT NULL,
+  `shipTo` VARCHAR(45) NULL,
+  `deliveredDate` DATETIME NULL DEFAULT '2018-12-31 00:00:00',
+  `img` LONGTEXT NULL,
+  `soldBy` VARCHAR(45) NULL,
+  `isCheckedOut` TINYINT NOT NULL DEFAULT 0,
+  `uid` INT(11) NOT NULL AFTER `isCheckedOut`,
+  ADD INDEX `customer_makes_an_order_idx` (`uid` ASC);
+  ALTER TABLE `Columbia_Fresh`.`order` 
+  ADD CONSTRAINT `customer_makes_an_order`
+    FOREIGN KEY (`uid`)
+    REFERENCES `Columbia_Fresh`.`customer` (`uid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
   PRIMARY KEY (`oid`));
 ```
 
@@ -44,6 +57,9 @@ CREATE TABLE `Columbia_Fresh`.`order` (
 CREATE TABLE `Columbia_Fresh`.`ingredient` (
   `iid` INT NOT NULL AUTO_INCREMENT,
   `iname` VARCHAR(100) NOT NULL,
+  `recipeMetric` VARCHAR(100) NOT NULL,
+  `orderPrice` DECIMAL NOT NULL,
+  `shouldConvert` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`iid`));
 ```
 
@@ -122,19 +138,6 @@ CREATE TABLE `Columbia_Fresh`.`browsing_history` (
   PRIMARY KEY (`uuid`));
 ```
 
-### cart
-
-```
-CREATE TABLE `Columbia_Fresh`.`cart` (
-  `uid` INT NOT NULL,
-  `uname` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`uid`),
-  CONSTRAINT `customer_cart`
-    FOREIGN KEY (`uid`)
-    REFERENCES `Columbia_Fresh`.`customer` (`uid`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-```
 
 ### browse
 
@@ -176,22 +179,22 @@ CREATE TABLE `Columbia_Fresh`.`issue` (
     ON UPDATE CASCADE);
 ```
 
-### order_contain_items
+### order_contain_recipes
 
 ```
-CREATE TABLE `Columbia_Fresh`.`order_contain_items` (
+CREATE TABLE `Columbia_Fresh`.`order_contain_recipes` (
   `oid` INT NOT NULL,
-  `iid` INT NOT NULL,
-  PRIMARY KEY (`oid`, `iid`),
-  INDEX `ingredient_order_contains_item_idx` (`iid` ASC),
+  `rid` INT NOT NULL,
+  PRIMARY KEY (`oid`, `rid`),
+  INDEX `recipe_in_order_idx` (`rid` ASC),
   CONSTRAINT `order_order_contains_item`
     FOREIGN KEY (`oid`)
     REFERENCES `Columbia_Fresh`.`order` (`oid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `ingredient_order_contains_item`
-    FOREIGN KEY (`iid`)
-    REFERENCES `Columbia_Fresh`.`ingredient` (`iid`)
+  CONSTRAINT `recipe_in_order`
+    FOREIGN KEY (`rid`)
+    REFERENCES `Columbia_Fresh`.`recipe` (`rid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 ```
@@ -244,7 +247,7 @@ CREATE TABLE `Columbia_Fresh`.`ingredient_in_cate` (
 CREATE TABLE `Columbia_Fresh`.`ingredient_in_recipe` (
   `iid` INT NOT NULL,
   `rid` INT NOT NULL,
-  `quantity` INT NOT NULL,
+  `quantity` DECIMAL NOT NULL,
   PRIMARY KEY (`iid`, `rid`),
   INDEX `recipe_ingredient_in_recipe_idx` (`rid` ASC),
   CONSTRAINT `ingredient_ingredient_in_recipe`
@@ -315,4 +318,13 @@ CREATE TABLE `Columbia_Fresh`.`customer_like_recipe` (
     REFERENCES `Columbia_Fresh`.`recipe` (`rid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
+```
+
+### metric_transform_table
+
+```
+CREATE TABLE `Columbia_Fresh`.`metric_transform_table` (
+  `order_metric` VARCHAR(30) NOT NULL,
+  `recipe_metirc` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`order_metric`, `recipe_metirc`));
 ```

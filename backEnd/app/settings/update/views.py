@@ -63,7 +63,10 @@ def update_address():
     customer.zipCode = content['zipCode']
     db.session.commit()
 
-    return jsonify({"success":True, "msg": "Successfully update address."})
+    return jsonify({
+        "success":True,
+        "msg": "Successfully update address."
+        })
 
 
 @app.route('/settings/update/credit', methods=['POST'])
