@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import classes from './MyRecipes.css';
 import Button from '../UI/Button/Button';
+import { Link } from 'react-router-dom';
 class myRecipes extends Component{
     state= {
         myFolders:["Breakfast", "Lunch", "Snacks","Dinner", "+ Create a recipe"],
@@ -54,9 +55,7 @@ class myRecipes extends Component{
         this.setState({selectedFolder:folder});
     }
 
-    createRecipe = () => {
-        
-    }
+
 
     render(){
         let folderCss = ["fas", "fa-folder-open",classes.folderIcon];
@@ -66,7 +65,7 @@ class myRecipes extends Component{
                 return(<a className={folderA.concat(classes.folderactive).join(" ")} key={folder} onClick={(id)=>this.activeHandler(folder)} id={"my"+folder}><i className={folderCss.join(" ")}></i>{folder}</a>);
             }
             else if(id == this.state.myFolders.length-1){
-                return(<a className={folderA.join(" ")} key={folder} onClick={()=>this.createRecipe()} id={"my"+folder}>{folder}</a>);
+                return(<Link to="/createRecipe" style={{textDecoration:"none"}}><a className={folderA.join(" ")} key={folder} id={"my"+folder}>{folder}</a></Link>);
             }
             else{
                 return(<a className={folderA.join(" ")} key={folder} onClick={(id)=>this.activeHandler(folder)} id={"my"+folder}><i className={folderCss.join(" ")}></i>{folder}</a>);
