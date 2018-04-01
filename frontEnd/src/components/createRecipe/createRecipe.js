@@ -25,6 +25,21 @@ class createRecipe extends Component{
     }
     uploadImg = () => {
         $('#uploadImg').trigger('click');;
+
+    }
+    imgOnChange = (e) => {
+        const file = this.refs.uploadImg.files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            this.setState({img: reader.result})
+        };
+        if(file){
+            reader.readAsDataURL(file);
+            this.setState({img: reader.result});
+        }
+        else{
+            this.setState({img:"http://via.placeholder.com/600x400"});
+        }
     }
     addIngredients = () => {
         this.props.addIngredients();
@@ -71,6 +86,7 @@ class createRecipe extends Component{
         oldState = e.target.value;
         this.setState({intro: oldState});
     }
+
     render(){
         let liClasses = ["list-group-item", "borderless"];
         let tagItems = this.state.tags.map(tag => {
@@ -110,7 +126,7 @@ class createRecipe extends Component{
                         <input type="input" className="form-control" placeholder="Please enter your recipe title" onChange={(e) => this.updateTitle(e)} value={this.state.title}/>
                         <br/>
                         <img src={this.state.img} style={{width:"100%"}} onClick={this.uploadImg}/>
-                        <input type="file" id="uploadImg" style={{display:"none"}}/>
+                        <input type="file" ref="uploadImg" name="selectedFile" onChange={this.imgOnChange} id="uploadImg" style={{display:"none"}}/>
                         <br/><br/>
                         {tagItems} 
                             <input type="text" className="addTag" id="addTag" onKeyPress={this.addTag}/>
