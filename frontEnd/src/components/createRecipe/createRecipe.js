@@ -11,7 +11,7 @@ class createRecipe extends Component{
     state = {
         title: "",
         img:'http://via.placeholder.com/600x400',
-        tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
+        tags: ['tag1'],
         authorURL: "",
         author: "Author",
         avatar: "http://via.placeholder.com/40x40",
@@ -24,25 +24,36 @@ class createRecipe extends Component{
     uploadImg = () => {
         $('#uploadImg').trigger('click');;
     }
-    componentWillUpdate(nextPros){
-    }
     addIngredients = () => {
         this.props.addIngredients();
     }
     listenIngChange = () => {
         this.setState({ingredients: this.props.ingredients});
     }
+    addTag = (e) => {
+        if (e.key === 'Enter') {
+            let oldState = this.state.tags;
+            oldState.push(e.target.value);
+            this.setState({tags: oldState});
+            e.target.value="";
+        }
+    }
+    deleteTag = (tag) => {
+        console.log(tag);
+        let oldState = this.state.tags;
+        let id = oldState.indexOf(tag);
+        oldState.splice(id, 1);
+        this.setState({tags: oldState});
+    }
     render(){
         let liClasses = ["list-group-item", "borderless"];
         let tagItems = this.state.tags.map(tag => {
+            // console.log(tag);
             let tagURL = "/search?"+tag;
             return (
-                <Link to={tagURL} key={tagURL} style={{"textDecoration": "none"}}>
-                    <span key={tag} className="tag" 
-                        onClick={(e) => this.handleSearch(tag, e)}>
+                    <span key={tag} className="tag" onClick={() => this.deleteTag(tag)}>
                         {tag}
                     </span>
-                </Link>
             );
         });
 
@@ -75,7 +86,8 @@ class createRecipe extends Component{
                         <img src={this.state.img} style={{width:"100%"}} onClick={this.uploadImg}/>
                         <input type="file" id="uploadImg" style={{display:"none"}}/>
                         <br/><br/>
-                        {tagItems}  
+                        {tagItems} 
+                            <input type="text" className="addTag" id="addTag" onKeyPress={this.addTag}/>
                         {authorInfo}
                         <Input elementType="textarea" elementConfig={{placeholder:"Please enter recipe description."}} boxStyle={{marginTop:"-5%"}}/>
                         <div className="mt-3">
@@ -94,7 +106,7 @@ class createRecipe extends Component{
                         <div>
                             <h4>Notes</h4>
                             <hr className="mt-1 mb-2"/>
-                            <textarea class="form-control" placeholder="What you want to tell more?"/>
+                            <textarea className="form-control" placeholder="What you want to tell more?"/>
                         </div>
                         <br/>
                         <div className="mt-3">

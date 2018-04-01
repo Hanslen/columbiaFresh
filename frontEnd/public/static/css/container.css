@@ -117,7 +117,16 @@ li.borderless {
     width: 90%;
     float: left;
 }
-
+.addTag{
+    border-color: #428bca;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 2px;
+    width: 10%;
+}
+.addTag:focus{
+    outline: none;
+}
 .totalSum {
     color: #E74C3C;
     font-size: 24px;
