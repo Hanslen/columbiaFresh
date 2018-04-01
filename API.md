@@ -33,8 +33,9 @@ url
 parameters
 ```python
 {
-email: string
-url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
+
+  email: string
+  url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
 }
 ```
 
@@ -243,12 +244,19 @@ response
 #### get user orders
 url
 ```
-GET /order?userId=xxxxx
+POST /order
 ```
-response
+postData
 ```
 data:
 {
+    userId: string,
+    token: string
+}
+```
+response
+```
+"msg":[{
   orderPlaceDate: string,
   totalPrice: string,
   shipTo: string,
@@ -256,18 +264,32 @@ data:
   deliveredDate: string,
   soldBy: string,
   title: string,
+<<<<<<< HEAD
   img: string
 }
 info: string
 status: bool
+=======
+  img: string,
+  link: string
+}]
+>>>>>>> 98d2b41d6601d252f5ead34bee495b83021d7f58
 ```
 
 ### Shopping Cart
 #### get user shopping Cart
 url
 ```
-GET /shoppingCart?userId=xxxx
+POST /shoppingCart
 ```
+postData
+```
+{
+    userId: string,
+    token: string
+}
+```
+
 response
 ```
 {
@@ -289,8 +311,16 @@ response
 #### get basic information
 url
 ```
-GET /settings/basic?userId=xxxx
+POST /settings/basic
 ```
+postData
+```
+{
+   token: string,
+   userId: string
+}
+```
+
 response
 ```
 {
@@ -298,7 +328,8 @@ response
   lastname: string,
   gender: int,
   email: string,
-  introduction: string
+  introduction: string, (token != userId)
+  userName: string (token != userId)
 }
 ```
 #### update basic information
@@ -349,12 +380,20 @@ response
 #### get address
 url
 ```
-GET /settings/address?userId=xxx
+POST /settings/address
 ```
+postData
+```
+{
+    userId: string,
+    token: string
+}
+```
+
 response
 ```
 {
-  streetAdress1: string,
+  streetAddress1: string,
   streetAddress2: string,
   city: string,
   state_province_region: string
@@ -371,7 +410,7 @@ postData
 {
   userId: xxxx,
   token: string,
-  streetAdress1: string,
+  streetAddress1: string,
   streetAddress2: string,
   city: string,
   state_province_region: string
