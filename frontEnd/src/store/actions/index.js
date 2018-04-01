@@ -13,3 +13,7 @@ export{
     updateAddress,
     updateCredit
 }from './auth';
+export{
+    addIngredients,
+    deleteIngredients
+}from './uploadIngredients';

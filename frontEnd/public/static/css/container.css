@@ -113,6 +113,10 @@ li.borderless {
     width: 30%;
     float: left;
 }
+.addDirections{
+    width: 90%;
+    float: left;
+}
 
 .totalSum {
     color: #E74C3C;

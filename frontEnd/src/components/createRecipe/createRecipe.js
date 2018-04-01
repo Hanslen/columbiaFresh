@@ -3,6 +3,10 @@ import Input from '../UI/Input/Input';
 import { Link, withRouter } from 'react-router-dom';
 import classes from './createRecipe';
 import Button from '../UI/Button/Button';
+import IngredientBox from './uploadComponent/ingredientBox';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/index';
+import Directions from './uploadComponent/directions';
 class createRecipe extends Component{
     state = {
         title: "",
@@ -10,19 +14,24 @@ class createRecipe extends Component{
         tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
         authorURL: "",
         author: "Author",
-        avatar: "http://via.placeholder.com/40x40"
-
+        avatar: "http://via.placeholder.com/40x40",
+        ingredients: null
     }
-    deleteIngredient = (id) => {
-        console.log("delete ingredient");
-    }   
+  
+    componentWillMount(){
+        this.setState({ingredients: this.props.ingredients});
+    }
     uploadImg = () => {
         $('#uploadImg').trigger('click');;
     }
-    addMoreIngredient = () =>{
-        console.log("Add more ingredients");
+    componentWillUpdate(nextPros){
     }
-    
+    addIngredients = () => {
+        this.props.addIngredients();
+    }
+    listenIngChange = () => {
+        this.setState({ingredients: this.props.ingredients});
+    }
     render(){
         let liClasses = ["list-group-item", "borderless"];
         let tagItems = this.state.tags.map(tag => {
@@ -53,6 +62,11 @@ class createRecipe extends Component{
             </div>
         );
 
+        let ingredients = this.state.ingredients.map((ing,id) => {
+            return (
+                <IngredientBox key={id} id={id}/>
+            );
+        });
         return (
             <div className="container">
                 <div className="row mt-3">
@@ -71,20 +85,40 @@ class createRecipe extends Component{
                                 </div>
                             </div>
                             <hr className="mt-1 mb-1"/>
-                                <ul className="list-group list-group-flush">
-                                    <li className="list-group-item borderless">
-                                        <input type="text" className="form-control addIngredients" placeholder="Ingredient"/>
-                                        <input type="text" className="form-control addIngredients" placeholder="Quantity"/>
-                                        <input type="text" className="form-control addIngredients" placeholder="Unit"/>
-                                        <span style={{marginTop:"8px",float:"right"}} onClick={(id) => this.deleteIngredient(id)}>X</span>
-                                    </li>
-                                    <Button btnValue="Add more" style={{width:"30%"}} onClick={this.addMoreIngredient}/>
+                                <ul className="list-group list-group-flush" id="ingredientList" onClick={this.listenIngChange}>
+                                    {ingredients}
+                                    <Button btnValue="Add more" style={{width:"30%"}} onClick={this.addIngredients}/>
                                 </ul>
                         </div>
+                        <Directions/>
+                        <div>
+                            <h4>Notes</h4>
+                            <hr className="mt-1 mb-2"/>
+                            <textarea class="form-control" placeholder="What you want to tell more?"/>
+                        </div>
+                        <br/>
+                        <div className="mt-3">
+                            <div className="list-group">
+                                <Button btnValue="Submit"/>
+                                </div>
+                        </div>
+                        <br/>
+                        <br/>
                     </div>
                 </div>
             </div>
         );
     }
 }
-export default createRecipe;
+
+const mapStateToProps = state =>{
+    return {
+        ingredients: state.addRecip.ingredients
+    };
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        addIngredients: (ing) => dispatch(actions.addIngredients(ing))
+    };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(createRecipe);
