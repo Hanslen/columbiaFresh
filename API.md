@@ -96,6 +96,30 @@ response
 }
 
 ```
+### Upload recipes
+url
+```
+POST /createRecipe
+```
+postData
+```
+{
+	title: String,
+	img: String,
+	tag: [String],
+	authorId: String, (userId Same),
+	description: String,
+	ingredients: [[String, String, String]],
+	directions: [String],
+	notes: String
+}
+```
+response:
+```
+{
+	status: String (Success/fail)
+}
+```
 
 ### Search recipes
 
