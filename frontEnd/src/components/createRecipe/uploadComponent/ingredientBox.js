@@ -17,10 +17,10 @@ class ingredientBox extends Component{
     render(){
         return (
             <li className="list-group-item borderless">
-                <input type="text" className="form-control addIngredients" placeholder="Ingredient" onChange={(e)=>this.updateType(this.props.id, e)}/>
-                <input type="text" className="form-control addIngredients" placeholder="Quantity" onChange={(e)=>this.updateQuantity(this.props.id, e)}/>
-                <input type="text" className="form-control addIngredients" placeholder="Unit" onChange={(e) => this.updateUnit(this.props.id, e)}/>
-                <span style={{marginTop:"8px",float:"right"}} onClick={(id) => this.deleteIngredient(this.props.id)}>X</span>
+                <input type="text" className="form-control addIngredients" placeholder="Ingredient" value = {this.props.type} onChange={(e)=>this.updateType(this.props.id, e)}/>
+                <input type="text" className="form-control addIngredients" placeholder="Quantity" value={this.props.num} onChange={(e)=>this.updateQuantity(this.props.id, e)}/>
+                <input type="text" className="form-control addIngredients" placeholder="Unit" value={this.props.unit} onChange={(e) => this.updateUnit(this.props.id, e)}/>
+                <span style={{marginTop:"8px",float:"right"}} onClick={() => this.deleteIngredient(this.props.id)}>X</span>
             </li>
         );
     }

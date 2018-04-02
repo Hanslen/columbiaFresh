@@ -62,7 +62,7 @@ const deleteIngredients = (state, action) => {
     );
 }
 const deleteDirection = (state, action) => {
-    let oldState = state.ingredients;
+    let oldState = state.directions;
     if(oldState.length == 1){
         return state;
     }

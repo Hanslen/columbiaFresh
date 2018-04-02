@@ -15,14 +15,11 @@ class createRecipe extends Component{
         authorURL: "",
         author: "Author",
         avatar: "http://via.placeholder.com/40x40",
-        ingredients: null,
+        ingredients: [["","",""]],
         notes: "",
         intro: ""
     }
   
-    componentWillMount(){
-        this.setState({ingredients: this.props.ingredients});
-    }
     uploadImg = () => {
         $('#uploadImg').trigger('click');;
 
@@ -116,7 +113,7 @@ class createRecipe extends Component{
 
         let ingredients = this.state.ingredients.map((ing,id) => {
             return (
-                <IngredientBox key={id} id={id}/>
+                <IngredientBox key={id} id={id} type={ing[0]} num={ing[1]} unit={ing[2]}/>
             );
         });
         return (
@@ -139,7 +136,7 @@ class createRecipe extends Component{
                                 </div>
                             </div>
                             <hr className="mt-1 mb-1"/>
-                                <ul className="list-group list-group-flush" id="ingredientList" onClick={this.listenIngChange}>
+                                <ul className="list-group list-group-flush" id="ingredientList" onChange={this.listenIngChange} onClick={this.listenIngChange}>
                                     {ingredients}
                                     <Button btnValue="Add more" style={{width:"30%"}} onClick={this.addIngredients}/>
                                 </ul>
