@@ -18,6 +18,7 @@ class directions extends Component{
         }
         oldState.splice(id,1);
         this.setState({"directions":oldState});
+        this.props.deleteDirection(id);
     }
     updateDirection = (id, e) => {
         let oldState = this.state.directions;
@@ -32,7 +33,7 @@ class directions extends Component{
                 <div className="direction-num">{i+1}</div>
                 <div className="media-body">
                     <input type="text"className="form-control addDirections" placeholder="How to cook" value={step} onChange={(e) => this.updateDirection(i, e)}/>
-                    <span style={{marginTop:"8px",float:"right"}} onClick={(id) => this.deleteDirections(this.props.id)}>X</span>
+                    <span style={{marginTop:"8px",float:"right"}} onClick={() => this.deleteDirections(i)}>X</span>
                 </div>
             </li>
         );
@@ -62,7 +63,7 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch => {
     return {
         addDirection: () => dispatch(actions.addDirection()),
-        deleteDirection: (id) => dispatch(actions.addIngredients(id)),
+        deleteDirection: (id) => dispatch(actions.deleteDirection(id)),
         updateDirection: (id, value) => dispatch(actions.updateDirection(id,value))
     };
 }
