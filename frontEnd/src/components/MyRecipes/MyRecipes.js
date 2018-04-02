@@ -65,7 +65,7 @@ class myRecipes extends Component{
                 return(<a className={folderA.concat(classes.folderactive).join(" ")} key={folder} onClick={(id)=>this.activeHandler(folder)} id={"my"+folder}><i className={folderCss.join(" ")}></i>{folder}</a>);
             }
             else if(id == this.state.myFolders.length-1){
-                return(<Link to="/createRecipe" style={{textDecoration:"none"}}><a className={folderA.join(" ")} key={folder} id={"my"+folder}>{folder}</a></Link>);
+                return(<Link to="/createRecipe" style={{textDecoration:"none"}} className={folderA.join(" ")} key={folder} id={"my"+folder}>{folder}</Link>);
             }
             else{
                 return(<a className={folderA.join(" ")} key={folder} onClick={(id)=>this.activeHandler(folder)} id={"my"+folder}><i className={folderCss.join(" ")}></i>{folder}</a>);

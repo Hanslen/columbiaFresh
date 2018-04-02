@@ -382,7 +382,11 @@ class settings extends Component{
     }
 
     setBasicInformation = () => {
-        Axios.get('/settings/basic?userId='+this.props.userId).then(response => {
+        const postData = {
+            token: this.props.token,
+            userId: this.props.userId
+        }
+        Axios.post('/settings/basic',postData).then(response => {
             if(response.data.email != null){
                 let updatedControls = updateObject(this.state.controls, {
                     ["email"]: updateObject(this.state.controls["email"], {
@@ -411,6 +415,7 @@ class settings extends Component{
             userId: this.props.userId,
             token: this.props.token
         };
+        
         Axios.post('/settings/getcredit', userData)
             .then(response => {
                 console.log(response.data.cardName);
@@ -429,7 +434,11 @@ class settings extends Component{
             });
     }
     setAddress = () => {
-        Axios.get("/settings/address?userId="+this.props.userId).then(response => {
+        const postData = {
+            userId: this.props.userId,
+            token: this.props.token
+        };
+        Axios.post("/settings/address",postData).then(response => {
             console.log(response.data);
             let updatedControls = updateObject(this.state.controls, {
                 ["street1"]: updateObject(this.state.controls["street1"], {
