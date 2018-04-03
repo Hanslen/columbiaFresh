@@ -9,7 +9,7 @@ from ..models import Customer
 
 
 @app.route('/getRecipe', methods=['POST'])
-def getRecipe():
+def GetRecipe():
     try:
         # read the posted values from the UI
         content = request.json
@@ -31,26 +31,7 @@ def getRecipe():
             if len(item) > 0:
                 directions.append(item)
 
-        # To be added
-        ingredient_json = []
-        ingredients = Ingredient_in_recipe.get_ingredients_in_recipe(rid)
-
-        for ingredient in ingredients:
-            output = ""
-            iid = ingredient.iid
-            quantity = ingredient.quantity
-            ingredient_info = Ingredient.get_ingredient(iid)
-            iname = ingredient_info.iname
-            recipeMetric = ingredient_info.recipeMetric
-            if quantity >= 1.0:
-                quantity = int(quantity)
-                if recipeMetric != "" and quantity > 1:
-                    recipeMetric += "s"
-            if recipeMetric == "":
-                output = str(quantity) + " " + iname
-            else:
-                output = str(quantity) + " " + recipeMetric + " " + iname
-            ingredient_json.append(output)
+        ingredient_json = GetIngredients(rid)
 
         author_user_info = Customer.get_customer_info(recipe_content.uid)
 
@@ -102,7 +83,7 @@ def getRecipe():
 
 
 @app.route('/likeRecipe', methods=['POST'])
-def like_recipe():
+def Like_recipe():
     try:
         content = request.json
         rid = content['rid']
@@ -187,7 +168,7 @@ def like_recipe():
         return jsonify({"status": "Fail", "info": str(e)})
 
 @app.route('/hotMenu', methods=['GET'])
-def get_hot_menu():
+def Get_hot_menu():
     try:
         hotMenus = Recipe.get_top_5_hot_recipes()
         json = {
@@ -200,10 +181,10 @@ def get_hot_menu():
 
 
 @app.route('/search', methods=['GET'])
-def search_recipe():
+def Search_recipe():
     try:
         query = str(request.args.get('query'))
-        query = processSentence(query)
+        query = ProcessSentence(query)
         page_id = request.args.get('page')
         page_id = int(page_id)
         all_recipes = Recipe.get_all_recipes()
@@ -221,7 +202,6 @@ def search_recipe():
             item = score_recipe[key]
             recipe = Recipe.get_recipe(item["id"])
             author = Customer.get_customer_info(recipe.uid)
-            ## ingredients should be added
             json = {
                 "rid" : recipe.rid,
                 "url" : "/recipe/" + str(recipe.rid),
@@ -229,7 +209,7 @@ def search_recipe():
                 "title" : recipe.title,
                 "author" : author.uname,
                 "likes" : recipe.likes,
-                "ingredients" : []
+                "ingredients" : GetIngredients(recipe.rid)
             }
             if start <= count:
                 recipes_truncated.append(json)
@@ -242,5 +222,28 @@ def search_recipe():
         print(e)
         return jsonify({"status": "Fail", "info": str(e)})
 
-def processSentence(input):
+def ProcessSentence(input):
     return re.sub('[!#$%&\'*+,;.^_`|~:]+', '', input)
+
+def GetIngredients(rid):
+    ingredient_json = []
+    ingredients = Ingredient_in_recipe.get_ingredients_in_recipe(rid)
+
+    for ingredient in ingredients:
+        output = ""
+        iid = ingredient.iid
+        quantity = ingredient.quantity
+        ingredient_info = Ingredient.get_ingredient(iid)
+        iname = ingredient_info.iname
+        recipeMetric = ingredient_info.recipeMetric
+        if quantity >= 1.0:
+            quantity = int(quantity)
+            if recipeMetric != "" and quantity > 1:
+                recipeMetric += "s"
+        if recipeMetric == "":
+            output = str(quantity) + " " + iname
+        else:
+            output = str(quantity) + " " + recipeMetric + " " + iname
+        ingredient_json.append(output)
+
+    return ingredient_json
