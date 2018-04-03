@@ -2,6 +2,72 @@ from manage import app, db
 from flask import url_for, jsonify
 from .models import Customer
 
+class Ingredient(db.Model):
+    __tablename__ = 'ingredient'
+    iid = db.Column(db.Integer, primary_key=True, index=True)
+    iname = db.Column(db.String(100), nullable=False)
+    recipeMetric = db.Column(db.String(100), nullable=False)
+    orderPrice = db.Column(db.Float, nullable=False)
+    shouldConvert = db.Column(db.Boolean, nullable=False)
+
+    @staticmethod
+    def get_ingredient(iid):
+        temp = Ingredient.query.filter(Ingredient.iid == iid).first()
+        if temp is None:
+            print("The object does not exist!")
+        else:
+            return temp
+
+class Ingredient_in_cate(db.Model):
+    __tablename__ = 'ingredient_in_cate'
+    iid = db.Column(db.Integer, db.ForeignKey('ingredient.iid'), primary_key=True)
+    icid = db.Column(db.Integer, db.ForeignKey('ingredient_category.icid'), primary_key=True)
+
+    @staticmethod
+    def get_ingredient_category_id(iid):
+        temp = Ingredient_in_cate.query.filter(Ingredient_in_cate.iid == iid).first()
+        if temp is None:
+            print("The object does not exist!")
+        else:
+            return temp
+
+class Ingredient_category(db.Model):
+    __tablename__ = 'ingredient_category'
+    icid = db.Column(db.Integer, primary_key=True, index=True)
+    icname = db.Column(db.String(45), nullable=False)
+
+    @staticmethod
+    def get_ingredient_category(icid):
+        temp = Ingredient_category.query.filter(Ingredient_category.icid == icid).first()
+        if temp is None:
+            print("The object does not exist!")
+        else:
+            return temp
+
+class Ingredient_in_recipe(db.Model):
+    __tablename__ = 'ingredient_in_recipe'
+    iid = db.Column(db.Integer, db.ForeignKey('ingredient.iid'), primary_key=True)
+    rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
+    quantity = db.Column(db.Float, nullable=False)
+
+    @staticmethod
+    def get_quantity_in_recipe(iid, rid):
+        temp = Ingredient_in_recipe.query.filter(Ingredient_in_recipe.iid == iid). \
+            filter(Ingredient_in_recipe.rid == rid).first()
+        if temp is None:
+            print("The object does not exist!")
+        else:
+            return temp
+
+    @staticmethod
+    def get_ingredients_in_recipe(rid):
+        temp = Ingredient_in_recipe.query.filter(Ingredient_in_recipe.rid == rid).all()
+        if temp is None:
+            print("The object does not exist!")
+        else:
+            return temp
+
+
 class Recipe(db.Model):
     __tablename__ = 'recipe'
     rid = db.Column(db.Integer, primary_key=True, index = True)

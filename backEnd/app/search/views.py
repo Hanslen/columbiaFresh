@@ -4,6 +4,7 @@ from collections import defaultdict
 import difflib
 import re
 from ..search_models import Recipe, Recipe_category, Recipe_in_cate, Customer_like_recipe
+from ..search_models import Ingredient, Ingredient_in_recipe
 from ..models import Customer
 
 
@@ -31,7 +32,25 @@ def getRecipe():
                 directions.append(item)
 
         # To be added
-        ingredients = []
+        ingredient_json = []
+        ingredients = Ingredient_in_recipe.get_ingredients_in_recipe(rid)
+
+        for ingredient in ingredients:
+            output = ""
+            iid = ingredient.iid
+            quantity = ingredient.quantity
+            ingredient_info = Ingredient.get_ingredient(iid)
+            iname = ingredient_info.iname
+            recipeMetric = ingredient_info.recipeMetric
+            if quantity >= 1.0:
+                quantity = int(quantity)
+                if recipeMetric != "" and quantity > 1:
+                    recipeMetric += "s"
+            if recipeMetric == "":
+                output = str(quantity) + " " + iname
+            else:
+                output = str(quantity) + " " + recipeMetric + " " + iname
+            ingredient_json.append(output)
 
         author_user_info = Customer.get_customer_info(recipe_content.uid)
 
@@ -49,7 +68,7 @@ def getRecipe():
                 "description": recipe_content.description,
                 "calorie": recipe_content.calories,
                 "preption": recipe_content.preptime,
-                "ingredients": ingredients,
+                "ingredients": ingredient_json,
                 "directions": directions,
                 "notes": recipe_content.notes
             }
@@ -71,7 +90,7 @@ def getRecipe():
             "description" : recipe_content.description,
             "calorie" : recipe_content.calories,
             "preption" : recipe_content.preptime,
-            "ingredients" : ingredients,
+            "ingredients" : ingredient_json,
             "directions" : directions,
             "notes" : recipe_content.notes
         }
