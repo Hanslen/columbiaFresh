@@ -4,25 +4,20 @@ from flask import request, jsonify, make_response
 @app.route("/")
 def index():
     return make_response(jsonify({"info": "Hello World!"}), 200)
-@app.route("/order",methods=['GET'])
 
+@app.route("/order",methods=['POST'])
 def get_order():
     from app.models import Customer
-    uid = request.args.get('query')
-    customer = Customer.get_customer_info(uid)
+    content = request.json
+    token = content['token']
+    uid = content['userId']
+    (result, customer) = Customer.verify_token(token)
+    order_list = []
 
-    data = {
-        'orderPlaceDate': "string",
-        'totalPrice': "string",
-        'shipTo': "string",
-        'orderID': "string",
-        'deliveredDate': "string",
-        'soldBy': "string",
-        'title': "string",
-        'img': "string",
-        'id': "string"
-    }
+    if result is False:
+        return jsonify({"success": False, "msg": "Token Error"})
 
-    return jsonify({"data": data,
-                    "info":"",
-                    "status":True})
+    if customer.uid == int(uid):
+        from app.models import Order
+        order_list = Order.find_order_by_user_id()
+    return jsonify({"success": True, "msg": order_list})

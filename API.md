@@ -110,7 +110,7 @@ postData
 	tag: [String],
 	authorId: String, (userId Same),
 	description: String,
-	ingredients: [[String, String, String]],
+	ingredients: [[String, String, String]], #iid, quantity, ?
 	directions: [String],
 	notes: String
 }
