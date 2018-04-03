@@ -117,7 +117,7 @@ postData
 response:
 ```
 {
-	status: String (Success/fail)
+	success: bool (True/False)
 }
 ```
 
