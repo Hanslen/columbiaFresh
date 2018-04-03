@@ -103,7 +103,8 @@ POST /createRecipe
 ```
 postData
 ```
-{
+{	
+	token: String,
 	title: String,
 	img: String,
 	tag: [String],
@@ -117,7 +118,8 @@ postData
 response:
 ```
 {
-	success: bool (True/False)
+	success: Bool (True/False)
+	msg: String
 }
 ```
 
