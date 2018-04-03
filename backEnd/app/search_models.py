@@ -101,6 +101,7 @@ class Recipe(db.Model):
     def get_all_recipes():
         return Recipe.query.all()
 
+
 class Recipe_category(db.Model):
     __tablename__ = 'recipe_category'
     rcid = db.Column(db.Integer, primary_key=True, index=True)
