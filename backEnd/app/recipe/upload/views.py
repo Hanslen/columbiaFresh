@@ -4,8 +4,28 @@ from collections import defaultdict
 import difflib
 import re
 from ...search_models import Recipe
-from ...search_models import Recipe_in_cate, Ingredient_in_recipe
+from ...search_models import Recipe_in_cate, Recipe_category, Ingredient, Ingredient_in_recipe
 from ...models import Customer
+
+# need an API to tell fron-end about the recipe categories and ingredient list.
+
+@app.route('/getRecipeTags', methods=['GET'])
+def get_recipe_category():
+    result = []
+    categories = Recipe_category.get_all()
+    for cate in categories:
+        result.append(cate.rcname)
+
+    return jsonify({"tags":result})
+
+@app.route('/getIngredients', methods=['GET'])
+def get_ingredients():
+    result = []
+    ingredients = Ingredient.get_all()
+    for ingr in ingredients:
+        result.append([ingr.iname, ingr.recipeMetric])
+
+    return jsonify({"ingredients":result})
 
 @app.route('/createRecipe', methods=['POST'])
 def create_recipe():
@@ -38,9 +58,9 @@ def create_recipe():
         # add ingredients relationship record
         ingredients = content['ingredients']
         for ingredient in ingredients:
-            iid = ingredient[0]
+            iname = ingredient[0]
             quantity = ingredient[1]
-            Ingredient_in_recipe.add(rid=rid, iid=iid, quantity=quantity)
+            Ingredient_in_recipe.add(rid=rid, iname=iname, quantity=quantity)
 
         return jsonify({
             "success": True,
@@ -54,6 +74,8 @@ def create_recipe():
 def process_directions(steps):
     str = '###'
     return str.join(steps)
+
+
 
 
 
