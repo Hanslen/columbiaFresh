@@ -115,7 +115,7 @@ GET /getIngredients
 response
 ```
 {
-	[[String, String]] //ingredient type, ingredient unit
+	ingredients: [[String, String]] //ingredient type, ingredient unit
 }
 ```
 ### Upload recipes
