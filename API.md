@@ -96,6 +96,28 @@ response
 }
 
 ```
+### Upload recipes - get tags
+url
+```
+GET /getRecipeTags
+```
+response
+```
+{
+	tags: [String]
+}
+```
+### Upload recipes - get ingredients
+url
+```
+GET /getIngredients
+```
+response
+```
+{
+	[[String, String]] //ingredient type, ingredient unit
+}
+```
 ### Upload recipes
 url
 ```
