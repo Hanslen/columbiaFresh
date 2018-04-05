@@ -7,19 +7,30 @@ import IngredientBox from './uploadComponent/ingredientBox';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import Directions from './uploadComponent/directions';
+import Axios from '../../axios-config';
+import AWS from 'aws-sdk';
+import ReactS3 from 'react-s3';
 class createRecipe extends Component{
     state = {
         title: "",
         img:'http://via.placeholder.com/600x400',
-        tags: ['tag1'],
+        tags: [],
         authorURL: "",
-        author: "Author",
         avatar: "http://via.placeholder.com/40x40",
         ingredients: [["","",""]],
         notes: "",
-        intro: ""
+        intro: "",
+        selectedTags: []
     }
-  
+    componentWillMount(){
+        console.log("load create recipe component");
+        this.props.loadsuggestionIng();
+        Axios.get("/getRecipeTags").then((res) => {
+            this.setState({tags: res.data.tags});
+        }).catch((err)=>{
+            console.log(err);
+        });
+    }
     uploadImg = () => {
         $('#uploadImg').trigger('click');;
 
@@ -44,13 +55,51 @@ class createRecipe extends Component{
     listenIngChange = () => {
         this.setState({ingredients: this.props.ingredients});
     }
-    uploadRecipe = () => {
-        console.log(this.state.title);
-        console.log(this.state.tags);
-        console.log(this.state.intro);
-        console.log(this.state.ingredients);
-        console.log(this.props.directions);
-        console.log(this.state.notes);
+    addPhoto = () => {
+        this.uploadRecipe("https://s3.amazonaws.com/uploadimgstore/shoppingcart.jpg");
+        // var albumBucketName = 'uploadimgstore';
+        // var bucketRegion = 'us-east-1';
+        // var IdentityPoolId = 'us-east-1:e474abd9-e1ae-4f71-ab8e-1c781aa6c075';
+        
+        // AWS.config.update({
+        //   region: bucketRegion,
+        //   credentials: new AWS.CognitoIdentityCredentials({
+        //     IdentityPoolId: IdentityPoolId
+        //   })
+        // });
+        
+        // var s3 = new AWS.S3({
+        //   apiVersion: '2006-03-01',
+        //   params: {Bucket: albumBucketName}
+        // });
+        // let files = document.getElementById('uploadImg').files;
+        // if (!files.length) {
+        //   return alert('Please choose a file to upload first.');
+        // }
+        // let file = files[0];
+        // let fileName = file.name;
+        // let albumPhotosKey = "";
+        // let photoKey = albumPhotosKey + fileName;
+        // let params=  {Bucket: albumBucketName, Key: photoKey, Body: file};
+        // s3.upload(params, function(err, data){
+        //     if(err){
+        //         alert("Fail to upload img");
+        //         console.log(err);
+        //         return ;
+        //     }
+        //     else{
+        //         console.log(data);
+        //         this.uploadRecipe(data.Location);
+        //         return ;
+        //     }
+        // });
+      }
+      
+    uploadRecipe = (imgurl) => {
+        if(this.state.title == "" || this.state.intro == "" || this.state.ingredients[0][0] == "" || this.props.directions[0] == "" || this.state.notes == ""){
+            alert("You must fill all the blanket!");
+        }
+        this.props.uploadIng(this.props.token, this.state.title, imgurl, this.state.tags, this.props.userId, this.state.intro, this.state.ingredients, this.props.directions, this.state.notes);
     }
     addTag = (e) => {
         if (e.key === 'Enter') {
@@ -61,14 +110,17 @@ class createRecipe extends Component{
         }
     }
     deleteTag = (tag) => {
-        console.log(tag);
-        let oldState = this.state.tags;
+        let oldState = this.state.selectedTags;
         let id = oldState.indexOf(tag);
         oldState.splice(id, 1);
-        this.setState({tags: oldState});
+        this.setState({selectedTags: oldState});
+    }
+    selectTag = (tag) => {
+        let oldState = this.state.selectedTags;
+        oldState.push(tag);
+        this.setState({selectedTags: oldState});
     }
     updateNotes = (e) => {
-
         let oldState = this.state.notes;
         oldState = e.target.value;
         this.setState({notes: oldState});
@@ -83,16 +135,24 @@ class createRecipe extends Component{
         oldState = e.target.value;
         this.setState({intro: oldState});
     }
-
     render(){
         let liClasses = ["list-group-item", "borderless"];
         let tagItems = this.state.tags.map(tag => {
             let tagURL = "/search?"+tag;
-            return (
-                    <span key={tag} className="tag" onClick={() => this.deleteTag(tag)}>
+            if(this.state.selectedTags.includes(tag)){
+                return (
+                    <span key={tag} className="selectedTag" onClick={() => this.deleteTag(tag)}>
                         {tag}
                     </span>
-            );
+                );
+            }
+            else{
+                return (
+                    <span key={tag} className="unselectedTag" onClick={() => this.selectTag(tag)}>
+                        {tag}
+                    </span>
+                );
+            }
         });
 
         let authorInfo = (
@@ -101,7 +161,7 @@ class createRecipe extends Component{
                     <div className="media mt-3 mb-2">
                         <img className="mr-3 rounded-circle" src={this.state.avatar} />
                         <div className="media-body" style={{lineHeight: 40+'px'}}>
-                            {this.state.author}
+                            {this.props.username}
                         </div>
                     </div>
                 </Link>
@@ -116,6 +176,9 @@ class createRecipe extends Component{
                 <IngredientBox key={id} id={id} type={ing[0]} num={ing[1]} unit={ing[2]}/>
             );
         });
+        if(!this.props.isAuthenticated){
+            this.props.history.push('/');
+        }
         return (
             <div className="container">
                 <div className="row mt-3">
@@ -126,7 +189,7 @@ class createRecipe extends Component{
                         <input type="file" ref="uploadImg" name="selectedFile" onChange={this.imgOnChange} id="uploadImg" style={{display:"none"}}/>
                         <br/><br/>
                         {tagItems} 
-                            <input type="text" className="addTag" id="addTag" onKeyPress={this.addTag}/>
+                            {/* <input type="text" className="addTag" id="addTag" onKeyPress={this.addTag}/> */}
                         {authorInfo}
                         <textarea className="form-control" placeholder="Please enter recipe description." value={this.state.intro} onChange={(e) => this.updateIntro(e)}/>
                         <div className="mt-3">
@@ -150,7 +213,7 @@ class createRecipe extends Component{
                         <br/>
                         <div className="mt-3">
                             <div className="list-group">
-                                <Button btnValue="Submit" onClick={this.uploadRecipe}/>
+                                <Button btnValue="Submit" onClick={this.addPhoto}/>
                                 </div>
                         </div>
                         <br/>
@@ -165,12 +228,18 @@ class createRecipe extends Component{
 const mapStateToProps = state =>{
     return {
         ingredients: state.addRecip.ingredients,
-        directions: state.addRecip.directions
+        directions: state.addRecip.directions,
+        isAuthenticated: localStorage.getItem("email") != null,
+        userId: state.auth.userId,
+        token: state.auth.token,
+        username: state.auth.username
     };
 }
 const mapDispatchToProps = dispatch => {
     return {
-        addIngredients: (ing) => dispatch(actions.addIngredients(ing))
+        addIngredients: (ing) => dispatch(actions.addIngredients(ing)),
+        uploadIng: (token, title, img, tag, authorId, description, ingredients, directions, notes) => dispatch(actions.uploadIng(token, title, img, tag, authorId, description, ingredients, directions, notes)),
+        loadsuggestionIng: () => dispatch(actions.loadsuggestionIng())
     };
 }
-export default connect(mapStateToProps, mapDispatchToProps)(createRecipe);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(createRecipe));

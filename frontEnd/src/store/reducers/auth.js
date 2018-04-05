@@ -1,8 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 import {updateObject} from '../../shared/utility';
 const initialState = {
-    username: "123",
-    email: "che",
+    username: null,
+    email: null,
     error: null,
     loading: false,
     authRedirectPath: '/',

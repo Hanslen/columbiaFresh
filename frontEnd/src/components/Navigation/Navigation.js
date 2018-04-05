@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import classes from './Navigation.css';
 import SearchBox from '../UI/SearchBox/SearchBox';
 import Input from '../UI/Input/Input';
@@ -138,7 +138,6 @@ class navigation extends Component{
                     }
                   }});
   }
-  
   setToSignUp = () => {
     this.setState({sign: "Sign Up", 
                   signMsg: "Already have an account!",
@@ -324,7 +323,6 @@ class navigation extends Component{
         if(this.state.items.length === 0){
           checkOutBox = (<a className="dropdown-item" href="#" id={classes.shoppingCartSubBtn}>Cart is Empty...</a>);
         }
-
     return (
         <nav className={navBar.join(' ')}>
           <div className="container d-flex justify-content-between">
@@ -428,4 +426,4 @@ const mapDispatchToProps = dispatch => {
       onSignUp: (email, username, password) => dispatch(actions.authSignUp(email, username, password))
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(navigation);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(navigation));

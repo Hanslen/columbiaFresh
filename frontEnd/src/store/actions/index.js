@@ -21,5 +21,7 @@ export{
     updateNum,
     addDirection,
     deleteDirection,
-    updateDirection
+    updateDirection,
+    uploadIng,
+    loadsuggestionIng
 }from './uploadIngredients';
