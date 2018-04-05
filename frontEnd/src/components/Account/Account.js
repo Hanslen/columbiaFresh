@@ -31,7 +31,7 @@ class account extends Component{
 }
 const mapStateToProps = state => {
     return {
-        isAuthenticated: state.auth.email != null
+        isAuthenticated: localStorage.getItem("email") != null
     }
 }
 export default connect(mapStateToProps, null)(withRouter(account));

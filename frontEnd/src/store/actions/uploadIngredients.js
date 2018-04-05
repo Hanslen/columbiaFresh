@@ -51,6 +51,23 @@ export const deleteDirection = (id) => {
         id: id
     }
 }
+export const updateSuggestionIng = (ingre) => {
+    return {
+        type: actionTypes.LOAD_SUGGESTIONS_INGREDIENTS,
+        loadsuggestionIngredient: ingre
+    } 
+}
+export const loadsuggestionIng = () => {
+    return dispatch => {
+        console.log("loading suggestion ing....");
+        Axios.get('/getIngredients').then(res => {
+            console.log(res);
+            dispatch(updateSuggestionIng(res.data.ingredients));
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+};
 export const uploadIng = (token, title, img, tag, authorId, description, ingredients, directions, notes) => {
     const postData = {
         token: token,

@@ -24,6 +24,8 @@ class createRecipe extends Component{
         selectedTags: []
     }
     componentWillMount(){
+        console.log("load create recipe component");
+        this.props.loadsuggestionIng();
         Axios.get("/getRecipeTags").then((res) => {
             this.setState({tags: res.data.tags});
         }).catch((err)=>{
@@ -226,7 +228,7 @@ const mapStateToProps = state =>{
     return {
         ingredients: state.addRecip.ingredients,
         directions: state.addRecip.directions,
-        isAuthenticated: state.auth.email != null,
+        isAuthenticated: localStorage.getItem("email") != null,
         userId: state.auth.userId,
         token: state.auth.token
     };
@@ -234,7 +236,8 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch => {
     return {
         addIngredients: (ing) => dispatch(actions.addIngredients(ing)),
-        uploadIng: (token, title, img, tag, authorId, description, ingredients, directions, notes) => dispatch(actions.uploadIng(token, title, img, tag, authorId, description, ingredients, directions, notes))
+        uploadIng: (token, title, img, tag, authorId, description, ingredients, directions, notes) => dispatch(actions.uploadIng(token, title, img, tag, authorId, description, ingredients, directions, notes)),
+        loadsuggestionIng: () => dispatch(actions.loadsuggestionIng())
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(createRecipe));

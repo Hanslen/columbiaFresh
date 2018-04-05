@@ -1,17 +1,16 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
+import Axios from '../../../axios-config';
 class ingredientBox extends Component{
-    state = {
-        suggestIngredients: [["Vineger","teaspoon"],["apple", ""],["pork","pound"],["banana", ""],["beef","pound"]]
-    }
+
     deleteIngredient = (id) => {
         this.props.deleteIngredients(id);
     }
     findUnit = (type) => {
-        for(let i = 0; i < this.state.suggestIngredients.length; i++){
-            if(this.state.suggestIngredients[i][0] == type){
-                return this.state.suggestIngredients[i][1]; 
+        for(let i = 0; i < this.props.suggestIngredients.length; i++){
+            if(this.props.suggestIngredients[i][0] == type){
+                return this.props.suggestIngredients[i][1]; 
             }
         }
         return "";
@@ -34,6 +33,7 @@ class ingredientBox extends Component{
                 let updateUnit = document.getElementById("unit"+this.props.id);
                 updateUnit.disabled = true;
                 updateUnit.value= this.findUnit(be.target.getElementsByTagName("input")[0].value);
+                this.props.updateType(this.props.id, updateBox.value);
                 this.closeAllLists();
             });
             a.appendChild(b);
@@ -82,7 +82,8 @@ class ingredientBox extends Component{
         }
         const regex = new RegExp('^' + escapedValue, 'i');
         // const regex = new RegExp("^(?:(the|a)\s)?" + escapedValue, "i");
-        return this.state.suggestIngredients.filter(sug => regex.test(sug[0]));
+        console.log(this.props.suggestIngredients);
+        return this.props.suggestIngredients.filter(sug => regex.test(sug[0]));
     }
     render(){
         document.addEventListener("click", (e) => {
@@ -105,7 +106,8 @@ class ingredientBox extends Component{
 
 const mapStateToProps = state =>{
     return {
-        ingredients: state.addRecip.ingredients
+        ingredients: state.addRecip.ingredients,
+        suggestIngredients: state.addRecip.suggestIngredients
     };
 }
 const mapDispatchToProps = dispatch => {

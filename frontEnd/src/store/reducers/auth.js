@@ -15,11 +15,6 @@ const authStart = (state, action) => {
 }
 
 const authSuccess = (state, action) =>{
-    if(action.userId == null){
-        action.userId = localStorage.getItem("uid");
-        action.email = localStorage.getItem("email");
-        action.token = localStorage.getItem("token");
-    }
     return updateObject(state, {
         username: action.username,
         email: action.email,

@@ -245,6 +245,7 @@ export const updateCredit = (userId, token, name, cardNumber, expirationMonth,ex
 }
 export const authCheckState = () => {
     return dispatch => {
+        
         const email = localStorage.getItem('email');
         if(!email){
             dispatch(logout());
@@ -252,8 +253,10 @@ export const authCheckState = () => {
         else{
             // const expirationDate = new Date(localStorage.getItem('expirationDate'));
             // if(expirationDate > new Date()){
-                const username = localStorage.getItem('username');
-                dispatch(authSuccess(email, username));
+            const username = localStorage.getItem('username');
+            const userId = localStorage.getItem('uid');
+            const token = localStorage.getItem('token');
+                dispatch(authSuccess(email, username, userId, token));
             //     dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime())/1000));
             // }
             // else{
