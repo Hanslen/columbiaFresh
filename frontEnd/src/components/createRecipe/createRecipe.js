@@ -7,21 +7,26 @@ import IngredientBox from './uploadComponent/ingredientBox';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import Directions from './uploadComponent/directions';
+import Axios from '../../axios-config';
 class createRecipe extends Component{
     state = {
         title: "",
         img:'http://via.placeholder.com/600x400',
-        tags: ['lunch', 'meat','fruit'],
+        tags: [],
         authorURL: "",
         author: "Author",
         avatar: "http://via.placeholder.com/40x40",
         ingredients: [["","",""]],
         notes: "",
         intro: "",
-        selectedTags: ['meat']
+        selectedTags: []
     }
     componentWillMount(){
-        
+        Axios.get("/getRecipeTags").then((res) => {
+            this.setState({tags: res.data.tags});
+        }).catch((err)=>{
+            console.log(err);
+        });
     }
     uploadImg = () => {
         $('#uploadImg').trigger('click');;
