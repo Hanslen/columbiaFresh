@@ -26,3 +26,4 @@ from app.settings.update import views
 from app.search import views
 from app.recipe import views
 from app.recipe.upload import views
+from app.recipe.upload import test_wrapper

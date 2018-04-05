@@ -1,5 +1,5 @@
 from app import app, db
-from flask import request, flash, jsonify
+from flask import request, jsonify
 import datetime
 from ..models import Customer
 from ..email import send_mail

@@ -2,7 +2,7 @@ from app import app
 from flask import request, jsonify
 from ...search_models import Recipe
 from ...search_models import Recipe_in_cate, Recipe_category, Ingredient, Ingredient_in_recipe
-from ...models import Customer
+from ...auth import check_token
 
 # need an API to tell fron-end about the recipe categories and ingredient list.
 
@@ -25,32 +25,18 @@ def get_ingredients():
     return jsonify({"ingredients":result})
 
 @app.route('/createRecipe', methods=['POST'])
-def create_recipe():
+@check_token
+def create_recipe(customer, content):
     try:
-        content = request.json
-        token = content['token']
-        (result, customer) = Customer.verify_token(token)
-
-        if result is False:
-            return jsonify({"success": False, "msg": "Token Error"})
-
         dire = process_directions(content['directions'])
-
-        recipe = Recipe(title=content['title'],
-                        img=content['img'],
-                        likes=0,
-                        notes=content['notes'],
-                        description=content['description'],
-                        directions=dire,
-                        uid=customer.uid
-                        )
-
+        recipe = Recipe(content, dire, int(customer.uid))
         rid = Recipe.create_recipe(recipe)
 
         # add categories relationship record
         categories = content['tag']
         for category in categories:
-            Recipe_in_cate.add(rid, category)
+            cid = Recipe_category.get_id_by_name(category).rcid
+            Recipe_in_cate.add(rid, cid)
 
         # add ingredients relationship record
         ingredients = content['ingredients']
@@ -59,14 +45,11 @@ def create_recipe():
             quantity = ingredient[1]
             Ingredient_in_recipe.add(rid=rid, iname=iname, quantity=quantity)
 
-        return jsonify({
-            "success": True,
-            "msg": "Successfully create recipe."
-                       })
+        return ("Successfully create recipe.", True)
 
     except Exception as e:
         print(e)
-        return jsonify({"success": False, "info": str(e)})
+        return (str(e), False)
 
 def process_directions(steps):
     str = '###'

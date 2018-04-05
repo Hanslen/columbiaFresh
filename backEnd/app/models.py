@@ -65,6 +65,7 @@ class Customer(db.Model):
             return jsonify({"status": "Fail", "info": str(e)})  # invalid token
 
     # need to use wrapper to make code clear
+
     @staticmethod
     def verify_token(token):
         try:
@@ -74,12 +75,13 @@ class Customer(db.Model):
             print(confirm_id)
             customer = Customer.query.filter(Customer.uid == confirm_id).first()
             if (customer is not None):
-                return (True, customer)
+                return (True, customer, 'success')
             else:
-                return (False, None)
+                return (False, None, 'customer not exist')
 
         except Exception as e:
             print(str(e))  # invalid token
+            return (False, None, str(e))
 
     #could not read password
     @property

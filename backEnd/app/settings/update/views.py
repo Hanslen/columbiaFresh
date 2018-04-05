@@ -1,27 +1,11 @@
 from app import app, db
-from flask import request, jsonify
 from ...models import Customer
-
-# {
-#     userId: string,
-#     token: string,
-#     firstname: string,
-#     lastname: string,
-#     gender: int,
-#     email: string,
-#     introduction: string
-# }
+from ...auth import check_token
 
 @app.route('/settings/update/basic', methods=['POST'])
-def update_info():
+@check_token
+def update_info(customer, content):
     try:
-        # read the posted values from the UI
-        content = request.json
-        token = content['token']
-        (result, customer) = Customer.verify_token(token)
-        if result is False:
-            return jsonify({"success": False, "info": "Token Error"})
-
         customer.firstname = content['firstname']
         customer.lastname = content['lastname']
         customer.gender = content['gender']
@@ -29,33 +13,26 @@ def update_info():
 
         db.session.commit()
 
-        return jsonify({"success": True, "msg": "Success."})
+        return ('Successfully update basic info', True)
 
     except Exception as e:
         print(e)
-        return jsonify({"success": False, "msg": str(e)})
+        return (str(e), False)
 
 @app.route('/settings/update/password', methods=['POST'])
-def update_password():
-    content = request.json
-    token = content['token']
-    (result, customer) = Customer.verify_token(token)
-    if result is False:
-        return jsonify({"success": False, "msg": "Token Error"})
+@check_token
+def update_password(customer, content):
     if (customer.check_password_hash(content['oldPassword']) is False):
-        return jsonify({"success": False, "msg": "Password Error"})
+        return ("Password Error", False)
+
     customer.password = content['newPassword']
     db.session.commit()
-    return jsonify({"success":True, "msg": "Successfully change password."})
+
+    return ("Successfully change password.", True)
 
 @app.route('/settings/update/address', methods=['POST'])
-def update_address():
-    content = request.json
-    token = content['token']
-    (result, customer) = Customer.verify_token(token)
-    if result is False:
-        return jsonify({"success": False, "msg": "Token Error"})
-
+@check_token
+def update_address(customer, content):
     customer.streetAddress1 = content['streetAddress1']
     customer.streetAddress2 = content['streetAddress2']
     customer.city = content['city']
@@ -63,25 +40,16 @@ def update_address():
     customer.zipCode = content['zipCode']
     db.session.commit()
 
-    return jsonify({
-        "success":True,
-        "msg": "Successfully update address."
-        })
+    return ("Successfully update address.", True)
 
 
 @app.route('/settings/update/credit', methods=['POST'])
-def update_credit():
-    content = request.json
-    token = content['token']
-    (result, customer) = Customer.verify_token(token)
-
-    if result is False:
-        return jsonify({"success": False, "msg": "Token Error"})
-
+@check_token
+def update_credit(customer, content):
     customer.cardName = content['cardName']
     customer.cardNumber = content['cardNumber']
     customer.expirationMonth = content['expirationMonth']
     customer.expirationYear = content['expirationYear']
     customer.CVV = content['CVV']
 
-    return jsonify(result)
+    return ("Successfully update credit card info.", True)

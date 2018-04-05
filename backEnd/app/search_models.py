@@ -54,6 +54,11 @@ class Ingredient_in_recipe(db.Model):
     rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
     quantity = db.Column(db.Float, nullable=False)
 
+    def __init__(self, iid, rid, quantity):
+        self.iid = iid
+        self.rid = rid
+        self.quantity = quantity
+
     @staticmethod
     def get_quantity_in_recipe(iid, rid):
         temp = Ingredient_in_recipe.query.filter(Ingredient_in_recipe.iid == iid). \
@@ -93,6 +98,15 @@ class Recipe(db.Model):
     preptime = db.Column(db.Integer)
     uid = db.Column(db.Integer, db.ForeignKey('customer.uid'))
 
+    def __init__(self, content, dire, uid):
+        self.title=content['title'],
+        self.img=content['img'],
+        self.likes=0,
+        self.notes=content['notes'],
+        self.description=content['description'],
+        self.directions=dire,
+        self.uid=uid
+
     @staticmethod
     def get_recipe(rid):
         temp = Recipe.query.filter(Recipe.rid == rid).first()
@@ -118,7 +132,7 @@ class Recipe(db.Model):
         app.logger.info(recipe.uid)
         db.session.add(recipe)
         db.session.commit()
-        return recipe.uid
+        return recipe.rid
 
 
 class Recipe_category(db.Model):
@@ -135,6 +149,14 @@ class Recipe_category(db.Model):
             return temp
 
     @staticmethod
+    def get_id_by_name(rcname):
+        temp = Recipe_category.query.filter(Recipe_category.rcname == rcname).first()
+        if temp is None:
+            print("The object does not exist!")
+        else:
+            return temp
+
+    @staticmethod
     def get_all():
         return Recipe_category.query.with_entities(Recipe_category.rcname).all()
 
@@ -143,6 +165,10 @@ class Recipe_in_cate(db.Model):
     __tablename__ = 'recipe_in_cate'
     rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
     rcid = db.Column(db.Integer, db.ForeignKey('recipe_category.rcid'), primary_key=True,)
+
+    def __init__(self, rid, cid):
+        self.rid = rid
+        self.rcid = cid
 
     @staticmethod
     def get_recipe_cate(rid):
@@ -155,7 +181,6 @@ class Recipe_in_cate(db.Model):
     @staticmethod
     def add(rid, cid):
         temp = Recipe_in_cate(rid, cid)
-        app.logger.info(rid)
         db.session.add(temp)
         db.session.commit()
 
