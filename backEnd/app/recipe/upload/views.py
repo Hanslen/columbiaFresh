@@ -1,8 +1,5 @@
 from app import app
 from flask import request, jsonify
-from collections import defaultdict
-import difflib
-import re
 from ...search_models import Recipe
 from ...search_models import Recipe_in_cate, Recipe_category, Ingredient, Ingredient_in_recipe
 from ...models import Customer
