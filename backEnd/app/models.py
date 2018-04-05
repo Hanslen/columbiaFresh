@@ -124,6 +124,7 @@ class LoginInfo(db.Model):
     token = db.Column(db.String(150), nullable=False)
     expired = db.Column(db.DateTime, nullable=False)
 
+<<<<<<< HEAD
 class Issue(db.Model):
     __tablename__ = 'issue'
     oid = db.Column(db.Integer, db.ForeignKey('order.uid'), nullable=False, primary_key=True)
@@ -138,3 +139,5 @@ class Issue(db.Model):
 #     __tablename__ = 'order'
 #     oid = db.Column(db.Integer, nullable=False, primary_key=True)
 #     order_time = db.Column(db.DateTime, nullable=False)
+=======
+>>>>>>> 4922d8630cc0218d8e8542c2c3dd4bfe6546456e

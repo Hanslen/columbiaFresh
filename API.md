@@ -103,13 +103,14 @@ POST /createRecipe
 ```
 postData
 ```
-{
+{	
+	token: String,
 	title: String,
 	img: String,
 	tag: [String],
 	authorId: String, (userId Same),
 	description: String,
-	ingredients: [[String, String, String]],
+	ingredients: [[String, String, String]], #iid, quantity, ?
 	directions: [String],
 	notes: String
 }
@@ -117,7 +118,8 @@ postData
 response:
 ```
 {
-	status: String (Success/fail)
+	success: Bool (True/False)
+	msg: String
 }
 ```
 

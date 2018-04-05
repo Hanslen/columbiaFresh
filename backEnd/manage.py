@@ -50,12 +50,9 @@ def query_user():
     customer = Customer.query.filter_by(uname='ding1').first()
 
 @manager.command
-def test_like_recipe():
-    from app.search_models import Recipe, Customer_like_recipe
-    recipe = Recipe.query.all()
-    print(recipe)
-    lis = Customer_like_recipe.query.all()
-    print(lis)
+def query_ingredient():
+    from app.search_models import Ingredient
+    print(type(Ingredient.query.filter_by(iname='egg').first().iid))
 
 if __name__ == "__main__":
     manager.run()

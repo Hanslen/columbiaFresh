@@ -18,6 +18,10 @@ class Ingredient(db.Model):
         else:
             return temp
 
+    @staticmethod
+    def get_all():
+        return Ingredient.query.all()
+
 class Ingredient_in_cate(db.Model):
     __tablename__ = 'ingredient_in_cate'
     iid = db.Column(db.Integer, db.ForeignKey('ingredient.iid'), primary_key=True)
@@ -67,6 +71,14 @@ class Ingredient_in_recipe(db.Model):
         else:
             return temp
 
+    @staticmethod
+    def add(rid, iname, quantity):
+        iid = Ingredient.query.filter_by(iname=iname).first().iid
+        new_relation = Ingredient_in_recipe(iid, rid, quantity)
+        app.logger.info('add new ingredient and recipe relationship')
+        db.session.add(new_relation)
+        db.session.commit()
+
 
 class Recipe(db.Model):
     __tablename__ = 'recipe'
@@ -101,6 +113,13 @@ class Recipe(db.Model):
     def get_all_recipes():
         return Recipe.query.all()
 
+    @staticmethod
+    def create_recipe(recipe):
+        app.logger.info(recipe.uid)
+        db.session.add(recipe)
+        db.session.commit()
+        return recipe.uid
+
 
 class Recipe_category(db.Model):
     __tablename__ = 'recipe_category'
@@ -115,6 +134,11 @@ class Recipe_category(db.Model):
         else:
             return temp
 
+    @staticmethod
+    def get_all():
+        return Recipe_category.query.with_entities(Recipe_category.rcname).all()
+
+
 class Recipe_in_cate(db.Model):
     __tablename__ = 'recipe_in_cate'
     rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
@@ -127,6 +151,13 @@ class Recipe_in_cate(db.Model):
            print("The object does not exist!")
         else:
             return temp
+
+    @staticmethod
+    def add(rid, cid):
+        temp = Recipe_in_cate(rid, cid)
+        app.logger.info(rid)
+        db.session.add(temp)
+        db.session.commit()
 
 class Customer_like_recipe(db.Model):
     __tablename__ = 'customer_like_recipe'

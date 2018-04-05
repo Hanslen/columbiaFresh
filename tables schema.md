@@ -102,7 +102,7 @@ CREATE TABLE `Columbia_Fresh`.`recipe` (
 ```
 CREATE TABLE `Columbia_Fresh`.`recipe_category` (
   `rcid` INT NOT NULL AUTO_INCREMENT,
-  `rcname` VARCHAR(45) NOT NULL,
+  `rcname` VARCHAR(45) NOT NULL UNIQUE,
   PRIMARY KEY (`rcid`));
 ```
 
