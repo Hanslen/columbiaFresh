@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import Directions from './uploadComponent/directions';
 import Axios from '../../axios-config';
+import AWS from 'aws-sdk';
+import ReactS3 from 'react-s3';
 class createRecipe extends Component{
     state = {
         title: "",
@@ -52,13 +54,47 @@ class createRecipe extends Component{
     listenIngChange = () => {
         this.setState({ingredients: this.props.ingredients});
     }
-    uploadRecipe = () => {
-        console.log(this.state.title);
-        console.log(this.state.tags);
-        console.log(this.state.intro);
-        console.log(this.state.ingredients);
-        console.log(this.props.directions);
-        console.log(this.state.notes);
+    addPhoto = () => {
+        this.uploadRecipe("https://s3.amazonaws.com/uploadimgstore/shoppingcart.jpg");
+        // var albumBucketName = 'uploadimgstore';
+        // var bucketRegion = 'us-east-1';
+        // var IdentityPoolId = 'us-east-1:e474abd9-e1ae-4f71-ab8e-1c781aa6c075';
+        
+        // AWS.config.update({
+        //   region: bucketRegion,
+        //   credentials: new AWS.CognitoIdentityCredentials({
+        //     IdentityPoolId: IdentityPoolId
+        //   })
+        // });
+        
+        // var s3 = new AWS.S3({
+        //   apiVersion: '2006-03-01',
+        //   params: {Bucket: albumBucketName}
+        // });
+        // let files = document.getElementById('uploadImg').files;
+        // if (!files.length) {
+        //   return alert('Please choose a file to upload first.');
+        // }
+        // let file = files[0];
+        // let fileName = file.name;
+        // let albumPhotosKey = "";
+        // let photoKey = albumPhotosKey + fileName;
+        // let params=  {Bucket: albumBucketName, Key: photoKey, Body: file};
+        // s3.upload(params, function(err, data){
+        //     if(err){
+        //         alert("Fail to upload img");
+        //         console.log(err);
+        //         return ;
+        //     }
+        //     else{
+        //         console.log(data);
+        //         this.uploadRecipe(data.Location);
+        //         return ;
+        //     }
+        // });
+      }
+    uploadRecipe = (imgurl) => {
+        this.props.uploadIng(this.props.token, this.state.title, imgurl, this.state.tags, this.props.userId, this.state.intro, this.state.ingredients, this.state.directions, this.state.notes);
     }
     addTag = (e) => {
         if (e.key === 'Enter') {
@@ -174,7 +210,7 @@ class createRecipe extends Component{
                         <br/>
                         <div className="mt-3">
                             <div className="list-group">
-                                <Button btnValue="Submit" onClick={this.uploadRecipe}/>
+                                <Button btnValue="Submit" onClick={this.addPhoto}/>
                                 </div>
                         </div>
                         <br/>
@@ -190,12 +226,15 @@ const mapStateToProps = state =>{
     return {
         ingredients: state.addRecip.ingredients,
         directions: state.addRecip.directions,
-        isAuthenticated: state.auth.email != null
+        isAuthenticated: state.auth.email != null,
+        userId: state.auth.userId,
+        token: state.auth.token
     };
 }
 const mapDispatchToProps = dispatch => {
     return {
-        addIngredients: (ing) => dispatch(actions.addIngredients(ing))
+        addIngredients: (ing) => dispatch(actions.addIngredients(ing)),
+        uploadIng: (token, title, img, tag, authorId, description, ingredients, directions, notes) => dispatch(actions.uploadIng(token, title, img, tag, authorId, description, ingredients, directions, notes))
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(createRecipe));

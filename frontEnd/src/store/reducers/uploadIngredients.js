@@ -1,6 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import {updateObject} from '../../shared/utility';
-const initialState = {
+const initialIngState = {
     ingredients: [["", "", ""]],
     directions: [""]
 }
@@ -72,7 +72,11 @@ const deleteDirection = (state, action) => {
     });
 }
 
-const reducer = (state = initialState, action) => {
+const uploadRecipe = (state, action) => {
+    return state;
+}
+
+const reducer = (state = initialIngState, action) => {
     switch(action.type){
         case actionTypes.ADD_INGREDIENT:
             return addIngredients(state, action);
@@ -90,6 +94,8 @@ const reducer = (state = initialState, action) => {
             return updateUnit(state, action);
         case actionTypes.UPDATE_DIRECTION:
             return updateDirection(state, action);
+        case actionTypes.UPLOAD_RECIPE:
+            return uploadRecipe(state, action);
         default:
             return state;
     }

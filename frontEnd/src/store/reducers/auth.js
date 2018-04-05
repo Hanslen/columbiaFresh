@@ -1,8 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 import {updateObject} from '../../shared/utility';
 const initialState = {
-    username: "123",
-    email: "che",
+    username: null,
+    email: null,
     error: null,
     loading: false,
     authRedirectPath: '/',
@@ -15,6 +15,11 @@ const authStart = (state, action) => {
 }
 
 const authSuccess = (state, action) =>{
+    if(action.userId == null){
+        action.userId = localStorage.getItem("uid");
+        action.email = localStorage.getItem("email");
+        action.token = localStorage.getItem("token");
+    }
     return updateObject(state, {
         username: action.username,
         email: action.email,
