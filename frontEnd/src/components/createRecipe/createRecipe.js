@@ -137,6 +137,9 @@ class createRecipe extends Component{
                 <IngredientBox key={id} id={id} type={ing[0]} num={ing[1]} unit={ing[2]}/>
             );
         });
+        if(!this.props.isAuthenticated){
+            this.props.history.push('/');
+        }
         return (
             <div className="container">
                 <div className="row mt-3">
@@ -186,7 +189,8 @@ class createRecipe extends Component{
 const mapStateToProps = state =>{
     return {
         ingredients: state.addRecip.ingredients,
-        directions: state.addRecip.directions
+        directions: state.addRecip.directions,
+        isAuthenticated: state.auth.email != null
     };
 }
 const mapDispatchToProps = dispatch => {
@@ -194,4 +198,4 @@ const mapDispatchToProps = dispatch => {
         addIngredients: (ing) => dispatch(actions.addIngredients(ing))
     };
 }
-export default connect(mapStateToProps, mapDispatchToProps)(createRecipe);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(createRecipe));
