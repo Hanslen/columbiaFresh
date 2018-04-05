@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
 import Axios from '../../../axios-config';
+import { checkValidity } from '../../../shared/utility';
 class ingredientBox extends Component{
 
     deleteIngredient = (id) => {
@@ -66,6 +67,10 @@ class ingredientBox extends Component{
         }
     }
     updateQuantity = (id, e) => {
+        if(!checkValidity(e.target.value, {isNumeric: true})){
+            alert("Please enter a number");
+            return ;
+        }
         this.props.updateNum(id, e.target.value);
     }
     updateUnit = (id, e) => {

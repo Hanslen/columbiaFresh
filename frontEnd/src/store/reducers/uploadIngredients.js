@@ -6,7 +6,6 @@ const initialIngState = {
     suggestIngredients: null
 }
 const loadsuggestionIngredient = (state, action) => {
-    console.log(action);
     return updateObject(state, {
         suggestIngredients: action.loadsuggestionIngredient
     })
@@ -36,7 +35,6 @@ const updateUnit = (state, action) => {
 const updateNum = (state, action) => {
     let oldState = state.ingredients;
     oldState[action.id][1] = action.value;
-    console.log(oldState);
     return updateObject(state, {
         ingredients: oldState
     });
@@ -105,7 +103,6 @@ const reducer = (state = initialIngState, action) => {
         case actionTypes.UPLOAD_RECIPE:
             return uploadRecipe(state, action);
         case actionTypes.LOAD_SUGGESTIONS_INGREDIENTS:
-            console.log("reducer LOAD_SUGGESTIONS_INGREDIENTS");
             return loadsuggestionIngredient(state, action);
         default:
             return state;

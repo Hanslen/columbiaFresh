@@ -16,7 +16,6 @@ class createRecipe extends Component{
         img:'http://via.placeholder.com/600x400',
         tags: [],
         authorURL: "",
-        author: "Author",
         avatar: "http://via.placeholder.com/40x40",
         ingredients: [["","",""]],
         notes: "",
@@ -95,8 +94,12 @@ class createRecipe extends Component{
         //     }
         // });
       }
+      
     uploadRecipe = (imgurl) => {
-        this.props.uploadIng(this.props.token, this.state.title, imgurl, this.state.tags, this.props.userId, this.state.intro, this.state.ingredients, this.state.directions, this.state.notes);
+        if(this.state.title == "" || this.state.intro == "" || this.state.ingredients[0][0] == "" || this.props.directions[0] == "" || this.state.notes == ""){
+            alert("You must fill all the blanket!");
+        }
+        this.props.uploadIng(this.props.token, this.state.title, imgurl, this.state.tags, this.props.userId, this.state.intro, this.state.ingredients, this.props.directions, this.state.notes);
     }
     addTag = (e) => {
         if (e.key === 'Enter') {
@@ -107,7 +110,6 @@ class createRecipe extends Component{
         }
     }
     deleteTag = (tag) => {
-        console.log(tag);
         let oldState = this.state.selectedTags;
         let id = oldState.indexOf(tag);
         oldState.splice(id, 1);
@@ -119,7 +121,6 @@ class createRecipe extends Component{
         this.setState({selectedTags: oldState});
     }
     updateNotes = (e) => {
-
         let oldState = this.state.notes;
         oldState = e.target.value;
         this.setState({notes: oldState});
@@ -143,7 +144,7 @@ class createRecipe extends Component{
                     <span key={tag} className="selectedTag" onClick={() => this.deleteTag(tag)}>
                         {tag}
                     </span>
-            );
+                );
             }
             else{
                 return (
@@ -160,7 +161,7 @@ class createRecipe extends Component{
                     <div className="media mt-3 mb-2">
                         <img className="mr-3 rounded-circle" src={this.state.avatar} />
                         <div className="media-body" style={{lineHeight: 40+'px'}}>
-                            {this.state.author}
+                            {this.props.username}
                         </div>
                     </div>
                 </Link>
@@ -230,7 +231,8 @@ const mapStateToProps = state =>{
         directions: state.addRecip.directions,
         isAuthenticated: localStorage.getItem("email") != null,
         userId: state.auth.userId,
-        token: state.auth.token
+        token: state.auth.token,
+        username: state.auth.username
     };
 }
 const mapDispatchToProps = dispatch => {

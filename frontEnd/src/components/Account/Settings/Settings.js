@@ -552,7 +552,7 @@ class settings extends Component{
           
         ) );
         return (
-            <div className="tab-pane fade active show" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+            <div className="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
                 <div className="row">
                     <div className="col-3">
                         <div className="list-group" id="list-tab" role="tablist">

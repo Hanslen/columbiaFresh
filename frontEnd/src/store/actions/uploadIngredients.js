@@ -80,7 +80,6 @@ export const uploadIng = (token, title, img, tag, authorId, description, ingredi
         directions: directions,
         notes: notes
     };
-    console.log(postData);
     Axios.post("/createRecipe", postData).then(res => {
         console.log(res);
         if(res.data.success){
