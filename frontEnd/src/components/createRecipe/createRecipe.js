@@ -11,15 +11,18 @@ class createRecipe extends Component{
     state = {
         title: "",
         img:'http://via.placeholder.com/600x400',
-        tags: ['tag1'],
+        tags: ['lunch', 'meat','fruit'],
         authorURL: "",
         author: "Author",
         avatar: "http://via.placeholder.com/40x40",
         ingredients: [["","",""]],
         notes: "",
-        intro: ""
+        intro: "",
+        selectedTags: ['meat']
     }
-  
+    componentWillMount(){
+        
+    }
     uploadImg = () => {
         $('#uploadImg').trigger('click');;
 
@@ -62,10 +65,15 @@ class createRecipe extends Component{
     }
     deleteTag = (tag) => {
         console.log(tag);
-        let oldState = this.state.tags;
+        let oldState = this.state.selectedTags;
         let id = oldState.indexOf(tag);
         oldState.splice(id, 1);
-        this.setState({tags: oldState});
+        this.setState({selectedTags: oldState});
+    }
+    selectTag = (tag) => {
+        let oldState = this.state.selectedTags;
+        oldState.push(tag);
+        this.setState({selectedTags: oldState});
     }
     updateNotes = (e) => {
 
@@ -83,16 +91,24 @@ class createRecipe extends Component{
         oldState = e.target.value;
         this.setState({intro: oldState});
     }
-
     render(){
         let liClasses = ["list-group-item", "borderless"];
         let tagItems = this.state.tags.map(tag => {
             let tagURL = "/search?"+tag;
-            return (
-                    <span key={tag} className="tag" onClick={() => this.deleteTag(tag)}>
+            if(this.state.selectedTags.includes(tag)){
+                return (
+                    <span key={tag} className="selectedTag" onClick={() => this.deleteTag(tag)}>
                         {tag}
                     </span>
             );
+            }
+            else{
+                return (
+                    <span key={tag} className="unselectedTag" onClick={() => this.selectTag(tag)}>
+                        {tag}
+                    </span>
+                );
+            }
         });
 
         let authorInfo = (
@@ -126,7 +142,7 @@ class createRecipe extends Component{
                         <input type="file" ref="uploadImg" name="selectedFile" onChange={this.imgOnChange} id="uploadImg" style={{display:"none"}}/>
                         <br/><br/>
                         {tagItems} 
-                            <input type="text" className="addTag" id="addTag" onKeyPress={this.addTag}/>
+                            {/* <input type="text" className="addTag" id="addTag" onKeyPress={this.addTag}/> */}
                         {authorInfo}
                         <textarea className="form-control" placeholder="Please enter recipe description." value={this.state.intro} onChange={(e) => this.updateIntro(e)}/>
                         <div className="mt-3">
