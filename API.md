@@ -304,7 +304,7 @@ response
 #### get user orders
 url
 ```
-POST /order
+POST /orders
 ```
 postData
 ```
@@ -329,6 +329,35 @@ response
 info: string
 status: bool
 
+```
+#### get user order by orderID
+url
+```
+POST /getorder
+```
+postData
+```
+{
+	userId: string,
+	token: string,
+	orderId: string
+}
+```
+response
+```
+{
+	img: string,
+	title: string,
+	price: string, (single item price),
+	number: int,
+	item: [{
+		id: int,
+		img: string,
+		title: string,
+		price: float,
+		number: int
+	}]
+}
 ```
 
 ### Shopping Cart
