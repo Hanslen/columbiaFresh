@@ -1,3 +1,15 @@
+## Status Code Instruction
+responses:
+'200': 
+description: A Chatbot response
+
+'403': 
+description: Unauthorized
+
+'500': 
+description: Unexpected error
+
+
 ### Sign Up
 #### post user information and get activate token
 

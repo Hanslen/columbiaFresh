@@ -1,5 +1,5 @@
 from app import app
-from flask import request, jsonify
+from flask import jsonify, make_response
 from ...search_models import Recipe
 from ...search_models import Recipe_in_cate, Recipe_category, Ingredient, Ingredient_in_recipe
 from ...auth import check_token
@@ -8,21 +8,28 @@ from ...auth import check_token
 
 @app.route('/getRecipeTags', methods=['GET'])
 def get_recipe_category():
-    result = []
-    categories = Recipe_category.get_all()
-    for cate in categories:
-        result.append(cate.rcname)
+    try:
+        result = []
+        categories = Recipe_category.get_all()
+        for cate in categories:
+            result.append(cate.rcname)
+        return make_response(jsonify(result), 200)
 
-    return jsonify({"tags":result})
+    except Exception as e:
+        return make_response(jsonify({'error info': str(e)}), 500)
 
 @app.route('/getIngredients', methods=['GET'])
 def get_ingredients():
-    result = []
-    ingredients = Ingredient.get_all()
-    for ingr in ingredients:
-        result.append([ingr.iname, ingr.recipeMetric])
+    try:
+        result = []
+        ingredients = Ingredient.get_all()
+        for ingr in ingredients:
+            result.append([ingr.iname, ingr.recipeMetric])
 
-    return jsonify({"ingredients":result})
+        return make_response(jsonify(result), 200)
+
+    except Exception as e:
+        return make_response(jsonify({'error info': str(e)}), 500)
 
 @app.route('/createRecipe', methods=['POST'])
 @check_token

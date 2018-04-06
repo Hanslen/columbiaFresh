@@ -1,6 +1,4 @@
 from manage import app, db
-from flask import url_for, jsonify
-from .models import Customer
 
 class Ingredient(db.Model):
     __tablename__ = 'ingredient'
@@ -129,11 +127,10 @@ class Recipe(db.Model):
 
     @staticmethod
     def create_recipe(recipe):
-        app.logger.info(recipe.uid)
+        app.logger.info(recipe.rid)
         db.session.add(recipe)
         db.session.commit()
         return recipe.rid
-
 
 class Recipe_category(db.Model):
     __tablename__ = 'recipe_category'
