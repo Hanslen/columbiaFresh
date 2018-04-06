@@ -75,7 +75,7 @@ class myorders extends Component{
                              <strong>#{this.state.orders[0].orderId}</strong></p>
                         </div>
                     </div>
-                    <div className="row" style={{marginLeft:"0px",marginRight:"0px",border: "1px solid #dcdcdc"}}>
+                    <div className="row" style={{marginLeft:"0px",marginRight:"0px", paddingLeft:"20px", border: "1px solid #dcdcdc"}}>
                          <div className="col-md-9">
                              <h6 className={classes.subStatus}><strong>Delivered {this.state.orders[0].deliverdate}</strong></h6>
                             <div className={classes.orderSubLeft}>
@@ -91,7 +91,7 @@ class myorders extends Component{
                             <div className={classes.orderBtn}>
                                 <button className="btn btn-default btn-primary">Order details</button>
                                 {/* <button className="btn btn-default btn-primary">Track Package</button> */}
-                                 <button className="btn btn-default btn-primary">Write a product review</button>
+                                 {/* <button className="btn btn-default btn-primary">Write a product review</button> */}
                              </div>
                         </div>
                      </div>

@@ -12,6 +12,8 @@ import Account from './components/Account/Account';
 import accountManage from './components/Navigation/AccountManage/AccountManage';
 import Order from './components/OrderPage/Order';
 import createRecipe from './components/createRecipe/createRecipe';
+import orderDetail from './components/Account/OrderDetail/OrderDetail';
+import my404Component from './components/my404Component';
 
 
 class App extends Component {
@@ -28,6 +30,8 @@ class App extends Component {
         <Route path="/myprofile" exact component={Account}/>
         <Route path="/verifyEmail/:token" exact component={accountManage}/>
         <Route path="/placeorder" exact component={Order}/>
+        <Route path="/myorder/:orderId" exact component={orderDetail} />
+        <Route path='*' exact={true} component={my404Component} />
       </Switch>
     );
     return (
