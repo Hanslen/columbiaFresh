@@ -15,10 +15,10 @@ def check_token(func):
             if success is True:
                 return make_response(jsonify(msg), 200)
             else:
-                return make_response(jsonify({'error info': str(msg)}), 500)
+                return make_response(jsonify({'error info': str(msg)}), 401)
 
         except Exception as e:
-            return make_response(jsonify({'error info': str(e)}), 500)
+            return make_response(jsonify({'error info': str(e)}), 401)
 
     wrapper.__name__ = func.__name__
     return wrapper

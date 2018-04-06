@@ -16,7 +16,7 @@ def get_recipe_category():
         return make_response(jsonify(result), 200)
 
     except Exception as e:
-        return make_response(jsonify({'error info': str(e)}), 500)
+        return make_response(jsonify({'error info': str(e)}), 401)
 
 @app.route('/getIngredients', methods=['GET'])
 def get_ingredients():
@@ -29,7 +29,7 @@ def get_ingredients():
         return make_response(jsonify(result), 200)
 
     except Exception as e:
-        return make_response(jsonify({'error info': str(e)}), 500)
+        return make_response(jsonify({'error info': str(e)}), 401)
 
 @app.route('/createRecipe', methods=['POST'])
 @check_token
