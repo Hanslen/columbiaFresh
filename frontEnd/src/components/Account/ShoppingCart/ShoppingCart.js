@@ -47,6 +47,11 @@ class shoppingcart extends Component{
         }],
         selectedId: -1
     }
+    componentWillMount(){
+        if(this.props.items != undefined){
+            this.setState({recipes: this.props.item});
+        }
+    }
     addQuantityHandler = (id, recipeId) => {
         let oldState = this.state.recipes;
         oldState[id].quantity += 1;
@@ -101,28 +106,49 @@ class shoppingcart extends Component{
     render(){
         let recipes = this.state.recipes.map((item, id) => {
             let recipeDetail = this.state.selectedDetail.map((detail,idd) => (
-                <div className="row" key={detail.id}>
+                <div>
+                {!this.props.notShow?
+                    <div className="row" key={detail.id}>
+                            <div className="col-md-8">
+                                <img src={detail.src}/>
+                                <a href="#"><strong>{detail.name}</strong></a>
+                            </div>
+                            <div className="col-md-1">
+                                <a id={classes.deleteBtn} onClick={()=>this.deleteItemHandlerSub(idd,detail.id)}>Delete</a>
+                            </div>
+                            <div className="col-md-1">
+                                <p><strong style={{color:"#C0392B"}}><font>${parseFloat(detail.price * detail.quantity).toFixed(2)}</font></strong></p>
+                            </div>
+                            <div className="col-md-2">
+                                <p>
+                                    <i className="fas fa-caret-left" onClick={()=>this.substractQuantityHandlerSub(idd, detail.id)} id={classes.modifyQuantity}></i>
+                                    {detail.quantity}
+                                    <i className="fas fa-caret-right" onClick={()=>this.addQuantityHandlerSub(idd, detail.id)} id={classes.modifyQuantity}></i>
+                                </p>
+                            </div>
+                        </div>:
+                        <div className="row" key={detail.id}>
                         <div className="col-md-8">
                             <img src={detail.src}/>
                             <a href="#"><strong>{detail.name}</strong></a>
                         </div>
-                        <div className="col-md-1">
-                            <a id={classes.deleteBtn} onClick={()=>this.deleteItemHandlerSub(idd,detail.id)}>Delete</a>
-                        </div>
-                        <div className="col-md-1">
-                            <p><strong style={{color:"#C0392B"}}><font>${parseFloat(detail.price * detail.quantity).toFixed(2)}</font></strong></p>
+                        <div className="col-md-2">
+                            <p><strong style={{color:"#C0392B"}}><font>${parseFloat(detail.price).toFixed(2)}</font></strong></p>
                         </div>
                         <div className="col-md-2">
                             <p>
-                                <i className="fas fa-caret-left" onClick={()=>this.substractQuantityHandlerSub(idd, detail.id)} id={classes.modifyQuantity}></i>
-                                {detail.quantity}
-                                <i className="fas fa-caret-right" onClick={()=>this.addQuantityHandlerSub(idd, detail.id)} id={classes.modifyQuantity}></i>
+                                {/* <i className="fas fa-caret-left" onClick={()=>this.substractQuantityHandlerSub(idd, detail.id)} id={classes.modifyQuantity}></i> */}
+                                x {detail.quantity}
+                                {/* <i className="fas fa-caret-right" onClick={()=>this.addQuantityHandlerSub(idd, detail.id)} id={classes.modifyQuantity}></i> */}
                             </p>
                         </div>
                     </div>
+                }
+                </div>
             ));
             return(
                 <div className={classes.item} key={id}>
+                    {!this.props.notShow?
                     <div className="row">
                         <div className="col-md-8" onClick={() => this.showDetailHandler(item.recipeId)}>
                             <img src={item.src}/>
@@ -141,7 +167,24 @@ class shoppingcart extends Component{
                                 <i className="fas fa-caret-right" onClick={()=>this.addQuantityHandler(id, item.recipeId)} id={classes.modifyQuantity}></i>
                             </p>
                         </div>
+                    </div>:
+                    <div className="row" onClick={() => this.showDetailHandler(item.recipeId)}>
+                        <div className="col-md-8">
+                            <img src={item.src}/>
+                            <a href="#"><strong>{item.name}</strong></a>
+                        </div>
+                        <div className="col-md-2">
+                            <p><strong style={{color:"#C0392B"}}><font>Total price: ${parseFloat(item.price * item.quantity).toFixed(2)}</font></strong></p>
+                        </div>
+                        <div className="col-md-2">
+                            <p>
+                                {/* <i className="fas fa-caret-left" onClick={()=>this.substractQuantityHandler(id, item.recipeId)} id={classes.modifyQuantity}></i> */}
+                                Number: {item.quantity}
+                                {/* <i className="fas fa-caret-right" onClick={()=>this.addQuantityHandler(id, item.recipeId)} id={classes.modifyQuantity}></i> */}
+                            </p>
+                        </div>
                     </div>
+                    }
                     <div className={classes.detailBox} id={"detail"+item.recipeId} style={{display: "none"}}>
                         <hr style={{marginBottom:"0px"}}/>
                         {recipeDetail}
@@ -153,7 +196,10 @@ class shoppingcart extends Component{
             <div className={this.props.displayClass} id="nav-shoppingCart" role="tabpanel" aria-labelledby="nav-shoppingCart-tab" style={this.props.style}>
                 <div className={classes.shoppingCart}>
                     {recipes}
-                    <button className="btn btn-default btn-primary" id={classes.checkOut}>CheckOut</button>
+                    {!this.props.notShow?
+                        <button className="btn btn-default btn-primary" id={classes.checkOut}>CheckOut</button>:
+                        <div></div>
+                    }
                 </div>
                 <br/>
                 <br/>

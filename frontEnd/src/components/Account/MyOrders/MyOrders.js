@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MyHeader from '../MyHeader/MyHeader';
 import classes from './MyOrder.css';
+import { Link } from 'react-router-dom';
 class myorders extends Component{
     state = {
         myFolders:["Delivered", "Dispatching", "Preparing","Cancelled"],
@@ -54,7 +55,9 @@ class myorders extends Component{
             }
                 
         });
-        let orders = this.state.orders.map(order => (
+        let orders = this.state.orders.map(order => {
+            let orderUrl = "/myorder/"+order.orderId;
+            return(
             <div key={order.orderId}>
                 <div className={classes.folderContent}>
                     <div className="row" style={{marginLeft:"0px",marginRight:"0px",backgroundColor:"#eee",border: "1px solid #dcdcdc"}}>
@@ -81,7 +84,7 @@ class myorders extends Component{
                             <div className={classes.orderSubLeft}>
                                 <img src={this.state.orders[0].src}/>
                                  <div className={classes.description}>
-                                    <a href=""><strong>{this.state.orders[0].title}</strong></a>
+                                    <Link to={orderUrl}><strong>{this.state.orders[0].title}</strong></Link>
                                     <p>Sold by: {this.state.orders[0].soldBy}</p>
                                     <p>${this.state.orders[0].price}</p>
                                  </div>
@@ -89,7 +92,7 @@ class myorders extends Component{
                          </div>
                         <div className="col-md-3">
                             <div className={classes.orderBtn}>
-                                <button className="btn btn-default btn-primary">Order details</button>
+                                <Link to={orderUrl}><button className="btn btn-default btn-primary">Order details</button></Link>
                                 {/* <button className="btn btn-default btn-primary">Track Package</button> */}
                                  {/* <button className="btn btn-default btn-primary">Write a product review</button> */}
                              </div>
@@ -99,7 +102,7 @@ class myorders extends Component{
 
                 <div style={{height: "10px", backgroundColor:"rgb(244,245,247)", border:"none"}}></div>
             </div>
-        ));
+        )});
         return (
             <div className="tab-pane fade active show" id="nav-myOrder" role="tabpanel" aria-labelledby="nav-myOrder-tab">
                 <div className="row">
