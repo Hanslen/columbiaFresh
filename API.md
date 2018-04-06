@@ -1,12 +1,12 @@
 ## Status Code Instruction
 responses:
 '200': 
-description: A Chatbot response
+description: Backend Response
 
 '403': 
 description: Unauthorized
 
-'500': 
+'401': 
 description: Unexpected error
 
 
