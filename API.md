@@ -302,16 +302,11 @@ response
   deliveredDate: string,
   soldBy: string,
   title: string,
-<<<<<<< HEAD
   img: string
 }
 info: string
 status: bool
-=======
-  img: string,
-  link: string
-}]
->>>>>>> 98d2b41d6601d252f5ead34bee495b83021d7f58
+
 ```
 
 ### Shopping Cart
