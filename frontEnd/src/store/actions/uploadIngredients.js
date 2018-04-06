@@ -59,10 +59,8 @@ export const updateSuggestionIng = (ingre) => {
 }
 export const loadsuggestionIng = () => {
     return dispatch => {
-        console.log("loading suggestion ing....");
         Axios.get('/getIngredients').then(res => {
-            console.log(res);
-            dispatch(updateSuggestionIng(res.data.ingredients));
+            dispatch(updateSuggestionIng(res.data));
         }).catch(err => {
             console.log(err);
         });
@@ -81,15 +79,10 @@ export const uploadIng = (token, title, img, tag, authorId, description, ingredi
         notes: notes
     };
     Axios.post("/createRecipe", postData).then(res => {
-        console.log(res);
-        if(res.data.success){
-            alert("Upload recipe successfully!");
-        }
-        else{
-            alert("Upload recipe failed...");
-        }
+        alert("Upload recipe successfully :-)");
     }).catch(err => {
         console.log(err);
+        alert("Fail to upload the recipe");
     });
     return {
         type: actionTypes.UPLOAD_RECIPE

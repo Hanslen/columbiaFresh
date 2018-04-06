@@ -1,6 +1,36 @@
 import React, { Component } from 'react';
 import classes from './MyHeader.css';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 class myheader extends Component{
+    componentDidMount(){
+        if(this.props.history.location.hash == "#settings"){
+            $("#nav-settings-tab").trigger("click");
+            this.props.history.push ("/myprofile");
+        }
+        else if(this.props.history.location.hash == "#shoppingcart"){
+            $("#nav-shoppingCart-tab").trigger("click");
+            this.props.history.push ("/myprofile");
+        }
+        else if(this.props.history.location.hash == "#order"){
+            $("#nav-myOrder-tab").trigger("click");
+            this.props.history.push("/myprofile");
+        }
+    }
+    componentWillReceiveProps(){
+        if(this.props.history.location.hash == "#settings"){
+            $("#nav-settings-tab").trigger("click");
+            this.props.history.push ("/myprofile");
+        }
+        else if(this.props.history.location.hash == "#shoppingcart"){
+            $("#nav-shoppingCart-tab").trigger("click");
+            this.props.history.push ("/myprofile");
+        }
+        else if(this.props.history.location.hash == "#order"){
+            $("#nav-myOrder-tab").trigger("click");
+            this.props.history.push("/myprofile");
+        }
+    }
     render(){
         let navItem = ["nav", "nav-tabs",classes.profileNav];
         return (
@@ -9,8 +39,8 @@ class myheader extends Component{
                     <div className={classes.introBox}>
                         <img className={classes.imgIcon}src="/static/img/user.jpg"/>
                         <div className={classes.introText}>
-                            <p><strong>Teacher Ding</strong></p>
-                            <p>Why Teacher Ding is so Blood?!</p>
+                            <p><strong>{this.props.username}</strong></p>
+                            <p>Manage and check my profile. :D</p>
                         </div>
                     </div>    
                 </div>
@@ -63,4 +93,11 @@ class myheader extends Component{
         );
     }
 }
-export default myheader;
+const mapStateToProps = state => {
+    return {
+        userId: state.auth.userId,
+        token: state.auth.token,
+        username: state.auth.username
+    }
+}
+export default withRouter(connect(mapStateToProps, null)(myheader));

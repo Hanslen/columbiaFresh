@@ -89,7 +89,8 @@ export const authLogIn = (email, password) => {
         let url = '/login';
         axios.post(url, authData)
             .then(response => {
-                if(response.data.status == "Success"){
+                console.log(response);
+                if(response.data.status === "Success"){
                     const expirationDate = new Date(new Date().getTime() + 3600*1000);
                     localStorage.setItem('username',response.data.info.uname);
                     localStorage.setItem('expirationDate', expirationDate);
@@ -154,10 +155,11 @@ export const updateBasicInformation = (userId, token, firstname, lastname, gende
         let url = "/settings/update/basic";
         axios.post(url, updateData)
             .then(response => {
-                alert(response.data.msg);
+                alert(response.data);
                 console.log(response.data);
             })
             .catch(error => {
+                alert("Update information failed... Please check your network connection....");
                 console.log(error);
             });
     }
@@ -174,10 +176,15 @@ export const updatePassword = (userId, token, oldPassword, newPassword) => {
         axios.post(url, updateData)
             .then(response => {
                 console.log(response.data);
-                alert(response.data.msg);
+                alert(response.data);
             })
             .catch(error => {
-                console.log(error);
+                if(error.response){
+                    alert("The old password you enter is not correct!");
+                }
+                else{
+                    alert("Update password failed... Please check your network connection....");
+                }
             });
     };
 }
@@ -196,9 +203,10 @@ export const updateAddress = (userId, token, streetAddress1, streetAddress2, cit
         axios.post(url, updateData)
             .then(response => {
                 console.log(response.data);
-                alert(response.data.msg);
+                alert(response.data);
             })
             .catch(error => {
+                alert("Update information failed... Please check your network connection....");
                 console.log(error);
             })
     }
@@ -217,22 +225,16 @@ export const updateCredit = (userId, token, name, cardNumber, expirationMonth,ex
         let url = "/settings/update/credit";
         axios.post(url, updateData)
             .then(response => {
-                console.log(response.data);
-                if(response.data == true){
-                    alert("Update CreditCard Successfully!");
-                }
-                else{
-                    alert("Failed update...");
-                }
+                alert(response.data);
             })
             .catch(error => {
                 console.log(error);
+                alert("Update information failed... Please check your network connection....");
             })
     }
 }
 export const authCheckState = () => {
     return dispatch => {
-        
         const email = localStorage.getItem('email');
         if(!email){
             dispatch(logout());

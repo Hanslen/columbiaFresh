@@ -21,7 +21,7 @@ class ingredientBox extends Component{
         a.setAttribute("id", "autocomplete-list");
         a.setAttribute("class", "autocomplete-items autoIng");
         // let suggestions = this.getSuggestions(e.target.value);
-        document.getElementById("parentBox").appendChild(a);
+        document.getElementById("parentBox"+this.props.id).appendChild(a);
         for(let i = 0; i < suggestions.length; i++){
             let b = document.createElement("div");
             b.setAttribute("class","autocomplete-activee");
@@ -87,7 +87,6 @@ class ingredientBox extends Component{
         }
         const regex = new RegExp('^' + escapedValue, 'i');
         // const regex = new RegExp("^(?:(the|a)\s)?" + escapedValue, "i");
-        console.log(this.props.suggestIngredients);
         return this.props.suggestIngredients.filter(sug => regex.test(sug[0]));
     }
     render(){
@@ -96,9 +95,10 @@ class ingredientBox extends Component{
         });
         let boxId = "ingredient"+this.props.id;
         let unitId = "unit"+this.props.id;
+        let parentBox = "parentBox"+this.props.id;
         return (
             <li className="list-group-item borderless">
-                <div id="parentBox">
+                <div id={parentBox}>
                     <input type="text" id={boxId} className="form-control addIngredients" placeholder="Ingredient" value = {this.props.type} onChange={(e)=>this.updateType(this.props.id, e)}/>
                 </div>
                 <input type="text" className="form-control addIngredients" placeholder="Quantity" value={this.props.num} onChange={(e)=>this.updateQuantity(this.props.id, e)}/>

@@ -102,9 +102,9 @@ Link{
     margin-left: -312px;
     position: absolute;
 }
-#shoppingCartSvg:hover + .shoppingBox{
+/* #shoppingCartSvg:hover + .shoppingBox{
     display: block;
-}
+} */
 
 .shoppingBox:hover{
     display: block;

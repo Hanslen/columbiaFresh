@@ -15,8 +15,7 @@ class input extends Component{
                     className={inputClasses.join(' ')}
                     {...this.props.elementConfig}
                     value={this.props.value}
-                    onChange={this.props.changed}
-                    placeholder={this.props.placeholder} />;
+                    onChange={this.props.changed} />;
                 break;
             case ( 'textarea' ):
                 inputElement = <textarea

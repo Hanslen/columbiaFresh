@@ -23,10 +23,9 @@ class createRecipe extends Component{
         selectedTags: []
     }
     componentWillMount(){
-        console.log("load create recipe component");
         this.props.loadsuggestionIng();
         Axios.get("/getRecipeTags").then((res) => {
-            this.setState({tags: res.data.tags});
+            this.setState({tags: res.data});
         }).catch((err)=>{
             console.log(err);
         });

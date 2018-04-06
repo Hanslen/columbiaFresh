@@ -73,7 +73,7 @@ class navigation extends Component{
         elementType: 'input',
         elementConfig: {
           type: 'password',
-          placeholder: 'Enter Password'
+          placeholder: 'Enter Password (at least six characters)'
         },
         value: '',
         validation: {
@@ -238,7 +238,7 @@ class navigation extends Component{
       $("#signModal .close").click();
     }
     else{
-      alert("Error....");
+      alert("The Email and password does not match");
       return ;
     }
     if(this.state.sign == "Sign Up"){
@@ -348,7 +348,7 @@ class navigation extends Component{
                       </li>:
                         <li className="nav-item">
                           <div className="nav-link">
-                          <a id={classes.shoppingCartSvg}><ReactSVG path="/static/img/cart.svg" className={classes.shoppingCart} style={{width:25, fill: "white"}} /></a>
+                          <Link to="/myprofile#shoppingcart" id={classes.shoppingCartSvg}><ReactSVG path="/static/img/cart.svg" className={classes.shoppingCart} style={{width:25, fill: "white"}} /></Link>
                           <div className={classes.shoppingBox}>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" id={classes.shoppingCartSub}>
                               {shoppingCart}
@@ -363,9 +363,9 @@ class navigation extends Component{
                           <img className={classes.userIcon} id={classes.userProfileImg} src="/static/img/user.jpg"/>
                           <div className={classes.userProfileBox}>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" id={classes.userBoxSub}>
-                              <Link className="dropdown-item" to="/myprofile">Hi, <strong>Teacher Ding</strong></Link>
-                              <a className="dropdown-item" href="#">My Orders</a>
-                              <a className="dropdown-item" href="#" id={classes.noClickDecoration}>Edit Profiles</a><div className="dropdown-divider"></div>
+                              <Link className="dropdown-item" to="/myprofile#order">Hi, <strong>Teacher Ding</strong></Link>
+                              <Link className="dropdown-item" to="/myprofile#order">My Orders</Link>
+                              <Link className="dropdown-item" to="/myprofile#settings" id={classes.noClickDecoration}>Edit Profiles</Link><div className="dropdown-divider"></div>
                               <a className="dropdown-item" id={classes.noClickDecoration}onClick={this.props.onLogOut}>LogOut</a>
                             </div>
                           </div>

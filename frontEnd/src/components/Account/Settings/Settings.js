@@ -71,7 +71,8 @@ class settings extends Component{
                   boxStyle:{
                       width: '100%',
                       float: 'left'
-                  }
+                  },
+                  value: "female"
               },
               email: {
                 label: "Email",
@@ -125,8 +126,8 @@ class settings extends Component{
                       float: 'left'
                   },
                   value: '',
-                  validation:{
-                      required: true
+                  validation: {
+                    required: true
                   },
                   valid: false,
                   touched: false
@@ -136,15 +137,16 @@ class settings extends Component{
                   elementType: 'input',
                   elementConfig: {
                       type: 'password',
-                      placeholder: 'Enter new password'
+                      placeholder: 'Enter new password (At least six characters)'
                   },
                   boxStyle:{
                       width: '100%',
                       float: 'left'
                   },
                   value: '',
-                  validation:{
-                      required: true
+                  validation: {
+                    required: true,
+                    minLength: 6
                   },
                   valid: false,
                   touched: false
@@ -161,8 +163,9 @@ class settings extends Component{
                       float: 'left'
                   },
                   value: '',
-                  validation:{
-                      required: true
+                  validation: {
+                    required: true,
+                    minLength: 6
                   },
                   valid: false,
                   touched: false
@@ -388,12 +391,19 @@ class settings extends Component{
         }
         Axios.post('/settings/basic',postData).then(response => {
             if(response.data.email != null){
+                let gender = "male";
+                if(response.data.gender[0] == 0){
+                    gender = "female";
+                }
                 let updatedControls = updateObject(this.state.controls, {
                     ["email"]: updateObject(this.state.controls["email"], {
-                        value: response.data.email[0]
+                        value: response.data.email
                     }),
                     ["firstname"] : updateObject(this.state.controls["firstname"], {
                         value: response.data.firstname[0]
+                    }),
+                    ["gender"]: updateObject(this.state.controls["gender"], {
+                        value: gender
                     }),
                     ["lastname"]: updateObject(this.state.controls["lastname"], {
                         value: response.data.lastname[0]
@@ -472,11 +482,14 @@ class settings extends Component{
             console.log("update Basic infor");
             let firstName = this.state.controls.firstname.value;
             let lastName = this.state.controls.lastname.value;
-            let gender = this.state.controls.gender.value;
+            let genderS = this.state.controls.gender.value;
             let email = this.state.controls.email.value;
             let introduction = this.state.controls.intro.value;
-            console.log(firstName+" "+lastName+" "+1+" "+email+" "+introduction);
-            this.props.updateBasic(this.props.userId, this.props.token, firstName, lastName, 1, email, introduction);
+            let gender = 1;
+            if(genderS == "female"){
+                gender = 0;
+            }
+            this.props.updateBasic(this.props.userId, this.props.token, firstName, lastName, gender, email, introduction);
         }
         else if(this.state.controls.oldPassword != undefined){
             let oldPassword = this.state.controls.oldPassword.value;
