@@ -13,7 +13,7 @@ def update_info(customer, content):
 
         db.session.commit()
 
-        return ('Successfully update basic info', True)
+        return ('Successfully update basic information ^_^', True)
 
     except Exception as e:
         print(e)
@@ -28,7 +28,7 @@ def update_password(customer, content):
     customer.password = content['newPassword']
     db.session.commit()
 
-    return ("Successfully change password.", True)
+    return ("Successfully change password ^_^", True)
 
 @app.route('/settings/update/address', methods=['POST'])
 @check_token
@@ -40,7 +40,7 @@ def update_address(customer, content):
     customer.zipCode = content['zipCode']
     db.session.commit()
 
-    return ("Successfully update address.", True)
+    return ("Successfully update address ^_^", True)
 
 
 @app.route('/settings/update/credit', methods=['POST'])
@@ -52,4 +52,4 @@ def update_credit(customer, content):
     customer.expirationYear = content['expirationYear']
     customer.CVV = content['CVV']
 
-    return ("Successfully update credit card info.", True)
+    return ("Successfully update credit card ^_^", True)

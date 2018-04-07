@@ -52,7 +52,7 @@ def create_recipe(customer, content):
             quantity = ingredient[1]
             Ingredient_in_recipe.add(rid=rid, iname=iname, quantity=quantity)
 
-        return ("Successfully create recipe.", True)
+        return ("Successfully create recipe ^_^", True)
 
     except Exception as e:
         print(e)
