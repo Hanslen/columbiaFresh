@@ -25,7 +25,13 @@ class Recipe extends React.Component {
             description: 'say something',
             calorie: 150,
             preptime: 90,
-            ingredients: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4', 'ingredient5'],
+            ingredients: [
+                { name: 'ingredient1', quantity: '1' }, 
+                { name: 'ingredient2', quantity: '2' }, 
+                { name: 'ingredient3', quantity: '3' }, 
+                { name: 'ingredient4', quantity: '4' }, 
+                { name: 'ingredient5', quantity: '5' }
+            ],
             directions: ['direction1', 'direction2', 'direction3', 'direction4', 'direction5'],
             notes: 'some notes...'
         }
