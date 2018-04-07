@@ -5,6 +5,7 @@ const initialState = {
     email: null,
     error: null,
     alertDisplay: {"display": "none"},
+    isError: true,
     loading: false,
     authRedirectPath: '/',
     userId: null,
@@ -22,7 +23,8 @@ const setAlert = (state, action) => {
     return updateObject(state, 
         {
             error: action.error,
-            alertDisplay: {"display": "block"}
+            alertDisplay: {"display": "block"},
+            isError: action.isError
         });
 }
 

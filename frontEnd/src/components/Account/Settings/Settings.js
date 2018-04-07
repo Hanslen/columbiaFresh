@@ -496,7 +496,7 @@ class settings extends Component{
             let newPassword = this.state.controls.newPassword.value;
             let newPasswordAgain = this.state.controls.newPasswordAgain.value;
             if(newPassword != newPasswordAgain){
-                this.props.setAlert("Two password does not match...");
+                this.props.setAlert("Two password does not match!", true);
                 return ;
             }
             this.props.updatePassword(this.props.userId, this.props.token, oldPassword, newPassword);
@@ -600,7 +600,7 @@ const mapDispatchToProps = dispatch => {
         updatePassword: (userId, token, oldPassword, newPassword) => dispatch(actions.updatePassword(userId, token, oldPassword, newPassword)),
         updateAddress: (userId, token, streetAddress1, streetAddress2, city, state,zip) => dispatch(actions.updateAddress(userId, token, streetAddress1, streetAddress2, city, state,zip)),
         updateCredit: (userId, token, name, cardNumber, expirationMonth,expirationYear, cvv) => dispatch(actions.updateCredit(userId, token, name, cardNumber, expirationMonth,expirationYear, cvv)),
-        setAlert: (error) => dispatch(actions.setAlert(error))
+        setAlert: (error, isError) => dispatch(actions.setAlert(error, isError))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(settings);

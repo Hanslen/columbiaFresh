@@ -10,10 +10,11 @@ export const closeAlert = () => {
         type: actionTypes.CLOSE_ALERT
     };
 };
-export const setAlert = (error) => {
+export const setAlert = (error, isError) => {
     return {
         type: actionTypes.SET_ALERT,
-        error: error
+        error: error,
+        isError: isError
     };
 };
 
@@ -54,7 +55,7 @@ export const logout = () => {
 export const checkAuthTimeout = (expirationTime) => {
     return dispatch => {
         setTimeout(() => {
-            dispatch(setAlert("You have logged in for 1 hour, for security, please log in again!"));
+            dispatch(setAlert("You have logged in for 1 hour, for security, please log in again!", true));
             dispatch(logout());
         },expirationTime * 1000);
     };
@@ -165,10 +166,10 @@ export const updateBasicInformation = (userId, token, firstname, lastname, gende
         let url = "/settings/update/basic";
         axios.post(url, updateData)
             .then(response => {
-                dispatch(setAlert(response.data));
+                dispatch(setAlert(response.data, false));
             })
             .catch(error => {
-                dispatch(setAlert("Update information failed... Please check your network connection...."));
+                dispatch(setAlert("Please check your network connection!", true));
                 console.log(error);
             });
     }
@@ -184,14 +185,14 @@ export const updatePassword = (userId, token, oldPassword, newPassword) => {
         let url = "/settings/update/password";
         axios.post(url, updateData)
             .then(response => {
-                dispatch(setAlert(response.data));
+                dispatch(setAlert(response.data, false));
             })
             .catch(error => {
                 if(error.response){
-                    dispatch(setAlert("The old password you enter is not correct!"));
+                    dispatch(setAlert("Old password is wrong!", true));
                 }
                 else{
-                    dispatch(setAlert("Update password failed... Please check your network connection...."));
+                    dispatch(setAlert("Please check your network connection!", true));
                 }
             });
     };
@@ -210,10 +211,10 @@ export const updateAddress = (userId, token, streetAddress1, streetAddress2, cit
         let url = "/settings/update/address";
         axios.post(url, updateData)
             .then(response => {
-                dispatch(setAlert(response.data));
+                dispatch(setAlert(response.data, false));
             })
             .catch(error => {
-                dispatch(setAlert("Update information failed... Please check your network connection...."));
+                dispatch(setAlert("Please check your network connection!", true));
             })
     }
 }
@@ -231,10 +232,10 @@ export const updateCredit = (userId, token, name, cardNumber, expirationMonth,ex
         let url = "/settings/update/credit";
         axios.post(url, updateData)
             .then(response => {
-                dispatch(setAlert(response.data));
+                dispatch(setAlert(response.data, false));
             })
             .catch(error => {
-                dispatch(setAlert("Update information failed... Please check your network connection...."));
+                dispatch(setAlert("Please check your network connection!", true));
             })
     }
 }
@@ -254,7 +255,7 @@ export const authCheckState = () => {
                 dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime())/1000));
             }
             else{
-                dispatch(setAlert("Your token has been expired.. Please log in again!"));
+                dispatch(setAlert("Your token has been expired.. Please log in again!", true));
                 dispatch(logout());
             }
             
