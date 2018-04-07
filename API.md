@@ -358,7 +358,7 @@ postData
 ```
 response
 ```
-{
+[{
 	img: string,
 	title: string,
 	price: string, (single item price),
@@ -370,7 +370,7 @@ response
 		price: float,
 		number: int
 	}]
-}
+}]
 ```
 
 ### Shopping Cart
