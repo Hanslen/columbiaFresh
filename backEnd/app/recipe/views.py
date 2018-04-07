@@ -51,7 +51,7 @@ def GetRecipe(customer, content):
                 "directions": directions,
                 "notes": recipe_content.notes
             }
-            return (str(json), False)
+            return (json, False)
 
 
         isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
@@ -73,7 +73,7 @@ def GetRecipe(customer, content):
             "directions" : directions,
             "notes" : recipe_content.notes
         }
-        return (str(json), True)
+        return (json, True)
 
     except Exception as e:
         print (e)
@@ -112,7 +112,7 @@ def Like_recipe(customer, content):
                         "likes": likes,
                         "isLiked": isLiked
                     }
-                    return (str(json), True)
+                    return (json, True)
                 else:
                     state = "fail"
                     message = "The like record is not consistent."
@@ -123,7 +123,7 @@ def Like_recipe(customer, content):
                         "likes": likes,
                         "isLiked": isLiked
                     }
-                    return (str(json), False)
+                    return (json, False)
         elif not isLiked and curLike:
             if Customer_like_recipe.add_customer_like(uid, rid):
                 isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
@@ -137,7 +137,7 @@ def Like_recipe(customer, content):
                         "likes": likes,
                         "isLiked": isLiked
                     }
-                    return (str(json), True)
+                    return (json, True)
                 else:
                     state = "fail"
                     message = "The like record is not consistent."
@@ -148,7 +148,7 @@ def Like_recipe(customer, content):
                         "likes": likes,
                         "isLiked": isLiked
                     }
-                    return (str(json), False)
+                    return (json, False)
         else:
             state = "fail"
             message = "The like record can't be modified!"
@@ -159,7 +159,7 @@ def Like_recipe(customer, content):
                 "likes" : likes,
                 "isLiked" : isLiked
             }
-            return (str(json), False)
+            return (json, False)
 
     except Exception as e:
         print(e)

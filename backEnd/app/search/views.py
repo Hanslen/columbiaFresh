@@ -17,7 +17,7 @@ def Get_hot_menu():
         json = {
             "menus" : hotMenus
         }
-        return (str(json), True)
+        return (json, True)
     except Exception as e:
         print(e)
         return (str(e), False)
@@ -61,7 +61,7 @@ def Search_recipe():
         json = {
             "recipes" : recipes_truncated
         }
-        return (str(json), True)
+        return (json, True)
     except Exception as e:
         print(e)
         return (str(e), False)

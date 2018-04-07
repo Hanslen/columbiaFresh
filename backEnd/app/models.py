@@ -133,4 +133,3 @@ class Issue(db.Model):
     __tablename__ = 'issue'
     oid = db.Column(db.Integer, db.ForeignKey('order.uid'), nullable=False, primary_key=True)
     uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), nullable=False, index=True)
-

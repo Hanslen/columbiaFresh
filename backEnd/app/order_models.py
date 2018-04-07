@@ -17,3 +17,7 @@ class OrderContainItems(db.Model):
     oid = db.Column(db.Integer, db.ForeignKey('order.uid'), nullable=False, primary_key=True)
 
     iid = db.Column(db.Integer, db.ForeignKey('ingredient.uid'), nullable=False, primary_key=True, index= True)
+
+class Cart(db.Model):
+    __bind_key__ = 'cart'
+    rid = db.Column(db.Integer, primary_key=True)
