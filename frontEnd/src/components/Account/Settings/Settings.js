@@ -390,6 +390,7 @@ class settings extends Component{
             userId: this.props.userId
         }
         Axios.post('/settings/basic',postData).then(response => {
+            console.log(response);
             if(response.data.email != null){
                 let gender = "male";
                 if(response.data.gender[0] == 0){
@@ -416,7 +417,7 @@ class settings extends Component{
                 this.setState({controls: updatedControls});
             }
         }).catch(err => {
-            console.log(err);
+            this.props.setAlert("Connection failed..", true);
         })
     };
 
@@ -440,7 +441,7 @@ class settings extends Component{
                 this.setState({controls: updatedControls});
 
             }).catch(error => {
-                console.log(error);
+                this.props.setAlert("Connection failed..", true);
             });
     }
     setAddress = () => {
@@ -452,7 +453,7 @@ class settings extends Component{
             console.log(response.data);
             let updatedControls = updateObject(this.state.controls, {
                 ["street1"]: updateObject(this.state.controls["street1"], {
-                    value: response.data.streetAdress1
+                    value: response.data.streetAddress1
                 }),
                 ["street2"]: updateObject(this.state.controls["street2"], {
                     value: response.data.streetAddress2

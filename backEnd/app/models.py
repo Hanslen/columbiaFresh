@@ -64,7 +64,7 @@ class Customer(db.Model):
                 return ("No such customer!", False)
 
         except Exception as e:
-            return jsonify(str(e), False)  # invalid token
+            return ("invalid", False)  # invalid token
 
     # need to use wrapper to make code clear
 
@@ -117,9 +117,16 @@ class Customer(db.Model):
         customer = Customer.query.filter(Customer.email == email).first()
         if customer is None:
             print("The object does not exist!")
+            return "Error"
         else:
             return customer
 
+    @staticmethod
+    def check_duplicate(email):
+        customer = Customer.query.filter(Customer.email == email).first()
+        if customer is not None:
+            return True
+        return False
 
 
 class LoginInfo(db.Model):
@@ -133,4 +140,3 @@ class Issue(db.Model):
     __tablename__ = 'issue'
     oid = db.Column(db.Integer, db.ForeignKey('order.uid'), nullable=False, primary_key=True)
     uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), nullable=False, index=True)
-

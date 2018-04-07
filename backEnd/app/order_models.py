@@ -12,8 +12,34 @@ class Order(db.Model):
     isCheckedOut = db.Column(db.Boolean, nullable=False)
     uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), nullable=False)
 
-class OrderContainItems(db.Model):
-    __tablename__ = 'order_contain_items'
-    oid = db.Column(db.Integer, db.ForeignKey('order.uid'), nullable=False, primary_key=True)
+    @staticmethod
+    def getOrders(uid):
+        temp = Order.query.filter(Order.uid == uid).all()
+        if temp is None:
+            print("The user does not exist!")
+            return None
+        else:
+            return temp
 
-    iid = db.Column(db.Integer, db.ForeignKey('ingredient.uid'), nullable=False, primary_key=True, index= True)
+
+class OrderContainItems(db.Model):
+    __tablename__ = 'order_contain_recipes'
+    oid = db.Column(db.Integer, db.ForeignKey('order.uid'), nullable=False, primary_key=True)
+    rid = db.Column(db.Integer, db.ForeignKey('recipe.uid'), nullable=False, primary_key=True)
+    quantity = db.Column(db.Integer, nullable=False)
+
+    @staticmethod
+    def getOrderRecipe(oid):
+        temp = OrderContainItems.query.filter(OrderContainItems.oid == oid).all()
+        if temp is None:
+            print("The order does not exist!")
+            return None
+        else:
+            return temp
+
+
+class CartContainsRecipes(db.Model):
+    __tablename__ = "cart_contains_recipe"
+    uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), nullable=False, primary_key=True)
+    rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
+    quantity = db.Column(db.Integer, nullable=False)
