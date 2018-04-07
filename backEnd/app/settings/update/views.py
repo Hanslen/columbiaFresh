@@ -1,5 +1,4 @@
 from app import app, db
-from ...models import Customer
 from ...auth import check_token
 
 @app.route('/settings/update/basic', methods=['POST'])

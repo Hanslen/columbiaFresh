@@ -6,21 +6,25 @@ import re
 from ..search_models import Recipe
 from ..search_models import Ingredient, Ingredient_in_recipe
 from ..models import Customer
+from ..auth import return_format
+
 
 @app.route('/hotMenu', methods=['GET'])
+@return_format
 def Get_hot_menu():
     try:
         hotMenus = Recipe.get_top_5_hot_recipes()
         json = {
             "menus" : hotMenus
         }
-        return jsonify(json)
+        return (str(json), True)
     except Exception as e:
         print(e)
-        return jsonify({"status": "Fail", "info": str(e)})
+        return (str(e), False)
 
 
 @app.route('/search', methods=['GET'])
+@return_format
 def Search_recipe():
     try:
         query = str(request.args.get('query'))
@@ -57,10 +61,10 @@ def Search_recipe():
         json = {
             "recipes" : recipes_truncated
         }
-        return jsonify(json)
+        return (str(json), True)
     except Exception as e:
         print(e)
-        return jsonify({"status": "Fail", "info": str(e)})
+        return (str(e), False)
 
 def ProcessSentence(input):
     return re.sub('[!#$%&\'*+,;.^_`|~:]+', '', input)
