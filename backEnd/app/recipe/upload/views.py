@@ -4,8 +4,8 @@ from ...search_models import Recipe
 from ...search_models import Recipe_in_cate, Recipe_category, Ingredient, Ingredient_in_recipe
 from ...auth import check_token, return_format
 
-# need an API to tell fron-end about the recipe categories and ingredient list.
 
+# need an API to tell fron-end about the recipe categories and ingredient list.
 @app.route('/getRecipeTags', methods=['GET'])
 @return_format
 def get_recipe_category():
