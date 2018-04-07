@@ -1,4 +1,15 @@
 from app import app
+from ..auth import check_token
+
+@app.route('/addToCart', methods=['GET'])
+@check_token
+def AddRecipeToCart():
+    try:
+        return None
+    except Exception as e:
+        print(e)
+        return ({"state": "fail", "message": str(e)}, False)
+
 # from app.shopping_model import Order
 # from ..auth import check_token
 #

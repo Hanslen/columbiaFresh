@@ -4,16 +4,16 @@ import re
 from ..search_models import Recipe, Recipe_category, Recipe_in_cate, Customer_like_recipe
 from ..search_models import Ingredient, Ingredient_in_recipe
 from ..models import Customer
+from ..auth import check_token
 
 
 @app.route('/getRecipe', methods=['POST'])
-def GetRecipe():
+@check_token
+def GetRecipe(customer, content):
     try:
         # read the posted values from the UI
-        content = request.json
-
         rid = content['rid']
-        uid = content['uid']
+        uid = str(customer.uid)
 
         recipe_content = Recipe.get_recipe(rid)
         recipe_cate_ids = Recipe_in_cate.get_recipe_cate(rid)
@@ -51,7 +51,7 @@ def GetRecipe():
                 "directions": directions,
                 "notes": recipe_content.notes
             }
-            return jsonify(json)
+            return (json, False)
 
 
         isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
@@ -73,19 +73,19 @@ def GetRecipe():
             "directions" : directions,
             "notes" : recipe_content.notes
         }
-        return jsonify(json)
+        return (json, True)
 
     except Exception as e:
         print (e)
-        return jsonify({"status" : "Fail","info": str(e)})
+        return ({"status" : "Fail","info": str(e)}, False)
 
 
 @app.route('/likeRecipe', methods=['POST'])
-def Like_recipe():
+@check_token
+def Like_recipe(customer, content):
     try:
-        content = request.json
         rid = content['rid']
-        uid = content['uid']
+        uid = str(customer.uid)
         curLike = content['like']
 
         if curLike.lower() == "false":
@@ -112,7 +112,7 @@ def Like_recipe():
                         "likes": likes,
                         "isLiked": isLiked
                     }
-                    return jsonify(json)
+                    return (json, True)
                 else:
                     state = "fail"
                     message = "The like record is not consistent."
@@ -123,7 +123,7 @@ def Like_recipe():
                         "likes": likes,
                         "isLiked": isLiked
                     }
-                    return jsonify(json)
+                    return (json, False)
         elif not isLiked and curLike:
             if Customer_like_recipe.add_customer_like(uid, rid):
                 isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
@@ -137,7 +137,7 @@ def Like_recipe():
                         "likes": likes,
                         "isLiked": isLiked
                     }
-                    return jsonify(json)
+                    return (json, True)
                 else:
                     state = "fail"
                     message = "The like record is not consistent."
@@ -148,7 +148,7 @@ def Like_recipe():
                         "likes": likes,
                         "isLiked": isLiked
                     }
-                    return jsonify(json)
+                    return (json, False)
         else:
             state = "fail"
             message = "The like record can't be modified!"
@@ -159,20 +159,11 @@ def Like_recipe():
                 "likes" : likes,
                 "isLiked" : isLiked
             }
-            return jsonify(json)
+            return (json, False)
 
     except Exception as e:
         print(e)
-        return jsonify({"state": "fail", "info": str(e)})
-
-
-@app.route('/addToCart', methods=['GET'])
-def AddRecipeToCart():
-    try:
-        return None
-    except Exception as e:
-        print(e)
-        return jsonify({"state": "fail", "message": str(e)})
+        return ({"state": "fail", "info": str(e)}, False)
 
 
 
