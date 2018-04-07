@@ -59,11 +59,25 @@ def GetEachOrderContent(customer, content):
         else:
             oid = content['orderId']
             items = []
-            recipes = OrderContainItems.getOrderRecipe(int(oid))
-            if recipes is not None:
-                for recipe in recipes:
+            recipes_id = OrderContainItems.getOrderRecipe(int(oid))
+            if recipes_id is not None:
+                for recipe_id in recipes_id:
+                    # Contents of ingredients should be added
                     ingredients = []
-
+                    recipe = Recipe.get_recipe(recipe_id.rid)
+                temp_json = {
+                    "img" : recipe.img,
+                    "title" : recipe.title,
+                    # Total price should be added
+                    "price" : '0',
+                    "number" : str(recipe_id.quantity),
+                    "item" : ingredients
+                }
+                items.append(temp_json)
+            json = {
+                "msg" : items
+            }
+            return (json, True)
 
     except Exception as e:
         return (str(e), False)

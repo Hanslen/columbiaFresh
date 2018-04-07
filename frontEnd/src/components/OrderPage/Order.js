@@ -111,7 +111,7 @@ class Order extends React.Component {
                                     <h5>Payment method</h5>
                                     <div>
                                         <span className="mr-1">
-                                            <i class="far fa-credit-card"></i>
+                                            <i className="far fa-credit-card"></i>
                                         </span>
                                         <span> **** {this.state.cardNumber.slice(12)} </span>
                                     </div>
