@@ -33,9 +33,10 @@ export const authSuccess = (email, username, userId, token) => {
         token: token
     };
 };
-export const authConfirm = (email, username) => {
+export const authConfirm = (email, username, token) => {
     localStorage.setItem("email", email);
     localStorage.setItem("username", username);
+    localStorage.setItem("token", token);
     return {
         type: actionTypes.AUTH_CONFIRM
     }
@@ -117,6 +118,7 @@ export const authLogIn = (email, password) => {
                 dispatch(checkAuthTimeout(3600));
                 $("#signModal .close").click();
             }).catch(error => {
+                console.log(error.response);
                 if(error.response == undefined){
                     dispatch(setAuthError("Connection Failed!"));
                 }
@@ -138,10 +140,11 @@ export const authSignUp = (email, username, password) => {
         let url = '/register';
         axios.post(url, authData)
             .then(response => {
+                console.log(response);
                 console.log(response.data);
                 const data = {
                     email: email,
-                    url: "http://localhost:3000/verifyEmail/"+response.data.token
+                    url: "http://localhost:3000/verifyEmail/"+response.data
                 };
                 axios.post('/register/confirm_url', data)
                     .then(response => {
@@ -157,7 +160,7 @@ export const authSignUp = (email, username, password) => {
                     dispatch(setAuthError("Connection Fail!"));
                 }
                 else{
-                    dispatch(setAuthError(""));
+                    dispatch(setAuthError(error.response.data.errorInfo));
                 }
             });
 
