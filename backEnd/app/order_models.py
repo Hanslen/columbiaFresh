@@ -1,5 +1,4 @@
-from manage import app, db
-from .models import Customer
+from manage import db
 
 
 class Order():

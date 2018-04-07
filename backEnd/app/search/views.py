@@ -7,6 +7,7 @@ from ..search_models import Recipe
 from ..search_models import Ingredient, Ingredient_in_recipe
 from ..models import Customer
 
+
 @app.route('/hotMenu', methods=['GET'])
 def Get_hot_menu():
     try:

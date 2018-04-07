@@ -22,3 +22,15 @@ def check_token(func):
 
     wrapper.__name__ = func.__name__
     return wrapper
+
+
+def return_format(func):
+    def wrapper(*args, **kwargs):
+        msg, success = func(*args, **kwargs)
+        if success is True:
+            return make_response(jsonify(msg), 200)
+        else:
+            return make_response(jsonify({'error info': str(msg)}), 401)
+    wrapper.__name__ = func.__name__
+    return wrapper
+
