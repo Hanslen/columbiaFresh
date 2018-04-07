@@ -4,16 +4,17 @@ import re
 from ..search_models import Recipe, Recipe_category, Recipe_in_cate, Customer_like_recipe
 from ..search_models import Ingredient, Ingredient_in_recipe
 from ..models import Customer
-from ..auth import check_token
+from ..auth import check_token, return_format
 
 
 @app.route('/getRecipe', methods=['POST'])
-@check_token
-def GetRecipe(customer, content):
+@return_format
+def GetRecipe():
     try:
         # read the posted values from the UI
+        content = request.json
         rid = content['rid']
-        uid = str(customer.uid)
+        uid = content['uid']
 
         recipe_content = Recipe.get_recipe(rid)
         recipe_cate_ids = Recipe_in_cate.get_recipe_cate(rid)
@@ -51,7 +52,7 @@ def GetRecipe(customer, content):
                 "directions": directions,
                 "notes": recipe_content.notes
             }
-            return (str(json), False)
+            return (json, True)
 
 
         isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
@@ -73,7 +74,7 @@ def GetRecipe(customer, content):
             "directions" : directions,
             "notes" : recipe_content.notes
         }
-        return (str(json), True)
+        return (json, True)
 
     except Exception as e:
         print (e)
@@ -112,7 +113,7 @@ def Like_recipe(customer, content):
                         "likes": likes,
                         "isLiked": isLiked
                     }
-                    return (str(json), True)
+                    return (json, True)
                 else:
                     state = "fail"
                     message = "The like record is not consistent."
@@ -123,7 +124,7 @@ def Like_recipe(customer, content):
                         "likes": likes,
                         "isLiked": isLiked
                     }
-                    return (str(json), False)
+                    return (json, False)
         elif not isLiked and curLike:
             if Customer_like_recipe.add_customer_like(uid, rid):
                 isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
@@ -137,7 +138,7 @@ def Like_recipe(customer, content):
                         "likes": likes,
                         "isLiked": isLiked
                     }
-                    return (str(json), True)
+                    return (json, True)
                 else:
                     state = "fail"
                     message = "The like record is not consistent."
@@ -148,7 +149,7 @@ def Like_recipe(customer, content):
                         "likes": likes,
                         "isLiked": isLiked
                     }
-                    return (str(json), False)
+                    return (json, False)
         else:
             state = "fail"
             message = "The like record can't be modified!"
@@ -159,7 +160,7 @@ def Like_recipe(customer, content):
                 "likes" : likes,
                 "isLiked" : isLiked
             }
-            return (str(json), False)
+            return (json, False)
 
     except Exception as e:
         print(e)
@@ -186,9 +187,15 @@ def GetIngredients(rid):
             if recipeMetric != "" and quantity > 1:
                 recipeMetric += "s"
         if recipeMetric == "":
-            output = str(quantity) + " " + iname
+            output = {
+                "name" : iname,
+                "quantity" : str(quantity)
+            }
         else:
-            output = str(quantity) + " " + recipeMetric + " " + iname
+            output = {
+                "name" : iname,
+                "quantity" : str(quantity) + " " + recipeMetric
+            }
         ingredient_json.append(output)
 
     return ingredient_json
