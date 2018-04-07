@@ -103,7 +103,7 @@ parameters
 ```
 {
 email: string
-pwd: string
+password: string
 }
 ```
 
