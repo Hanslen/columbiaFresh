@@ -52,6 +52,15 @@ li.borderless {
     margin-left: 4%;
     margin-right: 4%; */
 }
+.greyText {
+    color: rgb(128, 128, 128);
+}
+.redText {
+    color: #C0392B;
+}
+.ingreText {
+    color: rgb(169, 132, 95);
+}
 .favorite {
     height: 40px;
     margin: 10px 10px;
@@ -129,8 +138,14 @@ li.borderless {
 .fontBold {
     font-weight: bold;
 }
+.ellipsis {
+    width: 324px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .list-group-item{
-    background-color: rgb(244,245,247);
+    /* background-color: rgb(244,245,247); */
 }
 .addIngredients{
     width: 30%;

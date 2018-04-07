@@ -32,7 +32,8 @@ class Ingredients extends React.Component {
         let liClasses = ["list-group-item", "borderless"];
         let listItems = this.props.items.map((ingredient, i) => 
             <li key={i} className={liClasses.join(' ')}>
-                {ingredient}
+                <span>{ingredient.quantity} </span>
+                <span>{ingredient.name}</span>
             </li>
         );
 
