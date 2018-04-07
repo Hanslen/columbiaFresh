@@ -34,6 +34,20 @@ response
   token: string
 }
 ```
+### Check token
+#### check user token
+url
+```
+POST /token
+```
+parameters
+```
+{
+token:string
+}
+```
+response
+Only need statusCode
 ### Sign Up Verification URL generation
 #### post user email and activate token
 
