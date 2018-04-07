@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import MyHeader from '../MyHeader/MyHeader';
 import classes from './ShoppingCart.css';
+
 class shoppingcart extends Component{
     state = {
         recipes: [{
@@ -197,7 +199,7 @@ class shoppingcart extends Component{
                 <div className={classes.shoppingCart}>
                     {recipes}
                     {!this.props.notShow?
-                        <button className="btn btn-default btn-primary" id={classes.checkOut}>CheckOut</button>:
+                        <Link to='/placeOrder' className="btn btn-default btn-primary" id={classes.checkOut}>CheckOut</Link>:
                         <div></div>
                     }
                 </div>

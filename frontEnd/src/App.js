@@ -15,11 +15,12 @@ import createRecipe from './components/createRecipe/createRecipe';
 import orderDetail from './components/Account/OrderDetail/OrderDetail';
 import my404Component from './components/my404Component';
 
-
 class App extends Component {
-  componentDidMount(){
+
+  componentWillMount(){
     this.props.onTryAutoSignup();
   }
+
   render() {
     let routes = (
       <Switch>
