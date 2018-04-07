@@ -344,3 +344,24 @@ CREATE TABLE `Columbia_Fresh`.`cart` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 ```
+
+### cart_contains_recipe
+
+```
+CREATE TABLE `Columbia_Fresh`.`cart_contains_recipe` (
+  `cart_id` INT(11) NOT NULL,
+  `rid` INT(11) NOT NULL,
+  `quantity` INT(10) NOT NULL,
+  PRIMARY KEY (`cart_id`, `rid`),
+  INDEX `recipe_cart_contains_recipe_idx` (`rid` ASC),
+  CONSTRAINT `cart_cart_contains_recipe`
+    FOREIGN KEY (`cart_id`)
+    REFERENCES `Columbia_Fresh`.`cart` (`cart_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `recipe_cart_contains_recipe`
+    FOREIGN KEY (`rid`)
+    REFERENCES `Columbia_Fresh`.`recipe` (`rid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+```
