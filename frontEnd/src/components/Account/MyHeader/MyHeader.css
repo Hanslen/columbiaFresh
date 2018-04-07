@@ -3,9 +3,12 @@
     width: 100%;
     height: 200px;
     background-size: cover;
-    background-image: url(https://s3-media3.fl.yelpcdn.com/assets/srv0/yelp_large_assets/b0108eaaf115/assets/img/home/hero_photos/xetgX7L_0aF2pxuTh4gARA.jpg);
+    /* background-image: url(https://s3-media3.fl.yelpcdn.com/assets/srv0/yelp_large_assets/b0108eaaf115/assets/img/home/hero_photos/xetgX7L_0aF2pxuTh4gARA.jpg); */
     /* background-image: url(/static/img/userProfile.jpg); */
-    /* background-size: auto; */
+    /* bili */
+    /* background-image: url(http://i0.hdslb.com/bfs/space/cb1c3ef50e22b6096fde67febe863494caefebad.png@100Q.webp); */
+    background-image: url(https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_large_assets/dde93fe399aa/assets/img/home/hero_photos/Xs7es0q4jmFY5CV3uTeuPw.jpg);
+    background-size: auto;
     background-position: 50%;
     line-height: 0px;
     box-shadow: 0 0 0 1px #eee;

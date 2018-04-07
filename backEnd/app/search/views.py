@@ -85,9 +85,15 @@ def GetIngredients(rid):
             if recipeMetric != "" and quantity > 1:
                 recipeMetric += "s"
         if recipeMetric == "":
-            output = str(quantity) + " " + iname
+            output = {
+                "name" : iname,
+                "quantity" : str(quantity)
+            }
         else:
-            output = str(quantity) + " " + recipeMetric + " " + iname
+            output = {
+                "name" : iname,
+                "quantity" : str(quantity) + " " + recipeMetric
+            }
         ingredient_json.append(output)
 
     return ingredient_json

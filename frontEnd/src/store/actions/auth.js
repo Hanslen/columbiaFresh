@@ -17,6 +17,12 @@ export const setAlert = (error, isError) => {
         isError: isError
     };
 };
+export const setAuthError = (error) => {
+    return {
+        type: actionTypes.SET_AUTH_ALERT,
+        error: error
+    }
+}
 
 export const authSuccess = (email, username, userId, token) => {
     return{
@@ -101,22 +107,22 @@ export const authLogIn = (email, password) => {
         axios.post(url, authData)
             .then(response => {
                 console.log(response);
-                if(response.data.status === "Success"){
-                    const expirationDate = new Date(new Date().getTime() + 3600*1000);
-                    localStorage.setItem('username',response.data.info.uname);
-                    localStorage.setItem('expirationDate', expirationDate);
-                    localStorage.setItem('email', response.data.info.email);
-                    localStorage.setItem('uid', response.data.info.uid);
-                    localStorage.setItem('token', response.data.info.token); //split
-                    dispatch(authSuccess(response.data.info.email, response.data.info.uname, response.data.info.uid,response.data.info.token));
-                    dispatch(checkAuthTimeout(3600));
+                const expirationDate = new Date(new Date().getTime() + 3600*1000);
+                localStorage.setItem('username',response.data.uname);
+                localStorage.setItem('expirationDate', expirationDate);
+                localStorage.setItem('email', response.data.email);
+                localStorage.setItem('uid', response.data.uid);
+                localStorage.setItem('token', response.data.token); //split
+                dispatch(authSuccess(response.data.email, response.data.uname, response.data.uid,response.data.token));
+                dispatch(checkAuthTimeout(3600));
+                $("#signModal .close").click();
+            }).catch(error => {
+                if(error.response == undefined){
+                    dispatch(setAuthError("Connection Failed!"));
                 }
                 else{
-                    alert(response.data.info);
+                    dispatch(setAuthError(error.response.data.errorInfo));
                 }
-            }).catch(error => {
-                console.log(error);
-                alert("Connection Failed....");
             });
     }
 }
@@ -140,12 +146,19 @@ export const authSignUp = (email, username, password) => {
                 axios.post('/register/confirm_url', data)
                     .then(response => {
                         console.log(response);
+                        $("#signModal .close").click();
+                        dispatch(setAlert(response.data, false));
                     }).catch(error=>{
                         console.log(error);
                     });
             })
             .catch(error => {
-                console.log(error);
+                if(error.response == undefined){
+                    dispatch(setAuthError("Connection Fail!"));
+                }
+                else{
+                    dispatch(setAuthError(""));
+                }
             });
 
     }

@@ -115,17 +115,17 @@ class shoppingcart extends Component{
                                 <img src={detail.src}/>
                                 <a href="#"><strong>{detail.name}</strong></a>
                             </div>
-                            <div className="col-md-1">
+                            {/* <div className="col-md-1">
                                 <a id={classes.deleteBtn} onClick={()=>this.deleteItemHandlerSub(idd,detail.id)}>Delete</a>
-                            </div>
-                            <div className="col-md-1">
-                                <p><strong style={{color:"#C0392B"}}><font>${parseFloat(detail.price * detail.quantity).toFixed(2)}</font></strong></p>
+                            </div> */}
+                            <div className="col-md-2">
+                                <p style={{marginTop:"25px"}}><strong style={{color:"#C0392B"}}><font>${parseFloat(detail.price * detail.quantity).toFixed(2)}</font></strong></p>
                             </div>
                             <div className="col-md-2">
-                                <p>
-                                    <i className="fas fa-caret-left" onClick={()=>this.substractQuantityHandlerSub(idd, detail.id)} id={classes.modifyQuantity}></i>
-                                    {detail.quantity}
-                                    <i className="fas fa-caret-right" onClick={()=>this.addQuantityHandlerSub(idd, detail.id)} id={classes.modifyQuantity}></i>
+                                <p style={{marginTop:"25px"}}>
+                                    {/* <i className="fas fa-caret-left" onClick={()=>this.substractQuantityHandlerSub(idd, detail.id)} id={classes.modifyQuantity}></i> */}
+                                    x {detail.quantity}
+                                    {/* <i className="fas fa-caret-right" onClick={()=>this.addQuantityHandlerSub(idd, detail.id)} id={classes.modifyQuantity}></i> */}
                                 </p>
                             </div>
                         </div>:
