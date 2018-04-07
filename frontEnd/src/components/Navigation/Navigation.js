@@ -236,17 +236,19 @@ class navigation extends Component{
 
   submitHandler = () => {
     if(checkFormValidity(this.state.controls)){
-      $("#signModal .close").click();
+      if(this.state.sign == "Sign Up"){
+        this.props.onSignUp(this.state.controls.email.value, this.state.controls.username.value, this.state.controls.password.value);
+        
+      }
+      else{
+        this.props.onLogIn(this.state.controls.email.value, this.state.controls.password.value);
+
+      }
+      // $("#signModal .close").click();
     }
     else{
-      alert("The Email and password does not match");
+      this.props.setAuthError("The Email and password does not match");
       return ;
-    }
-    if(this.state.sign == "Sign Up"){
-      this.props.onSignUp(this.state.controls.email.value, this.state.controls.username.value, this.state.controls.password.value);
-    }
-    else{
-      this.props.onLogIn(this.state.controls.email.value, this.state.controls.password.value);
     }
   }
   deleteItemHandler = (id) => {
@@ -324,6 +326,7 @@ class navigation extends Component{
         if(this.state.items.length === 0){
           checkOutBox = (<a className="dropdown-item" href="#" id={classes.shoppingCartSubBtn}>Cart is Empty...</a>);
         }
+        let displayStyle = (this.props.alertMsg == null)? {"display": "none"}:{"display":"block"};
     return (
         <nav className={navBar.join(' ')}>
         <AlertBox/>
@@ -391,6 +394,7 @@ class navigation extends Component{
                   <div className="modal-body">
                   <form>
                     {form}
+                    <p className={classes.errorMsg} style={displayStyle}>{this.props.alertMsg}</p>
                   </form>
                   </div>
                     <button 
@@ -426,7 +430,8 @@ const mapDispatchToProps = dispatch => {
   return {
       onLogIn: (email, password) => dispatch(actions.authLogIn(email, password)),
       onLogOut: () => dispatch(actions.logout()),
-      onSignUp: (email, username, password) => dispatch(actions.authSignUp(email, username, password))
+      onSignUp: (email, username, password) => dispatch(actions.authSignUp(email, username, password)),
+      setAuthError: (error) => dispatch(actions.setAuthError(error))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(navigation));
