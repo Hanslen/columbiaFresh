@@ -88,6 +88,11 @@ const updateBasic = (state, action) => {
         loading: false
     })
 }
+const setAuthAlert = (state, action) => {
+    return updateObject(state, {
+        error: action.error
+    });
+}
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
@@ -119,8 +124,10 @@ const reducer = (state = initialState, action) => {
             return closeAlert(state, action);
         case actionTypes.SET_ALERT:
             return setAlert(state, action);
+        case actionTypes.SET_AUTH_ALERT:
+            return setAuthAlert(state, action);
         default:
-            return state
+            return state;
     }
 };
 export default reducer;

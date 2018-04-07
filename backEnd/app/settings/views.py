@@ -28,7 +28,7 @@ def get_address(customer, content):
 
     if customer.uid == int(content['userId']):
         result = {
-            "streetAdress1": customer.streetAddress1,
+            "streetAddress1": customer.streetAddress1,
             "streetAddress2": customer.streetAddress2,
             "city": customer.city,
             "state_province_region": customer.state_province_region,

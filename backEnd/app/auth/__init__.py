@@ -30,7 +30,7 @@ def return_format(func):
         if success is True:
             return make_response(jsonify(msg), 200)
         else:
-            return make_response(jsonify({'error info': str(msg)}), 401)
+            return make_response(jsonify({'errorInfo': str(msg)}), 401)
     wrapper.__name__ = func.__name__
     return wrapper
 

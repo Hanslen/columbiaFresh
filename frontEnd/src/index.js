@@ -12,6 +12,7 @@ import registerServiceWorker from './registerServiceWorker';
 import authReducer from './store/reducers/auth';
 import addRecip from './store/reducers/uploadIngredients';
 import { searchReducer, resultsReducer } from './store/reducers/search';
+import { loadState, saveState } from './localStorage';
 
 const composeEnhancers = process.env.NODE_ENV === 'development'?window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__:null || compose;
 // const composeEnhancers = compose;
@@ -23,10 +24,14 @@ const rootReducer = combineReducers({
     resultsReducer
 });
 
-const store = createStore(rootReducer, composeEnhancers(
+const persistedState = loadState();
+const store = createStore(rootReducer, persistedState, composeEnhancers(
     applyMiddleware(thunk)
 ));
 // const store = createStore(rootReducer, applyMiddleware);
+store.subscribe(() => {
+    saveState(store.getState());
+});
 
 const app = (
     <Provider store={store}>

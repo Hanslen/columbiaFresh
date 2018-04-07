@@ -330,33 +330,18 @@ CREATE TABLE `Columbia_Fresh`.`metric_transform_table` (
 ```
 
 
-### cart
-
-```
-CREATE TABLE `Columbia_Fresh`.`cart` (
-  `cart_id` INT NOT NULL AUTO_INCREMENT,
-  `uid` INT(11) NOT NULL,
-  PRIMARY KEY (`cart_id`),
-  INDEX `cart_customer_rel_idx` (`uid` ASC),
-  CONSTRAINT `cart_customer_rel`
-    FOREIGN KEY (`uid`)
-    REFERENCES `Columbia_Fresh`.`customer` (`uid`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-```
-
 ### cart_contains_recipe
 
 ```
 CREATE TABLE `Columbia_Fresh`.`cart_contains_recipe` (
-  `cart_id` INT(11) NOT NULL,
+  `uid` INT(11) NOT NULL,
   `rid` INT(11) NOT NULL,
   `quantity` INT(10) NOT NULL,
-  PRIMARY KEY (`cart_id`, `rid`),
+  PRIMARY KEY (`uid`, `rid`),
   INDEX `recipe_cart_contains_recipe_idx` (`rid` ASC),
   CONSTRAINT `cart_cart_contains_recipe`
-    FOREIGN KEY (`cart_id`)
-    REFERENCES `Columbia_Fresh`.`cart` (`cart_id`)
+    FOREIGN KEY (`uid`)
+    REFERENCES `Columbia_Fresh`.`customer` (`uid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `recipe_cart_contains_recipe`
