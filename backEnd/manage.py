@@ -56,5 +56,6 @@ def query():
     print(Recipe_category.query.all())
     print(Recipe_in_cate.query.all())
     print(Recipe.query.all())
+
 if __name__ == "__main__":
     manager.run()

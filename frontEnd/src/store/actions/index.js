@@ -13,7 +13,8 @@ export{
     updateAddress,
     updateCredit,
     closeAlert,
-    setAlert
+    setAlert,
+    setAuthError
 }from './auth';
 export{
     addIngredients,

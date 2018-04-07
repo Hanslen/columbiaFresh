@@ -21,6 +21,8 @@ def register():
         print (content)
         db.session.add(customer)
         db.session.commit()
+
+
         token = customer.generate_confirm_token(expires_in=3600*24)
         return (token, True)
 
@@ -38,8 +40,8 @@ def register_confirm_url():
         email = content['email']
         url = content['url']
 
-        send_mail.send(email, u'please confirm your account', url)
-        return ("Successfully sign up ^_^", True)
+        send_mail.send(email, u'Please confirm your account', url)
+        return ("Please check you email to confirm ^_^", True)
 
     except Exception as e:
         return (str(e), False)
