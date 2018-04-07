@@ -52,13 +52,7 @@ def GetRecipe():
                 "directions": directions,
                 "notes": recipe_content.notes
             }
-<<<<<<< HEAD
-            return (json, False)
-||||||| merged common ancestors
-            return (str(json), False)
-=======
             return (json, True)
->>>>>>> 92f10a449f52df293b0426b87bb588228c2b8462
 
 
         isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)

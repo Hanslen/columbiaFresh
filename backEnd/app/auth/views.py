@@ -13,7 +13,9 @@ def register():
         # read the posted values from the UI
         content = request.json
         # mush use password rather than password_hash, otherwise it won't save the hash value
-        Customer.check_duplicate(content['email'])
+        if Customer.check_duplicate(content['email']):
+            return ("Email duplicated!", False)
+
         customer = Customer(uname=content['name'],
                             email=content['email'],
                             password=content['pwd'],
@@ -29,7 +31,7 @@ def register():
 
     except Exception as e:
         print(e)
-        return ("Email duplicate!", False)
+        return (str(e), False)
 
 
 @app.route('/register/confirm_url', methods=['POST'])

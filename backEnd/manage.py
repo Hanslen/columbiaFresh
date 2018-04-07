@@ -64,6 +64,7 @@ def create_cart():
         db.Column('rid', db.Integer, db.ForeignKey('recipe.id')),
         info={'bind_key': 'cart'}
     )
+    db.session.add(new_cart)
     db.session.commit()
     print(new_cart)
 

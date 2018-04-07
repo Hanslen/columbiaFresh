@@ -117,9 +117,16 @@ class Customer(db.Model):
         customer = Customer.query.filter(Customer.email == email).first()
         if customer is None:
             print("The object does not exist!")
+            return "Error"
         else:
             return customer
 
+    @staticmethod
+    def check_duplicate(email):
+        customer = Customer.query.filter(Customer.email == email).first()
+        if customer is not None:
+            return True
+        return False
 
 
 class LoginInfo(db.Model):
