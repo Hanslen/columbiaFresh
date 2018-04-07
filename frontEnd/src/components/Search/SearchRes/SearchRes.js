@@ -6,16 +6,20 @@ class SearchRes extends React.Component {
     render() {
         let recipeInfos = this.props.results;
         let listItems = recipeInfos.map(recipeInfo => {
+                let ingredients = recipeInfo.ingredients.map(ingredient => ingredient.name+'; ');
                 return (
                     <li key={recipeInfo.rid} className="list-group-item borderless">
                         <Link to={recipeInfo.url} style={{"textDecoration": "none"}}>
                             <div className="media">
                                 <img className="mr-3" src={recipeInfo.imgurl} width="128px" height="128px" />
                                 <div className="media-body">
-                                    <h5 className="mt-1 mb-1">{recipeInfo.title}</h5>
-                                    <div className="mb-1">{recipeInfo.ingredients}</div>
-                                    <div className="mb-1">{recipeInfo.likes}</div>
-                                    <div className="mb-1">{recipeInfo.author}</div>
+                                    <h5 className="ellipsis mt-1 mb-1">{recipeInfo.title}</h5>
+                                    <div className="ingreText ellipsis mb-1">{ingredients}</div>
+                                    <div className="mb-1">
+                                        <span className="redText">{recipeInfo.likes}</span>
+                                        <span className="greyText"> likes</span>
+                                    </div>
+                                    <div className="greyText mb-1">{recipeInfo.author}</div>
                                 </div>
                             </div>
                         </Link>

@@ -1,5 +1,5 @@
 from app import app
-from flask import request, jsonify
+from flask import request
 import re
 from ..search_models import Recipe, Recipe_category, Recipe_in_cate, Customer_like_recipe
 from ..search_models import Ingredient, Ingredient_in_recipe

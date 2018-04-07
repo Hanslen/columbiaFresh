@@ -2,7 +2,7 @@
 from flask import Flask, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:columbiafresh@ase.c0xcepuws53r.us-east-1.rds.amazonaws.com:3306/Columbia_Fresh'
