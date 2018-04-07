@@ -325,7 +325,7 @@ data:
 ```
 response
 ```
-"msg":[{
+msg:[{
   orderPlaceDate: string,
   totalPrice: string,
   shipTo: string,
@@ -334,9 +334,7 @@ response
   soldBy: string,
   title: string,
   img: string
-}
-info: string
-status: bool
+}]
 
 ```
 #### get user order by orderID
