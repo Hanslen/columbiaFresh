@@ -53,21 +53,30 @@ def query_user():
 @manager.command
 def query():
     from app.search_models import Recipe_category, Recipe_in_cate, Recipe
-    print(Recipe_category.query.all())
-    print(Recipe_in_cate.query.all())
     print(Recipe.query.all())
 
 @manager.command
-def create_cart():
-    new_cart = db.Table(
-        'cart'+str(1),
-        db.Column('rid', db.Integer, db.ForeignKey('recipe.id')),
-        info={'bind_key': 'cart'}
-    )
-
-    db.create_all(bind='cart')
+def create_order():
+    from app.order_models import Order
+    order = Order(uid=16)
+    app.logger.info(order.oid)
+    db.session.add(order)
     db.session.commit()
-    print(new_cart)
+
+@manager.command
+def query_order():
+    # order oid = 1, created by uid=16
+    # [<Recipe: rid:6, uid:3>, <Recipe: rid:7, uid:4>]
+
+    from app.order_models import Order
+    from app.search_models import Recipe
+    order = Order.get_orders_by_user(uid=16)[0]
+    recipe = Recipe.get_recipe(7)
+    order.contains.append(recipe)
+    db.session.add(order)
+    db.session.commit()
+    result = Recipe.get_recipe_in_order(1)
+    print(result)
 
 if __name__ == "__main__":
     manager.run()

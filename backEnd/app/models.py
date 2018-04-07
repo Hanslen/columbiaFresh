@@ -2,7 +2,6 @@ from manage import app, db
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import check_password_hash, generate_password_hash
 import datetime
-from flask import jsonify
 
 class Customer(db.Model):
     __tablename__ = 'customer'
@@ -64,7 +63,7 @@ class Customer(db.Model):
                 return ("No such customer!", False)
 
         except Exception as e:
-            return ("invalid", False)  # invalid token
+            return (str(e), False)  # invalid token
 
     # need to use wrapper to make code clear
 

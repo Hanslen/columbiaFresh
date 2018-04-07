@@ -1,6 +1,6 @@
 from app import app
 from ..auth import check_token
-from ..order_models import Order, OrderContainItems
+from ..order_models import Order, OrderContainsRecipe
 from ..search_models import Recipe, Ingredient_in_recipe, Ingredient
 
 @app.route('/addToCart', methods=['POST'])
@@ -22,17 +22,17 @@ def GetUserOrders(customer, content):
             error = "Inconsistent user identifier!"
             return (str(error), False)
         else:
-            orders = Order.getOrders(customer.uid)
+            orders = Order.get_orders_by_user(customer.uid)
             orders_Info = []
             if orders is not None:
                 for order in orders:
-                    recipes = OrderContainItems.getOrderRecipe(order.oid)
-                    first_recipe = Recipe.get_recipe(int(recipes[0]))
+                    recipes = OrderContainsRecipe.getOrderRecipe(order.oid)
                     if recipes is not None:
+                        first_recipe = Recipe.get_recipe(recipes[0].rid)
                         # Total price should be added
                         temp_json = {
                             "orderPlaceDate" : str(order.orderPlaceDate),
-                            "totalPrice" :"",
+                            "totalPrice" : calculate_price(recipes),
                             "shipTo" : order.shipTo,
                             "orderID" : order.oid,
                             "deliveredDate" : order.deliveredDate,
@@ -48,6 +48,10 @@ def GetUserOrders(customer, content):
     except Exception as e:
         return (str(e), False)
 
+def calculate_price(recipes):
+    price = 0
+    return price
+
 @app.route('/getorder', methods=['POST'])
 @check_token
 def GetEachOrderContent(customer, content):
@@ -55,25 +59,32 @@ def GetEachOrderContent(customer, content):
         uid = str(customer.uid)
         if uid != content['uid']:
             error = "Inconsistent user identifier!"
-            return (str(error), False)
+            return (error, False)
         else:
             oid = content['orderId']
             items = []
-            recipes_id = OrderContainItems.getOrderRecipe(int(oid))
-            if recipes_id is not None:
-                for recipe_id in recipes_id:
+            recipes = OrderContainsRecipe.getOrderRecipe(oid)
+            if recipes is not None:
+                for recipe_in in recipes:
+                    recipe = Recipe.get_recipe(recipe_in.rid)
                     # Contents of ingredients should be added
                     ingredients = []
-                    recipe = Recipe.get_recipe(recipe_id.rid)
-                temp_json = {
-                    "img" : recipe.img,
-                    "title" : recipe.title,
-                    # Total price should be added
-                    "price" : '0',
-                    "number" : str(recipe_id.quantity),
-                    "item" : ingredients
-                }
-                items.append(temp_json)
+                    ingredients_list = Ingredient_in_recipe.get_ingredients_in_recipe(recipe_in.rid)
+                    for ingr_in in ingredients_list:
+                        item = Ingredient.get_ingredient(ingr_in.iid)
+                        info = item.show_in_order()
+                        info['number'] = ingr_in.quantity
+                        ingredients.append(info)
+
+                    temp_json = {
+                        "img" : recipe.img,
+                        "title" : recipe.title,
+                        # Total price should be added
+                        "price" : "0",
+                        "number" : recipe_in.quantity,
+                        "item" : ingredients
+                    }
+                    items.append(temp_json)
             json = {
                 "msg" : items
             }
