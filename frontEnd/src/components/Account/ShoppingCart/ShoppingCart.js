@@ -106,9 +106,9 @@ class shoppingcart extends Component{
     render(){
         let recipes = this.state.recipes.map((item, id) => {
             let recipeDetail = this.state.selectedDetail.map((detail,idd) => (
-                <div>
+                <div key={detail.id}>
                 {!this.props.notShow?
-                    <div className="row" key={detail.id}>
+                    <div className="row">
                             <div className="col-md-8">
                                 <img src={detail.src}/>
                                 <a href="#"><strong>{detail.name}</strong></a>

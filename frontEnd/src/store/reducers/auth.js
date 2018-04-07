@@ -4,11 +4,27 @@ const initialState = {
     username: null,
     email: null,
     error: null,
+    alertDisplay: {"display": "none"},
     loading: false,
     authRedirectPath: '/',
     userId: null,
     token: null
 };
+
+const closeAlert = (state, action) => {
+    return updateObject(state, 
+        {
+            error: null,
+            alertDisplay: {"display": "none"}
+        });
+}
+const setAlert = (state, action) => {
+    return updateObject(state, 
+        {
+            error: action.error,
+            alertDisplay: {"display": "block"}
+        });
+}
 
 const authStart = (state, action) => {
     return updateObject(state, {error:null, loading:true});
@@ -97,6 +113,10 @@ const reducer = (state = initialState, action) => {
             return state;
         case actionTypes.UPDATE_CREDIT:
             return state;
+        case actionTypes.CLOSE_ALERT:
+            return closeAlert(state, action);
+        case actionTypes.SET_ALERT:
+            return setAlert(state, action);
         default:
             return state
     }

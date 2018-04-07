@@ -6,10 +6,11 @@ import Input from '../UI/Input/Input';
 import Spinner from '../UI/Spinner/Spinner';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
-import { link } from 'fs';
+import { link, stat } from 'fs';
 import ReactSVG from 'react-svg';
 import $ from 'jquery'; 
 import { updateObject, checkValidity, checkFormValidity, removeArray} from '../../shared/utility';
+import AlertBox from '../UI/AlertBox/alertBox';
 
 class navigation extends Component{
   state = {
@@ -325,6 +326,7 @@ class navigation extends Component{
         }
     return (
         <nav className={navBar.join(' ')}>
+        <AlertBox/>
           <div className="container d-flex justify-content-between">
               <Link to="/" className="navbar-brand d-flex align-items-center" style={{marginRight:"-10%",width:"200px"}}>
               {this.props.location.pathname !== '/'?<img className={classes.logo} src="/static/img/logo.png"/>:null}
@@ -416,7 +418,8 @@ const mapStateToProps = state => {
       isAuthenticated: state.auth.email !== null,
       loading: state.auth.loading,
       userId: state.auth.userId,
-      token: state.auth.token
+      token: state.auth.token,
+      alertMsg: state.auth.error
   };
 }
 const mapDispatchToProps = dispatch => {

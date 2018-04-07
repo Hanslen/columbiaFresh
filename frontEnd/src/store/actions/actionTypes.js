@@ -7,6 +7,9 @@ export const AUTH_CONFIRM = 'AUTH_CONFIRM';
 export const AUTH_LOGIN = 'AUTH_LOGIN';
 export const AUTH_SIGNUP = 'AUTH_SIGNUP';
 
+export const CLOSE_ALERT = 'CLOSE_ALERT';
+export const SET_ALERT = "SET_ALERT";
+
 
 export const UPDATE_BASIC = 'UPDATE_BASIC';
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';

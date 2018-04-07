@@ -496,7 +496,7 @@ class settings extends Component{
             let newPassword = this.state.controls.newPassword.value;
             let newPasswordAgain = this.state.controls.newPasswordAgain.value;
             if(newPassword != newPasswordAgain){
-                alert("Two password does not match...");
+                this.props.setAlert("Two password does not match...");
                 return ;
             }
             this.props.updatePassword(this.props.userId, this.props.token, oldPassword, newPassword);
@@ -565,24 +565,24 @@ class settings extends Component{
           
         ) );
         return (
-            <div className="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
-                <div className="row">
-                    <div className="col-3">
-                        <div className="list-group" id="list-tab" role="tablist">
-                            {folders}    
+                    <div className="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+                        <div className="row">
+                            <div className="col-3">
+                                <div className="list-group" id="list-tab" role="tablist">
+                                    {folders}    
+                                </div>
+                            </div>
+                            <div className="col-9">
+                                <div className={classes.folderContent}>
+                                    <h4>{this.state.boxTitle}</h4>
+                                    {form}
+                                    <Button btnValue="Submit" onClick={this.updateInformation}/>
+                                    <br/><br/><br/>
+                                </div>
+                            </div>
                         </div>
+                        <br/>
                     </div>
-                    <div className="col-9">
-                        <div className={classes.folderContent}>
-                            <h4>{this.state.boxTitle}</h4>
-                            {form}
-                            <Button btnValue="Submit" onClick={this.updateInformation}/>
-                            <br/><br/><br/>
-                        </div>
-                    </div>
-                </div>
-                <br/>
-            </div>
             );
     }
 }
@@ -599,7 +599,8 @@ const mapDispatchToProps = dispatch => {
         updateBasic: (userId, token, firstname, lastname, gender, email, introduction) => dispatch(actions.updateBasicInformation(userId, token, firstname, lastname,gender, email, introduction)),
         updatePassword: (userId, token, oldPassword, newPassword) => dispatch(actions.updatePassword(userId, token, oldPassword, newPassword)),
         updateAddress: (userId, token, streetAddress1, streetAddress2, city, state,zip) => dispatch(actions.updateAddress(userId, token, streetAddress1, streetAddress2, city, state,zip)),
-        updateCredit: (userId, token, name, cardNumber, expirationMonth,expirationYear, cvv) => dispatch(actions.updateCredit(userId, token, name, cardNumber, expirationMonth,expirationYear, cvv))
+        updateCredit: (userId, token, name, cardNumber, expirationMonth,expirationYear, cvv) => dispatch(actions.updateCredit(userId, token, name, cardNumber, expirationMonth,expirationYear, cvv)),
+        setAlert: (error) => dispatch(actions.setAlert(error))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(settings);
