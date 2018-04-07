@@ -12,19 +12,24 @@ class accountManage extends Component{
     confirmHanlder = () => {
         document.getElementById("confirmLoading").style.display = "block";
         const token = this.props.match.params.token.split("'");
-        console.log(token);
+        console.log("=(:3=)_");
+        console.log(token[0]);
         axios.post('/confirm/' + token[0])
                     .then(response => {
+                        console.log("QWQ");
                         //set localStorage
-                        this.props.onConfirmEmail(response.data.email, response.data.uname, token[0]);
+                        // this.props.authSuccess(response.data.email, response.data.uname, response.data.uid, token[0]);
                         document.getElementById("confirmLoading").style.display = "none";
-                        this.props.setAlert("Confirm Successfully!", false);
+                        this.props.setAlert("Confirm Successfully! You can Log in now :D", false);
                         this.props.history.push("/");
                         
                     }).catch(error=>{
+                        console.log("QAQ");
                         document.getElementById("confirmLoading").style.display = "none";
                         this.props.setAlert("The Link has Expired! Please register again!", true);
+
                     });
+        console.log("end");
     }
     render(){
         return(
@@ -44,6 +49,7 @@ class accountManage extends Component{
   const mapDispatchToProps = dispatch => {
     return {
         onConfirmEmail: (email, username, token) => dispatch(actions.authConfirm(email, username, token)),
+        authSuccess: (email, username, userId, token) => dispatch(actions.authSuccess(email, username, userId, token)),
         setAlert: (error, isError) => dispatch(actions.setAlert(error, isError))
     }
   }
