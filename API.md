@@ -209,7 +209,10 @@ response
     	title: string, recipe name
     	author: string
     	likes: int,
-    	ingredients: [string],
+    	ingredients: [{
+		name: string,
+		quantity: string
+	}],
   	}*20]
 }
 ```
@@ -235,20 +238,23 @@ response
 ```
 {
 	rid: int,
-    title: string, recipe title
-    img: string, image url
-    likes: int,
-    isLiked: bool | false, whether user likes the recipe, default false
-    tags: [string],
-    aid: int, author uid
-    avatar: string, url of user avatar
-    author: string, username of author
-    discription: string,
-    calorie: int,
-    preptime: int, in min
-    ingredients: [string],
-    directions: [string],
-    notes: string, footnote
+	title: string, recipe title
+	img: string, image url
+	likes: int,
+	isLiked: bool | false, whether user likes the recipe, default false
+	tags: [string],
+	aid: int, author uid
+	avatar: string, url of user avatar
+	author: string, username of author
+	discription: string,
+	calorie: int,
+	preptime: int, in min
+	ingredients: [{
+		name: string,
+		quantity: string
+	}],
+	directions: [string],
+	notes: string, footnote
 }
 ```
 
@@ -265,8 +271,8 @@ parameters
 ```
 {
 	token: string,
-    uid: int, user id
-    rid: int, recipe id
+	uid: int, user id
+	rid: int, recipe id
 }
 ```
 
@@ -292,9 +298,9 @@ parameters
 ```
 {
 	token: string,
-    uid: int, user id
-    rid: int, recipe id
-    like: bool
+	uid: int, user id
+	rid: int, recipe id
+	like: bool
 }
 ```
 
