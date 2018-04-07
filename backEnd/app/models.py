@@ -64,7 +64,7 @@ class Customer(db.Model):
                 return ("No such customer!", False)
 
         except Exception as e:
-            return jsonify(str(e), False)  # invalid token
+            return ("invalid", False)  # invalid token
 
     # need to use wrapper to make code clear
 

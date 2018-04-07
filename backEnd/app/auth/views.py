@@ -50,7 +50,7 @@ def register_confirm_url():
         return (str(e), False)
 
 
-@app.route('/confirm/<token>', methods=['POST','GET'])
+@app.route('/confirm/<token>', methods=['POST', 'GET'])
 @return_format
 def confirm_email(token):
     try:
