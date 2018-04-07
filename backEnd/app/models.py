@@ -39,7 +39,6 @@ class Customer(db.Model):
         print(u8)
         return u8
 
-# need to merge with verify_token
     @staticmethod
     def verify_confirm_token(token):
         try:
@@ -52,17 +51,20 @@ class Customer(db.Model):
                 if(customer.confirmed is False):
                     customer.confirmed = True
                     customer.confirmed_on = datetime.datetime.now()
-                return jsonify({"status":"Success",
-                                "info": {'uid': customer.uid,
-                                         'email': customer.email,
-                                         'uname': customer.uname}
-                                })
+
+                result = {
+                    'uid': customer.uid,
+                    'email': customer.email,
+                    'uname': customer.uname
+                }
+
+                return (result, True)
 
             else:
-                return jsonify({"status":"Fail", "info": "No such customer!"})
+                return ("No such customer!", False)
 
         except Exception as e:
-            return jsonify({"status": "Fail", "info": str(e)})  # invalid token
+            return jsonify(str(e), False)  # invalid token
 
     # need to use wrapper to make code clear
 
@@ -132,12 +134,3 @@ class Issue(db.Model):
     oid = db.Column(db.Integer, db.ForeignKey('order.uid'), nullable=False, primary_key=True)
     uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), nullable=False, index=True)
 
-# class OrderContainItems():
-#     __tablename__ = 'order_contain_items'
-#     oid = db.Column(db.Integer, db.ForeignKey('order.uid'), nullable=False, primary_key=True)
-#     iid = db.Column(db.Integer, db.ForeignKey('ingredient.uid'), nullable=False, primary_key=True, index= True)
-#
-# class Order():
-#     __tablename__ = 'order'
-#     oid = db.Column(db.Integer, nullable=False, primary_key=True)
-#     order_time = db.Column(db.DateTime, nullable=False)
