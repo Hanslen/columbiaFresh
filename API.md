@@ -300,7 +300,8 @@ response
 }
 ```
 
-### Order
+### 
+
 #### get user orders
 url
 ```
@@ -316,7 +317,7 @@ data:
 ```
 response
 ```
-"msg":[{
+{
   orderPlaceDate: string,
   totalPrice: string,
   shipTo: string,
@@ -326,8 +327,6 @@ response
   title: string,
   img: string
 }
-info: string
-status: bool
 
 ```
 #### get user order by orderID
