@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import axios from '../../axios-config';
 import ShoppingCart from '../Account/ShoppingCart/ShoppingCart';
 
@@ -112,7 +113,7 @@ class Order extends React.Component {
                                         <span className="mr-1">
                                             <i class="far fa-credit-card"></i>
                                         </span>
-                                        <span> **** {this.state.cardNumber.slice(11)} </span>
+                                        <span> **** {this.state.cardNumber.slice(12)} </span>
                                     </div>
                                 </div>
                             </div>
@@ -162,4 +163,11 @@ class Order extends React.Component {
     }
 }
 
-export default Order;
+const mapStateToProps = (state) => {
+    return {
+        uid: state.auth.userId,
+        token: state.auth.token
+    };
+};
+
+export default connect(mapStateToProps)(Order);

@@ -15,4 +15,5 @@ class Order(db.Model):
 class OrderContainItems(db.Model):
     __tablename__ = 'order_contain_items'
     oid = db.Column(db.Integer, db.ForeignKey('order.uid'), nullable=False, primary_key=True)
+
     iid = db.Column(db.Integer, db.ForeignKey('ingredient.uid'), nullable=False, primary_key=True, index= True)
