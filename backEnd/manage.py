@@ -57,5 +57,16 @@ def query():
     print(Recipe_in_cate.query.all())
     print(Recipe.query.all())
 
+@manager.command
+def create_cart():
+    new_cart = db.Table(
+        'cart'+str(1),
+        db.Column('rid', db.Integer, db.ForeignKey('recipe.id')),
+        info={'bind_key': 'cart'}
+    )
+    db.session.add(new_cart)
+    db.session.commit()
+    print(new_cart)
+
 if __name__ == "__main__":
     manager.run()

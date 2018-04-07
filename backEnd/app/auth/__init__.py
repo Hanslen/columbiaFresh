@@ -15,13 +15,14 @@ def check_token(func):
             if success is True:
                 return make_response(jsonify(msg), 200)
             else:
-                return make_response(jsonify({'error info': str(msg)}), 401)
+                return make_response(jsonify({'errorInfo': str(msg)}), 401)
 
         except Exception as e:
-            return make_response(jsonify({'error info': str(e)}), 401)
+            return make_response(jsonify({'errorInfo': str(e)}), 401)
 
     wrapper.__name__ = func.__name__
     return wrapper
+
 
 
 def return_format(func):
@@ -31,6 +32,7 @@ def return_format(func):
             return make_response(jsonify(msg), 200)
         else:
             return make_response(jsonify({'errorInfo': str(msg)}), 401)
+
     wrapper.__name__ = func.__name__
     return wrapper
 

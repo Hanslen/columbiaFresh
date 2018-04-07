@@ -13,6 +13,9 @@ def register():
         # read the posted values from the UI
         content = request.json
         # mush use password rather than password_hash, otherwise it won't save the hash value
+        if Customer.check_duplicate(content['email']):
+            return ("Email duplicated!", False)
+
         customer = Customer(uname=content['name'],
                             email=content['email'],
                             password=content['pwd'],
@@ -27,7 +30,7 @@ def register():
         return (token, True)
 
     except Exception as e:
-        print (e)
+        print(e)
         return (str(e), False)
 
 
@@ -39,7 +42,7 @@ def register_confirm_url():
         content = request.json
         email = content['email']
         url = content['url']
-
+        print(email, type(email))
         send_mail.send(email, u'Please confirm your account', url)
         return ("Please check you email to confirm ^_^", True)
 

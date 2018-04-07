@@ -43,9 +43,3 @@ class CartContainsRecipes(db.Model):
     uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), nullable=False, primary_key=True)
     rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
     quantity = db.Column(db.Integer, nullable=False)
-
-#
-# class Cart(db.Model):
-#     __tablename__ = 'cart'
-#     cart_id = db.Column(db.Integer, nullable=False, primary_key=True)
-#     uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), nullable=False)
