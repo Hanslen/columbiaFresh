@@ -9,6 +9,10 @@ description: Unauthorized
 '401': 
 description: Unexpected error
 
+```
+if status code is 403 or 401:
+return "error msg": string
+```
 
 ### Sign Up
 #### post user information and get activate token
@@ -43,7 +47,7 @@ POST /token
 parameters
 ```
 {
-token:string
+	token:string
 }
 ```
 response
@@ -59,7 +63,6 @@ url
 parameters
 ```python
 {
-
   email: string
   url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
 }
@@ -81,12 +84,9 @@ None
 response
 ```
 {
-  status: string
-  info: {
     uid: string,
     email: string,
     uname: string
-  }
 }
 ```
 
@@ -110,17 +110,12 @@ pwd: string
 response
 ```python
 {
-  status: string //Fail, Success
-  info: string # if Fail, return string 
-               # if success, return {
-                                        uid: string,
-                                        token: string,
-                                        email: string,
-                                        img: string,
-                                        uname: string
-                                     }
+	uid: string,
+	token: string,
+	email: string,
+	img: string,
+	uname: string
 }
-
 ```
 ### Upload recipes - get tags
 url
