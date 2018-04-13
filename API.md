@@ -429,6 +429,26 @@ response
   userName: string (token != userId)
 }
 ```
+#### update user Icon
+url
+```
+POST /settings/update/userIcon
+```
+postData
+```
+{
+	userId: string,
+	token: string,
+	img: string
+}
+```
+reponse
+```
+{
+	msg: string
+}
+```
+
 #### update basic information
 url
 ```
