@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import * as classes from './OrderDetail.css';
 import Shoppingcart from '../ShoppingCart/ShoppingCart';
 import { Link } from 'react-router-dom';
+import Axios from '../../../axios-config';
+import * as actions from '../../../store/actions/index';
+import {connect} from 'react-redux';
 class orderDetail extends Component{
     state = {
         orderId: null
@@ -9,9 +12,21 @@ class orderDetail extends Component{
     componentWillMount(){
         let orderId = this.props.match.params.orderId;
         this.setState({orderId: this.props.match.params.orderId});
+        const postData = {
+            userId: this.props.userId,
+            token: this.props.token,
+            orderId: orderId
+        };
+        console.log(postData);
+        Axios.post('/getorder', postData).then(response =>{
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
+        });
     }
     componentDidMount(){
-        console.log(this.state.orderId);
+        
+
     }
     render(){
         return (
@@ -29,4 +44,16 @@ class orderDetail extends Component{
         </div>);
     }
 }
-export default orderDetail;
+const mapStateToProps = state => {
+    return{
+        userId: localStorage.getItem("uid"),
+        token: localStorage.getItem("token")
+    }
+};
+const mapDispatchToProps = dispatch => {
+    return {
+        setAlert: (error, isError) => dispatch(actions.setAlert(error, isError))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(orderDetail);

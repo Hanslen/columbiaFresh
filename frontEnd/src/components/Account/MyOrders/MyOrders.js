@@ -105,6 +105,7 @@ class myorders extends Component{
                         <Spinner/>:
                         this.state.orders.length ==0?
                         <div>
+                            <br/><br/>
                             <EmptyBox msg="Empty orders found..."/>
                         </div>:
                         orders
