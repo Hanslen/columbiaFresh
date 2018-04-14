@@ -17,19 +17,34 @@ export const setAlert = (error, isError) => {
         isError: isError
     };
 };
+export const setAuthError = (error) => {
+    return {
+        type: actionTypes.SET_AUTH_ALERT,
+        error: error
+    }
+}
 
-export const authSuccess = (email, username, userId, token) => {
+export const authSuccess = (email, username, userId, token, img) => {
     return{
         type: actionTypes.AUTH_SUCCESS,
         email: email,
         username: username,
         userId: userId,
-        token: token
+        token: token,
+        img: img
     };
 };
-export const authConfirm = (email, username) => {
+export const updateUserIcon = (imgurl) => {
+    localStorage.setItem("img", imgurl);
+    return {
+        type: actionTypes.UPDATE_USERICON,
+        img: imgurl
+    };
+};
+export const authConfirm = (email, username, token) => {
     localStorage.setItem("email", email);
     localStorage.setItem("username", username);
+    localStorage.setItem("token", token);
     return {
         type: actionTypes.AUTH_CONFIRM
     }
@@ -101,22 +116,24 @@ export const authLogIn = (email, password) => {
         axios.post(url, authData)
             .then(response => {
                 console.log(response);
-                if(response.data.status === "Success"){
-                    const expirationDate = new Date(new Date().getTime() + 3600*1000);
-                    localStorage.setItem('username',response.data.info.uname);
-                    localStorage.setItem('expirationDate', expirationDate);
-                    localStorage.setItem('email', response.data.info.email);
-                    localStorage.setItem('uid', response.data.info.uid);
-                    localStorage.setItem('token', response.data.info.token); //split
-                    dispatch(authSuccess(response.data.info.email, response.data.info.uname, response.data.info.uid,response.data.info.token));
-                    dispatch(checkAuthTimeout(3600));
+                const expirationDate = new Date(new Date().getTime() + 3600*1000);
+                localStorage.setItem('username',response.data.uname);
+                localStorage.setItem('expirationDate', expirationDate);
+                localStorage.setItem('email', response.data.email);
+                localStorage.setItem('uid', response.data.uid);
+                localStorage.setItem('token', response.data.token); //split
+                localStorage.setItem("img", response.data.img);
+                dispatch(authSuccess(response.data.email, response.data.uname, response.data.uid,response.data.token, response.data.img));
+                dispatch(checkAuthTimeout(3600));
+                $("#signModal .close").click();
+            }).catch(error => {
+                console.log(error.response);
+                if(error.response == undefined){
+                    dispatch(setAuthError("Connection Failed!"));
                 }
                 else{
-                    alert(response.data.info);
+                    dispatch(setAuthError(error.response.data.errorInfo));
                 }
-            }).catch(error => {
-                console.log(error);
-                alert("Connection Failed....");
             });
     }
 }
@@ -132,20 +149,28 @@ export const authSignUp = (email, username, password) => {
         let url = '/register';
         axios.post(url, authData)
             .then(response => {
+                console.log(response);
                 console.log(response.data);
                 const data = {
                     email: email,
-                    url: "http://localhost:3000/verifyEmail/"+response.data.token
+                    url: "http://localhost:3000/verifyEmail/"+response.data
                 };
                 axios.post('/register/confirm_url', data)
                     .then(response => {
                         console.log(response);
+                        $("#signModal .close").click();
+                        dispatch(setAlert(response.data, false));
                     }).catch(error=>{
                         console.log(error);
                     });
             })
             .catch(error => {
-                console.log(error);
+                if(error.response == undefined){
+                    dispatch(setAuthError("Connection Fail!"));
+                }
+                else{
+                    dispatch(setAuthError(error.response.data.errorInfo));
+                }
             });
 
     }
@@ -251,7 +276,8 @@ export const authCheckState = () => {
                 const username = localStorage.getItem('username');
                 const userId = localStorage.getItem('uid');
                 const token = localStorage.getItem('token');
-                dispatch(authSuccess(email, username, userId, token));
+                const img = localStorage.getItem("img");
+                dispatch(authSuccess(email, username, userId, token, img));
                 dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime())/1000));
             }
             else{

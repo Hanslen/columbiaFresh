@@ -1,8 +1,23 @@
-from manage import app, db
-from .models import Customer
+from manage import db
+import datetime
 
+class OrderContainsRecipe(db.Model):
+    __tablename__ = 'order_contain_recipes'
+    oid = db.Column( db.Integer, db.ForeignKey('order.oid'), primary_key=True)
+    rid = db.Column('rid', db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
+    quantity = db.Column('quantity', db.Integer, nullable=False)\
+    # need to add an item recipe price
 
-class Order():
+    @staticmethod
+    def getOrderRecipe(oid):
+        temp = OrderContainsRecipe.query.filter(OrderContainsRecipe.oid == oid).all()
+        if temp is None:
+            print("The order does not exist!")
+            return None
+        else:
+            return temp
+
+class Order(db.Model):
     __tablename__ = 'order'
     oid = db.Column(db.Integer, nullable=False, primary_key=True)
     orderPlaceDate = db.Column(db.DateTime, nullable=False)
@@ -13,7 +28,22 @@ class Order():
     isCheckedOut = db.Column(db.Boolean, nullable=False)
     uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), nullable=False)
 
-class OrderContainItems():
-    __tablename__ = 'order_contain_items'
-    oid = db.Column(db.Integer, db.ForeignKey('order.uid'), nullable=False, primary_key=True)
-    iid = db.Column(db.Integer, db.ForeignKey('ingredient.uid'), nullable=False, primary_key=True, index= True)
+    def __init__(self, uid):
+        self.orderPlaceDate = datetime.datetime.now()
+        self.uid = uid
+        self.isCheckedOut = False
+
+    @staticmethod
+    def get_orders_by_user(uid):
+        temp = Order.query.filter(Order.uid == uid).all()
+        if temp is None:
+            print("The user does not exist!")
+            return None
+        else:
+            return temp
+
+class CartContainsRecipes(db.Model):
+    __tablename__ = "cart_contains_recipe"
+    uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), nullable=False, primary_key=True)
+    rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
+    quantity = db.Column(db.Integer, nullable=False)

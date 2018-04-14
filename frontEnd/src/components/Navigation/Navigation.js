@@ -3,7 +3,7 @@ import {Link, withRouter} from 'react-router-dom';
 import classes from './Navigation.css';
 import SearchBox from '../UI/SearchBox/SearchBox';
 import Input from '../UI/Input/Input';
-import Spinner from '../UI/Spinner/Spinner';
+import SpinnerC from '../UI/SpinnerC/SpinnerC';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import { link, stat } from 'fs';
@@ -174,7 +174,7 @@ class navigation extends Component{
                       touched: false
                     },
                     password:{
-                      label: "Password",
+                      label: "Password (Min six characters)",
                       elementType: 'input',
                       elementConfig: {
                         type: 'password',
@@ -235,20 +235,29 @@ class navigation extends Component{
 
 
   submitHandler = () => {
-    if(checkFormValidity(this.state.controls)){
-      $("#signModal .close").click();
+      if(this.state.sign == "Sign Up"){
+        if(this.state.controls.password.value != this.state.controls.passwordAgain.value){
+          this.props.setAuthError("Two password does not match!");
+          return ;
+        }
+        if(checkFormValidity(this.state.controls)){
+          this.props.onSignUp(this.state.controls.email.value, this.state.controls.username.value, this.state.controls.password.value);
+        }
+        else{
+          this.props.setAuthError("Please type the valid email address");
+          return ;
+        }
+      }
+      else{
+        if(checkFormValidity(this.state.controls)){
+          this.props.onLogIn(this.state.controls.email.value, this.state.controls.password.value);
+        }else{
+          this.props.setAuthError("The Email and password does not match");
+          return ;
+        }
+      }
+      // $("#signModal .close").click();
     }
-    else{
-      alert("The Email and password does not match");
-      return ;
-    }
-    if(this.state.sign == "Sign Up"){
-      this.props.onSignUp(this.state.controls.email.value, this.state.controls.username.value, this.state.controls.password.value);
-    }
-    else{
-      this.props.onLogIn(this.state.controls.email.value, this.state.controls.password.value);
-    }
-  }
   deleteItemHandler = (id) => {
     const deleteArray = removeArray(this.state.items, id);
     this.setState({items: deleteArray});
@@ -324,6 +333,7 @@ class navigation extends Component{
         if(this.state.items.length === 0){
           checkOutBox = (<a className="dropdown-item" href="#" id={classes.shoppingCartSubBtn}>Cart is Empty...</a>);
         }
+        let displayStyle = (this.props.alertMsg == null)? {"display": "none"}:{"display":"block"};
     return (
         <nav className={navBar.join(' ')}>
         <AlertBox/>
@@ -362,10 +372,10 @@ class navigation extends Component{
                   }
                   {this.props.isAuthenticated?
                   <li className="nav-item">
-                          <img className={classes.userIcon} id={classes.userProfileImg} src="/static/img/user.jpg"/>
+                          <img className={classes.userIcon} id={classes.userProfileImg} src={this.props.img}/>
                           <div className={classes.userProfileBox}>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" id={classes.userBoxSub}>
-                              <Link className="dropdown-item" to="/myprofile#order">Hi, <strong>Teacher Ding</strong></Link>
+                              <Link className="dropdown-item" to="/myprofile#order">Hi, <strong>{this.props.username}</strong></Link>
                               <Link className="dropdown-item" to="/myprofile#order">My Orders</Link>
                               <Link className="dropdown-item" to="/myprofile#settings" id={classes.noClickDecoration}>Edit Profiles</Link><div className="dropdown-divider"></div>
                               <a className="dropdown-item" id={classes.noClickDecoration}onClick={this.props.onLogOut}>LogOut</a>
@@ -384,13 +394,14 @@ class navigation extends Component{
                 <div className="modal-content">
                   <div className="modal-header" id={classes.signHeader}>
                     {/* <h5 className="modal-title text-center">{this.state.sign}</h5> */}
-                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.props.closeAlert}>
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div className="modal-body">
                   <form>
                     {form}
+                    <p className={classes.errorMsg} style={displayStyle}>{this.props.alertMsg}</p>
                   </form>
                   </div>
                     <button 
@@ -398,9 +409,11 @@ class navigation extends Component{
                       className="btn btn-primary" 
                       id={classes.signSubmit} 
                       onClick={this.submitHandler}>{this.state.sign}</button>
-                      {/* <div style={{position:"absolute",marginTop:"10px"}}> */}
-                        {/* <Spinner/> */}
-                      {/* </div> */}
+                      {this.props.loading?
+                      <div style={{marginTop:"20px"}}>
+                        <SpinnerC/>
+                      </div>:<div></div>
+                      }
                     <br/>
                   <div className="modal-footer">
                   <button type="button" className="btn" disabled="true">{this.state.signMsg}</button>
@@ -419,14 +432,18 @@ const mapStateToProps = state => {
       loading: state.auth.loading,
       userId: state.auth.userId,
       token: state.auth.token,
-      alertMsg: state.auth.error
+      alertMsg: state.auth.error,
+      username: state.auth.username,
+      img: state.auth.img
   };
 }
 const mapDispatchToProps = dispatch => {
   return {
       onLogIn: (email, password) => dispatch(actions.authLogIn(email, password)),
       onLogOut: () => dispatch(actions.logout()),
-      onSignUp: (email, username, password) => dispatch(actions.authSignUp(email, username, password))
+      onSignUp: (email, username, password) => dispatch(actions.authSignUp(email, username, password)),
+      setAuthError: (error) => dispatch(actions.setAuthError(error)),
+      closeAlert: () => dispatch(actions.closeAlert())
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(navigation));

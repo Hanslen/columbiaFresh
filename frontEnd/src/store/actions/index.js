@@ -12,8 +12,10 @@ export{
     updatePassword,
     updateAddress,
     updateCredit,
+    updateUserIcon,
     closeAlert,
-    setAlert
+    setAlert,
+    setAuthError
 }from './auth';
 export{
     addIngredients,

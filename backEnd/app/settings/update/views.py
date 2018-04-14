@@ -1,5 +1,4 @@
 from app import app, db
-from ...models import Customer
 from ...auth import check_token
 
 @app.route('/settings/update/basic', methods=['POST'])
@@ -13,11 +12,25 @@ def update_info(customer, content):
 
         db.session.commit()
 
-        return ('Successfully update basic info', True)
+        return ('Successfully update basic information ^_^', True)
 
     except Exception as e:
         print(e)
         return (str(e), False)
+
+@app.route('/settings/update/userIcon', methods=['POST'])
+@check_token
+def update_icon(customer, content):
+    try:
+        customer.img = content['img']
+        db.session.commit()
+
+        return ('Successfully update your icon ^_^', True)
+
+    except Exception as e:
+        print(e)
+        return (str(e), False)
+
 
 @app.route('/settings/update/password', methods=['POST'])
 @check_token
@@ -28,7 +41,7 @@ def update_password(customer, content):
     customer.password = content['newPassword']
     db.session.commit()
 
-    return ("Successfully change password.", True)
+    return ("Successfully change password ^_^", True)
 
 @app.route('/settings/update/address', methods=['POST'])
 @check_token
@@ -40,7 +53,7 @@ def update_address(customer, content):
     customer.zipCode = content['zipCode']
     db.session.commit()
 
-    return ("Successfully update address.", True)
+    return ("Successfully update address ^_^", True)
 
 
 @app.route('/settings/update/credit', methods=['POST'])
@@ -52,4 +65,4 @@ def update_credit(customer, content):
     customer.expirationYear = content['expirationYear']
     customer.CVV = content['CVV']
 
-    return ("Successfully update credit card info.", True)
+    return ("Successfully update credit card ^_^", True)

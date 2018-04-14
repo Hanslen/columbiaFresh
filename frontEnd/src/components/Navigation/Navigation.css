@@ -87,7 +87,7 @@ Link{
     width: 45px;
     display: block;
     border-radius: 2em;
-    margin-top: 2px;
+    margin-top: 4px;
 }
 .shoppingCart{
     height: 35px;
@@ -180,4 +180,11 @@ Link{
 }
 a{
     color: black;
+}
+.errorMsg{
+    text-align: center;
+    font-weight: bold;
+    border: 2px solid #C0392B;
+    border-radius: 2em;
+    padding: 10px;
 }

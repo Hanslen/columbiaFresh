@@ -315,7 +315,8 @@ response
 }
 ```
 
-### Order
+### 
+
 #### get user orders
 url
 ```
@@ -331,7 +332,11 @@ data:
 ```
 response
 ```
+<<<<<<< HEAD
 msg:[{
+=======
+{
+>>>>>>> development
   orderPlaceDate: string,
   totalPrice: string,
   shipTo: string,
@@ -340,7 +345,11 @@ msg:[{
   soldBy: string,
   title: string,
   img: string
+<<<<<<< HEAD
 }]
+=======
+}
+>>>>>>> development
 
 ```
 #### get user order by orderID

@@ -158,7 +158,7 @@ class createRecipe extends Component{
             <div>
                 <Link to={this.state.authorURL} style={{"textDecoration": "none"}}>
                     <div className="media mt-3 mb-2">
-                        <img className="mr-3 rounded-circle" src={this.state.avatar} />
+                        <img className="mr-3 rounded-circle userAvatar" src={this.props.img} />
                         <div className="media-body" style={{lineHeight: 40+'px'}}>
                             {this.props.username}
                         </div>
@@ -231,7 +231,8 @@ const mapStateToProps = state =>{
         isAuthenticated: localStorage.getItem("email") != null,
         userId: state.auth.userId,
         token: state.auth.token,
-        username: state.auth.username
+        username: state.auth.username,
+        img: state.auth.img
     };
 }
 const mapDispatchToProps = dispatch => {

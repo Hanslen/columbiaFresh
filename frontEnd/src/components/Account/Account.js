@@ -20,7 +20,7 @@ class account extends Component{
                     <div className="tab-content" id="nav-tabContent">
                         <MyOrders/>
                         <FavoriteList/>
-                        <ShoppingCart displayClass="tab-pane fade"/>
+                        <ShoppingCart displayClass="tab-pane fade" items={null}/>
                         <MyRecipes/>
                         <Settings/>
                     </div>

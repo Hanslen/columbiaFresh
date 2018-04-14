@@ -2,7 +2,6 @@ from manage import app, db
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import check_password_hash, generate_password_hash
 import datetime
-from flask import jsonify
 
 class Customer(db.Model):
     __tablename__ = 'customer'
@@ -39,7 +38,6 @@ class Customer(db.Model):
         print(u8)
         return u8
 
-# need to merge with verify_token
     @staticmethod
     def verify_confirm_token(token):
         try:
@@ -52,17 +50,20 @@ class Customer(db.Model):
                 if(customer.confirmed is False):
                     customer.confirmed = True
                     customer.confirmed_on = datetime.datetime.now()
-                return jsonify({"status":"Success",
-                                "info": {'uid': customer.uid,
-                                         'email': customer.email,
-                                         'uname': customer.uname}
-                                })
+
+                result = {
+                    'uid': customer.uid,
+                    'email': customer.email,
+                    'uname': customer.uname
+                }
+
+                return (result, True)
 
             else:
-                return jsonify({"status":"Fail", "info": "No such customer!"})
+                return ("No such customer!", False)
 
         except Exception as e:
-            return jsonify({"status": "Fail", "info": str(e)})  # invalid token
+            return (str(e), False)  # invalid token
 
     # need to use wrapper to make code clear
 
@@ -100,7 +101,7 @@ class Customer(db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return '<Customer {}--{}>'.format(self.uname, self.email)
+        return '<Customer {}--{}--id:{}>'.format(self.uname, self.email, self.uid)
 
     @staticmethod
     def get_customer_info(uid):
@@ -115,9 +116,16 @@ class Customer(db.Model):
         customer = Customer.query.filter(Customer.email == email).first()
         if customer is None:
             print("The object does not exist!")
+            return "Error"
         else:
             return customer
 
+    @staticmethod
+    def check_duplicate(email):
+        customer = Customer.query.filter(Customer.email == email).first()
+        if customer is not None:
+            return True
+        return False
 
 
 class LoginInfo(db.Model):
@@ -131,13 +139,3 @@ class Issue(db.Model):
     __tablename__ = 'issue'
     oid = db.Column(db.Integer, db.ForeignKey('order.uid'), nullable=False, primary_key=True)
     uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), nullable=False, index=True)
-
-# class OrderContainItems():
-#     __tablename__ = 'order_contain_items'
-#     oid = db.Column(db.Integer, db.ForeignKey('order.uid'), nullable=False, primary_key=True)
-#     iid = db.Column(db.Integer, db.ForeignKey('ingredient.uid'), nullable=False, primary_key=True, index= True)
-#
-# class Order():
-#     __tablename__ = 'order'
-#     oid = db.Column(db.Integer, nullable=False, primary_key=True)
-#     order_time = db.Column(db.DateTime, nullable=False)

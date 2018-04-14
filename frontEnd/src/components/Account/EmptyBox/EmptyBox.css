@@ -1,0 +1,17 @@
+.emptyContainer{
+    width: 80%;
+    margin: 0 auto;
+    display: table;
+}
+.emptyContainer img{
+    width: 100px;
+    height: 100px;
+    float: left;
+}
+.emptyContainer p{
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+    font-size: 2em;
+    font-weight: bold;
+}

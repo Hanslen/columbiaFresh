@@ -9,12 +9,16 @@ export const AUTH_SIGNUP = 'AUTH_SIGNUP';
 
 export const CLOSE_ALERT = 'CLOSE_ALERT';
 export const SET_ALERT = "SET_ALERT";
+export const SET_AUTH_ALERT = "SET_AUTH_ALERT";
+
+export const GET_ORDERS = "GET_ORDERS";
 
 
 export const UPDATE_BASIC = 'UPDATE_BASIC';
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
 export const UPDATE_ADDRESS = 'UPDATE_ADDRESS';
 export const UPDATE_CREDIT = 'UPDATE_CREDIT';
+export const UPDATE_USERICON = 'UPDATE_USERICON';
 
 
 export const ADD_INGREDIENT = "ADD_INGREDIENT";

@@ -15,11 +15,12 @@ import createRecipe from './components/createRecipe/createRecipe';
 import orderDetail from './components/Account/OrderDetail/OrderDetail';
 import my404Component from './components/my404Component';
 
-
 class App extends Component {
-  componentDidMount(){
+  componentWillMount(){
     this.props.onTryAutoSignup();
+    this.props.cancelAlert();
   }
+
   render() {
     let routes = (
       <Switch>
@@ -51,7 +52,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onTryAutoSignup: () => dispatch(actions.authCheckState())
+    onTryAutoSignup: () => dispatch(actions.authCheckState()),
+    cancelAlert: () => dispatch(actions.closeAlert())
   };
 };
 

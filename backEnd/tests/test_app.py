@@ -17,30 +17,30 @@ class SetUpTest(unittest.TestCase):
 
     def test_login(self):
         rv = self.app.post('/login',data=json.dumps(dict(
-            email='ding1@gmail.com',
+            email='dingyi0116@gmail.com',
             password='12345678')),
             content_type='application/json')
 
         test = json.loads(rv.data)
-        print(type(test))
         print(type(rv.data))
-        if test['status'] == 'Success':
-            with open('local.json', 'w') as f:
-                json.dump(test, f)
-        assert (b'Success' in rv.data)
+        print(test)
+        with open('local.json', 'w') as f:
+            json.dump(test, f)
+
+        assert (b'email' in rv.data)
 
     def test_update_address(self):
         with open('local.json', 'r') as f:
             data = json.load(f)
         rv = self.app.post('/settings/update/address', data=json.dumps(dict(
             userId=4,
-            token=data['info']['token'],
+            token=data['token'],
             streetAddress1='350 Manhattan Ave',
             streetAddress2='',
             city='New York City',
             state_province_region='NY',
             zipCode='10026')),
-                           content_type='application/json')
+            content_type='application/json')
 
         print(rv.data)
         assert (b'Success' in rv.data)

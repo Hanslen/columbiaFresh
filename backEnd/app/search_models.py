@@ -20,6 +20,14 @@ class Ingredient(db.Model):
     def get_all():
         return Ingredient.query.all()
 
+    def show_in_order(self):
+        return {
+            "id": self.iid,
+            "img": "need to add in db",
+            "title": self.iname,
+            "price": self.orderPrice
+	    }
+
 class Ingredient_in_cate(db.Model):
     __tablename__ = 'ingredient_in_cate'
     iid = db.Column(db.Integer, db.ForeignKey('ingredient.iid'), primary_key=True)
@@ -131,6 +139,15 @@ class Recipe(db.Model):
         db.session.add(recipe)
         db.session.commit()
         return recipe.rid
+
+    @staticmethod
+    def get_recipe_in_order(oid):
+        result = Recipe.query.filter(Recipe.order.any(oid=oid)).all()
+        return result
+
+    def __repr__(self):
+        return '<Recipe: rid:{}, uid:{}>'.format(self.rid, self.uid)
+
 
 class Recipe_category(db.Model):
     __tablename__ = 'recipe_category'
