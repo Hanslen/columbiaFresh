@@ -184,6 +184,27 @@ response
 }
 ```
 
+#### get number of result pages
+
+url
+```
+GET /page
+```
+
+parameters
+```
+{
+	query: string
+}
+```
+
+response
+```
+{
+	pages: int
+}
+```
+
 #### get recipe search results
 
 url
