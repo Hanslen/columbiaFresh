@@ -7,7 +7,8 @@ import * as actions from '../../../store/actions/index';
 import {connect} from 'react-redux';
 class orderDetail extends Component{
     state = {
-        orderId: null
+        orderId: null,
+        orders: []
     }
     componentWillMount(){
         let orderId = this.props.match.params.orderId;
@@ -20,8 +21,11 @@ class orderDetail extends Component{
         console.log(postData);
         Axios.post('/getorder', postData).then(response =>{
             console.log(response);
+            this.setState({orders: response.data.msg});
         }).catch(error => {
             console.log(error);
+            this.props.setAlert("Network error! Please check connection!", true);
+            this.setState({orders: 1});
         });
     }
     componentDidMount(){
@@ -30,12 +34,12 @@ class orderDetail extends Component{
     }
     render(){
         return (
-        <div>
+        <div className={classes.greyBg}>
             <br/>
             <div className={classes.orderHeader}>
                 <h3>OrderID {this.state.orderId} <span className={classes.orderDate}>Feb 10th 2018</span></h3>
             </div>
-            <Shoppingcart notShow={true}/>
+            <Shoppingcart notShow={true} items={this.state.orders}/>
             <div className={classes.orderHeader}>
                 <Link to="/myprofile"><button className="btn btn-default btn-primary" id={classes.backBtn}>Back</button></Link>
             </div>

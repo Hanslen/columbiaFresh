@@ -3,7 +3,7 @@ import {Link, withRouter} from 'react-router-dom';
 import classes from './Navigation.css';
 import SearchBox from '../UI/SearchBox/SearchBox';
 import Input from '../UI/Input/Input';
-import Spinner from '../UI/Spinner/Spinner';
+import SpinnerC from '../UI/SpinnerC/SpinnerC';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import { link, stat } from 'fs';
@@ -409,9 +409,11 @@ class navigation extends Component{
                       className="btn btn-primary" 
                       id={classes.signSubmit} 
                       onClick={this.submitHandler}>{this.state.sign}</button>
-                      {/* <div style={{position:"absolute",marginTop:"10px"}}> */}
-                        {/* <Spinner/> */}
-                      {/* </div> */}
+                      {this.props.loading?
+                      <div style={{marginTop:"20px"}}>
+                        <SpinnerC/>
+                      </div>:<div></div>
+                      }
                     <br/>
                   <div className="modal-footer">
                   <button type="button" className="btn" disabled="true">{this.state.signMsg}</button>
