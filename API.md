@@ -216,8 +216,9 @@ GET /search
 parameters
 ```
 {
-	query: string
-	page: int
+	query: string,
+	page: int,
+	perPage: int
 }
 ```
 
@@ -225,17 +226,17 @@ response
 ```
 {
 	recipes: [{
-    	rid: int, recipe id
-    	url: '/recipe/'+id,
-    	imgurl: string, image url
-    	title: string, recipe name
-    	author: string
-    	likes: int,
-    	ingredients: [{
-		name: string,
-		quantity: string
-	}],
-  	}*20]
+		rid: int, recipe id
+		url: '/recipe/'+id,
+		imgurl: string, image url
+		title: string, recipe name
+		author: string
+		likes: int,
+		ingredients: [{
+			name: string,
+			quantity: string
+		}],
+  	}]
 }
 ```
 
