@@ -184,6 +184,8 @@ CREATE TABLE `Columbia_Fresh`.`issue` (
 CREATE TABLE `Columbia_Fresh`.`order_contain_recipes` (
   `oid` INT NOT NULL,
   `rid` INT NOT NULL,
+  `quantity` INT NOT NULL,
+  `recipe_price` DECIMAL(5,2) NOT NULL,
   PRIMARY KEY (`oid`, `rid`),
   INDEX `recipe_in_order_idx` (`rid` ASC),
   CONSTRAINT `order_order_contains_item`
