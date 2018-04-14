@@ -451,6 +451,44 @@ response
    }]
 }
 ```
+#### increase recipe num
+url
+```
+POST /recipe/increasenum
+```
+postData
+```
+{
+	userId: string,
+	token: string,
+	rid: string
+}
+```
+response
+```
+{
+	msg: string (I only need status code, actually)
+}
+```
+#### decrease recipe num
+url
+```
+POST /recipe/decreasenum
+```
+postData
+```
+{
+	userId: string,
+	token: string,
+	rid: string
+}
+```
+response
+```
+{
+	msg: string (I only need status code, actually)
+}
+```
 ### Favourite List
 #### get favourite list
 url
