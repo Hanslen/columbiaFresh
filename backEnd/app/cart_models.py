@@ -16,6 +16,17 @@ class Cart(db.Model):
             return temp
 
     @staticmethod
+    def getCartRecipeByID(uid, rid):
+        temp = Cart.query.filter(Cart.uid == uid).filter(Cart.rid == rid).first()
+        if temp is None:
+            print("Nothing in cart does not exist!")
+            return None
+        else:
+            return temp
+
+
+
+    @staticmethod
     def GetCartContent(uid, rid):
         temp = Cart.query.filter(Cart.uid == uid). \
             filter(Cart.rid == rid).first()

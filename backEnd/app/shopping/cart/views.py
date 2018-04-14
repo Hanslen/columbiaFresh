@@ -7,8 +7,19 @@ from ...search_models import Recipe, Ingredient_in_recipe, Ingredient
 @check_token
 def IncreaseNum(customer, content):
     try:
+        recipe_in = Cart.getCartRecipeByID(customer.uid, int(content['rid']))
+        Cart.ModifyRecordContent(customer.uid, int(content['rid']), recipe_in.quantity, 'add')
+        return ("yeah", True)
 
-        # Cart.ModifyRecordContent(customer.uid, int(content['rid']), quantity, 'add')
+    except Exception as e:
+        return (str(e), False)
+
+@app.route('/recipe/decreasenum', methods=['POST'])
+@check_token
+def DecreaseNum(customer, content):
+    try:
+        recipe_in = Cart.getCartRecipeByID(customer.uid, int(content['rid']))
+        Cart.ModifyRecordContent(customer.uid, int(content['rid']), recipe_in.quantity, 'deduct')
         return ("yeah", True)
 
     except Exception as e:
