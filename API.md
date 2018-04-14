@@ -451,6 +451,28 @@ response
    }]
 }
 ```
+### Favourite List
+#### get favourite list
+url
+```
+POST /getfavouritelist
+```
+postData
+```
+{
+	userId: string,
+	token: string
+}
+```
+response
+```
+[{
+	id: string,
+	title: string,
+	src: string
+}]
+```
+
 
 ### Settings
 #### get basic information
@@ -526,6 +548,7 @@ url
 ```
 POST /settings/update/password
 ```
+
 postData
 ```
 {
