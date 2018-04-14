@@ -118,6 +118,7 @@ class Recipe(db.Model):
         temp = Recipe.query.filter(Recipe.rid == rid).first()
         if temp is None:
            print("The object does not exist!")
+           return None
         else:
             return temp
 
@@ -225,12 +226,12 @@ class Customer_like_recipe(db.Model):
             db.session.delete(delRecord)
             temp = Customer_like_recipe.query.filter(Customer_like_recipe.uid == uid).\
                 filter(Customer_like_recipe.rid == rid).first()
-            recipe_content = Recipe.get_recipe(rid).first()
+            recipe_content = Recipe.get_recipe(rid)
             prevLikes = recipe_content.likes
             curLikes = prevLikes - 1
             recipe_content.likes = curLikes
             db.session.commit()
-            updated_recipe_content = Recipe.get_recipe(rid).first()
+            updated_recipe_content = Recipe.get_recipe(rid)
             if temp is None and updated_recipe_content.likes == (prevLikes - 1):
                 return True
             else:
@@ -261,7 +262,14 @@ class Customer_like_recipe(db.Model):
             else:
                 return False
 
-    # @staticmethod
+    @staticmethod
+    def get_user_liked_recipes(uid):
+        temp = Customer_like_recipe.query.filter(Customer_like_recipe.uid == uid).all()
+        if temp is None:
+            return None
+        else:
+            return temp
+
     def __init__(self, uid, rid, datetime):
         self.uid = uid
         self.rid = rid
