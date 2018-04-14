@@ -458,11 +458,11 @@ postData
 ```
 response
 ```
-{
+[{
 	id: String,
         title: String,
         src: String
-}
+}]
 ```
 
 ### Shopping Cart
