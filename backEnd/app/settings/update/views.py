@@ -18,6 +18,20 @@ def update_info(customer, content):
         print(e)
         return (str(e), False)
 
+@app.route('/settings/update/userCon', methods=['POST'])
+@check_token
+def update_icon(customer, content):
+    try:
+        customer.img = content['img']
+        db.session.commit()
+
+        return ('Successfully update your icon ^_^', True)
+
+    except Exception as e:
+        print(e)
+        return (str(e), False)
+
+
 @app.route('/settings/update/password', methods=['POST'])
 @check_token
 def update_password(customer, content):
