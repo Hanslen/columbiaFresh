@@ -437,12 +437,7 @@ postData
 
 response
 ```
-{
-  img: string,
-  title: string, 
-  price: string, (single item price)
-  number: int,
-  item: [{
+{[{
       id: int,
       img: string,
       title: string,
