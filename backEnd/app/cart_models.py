@@ -7,6 +7,14 @@ class Cart(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
 
     @staticmethod
+    def getCartRecipe(uid):
+        temp = Cart.query.filter(Cart.uid == uid).all()
+        if temp is None:
+            print("Nothing in cart does not exist!")
+            return None
+        else:
+            return temp
+    @staticmethod
     def GetCartContent(uid, rid):
         temp = Cart.query.filter(Cart.uid == uid). \
             filter(Cart.rid == rid).first()
@@ -62,6 +70,7 @@ class Cart(db.Model):
             return True
         else:
             return False
+
 
     def __init__(self, uid, rid, quantity):
         self.uid = uid

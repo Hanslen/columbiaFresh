@@ -99,10 +99,10 @@ def Like_recipe(customer, content):
         isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
         recipe_content = Recipe.get_recipe(rid)
 
-        if isLiked and not curLike:
+        if isLiked and curLike:
             if Customer_like_recipe.remove_customer_like(uid, rid):
                 isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
-                if isLiked == curLike:
+                if isLiked != curLike:
                     state = "success"
                     message = "The record is modified!"
                     likes = Recipe.get_recipe(rid).likes
@@ -124,10 +124,10 @@ def Like_recipe(customer, content):
                         "isLiked": isLiked
                     }
                     return (json, False)
-        elif not isLiked and curLike:
+        elif not isLiked and not curLike:
             if Customer_like_recipe.add_customer_like(uid, rid):
                 isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
-                if isLiked == curLike:
+                if isLiked != curLike:
                     state = "success"
                     message = "The record is modified!"
                     likes = Recipe.get_recipe(rid).likes
