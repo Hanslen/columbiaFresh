@@ -29,3 +29,4 @@ from app.recipe.upload import views
 from app.recipe.upload import test_wrapper
 from app.shopping import views
 from app.shopping.cart import views
+from app.favorite_list import views

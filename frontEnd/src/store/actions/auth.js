@@ -10,11 +10,13 @@ export const closeAlert = () => {
         type: actionTypes.CLOSE_ALERT
     };
 };
-export const setAlert = (error, isError) => {
+export const setAlert = (error, isError, redirect='') => {
+    console.log(redirect);
     return {
         type: actionTypes.SET_ALERT,
         error: error,
-        isError: isError
+        isError: isError,
+        redirect
     };
 };
 export const setAuthError = (error) => {

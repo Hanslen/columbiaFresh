@@ -84,7 +84,8 @@ class Recipe extends React.Component {
             like: this.state.isLiked
         }).then(function (response) {
             console.log(response);
-            saveLike(response.data.likes, response.data.isLiked);
+            let isLiked = (response.data.isLiked === "true") ? true : false;
+            saveLike(response.data.likes, isLiked);
         }).catch(function (error) {
             console.log(error);
         });
