@@ -439,9 +439,9 @@ postData
 ```
 response
 ```
-[{
-	tag: string
-}]
+{
+	tag: [string]
+}
 ```
 
 ### Shopping Cart
