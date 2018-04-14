@@ -225,12 +225,12 @@ class Customer_like_recipe(db.Model):
             db.session.delete(delRecord)
             temp = Customer_like_recipe.query.filter(Customer_like_recipe.uid == uid).\
                 filter(Customer_like_recipe.rid == rid).first()
-            recipe_content = Recipe.get_recipe(rid).first()
+            recipe_content = Recipe.get_recipe(rid)
             prevLikes = recipe_content.likes
             curLikes = prevLikes - 1
             recipe_content.likes = curLikes
             db.session.commit()
-            updated_recipe_content = Recipe.get_recipe(rid).first()
+            updated_recipe_content = Recipe.get_recipe(rid)
             if temp is None and updated_recipe_content.likes == (prevLikes - 1):
                 return True
             else:
