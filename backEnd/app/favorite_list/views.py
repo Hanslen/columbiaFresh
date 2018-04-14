@@ -18,7 +18,7 @@ def GetFavoriteList(customer, content):
                 if recipe_content is not None:
                     json = {
                         'id' : str(rid),
-                        'titile' : recipe_content.title,
+                        'title' : recipe_content.title,
                         'src' : recipe_content.img
                     }
                     liked_recipe.append(json)
