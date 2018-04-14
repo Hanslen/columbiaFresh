@@ -12,6 +12,7 @@ def check_token(func):
                 return make_response(jsonify({'msg': msg}), 403)
 
             msg, success = func(customer, content, *args, **kwargs)
+            print(msg)
             if success is True:
                 return make_response(jsonify(msg), 200)
             else:

@@ -10,9 +10,6 @@ pip install -r requirements.txt
 python3 manage.py server
 ```
 
-# Frontend Notification
-1. Currently token doesn't need to modify
-2. Need to inform user about email confirmation
-
-# Waiting to refactor
-1. Wrapper function for login verification.
+# Wait to solve
+1. Order's total price need to save as an attribute.
+2. Cart's total price is queried when loading the page.

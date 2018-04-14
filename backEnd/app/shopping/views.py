@@ -18,7 +18,7 @@ def AddRecipeToCart(customer, content):
 def GetUserOrders(customer, content):
     try:
         uid = str(customer.uid)
-        if uid != content['uid']:
+        if uid != content['userId']:
             error = "Inconsistent user identifier!"
             return (str(error), False)
         else:
@@ -77,6 +77,7 @@ def GetEachOrderContent(customer, content):
                         ingredients.append(info)
 
                     temp_json = {
+                        "recipeId": recipe.rid,
                         "img" : recipe.img,
                         "title" : recipe.title,
                         # Total price should be added

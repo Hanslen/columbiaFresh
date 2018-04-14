@@ -101,7 +101,7 @@ class Customer(db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return '<Customer {}--{}>'.format(self.uname, self.email)
+        return '<Customer {}--{}--id:{}>'.format(self.uname, self.email, self.uid)
 
     @staticmethod
     def get_customer_info(uid):
