@@ -30,7 +30,9 @@ def GetUserOrders(customer, content):
                     if recipes is not None:
                         first_recipe = Recipe.get_recipe(recipes[0].rid)
                         # Total price should be added
+
                         temp_json = {
+                            "recipe_price": str(),
                             "orderPlaceDate" : str(order.orderPlaceDate),
                             "totalPrice" : calculate_price(recipes),
                             "shipTo" : order.shipTo,
