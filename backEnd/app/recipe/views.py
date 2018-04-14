@@ -6,12 +6,32 @@ from ..search_models import Ingredient, Ingredient_in_recipe
 from ..models import Customer
 from ..auth import check_token, return_format
 
+@app.route('/myrecipe/folder', methods=['POST'])
+@check_token
+def GetRecipeFolder(customer, content):
+    try:
+        lis = Recipe.get_recipe_by_uid(customer.uid)
+
+        result = []
+        for recipe in lis:
+            if recipe.has_tag(content['tag']) is True:
+                json = {}
+                json['id'] = recipe.rid
+                json['title'] = recipe.title
+                json['src'] = recipe.img
+                result.append(json)
+
+        return (result, True)
+
+    except Exception as e:
+        print (e)
+        return (str(e), False)
+
 @app.route('/myrecipe/tags', methods=['POST'])
 @check_token
 def GetRecipeTags(customer, content):
     try:
         json = {}
-
         my_recipes = Recipe.get_recipe_by_uid(customer.uid)
         tags = set()
         for recipe in my_recipes:

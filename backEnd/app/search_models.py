@@ -121,6 +121,12 @@ class Recipe(db.Model):
             result.add(temp.rcname)
         return result
 
+    def has_tag(self, tag):
+        pool = self.find_cat()
+        if tag in pool:
+            return True
+        else: return False
+
     @staticmethod
     def get_recipe(rid):
         temp = Recipe.query.filter(Recipe.rid == rid).first()
