@@ -198,3 +198,7 @@ li.borderless {
       top:83%;
       left:3%;
   }
+  .userAvatar{
+      width: 40px;
+      height: 40px;
+  }

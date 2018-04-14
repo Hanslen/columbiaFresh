@@ -18,7 +18,6 @@ class myorders extends Component{
         const postData = {userId: this.props.userId, token: this.props.token};
         console.log(postData);
         Axios.post("/orders", postData).then(response => {
-            console.log(response);
             this.setState({orders: response.data.msg, loading: false})
         }).catch(err => {
             this.props.setAlert("Please connect to network, then I can get your orders!", true);

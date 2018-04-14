@@ -9,7 +9,8 @@ const initialState = {
     loading: false,
     authRedirectPath: '/',
     userId: null,
-    token: null
+    token: null,
+    img: "http://via.placeholder.com/600x400"
 };
 
 const closeAlert = (state, action) => {
@@ -39,10 +40,15 @@ const authSuccess = (state, action) =>{
         userId: action.userId,
         error: null,
         loading: false,
-        token: action.token
+        token: action.token,
+        img: action.img
     });
 }
-
+const updateUerIcon = (state, action) => {
+    return updateObject(state, {
+        img: action.img
+    });
+};
 const authFail = (state, action) => {
     return updateObject(state, {
         error: action.error,
@@ -120,6 +126,8 @@ const reducer = (state = initialState, action) => {
             return state;
         case actionTypes.UPDATE_CREDIT:
             return state;
+        case actionTypes.UPDATE_USERICON:
+            return updateUerIcon(state, action);
         case actionTypes.CLOSE_ALERT:
             return closeAlert(state, action);
         case actionTypes.SET_ALERT:

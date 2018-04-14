@@ -15,7 +15,6 @@ class shoppingcart extends Component{
         // if(this.props.items != undefined){
         //     this.setState({recipes: this.props.item});
         // }
-        console.log(this.props.recipes);
         if(this.props.items == null){
             this.setState({loading: false, recipes: null});
         }
@@ -26,9 +25,6 @@ class shoppingcart extends Component{
         }
     }
     
-    help(){
-        console.log(this.props.items);
-    }
     addQuantityHandler = (id, recipeId) => {
         let oldState = this.state.recipes;
         oldState[id].number += 1;

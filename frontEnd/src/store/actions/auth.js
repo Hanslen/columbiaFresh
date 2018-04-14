@@ -24,13 +24,21 @@ export const setAuthError = (error) => {
     }
 }
 
-export const authSuccess = (email, username, userId, token) => {
+export const authSuccess = (email, username, userId, token, img) => {
     return{
         type: actionTypes.AUTH_SUCCESS,
         email: email,
         username: username,
         userId: userId,
-        token: token
+        token: token,
+        img: img
+    };
+};
+export const updateUserIcon = (imgurl) => {
+    localStorage.setItem("img", imgurl);
+    return {
+        type: actionTypes.UPDATE_USERICON,
+        img: imgurl
     };
 };
 export const authConfirm = (email, username, token) => {
@@ -114,7 +122,8 @@ export const authLogIn = (email, password) => {
                 localStorage.setItem('email', response.data.email);
                 localStorage.setItem('uid', response.data.uid);
                 localStorage.setItem('token', response.data.token); //split
-                dispatch(authSuccess(response.data.email, response.data.uname, response.data.uid,response.data.token));
+                localStorage.setItem("img", response.data.img);
+                dispatch(authSuccess(response.data.email, response.data.uname, response.data.uid,response.data.token, response.data.img));
                 dispatch(checkAuthTimeout(3600));
                 $("#signModal .close").click();
             }).catch(error => {
@@ -267,7 +276,8 @@ export const authCheckState = () => {
                 const username = localStorage.getItem('username');
                 const userId = localStorage.getItem('uid');
                 const token = localStorage.getItem('token');
-                dispatch(authSuccess(email, username, userId, token));
+                const img = localStorage.getItem("img");
+                dispatch(authSuccess(email, username, userId, token, img));
                 dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime())/1000));
             }
             else{

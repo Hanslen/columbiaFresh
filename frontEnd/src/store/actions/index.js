@@ -12,6 +12,7 @@ export{
     updatePassword,
     updateAddress,
     updateCredit,
+    updateUserIcon,
     closeAlert,
     setAlert,
     setAuthError

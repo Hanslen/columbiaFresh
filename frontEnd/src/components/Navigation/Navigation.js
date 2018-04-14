@@ -372,7 +372,7 @@ class navigation extends Component{
                   }
                   {this.props.isAuthenticated?
                   <li className="nav-item">
-                          <img className={classes.userIcon} id={classes.userProfileImg} src="/static/img/userIcon.png"/>
+                          <img className={classes.userIcon} id={classes.userProfileImg} src={this.props.img}/>
                           <div className={classes.userProfileBox}>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" id={classes.userBoxSub}>
                               <Link className="dropdown-item" to="/myprofile#order">Hi, <strong>{this.props.username}</strong></Link>
@@ -433,7 +433,8 @@ const mapStateToProps = state => {
       userId: state.auth.userId,
       token: state.auth.token,
       alertMsg: state.auth.error,
-      username: state.auth.username
+      username: state.auth.username,
+      img: state.auth.img
   };
 }
 const mapDispatchToProps = dispatch => {
