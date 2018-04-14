@@ -42,7 +42,10 @@ def GetUserOrders(customer, content):
 
 def calculate_price(recipes):
     price = 0
-    return price
+    for recipe in recipes:
+        price += recipe.recipe_price * recipe.quantity
+
+    return "{}".format(price)
 
 @app.route('/getorder', methods=['POST'])
 @check_token
@@ -72,8 +75,7 @@ def GetEachOrderContent(customer, content):
                         "recipeId": recipe.rid,
                         "img" : recipe.img,
                         "title" : recipe.title,
-                        # Total price should be added
-                        "price" : "0",
+                        "price" : str(recipe_in.recipe_price * recipe_in.quantity),
                         "number" : recipe_in.quantity,
                         "item" : ingredients
                     }
