@@ -3,6 +3,17 @@ from ...auth import check_token
 from ...cart_models import Cart
 from ...search_models import Recipe, Ingredient_in_recipe, Ingredient
 
+@app.route('/recipe/increasenum', methods=['POST'])
+@check_token
+def IncreaseNum(customer, content):
+    try:
+
+        # Cart.ModifyRecordContent(customer.uid, int(content['rid']), quantity, 'add')
+        return ("yeah", True)
+
+    except Exception as e:
+        return (str(e), False)
+
 @app.route('/addToCart', methods=['POST'])
 @check_token
 def AddRecipeToCart(customer, content):
@@ -48,6 +59,7 @@ def getCart(customer, content):
         if uid != content['uid']:
             error = "Inconsistent user identifier!"
             return (str(error), False)
+
         else:
             recipes = Cart.getCartRecipe(uid)
             recipe_list = []
@@ -65,7 +77,7 @@ def getCart(customer, content):
                     item["img"]= recipe.img,
 
                     item["price"] = recipe_price
-                    item["number"] =  recipe_in.quantity,
+                    item["number"] =  recipe_in.quantity
                     item["id"] = recipe.rid
                     item["title"] = recipe.title
                     recipe_list.append(item)

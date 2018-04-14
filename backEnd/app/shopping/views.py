@@ -78,7 +78,7 @@ def GetEachOrderContent(customer, content):
                         "title" : recipe.title,
                         "price" : str(recipe_in.recipe_price * recipe_in.quantity),
                         "number" : recipe_in.quantity,
-                        "item" : ingredients
+                        "ingredient" : ingredients
                     }
                     items.append(temp_json)
             json = {

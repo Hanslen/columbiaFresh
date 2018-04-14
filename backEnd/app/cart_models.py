@@ -14,6 +14,7 @@ class Cart(db.Model):
             return None
         else:
             return temp
+
     @staticmethod
     def GetCartContent(uid, rid):
         temp = Cart.query.filter(Cart.uid == uid). \
