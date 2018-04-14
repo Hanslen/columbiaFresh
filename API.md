@@ -368,6 +368,7 @@ postData
 response
 ```
 msg:[{
+	recipeId: string,
 	img: string,
 	title: string,
 	price: string, (single item price),
@@ -438,6 +439,26 @@ response
   userName: string (token != userId)
 }
 ```
+#### update user Icon
+url
+```
+POST /settings/update/userIcon
+```
+postData
+```
+{
+	userId: string,
+	token: string,
+	img: string
+}
+```
+reponse
+```
+{
+	msg: string
+}
+```
+
 #### update basic information
 url
 ```
