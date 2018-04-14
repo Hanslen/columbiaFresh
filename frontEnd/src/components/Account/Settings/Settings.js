@@ -390,7 +390,7 @@ class settings extends Component{
             userId: this.props.userId
         }
         Axios.post('/settings/basic',postData).then(response => {
-            console.log(response);
+            // console.log(response);
             if(response.data.email != null){
                 let gender = "male";
                 if(response.data.gender[0] == 0){
@@ -563,7 +563,7 @@ class settings extends Component{
                 touched={formElement.config.touched}
                 changed={( event ) => this.inputChangedHandler( event, formElement.id )} 
                 />
-          
+        
         ) );
         return (
                     <div className="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">

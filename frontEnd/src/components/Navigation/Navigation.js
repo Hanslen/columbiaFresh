@@ -372,7 +372,7 @@ class navigation extends Component{
                   }
                   {this.props.isAuthenticated?
                   <li className="nav-item">
-                          <img className={classes.userIcon} id={classes.userProfileImg} src="/static/img/user.jpg"/>
+                          <img className={classes.userIcon} id={classes.userProfileImg} src="/static/img/userIcon.png"/>
                           <div className={classes.userProfileBox}>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" id={classes.userBoxSub}>
                               <Link className="dropdown-item" to="/myprofile#order">Hi, <strong>{this.props.username}</strong></Link>

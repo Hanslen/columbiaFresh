@@ -12,8 +12,6 @@ class accountManage extends Component{
     confirmHanlder = () => {
         document.getElementById("confirmLoading").style.display = "block";
         const token = this.props.match.params.token.split("'");
-        console.log("=(:3=)_");
-        console.log(token[0]);
         axios.post('/confirm/' + token[0])
                     .then(response => {
                         console.log("QWQ");

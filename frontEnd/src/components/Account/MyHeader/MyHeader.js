@@ -37,7 +37,7 @@ class myheader extends Component{
             <div>
                 <div className={classes.headerImg}>
                     <div className={classes.introBox}>
-                        <img className={classes.imgIcon} src="/static/img/user.jpg"/>
+                        <img className={classes.imgIcon} src="/static/img/userIcon.png"/>
                         <div className={classes.introText}>
                             <p><strong>{this.props.username}</strong></p>
                             <p>Manage and check my profile. :D</p>

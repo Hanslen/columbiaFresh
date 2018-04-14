@@ -57,7 +57,7 @@ def calculate_price(recipes):
 def GetEachOrderContent(customer, content):
     try:
         uid = str(customer.uid)
-        if uid != content['uid']:
+        if uid != content['userId']:
             error = "Inconsistent user identifier!"
             return (error, False)
         else:
