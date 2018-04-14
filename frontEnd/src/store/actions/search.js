@@ -2,6 +2,7 @@ import axios from '../../axios-config';
 
 export const SEARCH_KEYWORD = 'SEARCH_KEYWORD';
 export const SEARCH_RECIPES = 'SEARCH_RECIPES';
+export const GET_PAGES = 'GET_PAGES';
 export const GET_RESULTS = 'GET_RESULTS';
 
 export const searchKeyword = (keyword) => {
@@ -11,13 +12,40 @@ export const searchKeyword = (keyword) => {
     };
 };
 
-export const searchRecipes = (keyword) => {
+export const searchPages = (keyword, perPage) => {
     return (dispatch) => {
         console.log('search: '+keyword);
+        axios.get('/page', {
+            params: {
+                query: keyword,
+                perPage
+            }
+        }).then(function(response) {
+            console.log(response);
+            let pages = response.data.pages;
+            dispatch(getPages(keyword, pages));
+        }).catch(function (error) {
+            console.log(error);
+        });
+    };
+};
+
+export const getPages = (keyword, pages) => {
+    return {
+        type: GET_PAGES,
+        keyword,
+        pages
+    };
+};
+
+export const searchRecipes = (keyword, page, perPage) => {
+    return (dispatch) => {
+        console.log('page: '+page);
         axios.get('/search', {
             params: {
                 query: keyword,
-                page: 1
+                page,
+                perPage
             }
         }).then(function(response) {
             console.log(response);
@@ -26,8 +54,8 @@ export const searchRecipes = (keyword) => {
         }).catch(function (error) {
             console.log(error);
         });
-    }
-}
+    };
+};
 
 export const getResults = (keyword, results) => {
     return {
