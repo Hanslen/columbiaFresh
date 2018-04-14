@@ -113,6 +113,14 @@ class Recipe(db.Model):
         self.directions=dire,
         self.uid=uid
 
+    def find_cat(self):
+        cats = Recipe_in_cate.query.filter(Recipe_in_cate.rid == self.rid).all()
+        result = set()
+        for cat in cats:
+            temp = Recipe_category.query.filter(Recipe_category.rcid == cat.rcid).first()
+            result.add(temp.rcname)
+        return result
+
     @staticmethod
     def get_recipe(rid):
         temp = Recipe.query.filter(Recipe.rid == rid).first()
@@ -144,6 +152,11 @@ class Recipe(db.Model):
     @staticmethod
     def get_recipe_in_order(oid):
         result = Recipe.query.filter(Recipe.order.any(oid=oid)).all()
+        return result
+
+    @staticmethod
+    def get_recipe_by_uid(uid):
+        result = Recipe.query.filter(Recipe.uid == uid).all()
         return result
 
     def __repr__(self):
