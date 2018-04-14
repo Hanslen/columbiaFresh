@@ -18,7 +18,7 @@ def update_info(customer, content):
         print(e)
         return (str(e), False)
 
-@app.route('/settings/update/userCon', methods=['POST'])
+@app.route('/settings/update/userIcon', methods=['POST'])
 @check_token
 def update_icon(customer, content):
     try:
