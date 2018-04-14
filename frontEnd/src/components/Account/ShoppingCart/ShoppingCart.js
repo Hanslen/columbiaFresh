@@ -60,7 +60,7 @@ class shoppingcart extends Component{
         this.setState({selectedId: id});
     }
     render(){
-        let recipes = <EmptyBox msg="Not recipes have been added to the shopping cart."/>;
+        let recipes = <EmptyBox msg="No recipes have been added to the shopping cart yet."/>;
         if(this.state.recipes != null && this.state.recipes == 1){
             recipes = <EmptyBox msg="Please connect to network to load order details!"/>
         }
