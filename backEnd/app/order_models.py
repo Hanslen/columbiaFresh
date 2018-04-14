@@ -7,6 +7,7 @@ class OrderContainsRecipe(db.Model):
     rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
     quantity = db.Column(db.Integer, nullable=False)
     recipe_price = db.Column(db.DECIMAL)
+
     # need to add an item recipe price
 
     @staticmethod
@@ -40,3 +41,4 @@ class Order(db.Model):
             return None
         else:
             return temp
+
