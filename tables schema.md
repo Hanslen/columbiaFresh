@@ -331,13 +331,13 @@ CREATE TABLE `Columbia_Fresh`.`metric_transform_table` (
 ```
 
 
-### cart_contains_recipe
+### cart
 
 ```
 CREATE TABLE `Columbia_Fresh`.`cart_contains_recipe` (
   `uid` INT(11) NOT NULL,
   `rid` INT(11) NOT NULL,
-  `quantity` INT(10) NOT NULL,
+  `quantity` INT(11) NOT NULL,
   PRIMARY KEY (`uid`, `rid`),
   INDEX `recipe_cart_contains_recipe_idx` (`rid` ASC),
   CONSTRAINT `cart_cart_contains_recipe`
