@@ -87,7 +87,7 @@ def Like_recipe(customer, content):
     try:
         rid = content['rid']
         uid = str(customer.uid)
-        curLike = content['like']
+        curLike = str(content['like'])
 
         if curLike.lower() == "false":
             curLike = False
@@ -95,7 +95,6 @@ def Like_recipe(customer, content):
             curLike = True
         else:
             curLike = ""
-
 
         isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
         recipe_content = Recipe.get_recipe(rid)
