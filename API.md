@@ -401,6 +401,25 @@ msg:[{
 	}]
 }]
 ```
+### My recipe
+#### get my recipe tags
+url
+```
+POST /myrecipe/tags
+```
+postData
+```
+{
+	userId: string,
+	token: string
+}
+```
+response
+```
+[{
+	tag: string
+}]
+```
 
 ### Shopping Cart
 #### get user shopping Cart
