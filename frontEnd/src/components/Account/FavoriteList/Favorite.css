@@ -62,5 +62,11 @@
     margin-bottom: 10px;
     /* position: absolute;
     bottom: 20px; */
+}
+.subFolder p{
+    width: 80%;
+    margin: 0 auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
 }
