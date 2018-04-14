@@ -25,13 +25,11 @@ class Order(db.Model):
     deliveredDate = db.Column(db.DateTime)
     img = db.Column(db.Text)
     soldBy = db.Column(db.String(45))
-    isCheckedOut = db.Column(db.Boolean, nullable=False)
     uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), nullable=False)
 
     def __init__(self, uid):
         self.orderPlaceDate = datetime.datetime.now()
         self.uid = uid
-        self.isCheckedOut = False
 
     @staticmethod
     def get_orders_by_user(uid):
