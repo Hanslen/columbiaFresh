@@ -39,7 +39,6 @@ CREATE TABLE `Columbia_Fresh`.`order` (
   `deliveredDate` DATETIME NULL DEFAULT '2018-12-31 00:00:00',
   `img` LONGTEXT NULL,
   `soldBy` VARCHAR(45) NULL,
-  `isCheckedOut` TINYINT NOT NULL DEFAULT 0,
   `uid` INT(11) NOT NULL AFTER `isCheckedOut`,
   ADD INDEX `customer_makes_an_order_idx` (`uid` ASC);
   ALTER TABLE `Columbia_Fresh`.`order` 
