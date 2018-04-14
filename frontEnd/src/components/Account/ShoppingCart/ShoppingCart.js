@@ -8,7 +8,7 @@ import EmptyBox from '../EmptyBox/EmptyBox';
 class shoppingcart extends Component{
     state = {
         loading: true,
-        recipes: [],
+        recipes: null,
         selectedId: -1
     }
     componentDidMount(){
@@ -66,8 +66,8 @@ class shoppingcart extends Component{
         }
         if(this.state.recipes != null && this.state.recipes != 1){
             recipes = this.state.recipes.map((item, id) => {
-                let recipeDetail = item.item.map((detail,idd) => (
-                    <div key={detail.id}>
+                let recipeDetail = item.ingredient.map((detail,idd) => (
+                    <div key={detail.title+"ingredint"}>
                     {!this.props.notShow?
                         <div className="row">
                                 <div className="col-md-8">
@@ -102,7 +102,7 @@ class shoppingcart extends Component{
                 ));
                 
                 return(
-                    <div className={classes.item} key={id}>
+                    <div className={classes.item} key={id+"box"}>
                         {!this.props.notShow?
                         <div className="row">
                             <div className="col-md-8" onClick={() => this.showDetailHandler(item.recipeId)}>
@@ -141,6 +141,7 @@ class shoppingcart extends Component{
                         <div className={classes.detailBox} id={"detail"+item.recipeId} style={{display: "none"}}>
                             <hr style={{marginBottom:"0px"}}/>
                             {recipeDetail}
+                            <br/>
                         </div>
                     </div>
                 )

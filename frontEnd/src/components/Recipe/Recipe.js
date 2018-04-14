@@ -7,6 +7,7 @@ import Directions from './Directions/Directions';
 import Reservation from '../Reservation/Reservation';
 import Notes from './Notes/Notes';
 import { searchKeyword, searchRecipes } from '../../store/actions/search';
+import { setAlert } from '../../store/actions/index';
 
 class Recipe extends React.Component {
 
@@ -73,6 +74,10 @@ class Recipe extends React.Component {
     }
 
     handleLike() {
+        if (!this.props.token) {
+            this.props.setAlert("Please log in first", true);
+            return;
+        }
         let saveLike = (likes, isLiked) => this.setState({
             likes,
             isLiked
@@ -84,10 +89,9 @@ class Recipe extends React.Component {
             like: this.state.isLiked
         }).then(function (response) {
             console.log(response);
-            let isLiked = (response.data.isLiked === "true") ? true : false;
-            saveLike(response.data.likes, isLiked);
+            saveLike(response.data.likes, response.data.isLiked);
         }).catch(function (error) {
-            console.log(error);
+            console.log(error.response);
         });
     }
 
@@ -189,6 +193,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onGetResults: (keyword) => {
             dispatch(searchRecipes(keyword))
+        },
+        setAlert: (error, isError) => {
+            dispatch(setAlert(error, isError))
         }
     }
 }

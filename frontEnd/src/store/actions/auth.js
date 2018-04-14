@@ -11,7 +11,6 @@ export const closeAlert = () => {
     };
 };
 export const setAlert = (error, isError, redirect='') => {
-    console.log(redirect);
     return {
         type: actionTypes.SET_ALERT,
         error: error,
@@ -134,6 +133,7 @@ export const authLogIn = (email, password) => {
                     dispatch(setAuthError("Connection Failed!"));
                 }
                 else{
+                    dispatch(authFail(error.response.data.errorInfo));
                     dispatch(setAuthError(error.response.data.errorInfo));
                 }
             });

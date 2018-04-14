@@ -9,7 +9,6 @@ class alertBox extends Component {
 
     closeBox = () => {
         this.props.closeAlert();
-        console.log(this.props.redirect);
         if (this.props.redirect) {
             this.props.history.push(this.props.redirect);
         }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MyHeader from '../MyHeader/MyHeader';
 import classes from './Favorite.css';
+import {Link} from 'react-router-dom';
 class favoritelist extends Component{
     state = {
         myFolders: ["My Likes"],
@@ -8,7 +9,7 @@ class favoritelist extends Component{
         selectedFolder: "ChineseFood",
         items: [{
             id: 1,
-            title: "Porridge",
+            title: "Porridgeeeeeeeeeeeeeeeeeeeee",
             src: "/static/img/breakfast.png"
         },
         {
@@ -70,13 +71,14 @@ class favoritelist extends Component{
         let items = this.state.items.map(item => {
             let imgUrl = "url("+item.src+")";
             return(
+                <Link to="/recipe/6">
                 <div key={item.id}>
                     <div className={classes.folderItem} style={{backgroundImage:imgUrl}}>
                     </div>
                     <div className={classes.subFolder}>
                         <p>{item.title}</p>
                     </div>
-                </div>);
+                </div></Link>);
         });
         return (
             <div className="tab-pane fade" id="nav-favoriteList" role="tabpanel" aria-labelledby="nav-favoriteList-tab">

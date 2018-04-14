@@ -198,7 +198,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setAlert: (error, isError, redirect) => dispatch(setAlert(error, isError, redirect))
+        setAlert: (error, isError, redirect) => {
+            dispatch(setAlert(error, isError, redirect))
+        }
     };
 };
 
