@@ -21,7 +21,7 @@ class OrderContainsRecipe(db.Model):
         self.oid = oid
         self.rid = rid
         self.quantity = quantity
-        self.recipe_price = recipe_price
+        self.recipe_price = price
 
 class Order(db.Model):
     __tablename__ = 'order'

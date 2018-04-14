@@ -90,6 +90,7 @@ def GetEachOrderContent(customer, content):
         return (str(e), False)
 
 
+
 @app.route('/placeOrder', methods=['POST'])
 @check_token
 def placeOrder(customer, content):
