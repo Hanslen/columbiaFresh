@@ -258,7 +258,7 @@ response
 }
 ```
 
-#### add ingredients to shopping cart
+#### add recipes to shopping cart
 
 url
 
