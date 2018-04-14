@@ -33,23 +33,24 @@ class Cart(db.Model):
                 return False
             else:
                 prev_quantity = temp.quantity
-                if string == "add":
+                if string in "add":
                     cur_quantity = prev_quantity + 1
-                elif string == "deduct":
+                elif string in "deduct":
                     cur_quantity = prev_quantity - 1
                 else:
                     return False
                 temp.quantity = cur_quantity
                 db.session.commit()
                 test_temp = Cart.GetCartContent(uid, rid)
-                if test_temp is None:
-                    if string == "add" and test_temp.quantity == prev_quantity + 1:
+                if test_temp is not None:
+                    if string in "add" and test_temp.quantity == quantity + 1:
                         return True
-                    elif string == "deduct" and test_temp.quantity == prev_quantity - 1:
+                    elif string in "deduct" and test_temp.quantity == quantity - 1:
                         return True
                     else:
                         return False
                 else:
+                    print("hhhhh")
                     return False
 
     @staticmethod
