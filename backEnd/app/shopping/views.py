@@ -3,16 +3,6 @@ from ..auth import check_token
 from ..order_models import Order, OrderContainsRecipe
 from ..search_models import Recipe, Ingredient_in_recipe, Ingredient
 
-@app.route('/addToCart', methods=['POST'])
-@check_token
-def AddRecipeToCart(customer, content):
-    try:
-        uid = str(customer.uid)
-        rid = content['rid']
-    except Exception as e:
-        return (str(e), False)
-
-
 @app.route('/orders', methods=['POST'])
 @check_token
 def GetUserOrders(customer, content):
@@ -30,7 +20,9 @@ def GetUserOrders(customer, content):
                     if recipes is not None:
                         first_recipe = Recipe.get_recipe(recipes[0].rid)
                         # Total price should be added
+
                         temp_json = {
+                            "recipe_price": str(),
                             "orderPlaceDate" : str(order.orderPlaceDate),
                             "totalPrice" : calculate_price(recipes),
                             "shipTo" : order.shipTo,
@@ -50,7 +42,10 @@ def GetUserOrders(customer, content):
 
 def calculate_price(recipes):
     price = 0
-    return price
+    for recipe in recipes:
+        price += recipe.recipe_price * recipe.quantity
+
+    return "{}".format(price)
 
 @app.route('/getorder', methods=['POST'])
 @check_token
@@ -80,8 +75,7 @@ def GetEachOrderContent(customer, content):
                         "recipeId": recipe.rid,
                         "img" : recipe.img,
                         "title" : recipe.title,
-                        # Total price should be added
-                        "price" : "0",
+                        "price" : str(recipe_in.recipe_price * recipe_in.quantity),
                         "number" : recipe_in.quantity,
                         "item" : ingredients
                     }
@@ -93,16 +87,3 @@ def GetEachOrderContent(customer, content):
 
     except Exception as e:
         return (str(e), False)
-
-
-# from app.shopping_model import Order
-# from ..auth import check_token
-#
-# @app.route("/order",methods=['POST'])
-# @check_token
-# def get_order(customer, content):
-#     if customer.uid == int(content['id']):
-#         order_list = Order.find_order_by_user_id()
-#         return (order_list, True)
-#
-#     return ('Customer id not match', False)
