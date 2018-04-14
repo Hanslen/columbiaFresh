@@ -8,8 +8,6 @@ class OrderContainsRecipe(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     recipe_price = db.Column(db.DECIMAL)
 
-    # need to add an item recipe price
-
     @staticmethod
     def getOrderRecipe(oid):
         temp = OrderContainsRecipe.query.filter(OrderContainsRecipe.oid == oid).all()
@@ -18,6 +16,12 @@ class OrderContainsRecipe(db.Model):
             return None
         else:
             return temp
+
+    def __init__(self, oid, rid, quantity, price):
+        self.oid = oid
+        self.rid = rid
+        self.quantity = quantity
+        self.recipe_price = recipe_price
 
 class Order(db.Model):
     __tablename__ = 'order'
@@ -41,4 +45,5 @@ class Order(db.Model):
             return None
         else:
             return temp
+
 

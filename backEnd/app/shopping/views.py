@@ -1,7 +1,8 @@
-from app import app
+from app import app, db
 from ..auth import check_token
 from ..order_models import Order, OrderContainsRecipe
 from ..search_models import Recipe, Ingredient_in_recipe, Ingredient
+from ..cart_models import Cart
 
 @app.route('/orders', methods=['POST'])
 @check_token
@@ -87,3 +88,40 @@ def GetEachOrderContent(customer, content):
 
     except Exception as e:
         return (str(e), False)
+
+
+@app.route('/placeOrder', methods=['POST'])
+@check_token
+def placeOrder(customer, content):
+    try:
+        uid = str(customer.uid)
+        if uid != content['uid']:
+            error = "Inconsistent user identifier!"
+            return (str(error), False)
+        else:
+            recipes = Cart.getCartRecipe(uid)
+            if recipes is None:
+                return ("Nothing in your cart!", False)
+            else:
+                order = Order(uid)
+                db.session.add(order)
+                db.session.commit()
+
+                for recipe_in in recipes:
+                    recipe = Recipe.get_recipe(recipe_in.rid)
+                    ingredients_list = Ingredient_in_recipe.get_ingredients_in_recipe(recipe_in.rid)
+
+                    recipe_price = 0
+                    for ingr_in in ingredients_list:
+                        item = Ingredient.get_ingredient(ingr_in.iid)
+                        recipe_price += ingr_in.quantity * item.orderPrice
+
+                    relation = OrderContainsRecipe(oid=order.oid, rid=recipe.rid, quantity=recipe_in.quantity, price=recipe_price)
+                    db.session.add(relation)
+                    db.session.commit()
+                return("Issue order successfully ^_^", True)
+
+    except Exception as e:
+        return (str(e), False)
+
+
