@@ -442,7 +442,14 @@ response
       img: string,
       title: string,
       price: float,
-      number: int
+      number: int,
+      ingredient:[{
+      		id: int,
+		img: string,
+		title: string,
+		price: float,
+		number: int
+      }]
    }]
 }
 ```
