@@ -19,6 +19,10 @@ export const checkValidity = ( value, rules ) => {
         isValid = value.length >= rules.minLength && isValid
     }
 
+    if(rules.exactLengh){
+        isValid = value.length == rules.exactLengh && isValid;
+    }
+
     if ( rules.maxLength ) {
         isValid = value.length <= rules.maxLength && isValid
     }

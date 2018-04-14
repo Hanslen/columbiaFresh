@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Input from '../UI/Input/Input';
 import { Link, withRouter } from 'react-router-dom';
-import classes from './createRecipe';
 import Button from '../UI/Button/Button';
 import IngredientBox from './uploadComponent/ingredientBox';
 import { connect } from 'react-redux';
@@ -10,6 +9,7 @@ import Directions from './uploadComponent/directions';
 import Axios from '../../axios-config';
 import AWS from 'aws-sdk';
 import ReactS3 from 'react-s3';
+import * as classes from './createRecipe.css';
 class createRecipe extends Component{
     state = {
         title: "",
@@ -187,7 +187,9 @@ class createRecipe extends Component{
                         <img src={this.state.img} style={{width:"100%"}} onClick={this.uploadImg}/>
                         <input type="file" ref="uploadImg" name="selectedFile" onChange={this.imgOnChange} id="uploadImg" style={{display:"none"}}/>
                         <br/><br/>
-                        {tagItems} 
+                        <div className={classes.tagsClass}>
+                            {tagItems} 
+                        </div>
                             {/* <input type="text" className="addTag" id="addTag" onKeyPress={this.addTag}/> */}
                         {authorInfo}
                         <textarea className="form-control" placeholder="Please enter recipe description." value={this.state.intro} onChange={(e) => this.updateIntro(e)}/>

@@ -295,23 +295,35 @@ class settings extends Component{
                   },
                   value: '',
                   validation:{
-                      required: true
+                      required: true,
+                      exactLengh: 16,
+                      isNumeric: true
                   },
                   valid: false,
                   touched: false
             },
             ExpirationMonth:{
                 label: "Expiration Month",
-                  elementType: 'input',
-                  elementConfig: {
-                      type: 'text',
-                      placeholder: 'Month'
+                elementType: 'select',
+                elementConfig: {
+                      options: [{value: "January", displayValue: "January"},
+                      {value: "February", displayValue: "February"},
+                      {value: "March", displayValue: "March"},
+                      {value: "April", displayValue: "April"},
+                      {value: "May", displayValue: "May"},
+                      {value: "June", displayValue: "June"},
+                      {value: "July", displayValue: "July"},
+                      {value: "August", displayValue: "August"},
+                      {value: "September", displayValue: "September"},
+                      {value: "October", displayValue: "October"},
+                      {value: "November", displayValue: "November"},
+                      {value: "December", displayValue: "December"}]
                   },
                   boxStyle:{
                       width: '40%',
                       float: 'left'
                   },
-                  value: '',
+                  value: 'January',
                   validation:{
                       required: true
                   },
@@ -320,17 +332,16 @@ class settings extends Component{
             },
             ExpirationYear:{
                 label: 'Year',
-                  elementType: 'input',
+                  elementType: 'select',
                   elementConfig: {
-                      type: 'text',
-                      placeholder: 'Year'
+                      options: []
                   },
                   boxStyle:{
                       width: '40%',
                       float: 'left',
                       marginLeft: '20%'
                   },
-                  value: '',
+                  value: '2018',
                   validation:{
                       required: true
                   },
@@ -341,7 +352,7 @@ class settings extends Component{
                 label: 'cvv',
                   elementType: 'input',
                   elementConfig: {
-                      type: 'text',
+                      type: 'password',
                       placeholder: 'cvv'
                   },
                   boxStyle:{
@@ -350,12 +361,30 @@ class settings extends Component{
                   },
                   value: '',
                   validation:{
-                      required: true
+                      required: true,
+                      exactLengh: 3,
+                      isNumeric: true
                   },
                   valid: false,
                   touched: false
             }
         }
+    }
+    componentWillMount(){
+        let yearsSelect = [];
+        for(let i = 2018; i < 2018+20; i++){
+            let oneYear = {value: i, displayValue: i};
+            yearsSelect.push(oneYear);
+        }
+        let updateCreditControl = updateObject(this.state.creditControl, {
+            ["ExpirationYear"]: updateObject(this.state.creditControl["ExpirationYear"], {
+                ["elementConfig"]:updateObject(this.state.creditControl["ExpirationYear"]["elementConfig"], {
+                    ["options"]: yearsSelect
+                })
+            })
+        });
+        this.setState({controls: this.state.basiccontrols, boxTitle: "Basic Information", creditControl: updateCreditControl});
+        this.setBasicInformation();
     }
     activeHandler = (folder) => {
         for(var f in this.state.myFolders){
@@ -390,7 +419,6 @@ class settings extends Component{
             userId: this.props.userId
         }
         Axios.post('/settings/basic',postData).then(response => {
-            // console.log(response);
             if(response.data.email != null){
                 let gender = "male";
                 if(response.data.gender[0] == 0){
@@ -413,7 +441,6 @@ class settings extends Component{
                         value: response.data.introduction
                     })
                 });
-                // console.log(updatedControls);
                 this.setState({controls: updatedControls});
             }
         }).catch(err => {
@@ -429,13 +456,19 @@ class settings extends Component{
         
         Axios.post('/settings/getcredit', userData)
             .then(response => {
-                console.log(response.data.cardName);
+                console.log(response.data);
                 let updatedControls = updateObject(this.state.controls, {
                     ["cardName"] : updateObject(this.state.controls["cardName"], {
                         value: response.data.cardName
                     }),
                     ["cardNum"]: updateObject(this.state.controls["cardNum"], {
                         value: response.data.cardNumber
+                    }),
+                    ["ExpirationMonth"]: updateObject(this.state.controls["ExpirationMonth"], {
+                        value: response.data.expirationMonth
+                    }),
+                    ["ExpirationYear"]: updateObject(this.state.controls["ExpirationYear"], {
+                        value: response.data.expirationYear
                     })
                 });
                 this.setState({controls: updatedControls});
@@ -450,7 +483,6 @@ class settings extends Component{
             token: this.props.token
         };
         Axios.post("/settings/address",postData).then(response => {
-            console.log(response.data);
             let updatedControls = updateObject(this.state.controls, {
                 ["street1"]: updateObject(this.state.controls["street1"], {
                     value: response.data.streetAddress1
@@ -471,12 +503,6 @@ class settings extends Component{
             this.setState({controls: updatedControls});
         })
     }
-    componentWillMount(){
-        this.setState({controls: this.state.basiccontrols, boxTitle: "Basic Information"});
-        this.setBasicInformation();
-    }
-
-    
 
     updateInformation = () => {
         if(this.state.controls.firstname != undefined){
