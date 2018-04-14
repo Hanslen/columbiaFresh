@@ -490,7 +490,7 @@ postData
 response
 ```
 {
-	msg: string (I only need status code, actually)
+	price: string
 }
 ```
 #### decrease recipe num
@@ -509,7 +509,7 @@ postData
 response
 ```
 {
-	msg: string (I only need status code, actually)
+	price: string
 }
 ```
 ### Favourite List
