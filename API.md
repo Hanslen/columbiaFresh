@@ -315,7 +315,31 @@ response
 }
 ```
 
-### 
+#### place order
+
+url
+
+```
+POST /placeOrder
+```
+
+parameters
+
+```
+{
+	token: string,
+	uid: int, user id
+}
+```
+
+response
+
+```
+{
+    state: 'success'|'fail'
+    message: string
+}
+```
 
 #### get user orders
 url
@@ -332,24 +356,18 @@ data:
 ```
 response
 ```
-<<<<<<< HEAD
-msg:[{
-=======
 {
->>>>>>> development
-  orderPlaceDate: string,
-  totalPrice: string,
-  shipTo: string,
-  orderID: string,
-  deliveredDate: string,
-  soldBy: string,
-  title: string,
-  img: string
-<<<<<<< HEAD
-}]
-=======
+	msg:[{
+		orderPlaceDate: string,
+		totalPrice: string,
+		shipTo: string,
+		orderID: string,
+		deliveredDate: string,
+		soldBy: string,
+		title: string,
+		img: string
+	}]
 }
->>>>>>> development
 
 ```
 #### get user order by orderID
