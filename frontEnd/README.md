@@ -23,8 +23,7 @@ npm start
 
 #### ToBeDone
 
-- like without login
-- Add to cart without login
+- search pages
 
 
 

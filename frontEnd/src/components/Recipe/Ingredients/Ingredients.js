@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from '../../../axios-config';
+import { setAlert } from '../../../store/actions/index';
 
 class Ingredients extends React.Component {
 
@@ -10,9 +11,14 @@ class Ingredients extends React.Component {
         this.state = { message: '' };
         
         this.handleAdd = this.handleAdd.bind(this);
+        this.viewCart = this.viewCart.bind(this);
     }
 
     handleAdd() {
+        if (!this.props.token) {
+            this.props.setAlert("Please log in first", true);
+            return;
+        }
         let saveMsg = (message) => this.setState({
             message: 'add successfully!'
         });
@@ -26,6 +32,10 @@ class Ingredients extends React.Component {
         }).catch(function (error) {
             console.log(error);
         });
+    }
+
+    viewCart() {
+        this.props.history.push("/myprofile#shoppingcart");
     }
 
     render() {
@@ -46,14 +56,13 @@ class Ingredients extends React.Component {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Continue browsing</button>
-                            <Link to="/" style={{"textDecoration": "none"}}>
-                                <button type="button" className="btn btn-primary" data-dismiss="modal">View shopping cart</button>
-                            </Link>
+                            <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.viewCart}>View shopping cart</button>
                         </div>
                     </div>
                 </div>
             </div>
         );
+        let target = this.props.token ? "#addToCartModal" : "#";
         return (
             <div className="mt-3">
                 <div className="row">
@@ -70,7 +79,7 @@ class Ingredients extends React.Component {
                 <hr className="mt-1 mb-1"/>
                 <ul className="list-group list-group-flush">{listItems}</ul>
                 <button className="btn btn-info float-right" 
-                    data-toggle="modal" data-target="#addToCartModal"
+                    data-toggle="modal" data-target={target}
                     onClick={this.handleAdd} >
                     Add to cart
                 </button>
@@ -87,4 +96,12 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(Ingredients);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setAlert: (error, isError) => {
+            dispatch(setAlert(error, isError))
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Ingredients));
