@@ -1,7 +1,9 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from '../../axios-config';
 import ShoppingCart from '../Account/ShoppingCart/ShoppingCart';
+import { setAlert } from '../../store/actions/index';
 
 class Order extends React.Component {
 
@@ -26,10 +28,21 @@ class Order extends React.Component {
     }
 
     componentDidMount() {
-        let saveName = (firstname, lastname) => this.setState({ 
-            firstname,
-            lastname
-        });
+        console.log('orderPage mount');
+        let alertrAndRedirect = () => {
+            this.props.setAlert("Please complete your profile first", true, "/myprofile#settings");
+        };
+
+        let saveName = (firstname, lastname) => {
+            if (!firstname || !lastname) {
+                alertrAndRedirect();
+            } else {
+                this.setState({ 
+                    firstname,
+                    lastname
+                });
+            }
+        };
         axios.post('/settings/basic', {
             token: this.props.token,
             userId: this.props.uid
@@ -41,13 +54,19 @@ class Order extends React.Component {
             console.log(error);
         });
 
-        let saveAddr = (data) => this.setState({ 
-            streetAddress1: data.streetAddress1,
-            streetAddress2: data.streetAddress2,
-            city: data.city,
-            state_province_region: data.state_province_region,
-            zipCode: data.zipCode
-        });
+        let saveAddr = (data) => {
+            if (!data.streetAddress1 || !data.city || !data.state_province_region || !data.zipCode) {
+                alertrAndRedirect();
+            } else {
+                this.setState({ 
+                    streetAddress1: data.streetAddress1,
+                    streetAddress2: data.streetAddress2,
+                    city: data.city,
+                    state_province_region: data.state_province_region,
+                    zipCode: data.zipCode
+                });
+            }
+        };
         axios.post('/settings/address', {
             token: this.props.token,
             userId: this.props.uid
@@ -59,7 +78,13 @@ class Order extends React.Component {
             console.log(error);
         });
 
-        let saveCredit = (cardNumber) => this.setState({ cardNumber });
+        let saveCredit = (cardNumber) => {
+            if (!cardNumber) {
+                alertrAndRedirect();
+            } else {
+                this.setState({ cardNumber });
+            }
+        };
         axios.post('/settings/getcredit', {
             token: this.props.token,
             userId: this.props.uid
@@ -77,6 +102,7 @@ class Order extends React.Component {
             uid: this.props.uid
         }).then(function (response) {
             console.log(response);
+            this.props.history.push("/myorder/"+response.data.orderId);
         }).catch(function (error) {
             console.log(error);
         });
@@ -170,4 +196,10 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(Order);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setAlert: (error, isError, redirect) => dispatch(setAlert(error, isError, redirect))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Order));

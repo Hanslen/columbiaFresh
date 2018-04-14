@@ -22,7 +22,7 @@ class Ingredients extends React.Component {
             rid: this.props.rid
         }).then(function (response) {
             console.log(response);
-            saveMsg(response.data.message)
+            saveMsg(response.data.message);
         }).catch(function (error) {
             console.log(error);
         });
@@ -38,7 +38,7 @@ class Ingredients extends React.Component {
         );
 
         let modal = (
-            <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="addToCartModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-body">
@@ -70,7 +70,7 @@ class Ingredients extends React.Component {
                 <hr className="mt-1 mb-1"/>
                 <ul className="list-group list-group-flush">{listItems}</ul>
                 <button className="btn btn-info float-right" 
-                    data-toggle="modal" data-target="#exampleModal"
+                    data-toggle="modal" data-target="#addToCartModal"
                     onClick={this.handleAdd} >
                     Add to cart
                 </button>
