@@ -133,6 +133,7 @@ export const authLogIn = (email, password) => {
                     dispatch(setAuthError("Connection Failed!"));
                 }
                 else{
+                    dispatch(authFail(error.response.data.errorInfo));
                     dispatch(setAuthError(error.response.data.errorInfo));
                 }
             });

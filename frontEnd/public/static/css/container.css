@@ -99,8 +99,7 @@ li.borderless {
     border-radius: 10px;
     border-color: rgb(175, 175, 175);
     background-color: rgb(175, 175, 175);
-    margin: 0 3px;
-    /* padding: 3px 5px;  */
+    margin: 5px 8px;
     padding: 5px 8px;
     color: white;
 }
@@ -110,9 +109,8 @@ li.borderless {
     border-radius: 10px;
     border-color: #E74C3C;
     background-color: #E74C3C;
-    margin: 0 3px;
+    margin: 5px 8px;
     color: white;
-    /* padding: 3px 5px;  */
     padding: 5px 8px;
 }
 .sidebar-item {

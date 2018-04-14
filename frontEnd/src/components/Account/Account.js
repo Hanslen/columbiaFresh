@@ -8,7 +8,22 @@ import MyRecipes from '../MyRecipes/MyRecipes';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { stat } from 'fs';
+import Axios from '../../axios-config';
 class account extends Component{
+    state = {
+        shoppingCart: null
+    }
+    componentWillMount(){
+        const postData = {
+            uid: this.props.userId,
+            token: this.props.token
+        }
+        Axios.post('/shoppingCart', postData).then(response=>{
+            this.setState({shoppingCart: response.data});
+        }).catch(function(error){
+            // console.log(error.response);
+        });
+    }
     render(){
         if(!this.props.isAuthenticated){
             this.props.history.push('/');
@@ -20,7 +35,7 @@ class account extends Component{
                     <div className="tab-content" id="nav-tabContent">
                         <MyOrders/>
                         <FavoriteList/>
-                        <ShoppingCart displayClass="tab-pane fade" items={null}/>
+                        <ShoppingCart displayClass="tab-pane fade" items={this.state.shoppingCart}/>
                         <MyRecipes/>
                         <Settings/>
                     </div>
@@ -31,7 +46,9 @@ class account extends Component{
 }
 const mapStateToProps = state => {
     return {
-        isAuthenticated: localStorage.getItem("email") != null
+        isAuthenticated: localStorage.getItem("email") != null,
+        userId: localStorage.getItem("uid"),
+        token: localStorage.getItem("token")
     }
 }
 export default connect(mapStateToProps, null)(withRouter(account));
