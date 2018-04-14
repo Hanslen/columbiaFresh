@@ -194,7 +194,8 @@ GET /page
 parameters
 ```
 {
-	query: string
+	query: string,
+	perPage: int
 }
 ```
 
