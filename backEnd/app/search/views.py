@@ -70,7 +70,11 @@ def Search_recipe():
                 }
                 if start <= count:
                     recipes_truncated.append(json)
+                    if len(recipes_truncated) > perPage:
+                        break
                 count += 1
+            if len(recipes_truncated) > perPage:
+                break
         json = {
             "recipes" : recipes_truncated
         }
