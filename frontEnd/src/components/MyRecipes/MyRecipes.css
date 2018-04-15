@@ -32,22 +32,49 @@
     color: #0066c0;
     font-size: 1.0em;
 }
-.folderContent{
+/* .folderContent{
     box-shadow: 0 0 0 1px #eee;
     background-color: white;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-}.folderItem{
+}. */
+.folderContent{
+    /* box-shadow: 0 0 0 1px #eee; */
+    /* background-color: white; */
+    
+    /* background-color: #eee; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.folderContent a{
+    background-color: white;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    display: flex;
+    justify-content: flex-start;
+}
+.borderBox{
+    margin: 10px 10px 0 10px;
+    /* border: 3px solid #E74C3C; */
+    padding: 10px 0 10px 0;
+}
+.folderItem{
     width: 200px;
     height: 200px;
     margin: 10px 10px 0 10px;
     background-size: cover;
     /* margin-bottom: 50px; */
     position: relative;
+    justify-content: flex-start;
 }
 .folderItem p{
+    display: flex;
     color:white;
     /* background-color:#C0392B; */
     width: 100%;
@@ -70,16 +97,23 @@
 }
 .subFolder{
     height: 30px;
-    width: 200px;
-    background-color:#eee;
-    box-shadow: 0 0 0 1px #eee;
-    margin-left: 10px;
+    width: 100%;
+    /* background-color:#eee; */
+    /* box-shadow: 0 0 0 1px #eee; */
+    /* margin-left: 10px; */
     text-align: center;
     display: flex;
     justify-content: center;
     align-content: center;
     padding: 4px;
+    /* margin-bottom: 10px; */
     /* position: absolute;
     bottom: 20px; */
-    margin-bottom: 10px;
+}
+.subFolder p{
+    width: 80%;
+    margin: 0 auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
 }

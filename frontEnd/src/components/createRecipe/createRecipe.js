@@ -98,7 +98,8 @@ class createRecipe extends Component{
         if(this.state.title == "" || this.state.intro == "" || this.state.ingredients[0][0] == "" || this.props.directions[0] == "" || this.state.notes == ""){
             alert("You must fill all the blanket!");
         }
-        this.props.uploadIng(this.props.token, this.state.title, imgurl, this.state.tags, this.props.userId, this.state.intro, this.state.ingredients, this.props.directions, this.state.notes);
+        console.log(this.state.tags);
+        this.props.uploadIng(this.props.token, this.state.title, imgurl, this.state.selectedTags, this.props.userId, this.state.intro, this.state.ingredients, this.props.directions, this.state.notes);
     }
     addTag = (e) => {
         if (e.key === 'Enter') {

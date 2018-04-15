@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 class orderDetail extends Component{
     state = {
         orderId: null,
-        orders: []
+        orders: null
     }
     componentWillMount(){
         let orderId = this.props.match.params.orderId;
@@ -18,9 +18,8 @@ class orderDetail extends Component{
             token: this.props.token,
             orderId: orderId
         };
-        console.log(postData);
         Axios.post('/getorder', postData).then(response =>{
-            console.log(response);
+            console.log(response.data.msg);
             this.setState({orders: response.data.msg});
         }).catch(error => {
             console.log(error);
