@@ -64,8 +64,9 @@ class shoppingcart extends Component{
         if(this.state.recipes != null && this.state.recipes == 1){
             recipes = <EmptyBox msg="Please connect to network to load order details!"/>
         }
-        if(this.state.recipes != null && this.state.recipes != 1){
+        if(this.state.recipes != null && this.state.recipes != 1 && this.state.recipes != []){
             recipes = this.state.recipes.map((item, id) => {
+                console.log(item);
                 let recipeDetail = item.ingredient.map((detail,idd) => (
                     <div key={detail.title+"ingredint"}>
                     {!this.props.notShow?

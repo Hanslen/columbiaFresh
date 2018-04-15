@@ -1,4 +1,4 @@
-import { SEARCH_KEYWORD, GET_RESULTS } from '../actions/search.js';
+import { SEARCH_KEYWORD, GET_PAGES, GET_RESULTS } from '../actions/search.js';
 
 export const searchReducer = (state='', action) => {
     switch (action.type) {
@@ -9,6 +9,19 @@ export const searchReducer = (state='', action) => {
             return state;
     }
 };
+
+export const pagesReducer = (state={ keyword: '', pages: 0 }, action) => {
+    switch (action.type) {
+        case GET_PAGES:
+            console.log('get '+action.pages+' pages.');
+            return {
+                keyword: action.keyword,
+                pages: action.pages
+            };
+        default:
+            return state;
+    }
+}
 
 export const resultsReducer = (state={ keyword: '', results: [] }, action) => {
     switch (action.type) {
