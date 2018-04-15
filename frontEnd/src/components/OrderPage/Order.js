@@ -97,12 +97,15 @@ class Order extends React.Component {
     }
 
     handlePlace() {
+        let redirect = (url) => {
+            this.props.history.push(url);
+        };
         axios.post('/placeOrder', {
             token: this.props.token,
             uid: this.props.uid
         }).then(function (response) {
             console.log(response);
-            this.props.history.push("/myorder/"+response.data.orderId);
+            redirect("/myorder/"+response.data.orderId);
         }).catch(function (error) {
             console.log(error);
         });
