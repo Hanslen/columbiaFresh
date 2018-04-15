@@ -120,6 +120,10 @@ def placeOrder(customer, content):
                     relation = OrderContainsRecipe(oid=order.oid, rid=recipe.rid, quantity=recipe_in.quantity, price=recipe_price)
                     db.session.add(relation)
                     db.session.commit()
+
+                for recipe_in in recipes:
+                    db.session.delete(recipe_in)
+                    db.session.commit()
                 return("Issue order successfully ^_^", True)
 
     except Exception as e:

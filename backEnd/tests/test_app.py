@@ -58,8 +58,7 @@ class SetUpTest(unittest.TestCase):
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-
-    tests = [SetUpTest("test_login")]
+    tests = [SetUpTest("test_login"), SetUpTest("test_update_address")]
     suite.addTests(tests)
 
     runner = unittest.TextTestRunner(verbosity=2)
