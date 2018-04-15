@@ -184,6 +184,28 @@ response
 }
 ```
 
+#### get number of result pages
+
+url
+```
+GET /page
+```
+
+parameters
+```
+{
+	query: string,
+	perPage: int
+}
+```
+
+response
+```
+{
+	pages: int
+}
+```
+
 #### get recipe search results
 
 url
@@ -194,8 +216,9 @@ GET /search
 parameters
 ```
 {
-	query: string
-	page: int
+	query: string,
+	page: int,
+	perPage: int
 }
 ```
 
@@ -203,17 +226,17 @@ response
 ```
 {
 	recipes: [{
-    	rid: int, recipe id
-    	url: '/recipe/'+id,
-    	imgurl: string, image url
-    	title: string, recipe name
-    	author: string
-    	likes: int,
-    	ingredients: [{
-		name: string,
-		quantity: string
-	}],
-  	}*20]
+		rid: int, recipe id
+		url: '/recipe/'+id,
+		imgurl: string, image url
+		title: string, recipe name
+		author: string
+		likes: int,
+		ingredients: [{
+			name: string,
+			quantity: string
+		}],
+  	}]
 }
 ```
 
@@ -258,7 +281,7 @@ response
 }
 ```
 
-#### add ingredients to shopping cart
+#### add recipes to shopping cart
 
 url
 
@@ -315,7 +338,31 @@ response
 }
 ```
 
-### 
+#### place order
+
+url
+
+```
+POST /placeOrder
+```
+
+parameters
+
+```
+{
+	token: string,
+	uid: int, user id
+}
+```
+
+response
+
+```
+{
+    orderId: string,
+    message: string
+}
+```
 
 #### get user orders
 url
@@ -332,24 +379,18 @@ data:
 ```
 response
 ```
-<<<<<<< HEAD
-msg:[{
-=======
 {
->>>>>>> development
-  orderPlaceDate: string,
-  totalPrice: string,
-  shipTo: string,
-  orderID: string,
-  deliveredDate: string,
-  soldBy: string,
-  title: string,
-  img: string
-<<<<<<< HEAD
-}]
-=======
+	msg:[{
+		orderPlaceDate: string,
+		totalPrice: string,
+		shipTo: string,
+		orderID: string,
+		deliveredDate: string,
+		soldBy: string,
+		title: string,
+		img: string
+	}]
 }
->>>>>>> development
 
 ```
 #### get user order by orderID
@@ -366,7 +407,8 @@ postData
 }
 ```
 response
-```
+```{
+date: string,
 msg:[{
 	recipeId: string,
 	img: string,
@@ -380,6 +422,46 @@ msg:[{
 		price: float,
 		number: int
 	}]
+}]}
+```
+### My recipe
+#### get my recipe tags
+url
+```
+POST /myrecipe/tags
+```
+postData
+```
+{
+	userId: string,
+	token: string
+}
+```
+response
+```
+{
+	tag: [string]
+}
+```
+#### get recipe folder items
+url
+```
+POST /myrecipe/folder
+```
+postData
+```
+{
+	userId: String,
+	token: String,
+	tag: String
+}
+```
+response
+```
+[{
+	id: String,
+        title: String,
+        src: String
 }]
 ```
 
@@ -399,20 +481,82 @@ postData
 
 response
 ```
-{
-  img: string,
-  title: string, 
-  price: string, (single item price)
-  number: int,
-  item: [{
+{[{
       id: int,
       img: string,
       title: string,
       price: float,
-      number: int
+      number: int,
+      ingredient:[{
+      		id: int,
+		img: string,
+		title: string,
+		price: float,
+		number: int
+      }]
    }]
 }
 ```
+#### increase recipe num
+url
+```
+POST /recipe/increasenum
+```
+postData
+```
+{
+	userId: string,
+	token: string,
+	rid: string
+}
+```
+response
+```
+{
+	price: string
+}
+```
+#### decrease recipe num
+url
+```
+POST /recipe/decreasenum
+```
+postData
+```
+{
+	userId: string,
+	token: string,
+	rid: string
+}
+```
+response
+```
+{
+	price: string
+}
+```
+### Favourite List
+#### get favourite list
+url
+```
+POST /getfavouritelist
+```
+postData
+```
+{
+	userId: string,
+	token: string
+}
+```
+response
+```
+[{
+	id: string,
+	title: string,
+	src: string
+}]
+```
+
 
 ### Settings
 #### get basic information
@@ -488,6 +632,7 @@ url
 ```
 POST /settings/update/password
 ```
+
 postData
 ```
 {
