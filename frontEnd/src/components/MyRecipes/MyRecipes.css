@@ -67,11 +67,10 @@
 .folderItem{
     width: 200px;
     height: 200px;
-    margin: 10px 10px 0 10px;
+    /* margin: 10px 10px 0 10px; */
     background-size: cover;
     /* margin-bottom: 50px; */
     position: relative;
-    justify-content: flex-start;
 }
 .folderItem p{
     display: flex;
