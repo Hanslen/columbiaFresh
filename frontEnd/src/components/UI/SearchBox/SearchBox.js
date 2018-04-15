@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from '../../../axios-config';
-import { searchKeyword, searchRecipes } from '../../../store/actions/search';
+import { searchKeyword, searchPages, searchRecipes } from '../../../store/actions/search';
 import classes from './SearchBox.css';
 
 class SearchBox extends Component {
@@ -20,7 +20,9 @@ class SearchBox extends Component {
     }
 
     handleSearch(event) {
-        this.props.onGetResults(this.props.keyword);
+        let perPage = 10;
+        this.props.onGetPages(this.props.keyword, perPage);
+        this.props.onGetResults(this.props.keyword, 1, perPage);
     }
 
     render() {
@@ -53,8 +55,11 @@ const mapDispatchToProps = (dispatch) => {
         onSearch: (keyword) => {
             dispatch(searchKeyword(keyword))
         },
-        onGetResults: (keyword) => {
-            dispatch(searchRecipes(keyword))
+        onGetPages: (keyword, perPage) => {
+            dispatch(searchPages(keyword, perPage))
+        },
+        onGetResults: (keyword, page, perPage) => {
+            dispatch(searchRecipes(keyword, page, perPage))
         }
     }
 }

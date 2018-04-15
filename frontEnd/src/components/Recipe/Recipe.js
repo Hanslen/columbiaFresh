@@ -35,7 +35,7 @@ class Recipe extends React.Component {
             ],
             directions: ['direction1', 'direction2', 'direction3', 'direction4', 'direction5'],
             notes: 'some notes...'
-        }
+        };
 
         this.handleLike = this.handleLike.bind(this);
     }
@@ -96,8 +96,9 @@ class Recipe extends React.Component {
     }
 
     handleSearch(keyword, e) {
+        let perPage = 10;
         this.props.onSearch(keyword);
-        this.props.onGetResults(keyword);
+        this.props.onGetResults(keyword, 1, perPage);
     }
 
     render() {
@@ -194,8 +195,8 @@ const mapDispatchToProps = (dispatch) => {
         onSearch: (keyword) => {
             dispatch(searchKeyword(keyword))
         },
-        onGetResults: (keyword) => {
-            dispatch(searchRecipes(keyword))
+        onGetResults: (keyword, page, perPage) => {
+            dispatch(searchRecipes(keyword, page, perPage))
         },
         setAlert: (error, isError) => {
             dispatch(setAlert(error, isError))

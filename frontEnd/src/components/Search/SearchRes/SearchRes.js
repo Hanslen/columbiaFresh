@@ -1,8 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { searchRecipes } from '../../../store/actions/search';
 
 class SearchRes extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            page: 1
+        };
+
+        this.switchPage = this.switchPage.bind(this);
+    }
+
+    switchPage(page, e) {
+        let perPage = 10;
+        this.setState({ page });
+        this.props.onGetResults(this.props.keyword, page, perPage);
+    }
+
     render() {
         let recipeInfos = this.props.results;
         let listItems = recipeInfos.map(recipeInfo => {
@@ -27,10 +44,12 @@ class SearchRes extends React.Component {
                 )
             }
         );
-        let range = [1, 2, 3, 4, 5]
+
+        let range = [...Array(this.props.pages).keys()]
+        //range = [...Array(5).keys()]
         let pages = range.map(i => 
-            <li key={i} className="page-item">
-                <a className="page-link" href="#">{i}</a>
+            <li key={i+1} className="page-item">
+                <button className="page-link" onClick={(e) => this.switchPage(i+1, e)}>{i+1}</button>
             </li>
         );
         return (
@@ -40,17 +59,17 @@ class SearchRes extends React.Component {
                 <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-center">
                         <li className="page-item">
-                            <a className="page-link" href="#" aria-label="Previous">
+                            <button className="page-link" onClick={(e) => this.switchPage(this.state.page-1, e)}>
                                 <span aria-hidden="true">&laquo;</span>
                                 <span className="sr-only">Previous</span>
-                            </a>
+                            </button>
                         </li>
                         {pages}
                         <li className="page-item">
-                            <a className="page-link" href="#" aria-label="Next">
+                            <button className="page-link" onClick={(e) => this.switchPage(this.state.page+1, e)}>
                                 <span aria-hidden="true">&raquo;</span>
                                 <span className="sr-only">Next</span>
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </nav>
@@ -61,8 +80,17 @@ class SearchRes extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        pages: state.pagesReducer.pages,
         results: state.resultsReducer.results
     };
 };
 
-export default connect(mapStateToProps)(SearchRes);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onGetResults: (keyword, page, perPage) => {
+            dispatch(searchRecipes(keyword, page, perPage))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchRes);
