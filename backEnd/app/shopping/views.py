@@ -59,7 +59,7 @@ def GetEachOrderContent(customer, content):
         else:
             oid = content['orderId']
             items = []
-            order = Order.query.filter(Order.oid == int(oid))
+            order = Order.query.filter(Order.oid == int(oid)).first()
             recipes = OrderContainsRecipe.getOrderRecipe(oid)
             if recipes is not None:
                 for recipe_in in recipes:
