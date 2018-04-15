@@ -408,7 +408,8 @@ postData
 }
 ```
 response
-```
+```{
+date: string,
 msg:[{
 	recipeId: string,
 	img: string,
@@ -422,7 +423,7 @@ msg:[{
 		price: float,
 		number: int
 	}]
-}]
+}]}
 ```
 ### My recipe
 #### get my recipe tags
