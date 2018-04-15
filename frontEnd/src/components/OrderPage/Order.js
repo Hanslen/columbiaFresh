@@ -27,18 +27,28 @@ class Order extends React.Component {
         
         this.handlePlace = this.handlePlace.bind(this);
     }
+
     componentWillMount(){
         const postData = {
             uid: this.props.uid,
             token: this.props.token
         }
-        axios.post('/shoppingCart', postData).then(response=>{
+        axios.post('/shoppingCart', postData)
+        .then(function (response) {
             console.log(response.data);
-            this.setState({shoppingCart: response.data});
+            let prices = response.data.map(item => item.price*item.number);
+            let price = prices.reduce((prev, cur) => prev+cur);
+            this.setState({ 
+                shoppingCart: response.data,
+                item: price,
+                shipping: 2,
+                total: price+2,
+            });
         }).catch(function(error){
-            // console.log(error.response);
+            console.log(error.response);
         });
     }
+
     componentDidMount() {
         console.log('orderPage mount');
         let alertrAndRedirect = () => {
