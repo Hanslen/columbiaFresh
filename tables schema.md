@@ -39,7 +39,6 @@ CREATE TABLE `Columbia_Fresh`.`order` (
   `deliveredDate` DATETIME NULL DEFAULT '2018-12-31 00:00:00',
   `img` LONGTEXT NULL,
   `soldBy` VARCHAR(45) NULL,
-  `isCheckedOut` TINYINT NOT NULL DEFAULT 0,
   `uid` INT(11) NOT NULL AFTER `isCheckedOut`,
   ADD INDEX `customer_makes_an_order_idx` (`uid` ASC);
   ALTER TABLE `Columbia_Fresh`.`order` 
@@ -185,6 +184,8 @@ CREATE TABLE `Columbia_Fresh`.`issue` (
 CREATE TABLE `Columbia_Fresh`.`order_contain_recipes` (
   `oid` INT NOT NULL,
   `rid` INT NOT NULL,
+  `quantity` INT NOT NULL,
+  `recipe_price` DECIMAL(5,2) NOT NULL,
   PRIMARY KEY (`oid`, `rid`),
   INDEX `recipe_in_order_idx` (`rid` ASC),
   CONSTRAINT `order_order_contains_item`
@@ -330,13 +331,13 @@ CREATE TABLE `Columbia_Fresh`.`metric_transform_table` (
 ```
 
 
-### cart_contains_recipe
+### cart
 
 ```
 CREATE TABLE `Columbia_Fresh`.`cart_contains_recipe` (
   `uid` INT(11) NOT NULL,
   `rid` INT(11) NOT NULL,
-  `quantity` INT(10) NOT NULL,
+  `quantity` INT(11) NOT NULL,
   PRIMARY KEY (`uid`, `rid`),
   INDEX `recipe_cart_contains_recipe_idx` (`rid` ASC),
   CONSTRAINT `cart_cart_contains_recipe`

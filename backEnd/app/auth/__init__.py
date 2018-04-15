@@ -19,6 +19,7 @@ def check_token(func):
                 return make_response(jsonify({'errorInfo': str(msg)}), 401)
 
         except Exception as e:
+            print(str(e))
             return make_response(jsonify({'errorInfo': str(e)}), 401)
 
     wrapper.__name__ = func.__name__

@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import * as classes from './alertBox.css';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+
 import * as actions from '../../../store/actions/index';
-class alertBox extends Component{
+import * as classes from './alertBox.css';
+
+class alertBox extends Component {
+
     closeBox = () => {
         this.props.closeAlert();
+        if (this.props.redirect) {
+            this.props.history.push(this.props.redirect);
+        }
     }
-    render(){
+
+    render() {
         return (
             <div id={classes.alertModal} className={classes.alertModalBox} style={this.props.display}>
                 <div className={classes.alertmodalcontent}>
@@ -23,16 +31,20 @@ class alertBox extends Component{
         );
     }
 }
+
 const mapStateToProps = state => {
     return {
         alertMsg: state.auth.error,
         display: state.auth.alertDisplay,
-        isError: state.auth.isError
+        isError: state.auth.isError,
+        redirect: state.auth.redirect
     };
 }
+
 const mapDispatchToProps = dispatch => {
     return {
         closeAlert: () => dispatch(actions.closeAlert())
     };
 }
-export default connect(mapStateToProps, mapDispatchToProps)(alertBox);
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(alertBox));

@@ -31,7 +31,7 @@ class Customer(db.Model):
     def generate_confirm_token(self, expires_in=3600*24):
         return self.generate_token(expires_in)
 
-    def generate_token(self, expires_in=3600):
+    def generate_token(self, expires_in=3600*1000):
         s = Serializer(app.config['SECRET_KEY'], expires_in=expires_in)
         data = s.dumps({'id': self.uid})
         u8 = data.decode("utf-8")

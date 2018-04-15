@@ -6,6 +6,44 @@ from ..search_models import Ingredient, Ingredient_in_recipe
 from ..models import Customer
 from ..auth import check_token, return_format
 
+@app.route('/myrecipe/folder', methods=['POST'])
+@check_token
+def GetRecipeFolder(customer, content):
+    try:
+        lis = Recipe.get_recipe_by_uid(customer.uid)
+
+        result = []
+        for recipe in lis:
+            if recipe.has_tag(content['tag']) is True:
+                json = {}
+                json['id'] = recipe.rid
+                json['title'] = recipe.title
+                json['src'] = recipe.img
+                result.append(json)
+
+        return (result, True)
+
+    except Exception as e:
+        print (e)
+        return (str(e), False)
+
+@app.route('/myrecipe/tags', methods=['POST'])
+@check_token
+def GetRecipeTags(customer, content):
+    try:
+        json = {}
+        my_recipes = Recipe.get_recipe_by_uid(customer.uid)
+        tags = set()
+        for recipe in my_recipes:
+            cate = recipe.find_cat()
+            for item in cate:
+                tags.add(item)
+        json['tags'] = list(tags)
+        return (json, True)
+
+    except Exception as e:
+        print (e)
+        return (str(e), False)
 
 @app.route('/getRecipe', methods=['POST'])
 @return_format
@@ -87,7 +125,7 @@ def Like_recipe(customer, content):
     try:
         rid = content['rid']
         uid = str(customer.uid)
-        curLike = content['like']
+        curLike = str(content['like'])
 
         if curLike.lower() == "false":
             curLike = False
@@ -96,14 +134,13 @@ def Like_recipe(customer, content):
         else:
             curLike = ""
 
-
         isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
         recipe_content = Recipe.get_recipe(rid)
 
-        if isLiked and not curLike:
+        if isLiked and curLike:
             if Customer_like_recipe.remove_customer_like(uid, rid):
                 isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
-                if isLiked == curLike:
+                if isLiked != curLike:
                     state = "success"
                     message = "The record is modified!"
                     likes = Recipe.get_recipe(rid).likes
@@ -125,10 +162,10 @@ def Like_recipe(customer, content):
                         "isLiked": isLiked
                     }
                     return (json, False)
-        elif not isLiked and curLike:
+        elif not isLiked and not curLike:
             if Customer_like_recipe.add_customer_like(uid, rid):
                 isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
-                if isLiked == curLike:
+                if isLiked != curLike:
                     state = "success"
                     message = "The record is modified!"
                     likes = Recipe.get_recipe(rid).likes

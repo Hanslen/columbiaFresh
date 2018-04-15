@@ -10,7 +10,8 @@ const initialState = {
     authRedirectPath: '/',
     userId: null,
     token: null,
-    img: "http://via.placeholder.com/600x400"
+    img: "http://via.placeholder.com/600x400",
+    redirect: ""
 };
 
 const closeAlert = (state, action) => {
@@ -25,7 +26,8 @@ const setAlert = (state, action) => {
         {
             error: action.error,
             alertDisplay: {"display": "block"},
-            isError: action.isError
+            isError: action.isError,
+            redirect: action.redirect
         });
 }
 

@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom';
 import Axios from '../../../axios-config';
 import * as actions from '../../../store/actions/index';
 import {connect} from 'react-redux';
+import Spinner from '../../UI/Spinner/Spinner';
 class orderDetail extends Component{
     state = {
         orderId: null,
-        orders: []
+        orders: [],
+        date: ""
     }
     componentWillMount(){
         let orderId = this.props.match.params.orderId;
@@ -18,26 +20,24 @@ class orderDetail extends Component{
             token: this.props.token,
             orderId: orderId
         };
-        console.log(postData);
         Axios.post('/getorder', postData).then(response =>{
-            console.log(response);
-            this.setState({orders: response.data.msg});
+            console.log(response.data);
+            this.setState({orders: response.data.msg, date: response.data.date});
         }).catch(error => {
             console.log(error);
             this.props.setAlert("Network error! Please check connection!", true);
             this.setState({orders: 1});
         });
     }
-    componentDidMount(){
-        
-
+    print = () => {
+        console.log(this.state.loadingd);
     }
     render(){
         return (
-        <div className={classes.greyBg}>
+            <div className={classes.greyBg}>
             <br/>
             <div className={classes.orderHeader}>
-                <h3>OrderID {this.state.orderId} <span className={classes.orderDate}>Feb 10th 2018</span></h3>
+                <h3>OrderID {this.state.orderId} <span className={classes.orderDate}>{this.state.date}</span></h3>
             </div>
             <Shoppingcart notShow={true} items={this.state.orders}/>
             <div className={classes.orderHeader}>
@@ -45,7 +45,9 @@ class orderDetail extends Component{
             </div>
             <br/><br/>
             <br/><br/>
-        </div>);
+        
+        </div>
+    );
     }
 }
 const mapStateToProps = state => {

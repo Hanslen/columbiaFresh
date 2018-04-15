@@ -7,6 +7,7 @@ import Directions from './Directions/Directions';
 import Reservation from '../Reservation/Reservation';
 import Notes from './Notes/Notes';
 import { searchKeyword, searchRecipes } from '../../store/actions/search';
+import { setAlert } from '../../store/actions/index';
 
 class Recipe extends React.Component {
 
@@ -34,7 +35,7 @@ class Recipe extends React.Component {
             ],
             directions: ['direction1', 'direction2', 'direction3', 'direction4', 'direction5'],
             notes: 'some notes...'
-        }
+        };
 
         this.handleLike = this.handleLike.bind(this);
     }
@@ -73,6 +74,10 @@ class Recipe extends React.Component {
     }
 
     handleLike() {
+        if (!this.props.token) {
+            this.props.setAlert("Please log in first", true);
+            return;
+        }
         let saveLike = (likes, isLiked) => this.setState({
             likes,
             isLiked
@@ -86,13 +91,14 @@ class Recipe extends React.Component {
             console.log(response);
             saveLike(response.data.likes, response.data.isLiked);
         }).catch(function (error) {
-            console.log(error);
+            console.log(error.response);
         });
     }
 
     handleSearch(keyword, e) {
+        let perPage = 10;
         this.props.onSearch(keyword);
-        this.props.onGetResults(keyword);
+        this.props.onGetResults(keyword, 1, perPage);
     }
 
     render() {
@@ -111,8 +117,8 @@ class Recipe extends React.Component {
         let tagItems = this.state.tags.map(tag => {
             let tagURL = "/search?"+tag;
             return (
-                <Link to={tagURL} key={tagURL} style={{"textDecoration": "none"}}>
-                    <span key={tag} className="tag" 
+                <Link to={tagURL} className="selectedTag" key={tagURL} style={{"textDecoration": "none"}}>
+                    <span key={tag}
                         onClick={(e) => this.handleSearch(tag, e)}>
                         {tag}
                     </span>
@@ -125,7 +131,7 @@ class Recipe extends React.Component {
             <div>
                 <Link to={authorURL} style={{"textDecoration": "none"}}>
                     <div className="media mt-3 mb-2">
-                        <img className="mr-3 rounded-circle" src={this.state.avatar} />
+                        <img className="mr-3 rounded-circle" src={this.state.avatar} style={{width:"40px", height:"40px"}}/>
                         <div className="media-body" style={{lineHeight: 40+'px'}}>
                             {this.state.author}
                         </div>
@@ -153,7 +159,10 @@ class Recipe extends React.Component {
                         <img src={this.state.img} />
 
                         {likeInfo}
-                        {tagItems}
+                        
+                        <div className="tagsClass">
+                            {tagItems}
+                        </div>
                         {authorInfo}
 
                         <Ingredients rid={this.state.rid} 
@@ -186,8 +195,11 @@ const mapDispatchToProps = (dispatch) => {
         onSearch: (keyword) => {
             dispatch(searchKeyword(keyword))
         },
-        onGetResults: (keyword) => {
-            dispatch(searchRecipes(keyword))
+        onGetResults: (keyword, page, perPage) => {
+            dispatch(searchRecipes(keyword, page, perPage))
+        },
+        setAlert: (error, isError) => {
+            dispatch(setAlert(error, isError))
         }
     }
 }

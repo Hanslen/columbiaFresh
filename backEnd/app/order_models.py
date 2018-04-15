@@ -3,10 +3,10 @@ import datetime
 
 class OrderContainsRecipe(db.Model):
     __tablename__ = 'order_contain_recipes'
-    oid = db.Column( db.Integer, db.ForeignKey('order.oid'), primary_key=True)
-    rid = db.Column('rid', db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
-    quantity = db.Column('quantity', db.Integer, nullable=False)\
-    # need to add an item recipe price
+    oid = db.Column(db.Integer, db.ForeignKey('order.oid'), primary_key=True)
+    rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
+    quantity = db.Column(db.Integer, nullable=False)
+    recipe_price = db.Column(db.DECIMAL)
 
     @staticmethod
     def getOrderRecipe(oid):
@@ -17,6 +17,12 @@ class OrderContainsRecipe(db.Model):
         else:
             return temp
 
+    def __init__(self, oid, rid, quantity, price):
+        self.oid = oid
+        self.rid = rid
+        self.quantity = quantity
+        self.recipe_price = price
+
 class Order(db.Model):
     __tablename__ = 'order'
     oid = db.Column(db.Integer, nullable=False, primary_key=True)
@@ -25,13 +31,11 @@ class Order(db.Model):
     deliveredDate = db.Column(db.DateTime)
     img = db.Column(db.Text)
     soldBy = db.Column(db.String(45))
-    isCheckedOut = db.Column(db.Boolean, nullable=False)
     uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), nullable=False)
 
     def __init__(self, uid):
         self.orderPlaceDate = datetime.datetime.now()
         self.uid = uid
-        self.isCheckedOut = False
 
     @staticmethod
     def get_orders_by_user(uid):
@@ -42,8 +46,4 @@ class Order(db.Model):
         else:
             return temp
 
-class CartContainsRecipes(db.Model):
-    __tablename__ = "cart_contains_recipe"
-    uid = db.Column(db.Integer, db.ForeignKey('customer.uid'), nullable=False, primary_key=True)
-    rid = db.Column(db.Integer, db.ForeignKey('recipe.rid'), primary_key=True)
-    quantity = db.Column(db.Integer, nullable=False)
+

@@ -4,7 +4,8 @@ import MyHeader from '../MyHeader/MyHeader';
 import classes from './ShoppingCart.css';
 import Spinner from '../../UI/Spinner/Spinner';
 import EmptyBox from '../EmptyBox/EmptyBox';
-
+import Axios from '../../../axios-config';
+import {connect} from 'react-redux';
 class shoppingcart extends Component{
     state = {
         loading: true,
@@ -16,7 +17,7 @@ class shoppingcart extends Component{
         //     this.setState({recipes: this.props.item});
         // }
         if(this.props.items == null){
-            this.setState({loading: false, recipes: null});
+            this.setState({loading: false, recipes: []});
         }
     }
     componentWillReceiveProps(nextPros){
@@ -28,13 +29,35 @@ class shoppingcart extends Component{
     addQuantityHandler = (id, recipeId) => {
         let oldState = this.state.recipes;
         oldState[id].number += 1;
+        const postData = {
+            userId: this.props.userId,
+            token: this.props.token,
+            rid: recipeId
+        };
+        console.log(postData);
+        Axios.post("/recipe/increasenum", postData).then(res=>{
+
+        }).catch(err=>{
+            console.log(err.response);
+        });
         this.setState({recipes: oldState});
     }
     substractQuantityHandler = (id, recipeId) => {
         let oldState = this.state.recipes;
         if(oldState[id].number > 1){
             oldState[id].number -= 1;
+            const postData = {
+                userId: this.props.userId,
+                token: this.props.token,
+                rid: recipeId
+            };
+            Axios.post("/recipe/decreasenum", postData).then(res=>{
+    
+            }).catch(err=>{
+    
+            });
         }
+
         this.setState({recipes: oldState});
     }
     deleteItemHandler = (id,recipeId) => {
@@ -64,10 +87,10 @@ class shoppingcart extends Component{
         if(this.state.recipes != null && this.state.recipes == 1){
             recipes = <EmptyBox msg="Please connect to network to load order details!"/>
         }
-        if(this.state.recipes != null && this.state.recipes != 1){
+        if(this.state.recipes != null && this.state.recipes != 1 && this.state.recipes.length != 0){
             recipes = this.state.recipes.map((item, id) => {
-                let recipeDetail = item.item.map((detail,idd) => (
-                    <div key={detail.id}>
+                let recipeDetail = item.ingredient.map((detail,idd) => (
+                    <div key={detail.title+"ingredint"}>
                     {!this.props.notShow?
                         <div className="row">
                                 <div className="col-md-8">
@@ -102,24 +125,24 @@ class shoppingcart extends Component{
                 ));
                 
                 return(
-                    <div className={classes.item} key={id}>
+                    <div className={classes.item} key={id+"box"}>
                         {!this.props.notShow?
                         <div className="row">
-                            <div className="col-md-8" onClick={() => this.showDetailHandler(item.recipeId)}>
+                            <div className="col-md-8" onClick={() => this.showDetailHandler(item.id)}>
                                 <img src={item.img}/>
                                 <a href="#"><strong>{item.title}</strong></a>
                             </div>
                             <div className="col-md-1">
-                                <a id={classes.deleteBtn} onClick={()=>this.deleteItemHandler(id, item.recipeId)}>Delete</a>
+                                <a id={classes.deleteBtn} onClick={()=>this.deleteItemHandler(id, item.id)}>Delete</a>
                             </div>
                             <div className="col-md-1">
                                 <p><strong style={{color:"#C0392B"}}><font>${parseFloat(item.price * item.number).toFixed(2)}</font></strong></p>
                             </div>
                             <div className="col-md-2">
                                 <p>
-                                    <i className="fas fa-caret-left" onClick={()=>this.substractQuantityHandler(id, item.recipeId)} id={classes.modifyQuantity}></i>
+                                    <i className="fas fa-caret-left" onClick={()=>this.substractQuantityHandler(id, item.id)} id={classes.modifyQuantity}></i>
                                     {item.number}
-                                    <i className="fas fa-caret-right" onClick={()=>this.addQuantityHandler(id, item.recipeId)} id={classes.modifyQuantity}></i>
+                                    <i className="fas fa-caret-right" onClick={()=>this.addQuantityHandler(id, item.id)} id={classes.modifyQuantity}></i>
                                 </p>
                             </div>
                         </div>:
@@ -141,6 +164,7 @@ class shoppingcart extends Component{
                         <div className={classes.detailBox} id={"detail"+item.recipeId} style={{display: "none"}}>
                             <hr style={{marginBottom:"0px"}}/>
                             {recipeDetail}
+                            <br/>
                         </div>
                     </div>
                 )
@@ -152,7 +176,7 @@ class shoppingcart extends Component{
                     <Spinner/>:
                         <div className={classes.shoppingCart}>
                             {recipes}
-                            {!this.props.notShow && !(this.state.items == null)?
+                            {!this.props.notShow && !(this.state.recipes.length == 0)?
                                 <Link to='/placeOrder' className="btn btn-default btn-primary" id={classes.checkOut}>CheckOut</Link>:
                                 <div></div>
                             }
@@ -165,4 +189,10 @@ class shoppingcart extends Component{
         );
     }
 }
-export default shoppingcart;
+const mapStateToProps = state =>{
+    return{
+        userId: localStorage.getItem("uid"),
+        token: localStorage.getItem("token")
+    }
+}
+export default connect(mapStateToProps, null)(shoppingcart);

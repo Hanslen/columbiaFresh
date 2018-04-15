@@ -1,17 +1,8 @@
-from app import app
+from app import app, db
 from ..auth import check_token
 from ..order_models import Order, OrderContainsRecipe
 from ..search_models import Recipe, Ingredient_in_recipe, Ingredient
-
-@app.route('/addToCart', methods=['POST'])
-@check_token
-def AddRecipeToCart(customer, content):
-    try:
-        uid = str(customer.uid)
-        rid = content['rid']
-    except Exception as e:
-        return (str(e), False)
-
+from ..cart_models import Cart
 
 @app.route('/orders', methods=['POST'])
 @check_token
@@ -30,7 +21,9 @@ def GetUserOrders(customer, content):
                     if recipes is not None:
                         first_recipe = Recipe.get_recipe(recipes[0].rid)
                         # Total price should be added
+
                         temp_json = {
+                            "recipe_price": str(),
                             "orderPlaceDate" : str(order.orderPlaceDate),
                             "totalPrice" : calculate_price(recipes),
                             "shipTo" : order.shipTo,
@@ -50,7 +43,10 @@ def GetUserOrders(customer, content):
 
 def calculate_price(recipes):
     price = 0
-    return price
+    for recipe in recipes:
+        price += recipe.recipe_price * recipe.quantity
+
+    return "{}".format(price)
 
 @app.route('/getorder', methods=['POST'])
 @check_token
@@ -63,6 +59,7 @@ def GetEachOrderContent(customer, content):
         else:
             oid = content['orderId']
             items = []
+            order = Order.query.filter(Order.oid == int(oid)).first()
             recipes = OrderContainsRecipe.getOrderRecipe(oid)
             if recipes is not None:
                 for recipe_in in recipes:
@@ -80,13 +77,13 @@ def GetEachOrderContent(customer, content):
                         "recipeId": recipe.rid,
                         "img" : recipe.img,
                         "title" : recipe.title,
-                        # Total price should be added
-                        "price" : "0",
+                        "price" : str(recipe_in.recipe_price * recipe_in.quantity),
                         "number" : recipe_in.quantity,
-                        "item" : ingredients
+                        "ingredient" : ingredients
                     }
                     items.append(temp_json)
             json = {
+                "date" : order.orderPlaceDate,
                 "msg" : items
             }
             return (json, True)
@@ -95,14 +92,47 @@ def GetEachOrderContent(customer, content):
         return (str(e), False)
 
 
-# from app.shopping_model import Order
-# from ..auth import check_token
-#
-# @app.route("/order",methods=['POST'])
-# @check_token
-# def get_order(customer, content):
-#     if customer.uid == int(content['id']):
-#         order_list = Order.find_order_by_user_id()
-#         return (order_list, True)
-#
-#     return ('Customer id not match', False)
+
+@app.route('/placeOrder', methods=['POST'])
+@check_token
+def placeOrder(customer, content):
+    try:
+        uid = str(customer.uid)
+        if uid != content['uid']:
+            error = "Inconsistent user identifier!"
+            return (str(error), False)
+        else:
+            recipes = Cart.getCartRecipe(uid)
+            if recipes is None:
+                return ("Nothing in your cart!", False)
+            else:
+                order = Order(uid)
+                db.session.add(order)
+                db.session.commit()
+
+                for recipe_in in recipes:
+                    recipe = Recipe.get_recipe(recipe_in.rid)
+                    ingredients_list = Ingredient_in_recipe.get_ingredients_in_recipe(recipe_in.rid)
+
+                    recipe_price = 0
+                    for ingr_in in ingredients_list:
+                        item = Ingredient.get_ingredient(ingr_in.iid)
+                        recipe_price += ingr_in.quantity * item.orderPrice
+
+                    relation = OrderContainsRecipe(oid=order.oid, rid=recipe.rid, quantity=recipe_in.quantity, price=recipe_price)
+                    db.session.add(relation)
+                    db.session.commit()
+
+                for recipe_in in recipes:
+                    db.session.delete(recipe_in)
+                    db.session.commit()
+                json = {
+                    "orderId": order.oid,
+                    "message": "Issue order successfully ^_^"
+                }
+                return(json, True)
+
+    except Exception as e:
+        return (str(e), False)
+
+

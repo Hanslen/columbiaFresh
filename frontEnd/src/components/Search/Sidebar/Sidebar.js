@@ -48,8 +48,9 @@ class Sidebar extends React.Component {
     }
 
     handleSearch(keyword, e) {
+        let perPage = 10;
         this.props.onSearch(keyword);
-        this.props.onGetResults(keyword);
+        this.props.onGetResults(keyword, 1, perPage);
     }
 
     render() {
@@ -80,8 +81,8 @@ const mapDispatchToProps = (dispatch) => {
         onSearch: (keyword) => {
             dispatch(searchKeyword(keyword))
         },
-        onGetResults: (keyword) => {
-            dispatch(searchRecipes(keyword))
+        onGetResults: (keyword, page, perPage) => {
+            dispatch(searchRecipes(keyword, page, perPage))
         }
     }
 }

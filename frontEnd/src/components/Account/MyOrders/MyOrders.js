@@ -14,12 +14,13 @@ class myorders extends Component{
         orders: []
     }
     componentWillMount(){
-        console.log("Order will mount"+this.props.userId+" "+this.props.token);
+        // console.log("Order will mount"+this.props.userId+" "+this.props.token);
         const postData = {userId: this.props.userId, token: this.props.token};
-        console.log(postData);
+        // console.log(postData);
         Axios.post("/orders", postData).then(response => {
             this.setState({orders: response.data.msg, loading: false})
         }).catch(err => {
+            console.log(err);
             this.props.setAlert("Please connect to network, then I can get your orders!", true);
             this.setState({loading:false});
         });

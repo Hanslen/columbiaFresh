@@ -2,55 +2,61 @@ import React, {Component} from 'react';
 import classes from './MyRecipes.css';
 import Button from '../UI/Button/Button';
 import { Link } from 'react-router-dom';
+import Axios from '../../axios-config';
+import {connect} from 'react-redux';
+import { stat } from 'fs';
+import Spinner from '../UI/Spinner/Spinner';
 class myRecipes extends Component{
     state= {
-        myFolders:["Breakfast", "Lunch", "Snacks","Dinner", "+ Create a recipe"],
+        loading: true,
+        myFolders:["+ Create a recipe"],
         selectedFolder: "ChineseFood",        
         items: [{
             id: 1,
             title: "Burger:P",
             src: "/static/img/burger.png"
-        },
-        {
-            id: 2,
-            title: "Spicy Porridge",
-            src: "/static/img/breakfast.png"
-        },
-        {
-            id: 3,
-            title: "Amazing burger",
-            src: "/static/img/burger.png"
-        },
-        {
-            id: 4,
-            title: "Very Delicious Porridge",
-            src: "/static/img/breakfast.png"
-        },
-        {
-            id: 5,
-            title: "BBQ",
-            src: "/static/img/bbq2.png"
-        },
-        {
-            id: 6,
-            title: "Vegetable wrap",
-            src: "/static/img/wrap2.png"
-        },
-        {
-            id: 7,
-            title: "Roasted platter",
-            src: "/static/img/lunch.png"
-        },
-        {
-            id: 8,
-            title: "Cheese Sandwich",
-            src: "/static/img/test.png"
         }]
+    }
+    componentDidMount(){
+        const postData = {
+            userId: this.props.userId,
+            token: this.props.token
+        }
+        Axios.post("/myrecipe/tags", postData).then(response=>{
+            let updateFolder = response.data.tags;
+            updateFolder.push("+ Create a recipe");
+            this.setState({myFolders: updateFolder});
+            const postTagData = {
+                userId: this.props.userId,
+                token: this.props.token,
+                tag: updateFolder[0]
+            };
+            Axios.post("/myrecipe/folder", postTagData).then(response=>{
+                this.setState({items: response.data, loading: false});
+
+            }).catch(error => {
+
+            })
+        }).catch(error => {
+            console.log(error.response);
+        });
     }
     activeHandler = (folder) => {
         for(var f in this.state.myFolders){
             $('#my'+this.state.myFolders[f]).removeClass(classes.folderactive);
         }
+        const postData = {
+            userId: this.props.userId,
+            token: this.props.token,
+            tag: folder
+        };
+        console.log(postData);
+        Axios.post("/myrecipe/folder", postData).then(response=>{
+            console.log(response.data);
+            this.setState({items: response.data});
+        }).catch(error => {
+            console.log(error);
+        });
         $('#my'+folder).addClass(classes.folderactive);
         this.setState({selectedFolder:folder});
     }
@@ -61,7 +67,7 @@ class myRecipes extends Component{
         let folderCss = ["fas", "fa-folder-open",classes.folderIcon];
         let folderA = ["list-group-item", classes.foldera];
         let folders = this.state.myFolders.map((folder,id) => {
-            if(id == 0){
+            if(id == 0 && this.state.myFolders.length != 1){
                 return(<a className={folderA.concat(classes.folderactive).join(" ")} key={folder} onClick={(id)=>this.activeHandler(folder)} id={"my"+folder}><i className={folderCss.join(" ")}></i>{folder}</a>);
             }
             else if(id == this.state.myFolders.length-1){
@@ -91,32 +97,45 @@ class myRecipes extends Component{
         // ));
         let recipes = this.state.items.map(item => {
             let imgUrl = "url("+item.src+")";
+            let linkUrl = "/recipe/"+item.id;
             return(
-                <div key={item.id}>
+
+                <Link to={linkUrl} key={item.id}>
+                <div className={classes.borderBox}>
                     <div className={classes.folderItem} style={{backgroundImage:imgUrl}}>
                     </div>
                     <div className={classes.subFolder}>
                         <p>{item.title}</p>
                     </div>
-                </div>);
+                </div></Link>);
         });
-        return (
-            <div className="tab-pane fade" id="nav-myRecipes" role="tabpanel" aria-labelledby="nav-myRecipes-tab">
-                <div className="row">
-                    <div className="col-3">
-                        <div className="list-group" id="list-tab" role="tablist">
-                            {folders}
-                         </div>
-                    </div>
-                    <div className="col-9">
-                        <div className={classes.folderContent}>
-                            {recipes}
-                        </div>
+        return (<div className="tab-pane fade" id="nav-myRecipes" role="tabpanel" aria-labelledby="nav-myRecipes-tab">
+            {this.state.loading?
+            <Spinner/>:
+            <div>
+            <div className="row">
+                <div className="col-3">
+                    <div className="list-group" id="list-tab" role="tablist">
+                        {folders}
+                     </div>
+                </div>
+                <div className="col-9">
+                    <div className={classes.folderContent}>
+                        {recipes}
                     </div>
                 </div>
-                <br/>
+            </div>
+            <br/>
+        </div>
+        }
             </div>
         );
     }
 }
-export default myRecipes;
+const mapStateToPros = state => {
+    return {
+        userId: localStorage.getItem("uid"),
+        token: localStorage.getItem("token")
+    }
+};
+export default connect(mapStateToPros, null)(myRecipes);

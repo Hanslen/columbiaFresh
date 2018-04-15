@@ -3,6 +3,7 @@ from flask import request, jsonify
 from collections import defaultdict
 import difflib
 import re
+import math
 from ..search_models import Recipe
 from ..search_models import Ingredient, Ingredient_in_recipe
 from ..models import Customer
@@ -22,6 +23,22 @@ def Get_hot_menu():
         print(e)
         return (str(e), False)
 
+@app.route('/page', methods=['GET'])
+@return_format
+def Get_Search_Results_Pages():
+    try:
+        query = str(request.args.get('query'))
+        perPage = int(request.args.get('perPage'))
+        total_recipes_number = len(Recipe.get_all_recipes())
+        total_pages = math.ceil(total_recipes_number / perPage)
+        json = {
+            'pages' : total_pages
+        }
+        return (json, True)
+    except Exception as e:
+        print(e)
+        return (str(e), False)
+
 
 @app.route('/search', methods=['GET'])
 @return_format
@@ -31,33 +48,33 @@ def Search_recipe():
         query = ProcessSentence(query)
         page_id = request.args.get('page')
         page_id = int(page_id)
-        all_recipes = Recipe.get_all_recipes()
+        perPage = int(request.args.get('perPage'))
         recipes_truncated = []
-        score_recipe = defaultdict()
-        for recipe in all_recipes:
-            score = difflib.SequenceMatcher(a=query.lower(), b=recipe.title.lower()).ratio()
-            score_recipe[score] = defaultdict()
-            score_recipe[score]["id"] = recipe.rid
-            score_recipe[score]["title"] = recipe.title
+        score_recipe = GetScoredRecipes(query)
         sorted_score = sorted(score_recipe, reverse=True)
-        start = 20 * (page_id - 1)
+        start = perPage * (page_id - 1)
         count = 0
         for key in sorted_score:
             item = score_recipe[key]
-            recipe = Recipe.get_recipe(item["id"])
-            author = Customer.get_customer_info(recipe.uid)
-            json = {
-                "rid" : recipe.rid,
-                "url" : "/recipe/" + str(recipe.rid),
-                "imgurl" : recipe.img,
-                "title" : recipe.title,
-                "author" : author.uname,
-                "likes" : recipe.likes,
-                "ingredients" : GetIngredients(recipe.rid)
-            }
-            if start <= count:
-                recipes_truncated.append(json)
-            count += 1
+            for id in item.keys():
+                recipe = Recipe.get_recipe(id)
+                author = Customer.get_customer_info(recipe.uid)
+                json = {
+                    "rid" : recipe.rid,
+                    "url" : "/recipe/" + str(recipe.rid),
+                    "imgurl" : recipe.img,
+                    "title" : recipe.title,
+                    "author" : author.uname,
+                    "likes" : recipe.likes,
+                    "ingredients" : GetIngredients(recipe.rid)
+                }
+                if start <= count:
+                    recipes_truncated.append(json)
+                    if len(recipes_truncated) >= perPage:
+                        break
+                count += 1
+            if len(recipes_truncated) >= perPage:
+                break
         json = {
             "recipes" : recipes_truncated
         }
@@ -97,3 +114,13 @@ def GetIngredients(rid):
         ingredient_json.append(output)
 
     return ingredient_json
+
+def GetScoredRecipes(query):
+    all_recipes = Recipe.get_all_recipes()
+    score_recipe = defaultdict()
+    for recipe in all_recipes:
+        score = difflib.SequenceMatcher(a=query.lower(), b=recipe.title.lower()).ratio()
+        if score not in score_recipe.keys():
+            score_recipe[score] = defaultdict()
+        score_recipe[score][recipe.rid] = recipe.title
+    return score_recipe

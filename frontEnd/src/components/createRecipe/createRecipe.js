@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Input from '../UI/Input/Input';
 import { Link, withRouter } from 'react-router-dom';
-import classes from './createRecipe';
 import Button from '../UI/Button/Button';
 import IngredientBox from './uploadComponent/ingredientBox';
 import { connect } from 'react-redux';
@@ -10,6 +9,7 @@ import Directions from './uploadComponent/directions';
 import Axios from '../../axios-config';
 import AWS from 'aws-sdk';
 import ReactS3 from 'react-s3';
+import * as classes from './createRecipe.css';
 class createRecipe extends Component{
     state = {
         title: "",
@@ -55,50 +55,50 @@ class createRecipe extends Component{
         this.setState({ingredients: this.props.ingredients});
     }
     addPhoto = () => {
-        this.uploadRecipe("https://s3.amazonaws.com/uploadimgstore/shoppingcart.jpg");
-        // var albumBucketName = 'uploadimgstore';
-        // var bucketRegion = 'us-east-1';
-        // var IdentityPoolId = 'us-east-1:e474abd9-e1ae-4f71-ab8e-1c781aa6c075';
+        // this.uploadRecipe("https://s3.amazonaws.com/uploadimgstore/shoppingcart.jpg");
+        var albumBucketName = 'uploadimgstore';
+        var bucketRegion = 'us-east-1';
+        var IdentityPoolId = 'us-east-1:e474abd9-e1ae-4f71-ab8e-1c781aa6c075';
         
-        // AWS.config.update({
-        //   region: bucketRegion,
-        //   credentials: new AWS.CognitoIdentityCredentials({
-        //     IdentityPoolId: IdentityPoolId
-        //   })
-        // });
+        AWS.config.update({
+          region: bucketRegion,
+          credentials: new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: IdentityPoolId
+          })
+        });
         
-        // var s3 = new AWS.S3({
-        //   apiVersion: '2006-03-01',
-        //   params: {Bucket: albumBucketName}
-        // });
-        // let files = document.getElementById('uploadImg').files;
-        // if (!files.length) {
-        //   return alert('Please choose a file to upload first.');
-        // }
-        // let file = files[0];
-        // let fileName = file.name;
-        // let albumPhotosKey = "";
-        // let photoKey = albumPhotosKey + fileName;
-        // let params=  {Bucket: albumBucketName, Key: photoKey, Body: file};
-        // s3.upload(params, function(err, data){
-        //     if(err){
-        //         alert("Fail to upload img");
-        //         console.log(err);
-        //         return ;
-        //     }
-        //     else{
-        //         console.log(data);
-        //         this.uploadRecipe(data.Location);
-        //         return ;
-        //     }
-        // });
+        var s3 = new AWS.S3({
+          apiVersion: '2006-03-01',
+          params: {Bucket: albumBucketName}
+        });
+        let files = document.getElementById('uploadImg').files;
+        if (!files.length) {
+          return alert('Please choose a file to upload first.');
+        }
+        let file = files[0];
+        let fileName = file.name;
+        let albumPhotosKey = "";
+        let photoKey = albumPhotosKey + fileName;
+        let params=  {Bucket: albumBucketName, Key: photoKey, Body: file};
+        s3.upload(params, (err, data) => {
+            if(err){
+                alert("Fail to upload img");
+                console.log(err);
+                return ;
+            }
+            else{
+                console.log(data);
+                this.uploadRecipe(data.Location);
+                return ;
+            }
+        });
       }
       
     uploadRecipe = (imgurl) => {
         if(this.state.title == "" || this.state.intro == "" || this.state.ingredients[0][0] == "" || this.props.directions[0] == "" || this.state.notes == ""){
             alert("You must fill all the blanket!");
         }
-        this.props.uploadIng(this.props.token, this.state.title, imgurl, this.state.tags, this.props.userId, this.state.intro, this.state.ingredients, this.props.directions, this.state.notes);
+        this.props.uploadIng(this.props.token, this.state.title, imgurl, this.state.selectedTags, this.props.userId, this.state.intro, this.state.ingredients, this.props.directions, this.state.notes);
     }
     addTag = (e) => {
         if (e.key === 'Enter') {
@@ -187,7 +187,9 @@ class createRecipe extends Component{
                         <img src={this.state.img} style={{width:"100%"}} onClick={this.uploadImg}/>
                         <input type="file" ref="uploadImg" name="selectedFile" onChange={this.imgOnChange} id="uploadImg" style={{display:"none"}}/>
                         <br/><br/>
-                        {tagItems} 
+                        <div className={classes.tagsClass}>
+                            {tagItems} 
+                        </div>
                             {/* <input type="text" className="addTag" id="addTag" onKeyPress={this.addTag}/> */}
                         {authorInfo}
                         <textarea className="form-control" placeholder="Please enter recipe description." value={this.state.intro} onChange={(e) => this.updateIntro(e)}/>

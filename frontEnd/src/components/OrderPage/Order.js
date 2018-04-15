@@ -1,7 +1,9 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from '../../axios-config';
 import ShoppingCart from '../Account/ShoppingCart/ShoppingCart';
+import { setAlert } from '../../store/actions/index';
 
 class Order extends React.Component {
 
@@ -19,17 +21,40 @@ class Order extends React.Component {
             item: 10.99,
             shipping: 2,
             tax: 0,
-            total: 12.99
+            total: 12.99,
+            shoppingCart: []
         };
         
         this.handlePlace = this.handlePlace.bind(this);
     }
-
-    componentDidMount() {
-        let saveName = (firstname, lastname) => this.setState({ 
-            firstname,
-            lastname
+    componentWillMount(){
+        const postData = {
+            uid: this.props.uid,
+            token: this.props.token
+        }
+        axios.post('/shoppingCart', postData).then(response=>{
+            console.log(response.data);
+            this.setState({shoppingCart: response.data});
+        }).catch(function(error){
+            // console.log(error.response);
         });
+    }
+    componentDidMount() {
+        console.log('orderPage mount');
+        let alertrAndRedirect = () => {
+            this.props.setAlert("Please complete your profile first", true, "/myprofile#settings");
+        };
+
+        let saveName = (firstname, lastname) => {
+            if (!firstname || !lastname) {
+                alertrAndRedirect();
+            } else {
+                this.setState({ 
+                    firstname,
+                    lastname
+                });
+            }
+        };
         axios.post('/settings/basic', {
             token: this.props.token,
             userId: this.props.uid
@@ -41,13 +66,19 @@ class Order extends React.Component {
             console.log(error);
         });
 
-        let saveAddr = (data) => this.setState({ 
-            streetAddress1: data.streetAddress1,
-            streetAddress2: data.streetAddress2,
-            city: data.city,
-            state_province_region: data.state_province_region,
-            zipCode: data.zipCode
-        });
+        let saveAddr = (data) => {
+            if (!data.streetAddress1 || !data.city || !data.state_province_region || !data.zipCode) {
+                alertrAndRedirect();
+            } else {
+                this.setState({ 
+                    streetAddress1: data.streetAddress1,
+                    streetAddress2: data.streetAddress2,
+                    city: data.city,
+                    state_province_region: data.state_province_region,
+                    zipCode: data.zipCode
+                });
+            }
+        };
         axios.post('/settings/address', {
             token: this.props.token,
             userId: this.props.uid
@@ -59,7 +90,13 @@ class Order extends React.Component {
             console.log(error);
         });
 
-        let saveCredit = (cardNumber) => this.setState({ cardNumber });
+        let saveCredit = (cardNumber) => {
+            if (!cardNumber) {
+                alertrAndRedirect();
+            } else {
+                this.setState({ cardNumber });
+            }
+        };
         axios.post('/settings/getcredit', {
             token: this.props.token,
             userId: this.props.uid
@@ -75,9 +112,11 @@ class Order extends React.Component {
         axios.post('/placeOrder', {
             token: this.props.token,
             uid: this.props.uid
-        }).then(function (response) {
+        }).then(response => {
             console.log(response);
-        }).catch(function (error) {
+            this.props.setAlert("Place order successfully! :D", false, "/myorder/"+response.data.orderId);
+            // this.props.history.push("/myorder/"+response.data.orderId);
+        }).catch(error=>{
             console.log(error);
         });
     }
@@ -119,7 +158,7 @@ class Order extends React.Component {
                             </div>
                         </div>
                         <div className="borderBox">
-                            <ShoppingCart displayClass="tab-pane fade active show" style={{marginLeft:"-15%",marginRight:"-15%"}}/>
+                            <ShoppingCart displayClass="tab-pane fade active show" style={{marginLeft:"-15%",marginRight:"-15%"}} notShow={true} items={this.state.shoppingCart}/>
                         </div>
                     </div>
                     <div className="col-3">
@@ -165,9 +204,17 @@ class Order extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        uid: state.auth.userId,
-        token: state.auth.token
+        uid: localStorage.getItem("uid"),
+        token: localStorage.getItem("token")
     };
 };
 
-export default connect(mapStateToProps)(Order);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setAlert: (error, isError, redirect) => {
+            dispatch(setAlert(error, isError, redirect))
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Order));
