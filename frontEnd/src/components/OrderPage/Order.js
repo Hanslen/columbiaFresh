@@ -21,12 +21,24 @@ class Order extends React.Component {
             item: 10.99,
             shipping: 2,
             tax: 0,
-            total: 12.99
+            total: 12.99,
+            shoppingCart: []
         };
         
         this.handlePlace = this.handlePlace.bind(this);
     }
-
+    componentWillMount(){
+        const postData = {
+            uid: this.props.uid,
+            token: this.props.token
+        }
+        axios.post('/shoppingCart', postData).then(response=>{
+            console.log(response.data);
+            this.setState({shoppingCart: response.data});
+        }).catch(function(error){
+            // console.log(error.response);
+        });
+    }
     componentDidMount() {
         console.log('orderPage mount');
         let alertrAndRedirect = () => {
@@ -103,10 +115,10 @@ class Order extends React.Component {
         axios.post('/placeOrder', {
             token: this.props.token,
             uid: this.props.uid
-        }).then(function (response) {
+        }).then(response => {
             console.log(response);
-            redirect("/myorder/"+response.data.orderId);
-        }).catch(function (error) {
+            this.props.setAlert("Place order successfully! :D", false, "/myorder/"+response.data.orderId);
+        }).catch(error=>{
             console.log(error);
         });
     }
@@ -148,7 +160,7 @@ class Order extends React.Component {
                             </div>
                         </div>
                         <div className="borderBox">
-                            <ShoppingCart displayClass="tab-pane fade active show" style={{marginLeft:"-15%",marginRight:"-15%"}}/>
+                            <ShoppingCart displayClass="tab-pane fade active show" style={{marginLeft:"-15%",marginRight:"-15%"}} notShow={true} items={this.state.shoppingCart}/>
                         </div>
                     </div>
                     <div className="col-3">
@@ -194,8 +206,8 @@ class Order extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        uid: state.auth.userId,
-        token: state.auth.token
+        uid: localStorage.getItem("uid"),
+        token: localStorage.getItem("token")
     };
 };
 

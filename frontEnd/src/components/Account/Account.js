@@ -11,7 +11,7 @@ import { stat } from 'fs';
 import Axios from '../../axios-config';
 class account extends Component{
     state = {
-        shoppingCart: null
+        shoppingCart: []
     }
     componentWillMount(){
         const postData = {
@@ -19,6 +19,7 @@ class account extends Component{
             token: this.props.token
         }
         Axios.post('/shoppingCart', postData).then(response=>{
+            console.log(response.data);
             this.setState({shoppingCart: response.data});
         }).catch(function(error){
             // console.log(error.response);
@@ -35,7 +36,7 @@ class account extends Component{
                     <div className="tab-content" id="nav-tabContent">
                         <MyOrders/>
                         <FavoriteList/>
-                        <ShoppingCart displayClass="tab-pane fade" items={this.state.shoppingCart}/>
+                        <ShoppingCart displayClass="tab-pane fade" notShow={false} items={this.state.shoppingCart}/>
                         <MyRecipes/>
                         <Settings/>
                     </div>

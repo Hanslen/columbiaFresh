@@ -117,8 +117,8 @@ class Recipe extends React.Component {
         let tagItems = this.state.tags.map(tag => {
             let tagURL = "/search?"+tag;
             return (
-                <Link to={tagURL} key={tagURL} style={{"textDecoration": "none"}}>
-                    <span key={tag} className="tag" 
+                <Link to={tagURL} className="selectedTag" key={tagURL} style={{"textDecoration": "none"}}>
+                    <span key={tag}
                         onClick={(e) => this.handleSearch(tag, e)}>
                         {tag}
                     </span>
@@ -131,7 +131,7 @@ class Recipe extends React.Component {
             <div>
                 <Link to={authorURL} style={{"textDecoration": "none"}}>
                     <div className="media mt-3 mb-2">
-                        <img className="mr-3 rounded-circle" src={this.state.avatar} />
+                        <img className="mr-3 rounded-circle" src={this.state.avatar} style={{width:"40px", height:"40px"}}/>
                         <div className="media-body" style={{lineHeight: 40+'px'}}>
                             {this.state.author}
                         </div>
@@ -159,7 +159,10 @@ class Recipe extends React.Component {
                         <img src={this.state.img} />
 
                         {likeInfo}
-                        {tagItems}
+                        
+                        <div className="tagsClass">
+                            {tagItems}
+                        </div>
                         {authorInfo}
 
                         <Ingredients rid={this.state.rid} 

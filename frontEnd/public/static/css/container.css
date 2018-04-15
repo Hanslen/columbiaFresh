@@ -153,6 +153,11 @@ li.borderless {
     width: 90%;
     float: left;
 }
+.tagsClass{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
 .addTag{
     border-color: #428bca;
     border-style: solid;

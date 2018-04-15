@@ -7,7 +7,6 @@ class Ingredient(db.Model):
     recipeMetric = db.Column(db.String(100), nullable=False)
     orderPrice = db.Column(db.Float, nullable=False)
     shouldConvert = db.Column(db.Boolean, nullable=False)
-
     @staticmethod
     def get_ingredient(iid):
         temp = Ingredient.query.filter(Ingredient.iid == iid).first()

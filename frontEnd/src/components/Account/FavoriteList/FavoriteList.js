@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import MyHeader from '../MyHeader/MyHeader';
 import classes from './Favorite.css';
 import {Link} from 'react-router-dom';
+import Axios from '../../../axios-config';
+import * as actions from '../../../store/actions/index';
+import { connect } from 'react-redux';
 class favoritelist extends Component{
     state = {
         myFolders: ["My Likes"],
@@ -11,42 +14,18 @@ class favoritelist extends Component{
             id: 1,
             title: "Porridgeeeeeeeeeeeeeeeeeeeee",
             src: "/static/img/breakfast.png"
-        },
-        {
-            id: 2,
-            title: "Spicy Porridge",
-            src: "/static/img/breakfast.png"
-        },
-        {
-            id: 3,
-            title: "Amazing burger",
-            src: "/static/img/burger.png"
-        },
-        {
-            id: 4,
-            title: "Very Delicious Porridge",
-            src: "/static/img/breakfast.png"
-        },
-        {
-            id: 5,
-            title: "BBQ",
-            src: "/static/img/bbq2.png"
-        },
-        {
-            id: 6,
-            title: "Vegetable wrap",
-            src: "/static/img/wrap2.png"
-        },
-        {
-            id: 7,
-            title: "Roasted platter",
-            src: "/static/img/lunch.png"
-        },
-        {
-            id: 8,
-            title: "Cheese Sandwich",
-            src: "/static/img/test.png"
         }]
+    }
+    componentWillMount(){
+        const postData= {
+            userId: this.props.userId,
+            token: this.props.token
+        }
+        Axios.post("/getfavouritelist", postData).then(response => {
+            this.setState({items: response.data});
+        }).catch(error => {
+            this.props.setAlert("Connection Failed", true);
+        });
     }
     activeHandler = (folder) => {
         for(var f in this.state.myFolders){
@@ -70,9 +49,10 @@ class favoritelist extends Component{
         });
         let items = this.state.items.map(item => {
             let imgUrl = "url("+item.src+")";
+            let linkUrl = "/recipe/"+item.id;
             return(
-                <Link to="/recipe/6">
-                <div key={item.id}>
+                <Link to={linkUrl} key={item.id}>
+                <div className={classes.borderBox}>
                     <div className={classes.folderItem} style={{backgroundImage:imgUrl}}>
                     </div>
                     <div className={classes.subFolder}>
@@ -101,4 +81,14 @@ class favoritelist extends Component{
         );
     }
 }
-export default favoritelist;
+const mapStateToProps = state => {
+    return{
+        userId: localStorage.getItem("uid"),
+        token: localStorage.getItem("token")
+    }};
+const mapDispatchToProps = dispatch => {
+    return{
+        setAlert: (error, isError) => dispatch(actions.setAlert(error, isError))
+    };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(favoritelist);

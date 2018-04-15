@@ -59,6 +59,7 @@ def GetEachOrderContent(customer, content):
         else:
             oid = content['orderId']
             items = []
+            order = Order.query.filter(Order.oid == int(oid)).first()
             recipes = OrderContainsRecipe.getOrderRecipe(oid)
             if recipes is not None:
                 for recipe_in in recipes:
@@ -82,6 +83,7 @@ def GetEachOrderContent(customer, content):
                     }
                     items.append(temp_json)
             json = {
+                "date" : order.orderPlaceDate,
                 "msg" : items
             }
             return (json, True)
@@ -120,7 +122,15 @@ def placeOrder(customer, content):
                     relation = OrderContainsRecipe(oid=order.oid, rid=recipe.rid, quantity=recipe_in.quantity, price=recipe_price)
                     db.session.add(relation)
                     db.session.commit()
-                return("Issue order successfully ^_^", True)
+
+                for recipe_in in recipes:
+                    db.session.delete(recipe_in)
+                    db.session.commit()
+                json = {
+                    "orderId": order.oid,
+                    "message": "Issue order successfully ^_^"
+                }
+                return(json, True)
 
     except Exception as e:
         return (str(e), False)
