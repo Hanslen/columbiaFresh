@@ -359,7 +359,6 @@ response
 
 ```
 {
-    state: 'success'|'fail',
     orderId: string,
     message: string
 }
