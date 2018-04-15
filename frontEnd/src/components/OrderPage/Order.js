@@ -29,28 +29,29 @@ class Order extends React.Component {
     }
 
     componentWillMount(){
-        const postData = {
+        let saveCart = (items) => {
+            let prices = items.map(item => item.price*item.number);
+            let price = prices.reduce((prev, cur) => prev+cur);
+            console.log(price);
+            this.setState({ 
+                shoppingCart: items,
+                item: price,
+                shipping: 6,
+                total: price+6,
+            });
+        }
+        axios.post('/shoppingCart', {
             uid: this.props.uid,
             token: this.props.token
-        }
-        axios.post('/shoppingCart', postData)
-        .then(function (response) {
+        }).then(function (response) {
             console.log(response.data);
-            let prices = response.data.map(item => item.price*item.number);
-            let price = prices.reduce((prev, cur) => prev+cur);
-            this.setState({ 
-                shoppingCart: response.data,
-                item: price,
-                shipping: 2,
-                total: price+2,
-            });
+            saveCart(response.data);
         }).catch(function(error){
             console.log(error.response);
         });
     }
 
     componentDidMount() {
-        console.log('orderPage mount');
         let alertrAndRedirect = () => {
             this.props.setAlert("Please complete your profile first", true, "/myprofile#settings");
         };
