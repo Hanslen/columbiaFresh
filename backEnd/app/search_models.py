@@ -102,6 +102,7 @@ class Recipe(db.Model):
     directions = db.Column(db.Text)
     preptime = db.Column(db.Integer)
     uid = db.Column(db.Integer, db.ForeignKey('customer.uid'))
+    isDeleted = db.Column(db.Integer, nullable=False)
 
     def __init__(self, content, dire, uid):
         self.title=content['title'],
