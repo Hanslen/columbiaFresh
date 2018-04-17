@@ -24,6 +24,7 @@ CREATE TABLE `Columbia_Fresh`.`customer` (
   `expirationYear` VARCHAR(2) NULL,
   `img` LONGTEXT NULL,
   `cardName` VARCHAR(50) NULL,
+  `isDeleted` TINYINT NOT NULL DEFAULT '0',
   PRIMARY KEY (`uid`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC));
 
