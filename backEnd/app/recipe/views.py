@@ -51,8 +51,8 @@ def GetRecipe():
     try:
         # read the posted values from the UI
         content = request.json
-        rid = content['rid']
-        uid = content['uid']
+        rid = str(content['rid'])
+        uid = str(content['uid'])
 
         recipe_content = Recipe.get_recipe(rid)
         recipe_cate_ids = Recipe_in_cate.get_recipe_cate(rid)
