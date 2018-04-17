@@ -130,7 +130,7 @@ class Recipe(db.Model):
     @staticmethod
     def get_recipe(rid):
         temp = Recipe.query.filter(Recipe.rid == rid).first()
-        if temp is None:
+        if temp is None or temp.isDeleted == 1:
            print("The object does not exist!")
            return None
         else:
@@ -138,15 +138,19 @@ class Recipe(db.Model):
 
     @staticmethod
     def get_top_5_hot_recipes():
-        recipes_id = Recipe.query.order_by(Recipe.likes.desc()).limit(5).all()
+        recipes = Recipe.query.order_by(Recipe.likes.desc()).all()
         recipesName = []
-        for recipe_id in recipes_id:
-            recipesName.append(recipe_id.title)
+        for recipe in recipes:
+            if recipe.isDeleted == 1:
+                continue
+            recipesName.append(recipe.title)
+            if len(recipesName) > 5:
+                break
         return recipesName
 
     @staticmethod
     def get_all_recipes():
-        return Recipe.query.all()
+        return Recipe.query.filter(Recipe.isDeleted == 0).all()
 
     @staticmethod
     def create_recipe(recipe):
@@ -162,7 +166,7 @@ class Recipe(db.Model):
 
     @staticmethod
     def get_recipe_by_uid(uid):
-        result = Recipe.query.filter(Recipe.uid == uid).all()
+        result = Recipe.query.filter(Recipe.uid == uid).filter(Recipe.isDeleted == 0).all()
         return result
 
     def __repr__(self):
