@@ -166,6 +166,25 @@ response:
 }
 ```
 
+### Delete recipe
+url
+```
+POST /deleteRecipe
+```
+postData
+```
+{	
+	token: String,
+	rid: String
+}
+```
+response:
+```
+{
+	msg: String
+}
+```
+
 ### Search recipes
 
 #### get hot menus (hot search word)
