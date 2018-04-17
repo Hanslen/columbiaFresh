@@ -45,6 +45,7 @@ def GetRecipeTags(customer, content):
         print (e)
         return (str(e), False)
 
+
 @app.route('/getRecipe', methods=['POST'])
 @return_format
 def GetRecipe():
