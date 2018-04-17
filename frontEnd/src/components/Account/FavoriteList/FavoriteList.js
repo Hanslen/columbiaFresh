@@ -24,7 +24,7 @@ class favoritelist extends Component{
         Axios.post("/getfavouritelist", postData).then(response => {
             this.setState({items: response.data});
         }).catch(error => {
-            this.setAlert("Connection Failed", true);
+            this.props.setAlert("Connection Failed", true);
         });
     }
     activeHandler = (folder) => {

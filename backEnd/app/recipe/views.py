@@ -52,8 +52,8 @@ def GetRecipe():
     try:
         # read the posted values from the UI
         content = request.json
-        rid = content['rid']
-        uid = content['uid']
+        rid = str(content['rid'])
+        uid = str(content['uid'])
 
         recipe_content = Recipe.get_recipe(rid)
         recipe_cate_ids = Recipe_in_cate.get_recipe_cate(rid)
@@ -75,13 +75,13 @@ def GetRecipe():
 
         if uid is None or len(uid) == 0:
             json = {
-                "rid": rid,
+                "rid": str(rid),
                 "title": recipe_content.title,
                 "img": recipe_content.img,
                 "likes": recipe_content.likes,
                 "isLiked": False,
                 "tags": categories,
-                "aid": recipe_content.uid,
+                "aid": str(recipe_content.uid),
                 "avatar": author_user_info.img,
                 "author": author_user_info.uname,
                 "description": recipe_content.description,
@@ -97,13 +97,13 @@ def GetRecipe():
         isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
 
         json = {
-            "rid" : rid,
+            "rid" : str(rid),
             "title" : recipe_content.title,
             "img" : recipe_content.img,
             "likes" : recipe_content.likes,
             "isLiked" : isLiked,
             "tags" : categories,
-            "aid" : uid,
+            "aid" : str(uid),
             "avatar" : author_user_info.img,
             "author" : author_user_info.uname,
             "description" : recipe_content.description,

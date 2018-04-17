@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import Axios from '../../axios-config';
+import * as actions from '../actions/index';
 export const addIngredients = () => {
     return {
         type: actionTypes.ADD_INGREDIENT
@@ -67,24 +68,27 @@ export const loadsuggestionIng = () => {
     }
 };
 export const uploadIng = (token, title, img, tag, authorId, description, ingredients, directions, notes) => {
-    const postData = {
-        token: token,
-        title: title,
-        img: img,
-        tag: tag,
-        authorId: authorId,
-        description: description,
-        ingredients: ingredients,
-        directions: directions,
-        notes: notes
-    };
-    Axios.post("/createRecipe", postData).then(res => {
-        alert("Upload recipe successfully :-)");
-    }).catch(err => {
-        console.log(err);
-        alert("Fail to upload the recipe");
-    });
-    return {
-        type: actionTypes.UPLOAD_RECIPE
+    return dispatch => {
+        const postData = {
+            token: token,
+            title: title,
+            img: img,
+            tag: tag,
+            authorId: authorId,
+            description: description,
+            ingredients: ingredients,
+            directions: directions,
+            notes: notes
+        };
+        Axios.post("/createRecipe", postData).then(res => {
+            dispatch(actions.setAlert("pload recipe successfully :-)", false, "/myprofile#myrecipe"));
+            // alert("Upload recipe successfully :-)");
+        }).catch(err => {
+            // alert("Fail to upload the recipe");
+            dispatch(actions.setAlert("Fail to upload the recipe", true));
+        });
+        return {
+            type: actionTypes.UPLOAD_RECIPE
+        }
     }
 }

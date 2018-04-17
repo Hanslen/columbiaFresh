@@ -19,6 +19,10 @@ class myheader extends Component{
             $("#nav-myOrder-tab").trigger("click");
             this.props.history.push("/myprofile");
         }
+        else if(this.props.history.location.hash == "#myrecipe"){
+            $("#nav-myRecipes-tab").trigger("click");
+            this.props.history.push("/myprofile");
+        }
     }
     componentWillReceiveProps(){
         if(this.props.history.location.hash == "#settings"){
@@ -31,6 +35,10 @@ class myheader extends Component{
         }
         else if(this.props.history.location.hash == "#order"){
             $("#nav-myOrder-tab").trigger("click");
+            this.props.history.push("/myprofile");
+        }
+        else if(this.props.history.location.hash == "#myrecipe"){
+            $("#nav-myRecipes-tab").trigger("click");
             this.props.history.push("/myprofile");
         }
     }
