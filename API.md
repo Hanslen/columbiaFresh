@@ -11,7 +11,7 @@ description: Unexpected error
 
 ```
 if status code is 403 or 401:
-return "error msg": string
+return "errorInfo": string
 ```
 
 ### Sign Up
