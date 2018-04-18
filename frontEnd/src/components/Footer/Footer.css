@@ -4,3 +4,7 @@
 #footerBody p{
     color:white;
 }
+#footerBody a{
+    color: white;
+    /* text-decoration: none; */
+}

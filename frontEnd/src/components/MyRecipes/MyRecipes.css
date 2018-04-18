@@ -136,6 +136,7 @@
 
 
 .deleteBtn{
-    opacity: 0;
+    opacity: 0.5;
     display: block;
+    cursor: pointer;
 }

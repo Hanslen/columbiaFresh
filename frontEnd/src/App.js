@@ -14,11 +14,13 @@ import Order from './components/OrderPage/Order';
 import createRecipe from './components/createRecipe/createRecipe';
 import orderDetail from './components/Account/OrderDetail/OrderDetail';
 import my404Component from './components/my404Component';
+import supplier from './components/Supplier/Supplier';
 
 class App extends Component {
   componentWillMount(){
     this.props.onTryAutoSignup();
     this.props.cancelAlert();
+    this.props.initializeIngredients();
   }
 
   render() {
@@ -32,6 +34,7 @@ class App extends Component {
         <Route path="/verifyEmail/:token" exact component={accountManage}/>
         <Route path="/placeorder" exact component={Order}/>
         <Route path="/myorder/:orderId" exact component={orderDetail} />
+        <Route path="/supplier" exact component={supplier} />
         <Route path='*' exact={true} component={my404Component} />
       </Switch>
     );
@@ -53,7 +56,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onTryAutoSignup: () => dispatch(actions.authCheckState()),
-    cancelAlert: () => dispatch(actions.closeAlert())
+    cancelAlert: () => dispatch(actions.closeAlert()),
+    initializeIngredients: () => dispatch(actions.initializeIngredients)
   };
 };
 
