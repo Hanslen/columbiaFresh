@@ -166,7 +166,7 @@ class Recipe(db.Model):
         return result
 
     def __repr__(self):
-        return '<Recipe: rid:{}, uid:{}>'.format(self.rid, self.uid)
+        return '<Recipe: rid:{}, uid:{}, title:{}>'.format(self.rid, self.uid, self.title)
 
 
 class Recipe_category(db.Model):

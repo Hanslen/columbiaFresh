@@ -1,10 +1,11 @@
-from app import app
+from app import app, db
 from flask import request
 import re
 from ..search_models import Recipe, Recipe_category, Recipe_in_cate, Customer_like_recipe
 from ..search_models import Ingredient, Ingredient_in_recipe
 from ..models import Customer
 from ..auth import check_token, return_format
+import os, sys
 
 @app.route('/myrecipe/folder', methods=['POST'])
 @check_token
@@ -237,3 +238,19 @@ def GetIngredients(rid):
         ingredient_json.append(output)
 
     return ingredient_json
+
+@app.route('/deleteRecipe', methods=['POST'])
+@check_token
+def delete_recipe(customer, content):
+    try:
+        rid = int(content['rid'])
+        uid = customer.uid
+        recipe = Recipe.get_recipe(rid)
+        recipe.isDeleted = True
+        return ('Delete your recipe successfully!', True)
+
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
