@@ -501,7 +501,7 @@ postData
 response
 ```
 {[{
-      id: int,
+      recipeId: int,
       img: string,
       title: string,
       price: float,
