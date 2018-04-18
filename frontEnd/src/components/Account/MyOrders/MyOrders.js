@@ -52,30 +52,30 @@ class myorders extends Component{
                     <div className="row" style={{marginLeft:"0px",marginRight:"0px",backgroundColor:"#eee",border: "1px solid #dcdcdc"}}>
                         <div className="col-md-3">
                             <p className={classes.orderSubTitle}>ORDER PLACED<br/>
-                            <strong>{this.state.orders[0].orderPlaceDate}</strong></p>
+                            <strong>{order.orderPlaceDate}</strong></p>
                         </div>
                         <div className="col-md-3">
                              <p className={classes.orderSubTitle}>TOTAL<br/>
-                             <strong>${this.state.orders[0].totalPrice}</strong></p>
+                             <strong>${order.totalPrice}</strong></p>
                         </div>
                         <div className="col-md-3">
                              <p className={classes.orderSubTitle}>SHIPTO<br/>
-                             <strong>{this.state.orders[0].shipTo}</strong></p>
+                             <strong>{this.props.username}</strong></p>
                          </div>
                          <div className="col-md-3">
                              <p className={classes.orderSubTitle}>ORDER ID<br/>
-                             <strong>#{this.state.orders[0].orderID}</strong></p>
+                             <strong>#{order.orderID}</strong></p>
                         </div>
                     </div>
                     <div className="row" style={{marginLeft:"0px",marginRight:"0px", paddingLeft:"20px", border: "1px solid #dcdcdc"}}>
                          <div className="col-md-9">
-                             <h6 className={classes.subStatus}><strong>Delivered {this.state.orders[0].deliveredDate}</strong></h6>
+                             <h6 className={classes.subStatus}><strong>Delivered {order.deliveredDate}</strong></h6>
                             <div className={classes.orderSubLeft}>
-                                <img src={this.state.orders[0].img}/>
+                                <img src={order.img}/>
                                  <div className={classes.description}>
-                                    <Link to={orderUrl}><strong>{this.state.orders[0].title}</strong></Link>
-                                    <p>Sold by: {this.state.orders[0].soldBy}</p>
-                                    <p>${this.state.orders[0].totalPrice}</p>
+                                    <Link to={orderUrl}><strong>{order.title}</strong></Link>
+                                    <p>Sold by: {order.soldBy}</p>
+                                    <p>${order.totalPrice}</p>
                                  </div>
                             </div>
                          </div>
@@ -121,7 +121,8 @@ class myorders extends Component{
 const mapStateToProps = state => {
     return {
         userId: localStorage.getItem("uid"),
-        token: localStorage.getItem("token")
+        token: localStorage.getItem("token"),
+        username: localStorage.getItem("username")
     };
 };
 const mapDispatchToProps = dispatch => {

@@ -5,6 +5,13 @@ const initialIngState = {
     directions: [""],
     suggestIngredients: null
 }
+const initialIngredient = (state, action) => {
+    return updateObject(state, {
+        ingredients: [["", "", ""]],
+        directions: [""]
+    });
+}
+
 const loadsuggestionIngredient = (state, action) => {
     return updateObject(state, {
         suggestIngredients: action.loadsuggestionIngredient
@@ -21,6 +28,7 @@ const addIngredients = (state, action) => {
 const updateType = (state, action) => {
     let oldState = state.ingredients;
     oldState[action.id][0] = action.value;
+    oldState[action.id][2] = action.unit;
     return updateObject(state, {
         ingredients: oldState
     });
@@ -104,6 +112,8 @@ const reducer = (state = initialIngState, action) => {
             return uploadRecipe(state, action);
         case actionTypes.LOAD_SUGGESTIONS_INGREDIENTS:
             return loadsuggestionIngredient(state, action);
+        case actionTypes.INITIALIZE_INGREDIENT:
+            return initialIngredient(state, action);
         default:
             return state;
     }

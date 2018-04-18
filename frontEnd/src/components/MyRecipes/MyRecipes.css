@@ -131,11 +131,12 @@
     
 }
 .borderBox:hover .subFolder{
-    background-color: rgb(226,226,226);
+    /* background-color: rgb(226,226,226); */
 }
 
 
 .deleteBtn{
-    opacity: 0;
+    opacity: 0.5;
     display: block;
+    cursor: pointer;
 }
