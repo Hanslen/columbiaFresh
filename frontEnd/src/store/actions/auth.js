@@ -130,11 +130,13 @@ export const authLogIn = (email, password) => {
             }).catch(error => {
                 console.log(error.response);
                 if(error.response == undefined){
+                    dispatch(logout());
                     dispatch(setAuthError("Connection Failed!"));
                 }
                 else{
                     dispatch(authFail(error.response.data.errorInfo));
                     dispatch(setAuthError(error.response.data.errorInfo));
+                    dispatch(logout());
                 }
             });
     }
@@ -162,16 +164,20 @@ export const authSignUp = (email, username, password) => {
                         console.log(response);
                         $("#signModal .close").click();
                         dispatch(setAlert(response.data, false));
+                        dispatch(logout());
                     }).catch(error=>{
                         console.log(error);
+                        dispatch(logout());
                     });
             })
             .catch(error => {
                 if(error.response == undefined){
                     dispatch(setAuthError("Connection Fail!"));
+                    dispatch(logout());
                 }
                 else{
                     dispatch(setAuthError(error.response.data.errorInfo));
+                    dispatch(logout());
                 }
             });
 
