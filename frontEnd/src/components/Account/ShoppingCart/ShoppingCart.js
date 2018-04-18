@@ -89,6 +89,7 @@ class shoppingcart extends Component{
             id = -1;
         }
         else{
+            console.log("detail"+id);
             document.getElementById("detail"+id).style.display = "block";
         }
         this.setState({selectedId: id});
@@ -100,6 +101,7 @@ class shoppingcart extends Component{
         }
         if(this.state.recipes != null && this.state.recipes != 1 && this.state.recipes.length != 0){
             recipes = this.state.recipes.map((item, id) => {
+                console.log(item);
                 let recipeDetail = item.ingredient.map((detail,idd) => (
                     <div key={detail.title+"ingredint"}>
                     {!this.props.notShow?
@@ -139,21 +141,21 @@ class shoppingcart extends Component{
                     <div className={classes.item} key={id+"box"}>
                         {!this.props.notShow?
                         <div className="row">
-                            <div className="col-md-8" onClick={() => this.showDetailHandler(item.id)}>
+                            <div className="col-md-8" onClick={() => this.showDetailHandler(item.recipeId)}>
                                 <img src={item.img}/>
                                 <a href="#"><strong>{item.title}</strong></a>
                             </div>
                             <div className="col-md-1">
-                                <a id={classes.deleteBtn} onClick={()=>this.deleteItemHandler(id, item.id)}>Delete</a>
+                                <a id={classes.deleteBtn} onClick={()=>this.deleteItemHandler(id, item.recipeId)}>Delete</a>
                             </div>
                             <div className="col-md-1">
                                 <p><strong style={{color:"#C0392B"}}><font>${parseFloat(item.price * item.number).toFixed(2)}</font></strong></p>
                             </div>
                             <div className="col-md-2">
                                 <p>
-                                    <i className="fas fa-caret-left" onClick={()=>this.substractQuantityHandler(id, item.id)} id={classes.modifyQuantity}></i>
+                                    <i className="fas fa-caret-left" onClick={()=>this.substractQuantityHandler(id, item.recipeId)} id={classes.modifyQuantity}></i>
                                     {item.number}
-                                    <i className="fas fa-caret-right" onClick={()=>this.addQuantityHandler(id, item.id)} id={classes.modifyQuantity}></i>
+                                    <i className="fas fa-caret-right" onClick={()=>this.addQuantityHandler(id, item.recipeId)} id={classes.modifyQuantity}></i>
                                 </p>
                             </div>
                         </div>:

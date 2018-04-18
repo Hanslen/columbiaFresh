@@ -1,5 +1,14 @@
 #footerBody{
     background-color:#C0392B;
+    /* position: absolute; */
+    /* bottom: 0; */
+    /* width: 100%; */
+    height: 150px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    top:100%;
 }
 #footerBody p{
     color:white;
