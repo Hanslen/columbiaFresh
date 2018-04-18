@@ -554,6 +554,26 @@ response
 	price: string
 }
 ```
+#### delete shoppingCartItem
+url
+```
+POST /deleteShoppingCartItem
+```
+postData
+```
+{
+	userId: string,
+	token: string,
+	rid: string
+}
+```
+response
+```
+{
+	msg: "Success" | "fail"
+}
+```
+
 ### Favourite List
 #### get favourite list
 url
