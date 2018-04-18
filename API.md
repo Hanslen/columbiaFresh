@@ -11,7 +11,7 @@ description: Unexpected error
 
 ```
 if status code is 403 or 401:
-return "error msg": string
+return "errorInfo": string
 ```
 
 ### Sign Up
@@ -162,6 +162,25 @@ response:
 ```
 {
 	success: Bool (True/False)
+	msg: String
+}
+```
+
+### Delete recipe
+url
+```
+POST /deleteRecipe
+```
+postData
+```
+{	
+	token: String,
+	rid: String
+}
+```
+response:
+```
+{
 	msg: String
 }
 ```
@@ -482,7 +501,7 @@ postData
 response
 ```
 {[{
-      id: int,
+      recipeId: int,
       img: string,
       title: string,
       price: float,
@@ -535,6 +554,26 @@ response
 	price: string
 }
 ```
+#### delete shoppingCartItem
+url
+```
+POST /deleteShoppingCartItem
+```
+postData
+```
+{
+	userId: string,
+	token: string,
+	rid: string
+}
+```
+response
+```
+{
+	msg: "Success" | "fail"
+}
+```
+
 ### Favourite List
 #### get favourite list
 url
