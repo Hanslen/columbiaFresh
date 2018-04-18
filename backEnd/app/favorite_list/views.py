@@ -23,7 +23,7 @@ def GetFavoriteList(customer, content):
                     }
                     liked_recipe.append(json)
                 else:
-                    return ([{}], False)
+                    continue
         return (liked_recipe, True)
     except Exception as e:
         return (str(e), False)

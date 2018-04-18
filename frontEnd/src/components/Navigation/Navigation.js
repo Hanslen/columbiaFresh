@@ -243,6 +243,9 @@ class navigation extends Component{
         if(checkFormValidity(this.state.controls)){
           this.props.onSignUp(this.state.controls.email.value, this.state.controls.username.value, this.state.controls.password.value);
         }
+        else if(this.state.controls.password.value.length < 6){
+          this.props.setAuthError("The min password length is 6.");
+        }
         else{
           this.props.setAuthError("Please type the valid email address");
           return ;
