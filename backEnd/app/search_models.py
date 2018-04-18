@@ -7,6 +7,8 @@ class Ingredient(db.Model):
     recipeMetric = db.Column(db.String(100), nullable=False)
     orderPrice = db.Column(db.Float, nullable=False)
     shouldConvert = db.Column(db.Boolean, nullable=False)
+    img = db.Column(db.TEXT)
+
     @staticmethod
     def get_ingredient(iid):
         temp = Ingredient.query.filter(Ingredient.iid == iid).first()
@@ -22,7 +24,7 @@ class Ingredient(db.Model):
     def show_in_order(self):
         return {
             "id": self.iid,
-            "img": "need to add in db",
+            "img": self.img,
             "title": self.iname,
             "price": self.orderPrice
 	    }
