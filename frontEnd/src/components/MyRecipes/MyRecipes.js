@@ -6,6 +6,7 @@ import Axios from '../../axios-config';
 import {connect} from 'react-redux';
 import { stat } from 'fs';
 import Spinner from '../UI/Spinner/Spinner';
+import * as actions from '../../store/actions/index';
 class myRecipes extends Component{
     state= {
         loading: true,
@@ -60,6 +61,30 @@ class myRecipes extends Component{
         $('#my'+folder).addClass(classes.folderactive);
         this.setState({selectedFolder:folder});
     }
+    
+    deleteRecipe = (id) =>{
+        console.log(id);
+        const postData = {
+            token: this.props.token,
+            rid: id
+        };
+        Axios.post('/deleteRecipe', postData).then(response=>{
+            // console.log(response);
+            const postTagData = {
+                userId: this.props.userId,
+                token: this.props.token,
+                tag: this.state.selectedFolder
+            };
+            Axios.post("/myrecipe/folder", postTagData).then(response=>{
+                this.setState({items: response.data, loading: false});
+                this.props.setAlert("You have delete the recipe successfully!",false);
+            }).catch(error => {
+                this.props.setAlert("You have delete the recipe successfully!",true);
+            })
+        }).catch(error =>{
+            this.props.setAlert("You have delete the recipe successfully!",true);
+        });
+    }
 
 
 
@@ -99,15 +124,17 @@ class myRecipes extends Component{
             let imgUrl = "url("+item.src+")";
             let linkUrl = "/recipe/"+item.id;
             return(
-
-                <Link to={linkUrl} key={item.id}>
+                <div key={item.id}>
                 <div className={classes.borderBox}>
+                <Link to={linkUrl}>
                     <div className={classes.folderItem} style={{backgroundImage:imgUrl}}>
                     </div>
+                </Link>
                     <div className={classes.subFolder}>
-                        <p>{item.title}</p>
+                        <p>{item.title}</p><div className={classes.deleteBtn}><i className="far fa-trash-alt" style={{"marginTop":"3px","marginRight":"2px"}} onClick={(id) => this.deleteRecipe(item.id)}></i></div>
                     </div>
-                </div></Link>);
+                </div>
+                </div>);
         });
         return (<div className="tab-pane fade" id="nav-myRecipes" role="tabpanel" aria-labelledby="nav-myRecipes-tab">
             {this.state.loading?
@@ -138,4 +165,9 @@ const mapStateToPros = state => {
         token: localStorage.getItem("token")
     }
 };
-export default connect(mapStateToPros, null)(myRecipes);
+const mapDispatchToProps = dispatch => {
+    return{
+        setAlert: (error, isError) => dispatch(actions.setAlert(error, isError))
+    };
+}
+export default connect(mapStateToPros, mapDispatchToProps)(myRecipes);
