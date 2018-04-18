@@ -27,20 +27,31 @@ class Order extends React.Component {
         
         this.handlePlace = this.handlePlace.bind(this);
     }
+
     componentWillMount(){
-        const postData = {
+        let saveCart = (items) => {
+            let prices = items.map(item => item.price*item.number);
+            let price = prices.reduce((prev, cur) => prev+cur);
+            console.log(price);
+            this.setState({ 
+                shoppingCart: items,
+                item: price,
+                shipping: 6,
+                total: price+6,
+            });
+        }
+        axios.post('/shoppingCart', {
             uid: this.props.uid,
             token: this.props.token
-        }
-        axios.post('/shoppingCart', postData).then(response=>{
+        }).then(function (response) {
             console.log(response.data);
-            this.setState({shoppingCart: response.data});
+            saveCart(response.data);
         }).catch(function(error){
-            // console.log(error.response);
+            console.log(error.response);
         });
     }
+
     componentDidMount() {
-        console.log('orderPage mount');
         let alertrAndRedirect = () => {
             this.props.setAlert("Please complete your profile first", true, "/myprofile#settings");
         };
@@ -109,13 +120,15 @@ class Order extends React.Component {
     }
 
     handlePlace() {
+        let redirect = (url) => {
+            this.props.history.push(url);
+        };
         axios.post('/placeOrder', {
             token: this.props.token,
             uid: this.props.uid
         }).then(response => {
             console.log(response);
             this.props.setAlert("Place order successfully! :D", false, "/myorder/"+response.data.orderId);
-            // this.props.history.push("/myorder/"+response.data.orderId);
         }).catch(error=>{
             console.log(error);
         });

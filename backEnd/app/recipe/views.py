@@ -1,10 +1,11 @@
-from app import app
+from app import app, db
 from flask import request
 import re
 from ..search_models import Recipe, Recipe_category, Recipe_in_cate, Customer_like_recipe
 from ..search_models import Ingredient, Ingredient_in_recipe
 from ..models import Customer
 from ..auth import check_token, return_format
+import os, sys
 
 @app.route('/myrecipe/folder', methods=['POST'])
 @check_token
@@ -45,14 +46,15 @@ def GetRecipeTags(customer, content):
         print (e)
         return (str(e), False)
 
+
 @app.route('/getRecipe', methods=['POST'])
 @return_format
 def GetRecipe():
     try:
         # read the posted values from the UI
         content = request.json
-        rid = content['rid']
-        uid = content['uid']
+        rid = str(content['rid'])
+        uid = str(content['uid'])
 
         recipe_content = Recipe.get_recipe(rid)
         recipe_cate_ids = Recipe_in_cate.get_recipe_cate(rid)
@@ -74,13 +76,13 @@ def GetRecipe():
 
         if uid is None or len(uid) == 0:
             json = {
-                "rid": rid,
+                "rid": str(rid),
                 "title": recipe_content.title,
                 "img": recipe_content.img,
                 "likes": recipe_content.likes,
                 "isLiked": False,
                 "tags": categories,
-                "aid": recipe_content.uid,
+                "aid": str(recipe_content.uid),
                 "avatar": author_user_info.img,
                 "author": author_user_info.uname,
                 "description": recipe_content.description,
@@ -96,13 +98,13 @@ def GetRecipe():
         isLiked = Customer_like_recipe.get_if_customer_likes(uid, rid)
 
         json = {
-            "rid" : rid,
+            "rid" : str(rid),
             "title" : recipe_content.title,
             "img" : recipe_content.img,
             "likes" : recipe_content.likes,
             "isLiked" : isLiked,
             "tags" : categories,
-            "aid" : uid,
+            "aid" : str(uid),
             "avatar" : author_user_info.img,
             "author" : author_user_info.uname,
             "description" : recipe_content.description,
@@ -236,3 +238,19 @@ def GetIngredients(rid):
         ingredient_json.append(output)
 
     return ingredient_json
+
+@app.route('/deleteRecipe', methods=['POST'])
+@check_token
+def delete_recipe(customer, content):
+    try:
+        rid = int(content['rid'])
+        uid = customer.uid
+        recipe = Recipe.get_recipe(rid)
+        recipe.isDeleted = True
+        return ('Delete your recipe successfully!', True)
+
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)

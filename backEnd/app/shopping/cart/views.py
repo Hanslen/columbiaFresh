@@ -1,7 +1,24 @@
-from app import app
+from app import app, db
 from ...auth import check_token
 from ...cart_models import Cart
 from ...search_models import Recipe, Ingredient_in_recipe, Ingredient
+import sys, os
+
+@app.route('/deleteShoppingCartItem', methods=['POST'])
+@check_token
+def deleteShoppingCartItem(customer, content):
+    try:
+        recipe = Cart.getCartRecipeByID(customer.uid, int(content['rid']))
+        db.session.delete(recipe)
+        db.session.commit()
+        return ("yeah", True)
+
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
 
 @app.route('/recipe/increasenum', methods=['POST'])
 @check_token
@@ -89,7 +106,7 @@ def getCart(customer, content):
 
                     item["price"] = recipe_price
                     item["number"] =  recipe_in.quantity
-                    item["id"] = recipe.rid
+                    item["recipeId"] = recipe.rid
                     item["title"] = recipe.title
                     recipe_list.append(item)
                     ingr_list = []

@@ -52,7 +52,7 @@ def query_user():
 
 @manager.command
 def query():
-    from app.search_models import Recipe_category, Recipe_in_cate, Recipe
+    from app.search_models import Recipe
     print(Recipe.query.all())
 
 @manager.command

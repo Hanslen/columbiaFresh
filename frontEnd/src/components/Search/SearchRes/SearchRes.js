@@ -46,10 +46,13 @@ class SearchRes extends React.Component {
         );
 
         let range = [...Array(this.props.pages).keys()]
-        //range = [...Array(5).keys()]
-        let pages = range.map(i => 
-            <li key={i+1} className="page-item">
-                <button className="page-link" onClick={(e) => this.switchPage(i+1, e)}>{i+1}</button>
+        let pages = range.map(i => i+1).map(i => 
+            <li key={i} className={i === this.state.page ? "page-item active" : "page-item"}>
+                <button className="page-link" 
+                    disabled={i === this.state.page}
+                    onClick={(e) => this.switchPage(i, e)}>
+                    {i}
+                </button>
             </li>
         );
         return (
@@ -58,15 +61,19 @@ class SearchRes extends React.Component {
                 <br/><br/>
                 <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-center">
-                        <li className="page-item">
-                            <button className="page-link" onClick={(e) => this.switchPage(this.state.page-1, e)}>
+                        <li className={this.state.page === 1 ? "page-item disabled" : "page-item"}>
+                            <button className="page-link" 
+                                disabled={this.state.page === 1}
+                                onClick={(e) => this.switchPage(this.state.page-1, e)}>
                                 <span aria-hidden="true">&laquo;</span>
                                 <span className="sr-only">Previous</span>
                             </button>
                         </li>
                         {pages}
-                        <li className="page-item">
-                            <button className="page-link" onClick={(e) => this.switchPage(this.state.page+1, e)}>
+                        <li className={this.state.page === this.props.pages ? "page-item disabled" : "page-item"}>
+                            <button className="page-link" 
+                                disabled={this.state.page === this.props.pages}
+                                onClick={(e) => this.switchPage(this.state.page+1, e)}>
                                 <span aria-hidden="true">&raquo;</span>
                                 <span className="sr-only">Next</span>
                             </button>

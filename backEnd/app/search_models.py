@@ -7,6 +7,8 @@ class Ingredient(db.Model):
     recipeMetric = db.Column(db.String(100), nullable=False)
     orderPrice = db.Column(db.Float, nullable=False)
     shouldConvert = db.Column(db.Boolean, nullable=False)
+    img = db.Column(db.TEXT)
+
     @staticmethod
     def get_ingredient(iid):
         temp = Ingredient.query.filter(Ingredient.iid == iid).first()
@@ -22,7 +24,7 @@ class Ingredient(db.Model):
     def show_in_order(self):
         return {
             "id": self.iid,
-            "img": "need to add in db",
+            "img": self.img,
             "title": self.iname,
             "price": self.orderPrice
 	    }
@@ -102,6 +104,7 @@ class Recipe(db.Model):
     directions = db.Column(db.Text)
     preptime = db.Column(db.Integer)
     uid = db.Column(db.Integer, db.ForeignKey('customer.uid'))
+    isDeleted = db.Column(db.Integer)
 
     def __init__(self, content, dire, uid):
         self.title=content['title'],
@@ -111,6 +114,7 @@ class Recipe(db.Model):
         self.description=content['description'],
         self.directions=dire,
         self.uid=uid
+        self.isDeleted=False
 
     def find_cat(self):
         cats = Recipe_in_cate.query.filter(Recipe_in_cate.rid == self.rid).all()
@@ -129,7 +133,7 @@ class Recipe(db.Model):
     @staticmethod
     def get_recipe(rid):
         temp = Recipe.query.filter(Recipe.rid == rid).first()
-        if temp is None:
+        if temp is None or temp.isDeleted == 1:
            print("The object does not exist!")
            return None
         else:
@@ -137,15 +141,19 @@ class Recipe(db.Model):
 
     @staticmethod
     def get_top_5_hot_recipes():
-        recipes_id = Recipe.query.order_by(Recipe.likes.desc()).limit(5).all()
+        recipes = Recipe.query.order_by(Recipe.likes.desc()).all()
         recipesName = []
-        for recipe_id in recipes_id:
-            recipesName.append(recipe_id.title)
+        for recipe in recipes:
+            if recipe.isDeleted == 1:
+                continue
+            recipesName.append(recipe.title)
+            if len(recipesName) > 5:
+                break
         return recipesName
 
     @staticmethod
     def get_all_recipes():
-        return Recipe.query.all()
+        return Recipe.query.filter(Recipe.isDeleted == 0).all()
 
     @staticmethod
     def create_recipe(recipe):
@@ -161,11 +169,11 @@ class Recipe(db.Model):
 
     @staticmethod
     def get_recipe_by_uid(uid):
-        result = Recipe.query.filter(Recipe.uid == uid).all()
+        result = Recipe.query.filter(Recipe.uid == uid).filter(Recipe.isDeleted == 0).all()
         return result
 
     def __repr__(self):
-        return '<Recipe: rid:{}, uid:{}>'.format(self.rid, self.uid)
+        return '<Recipe: rid:{}, uid:{}, title:{}>'.format(self.rid, self.uid, self.title)
 
 
 class Recipe_category(db.Model):

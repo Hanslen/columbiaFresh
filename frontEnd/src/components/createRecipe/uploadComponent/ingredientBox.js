@@ -34,15 +34,16 @@ class ingredientBox extends Component{
                 let updateUnit = document.getElementById("unit"+this.props.id);
                 updateUnit.disabled = true;
                 updateUnit.value= this.findUnit(be.target.getElementsByTagName("input")[0].value);
-                this.props.updateType(this.props.id, updateBox.value);
+                this.props.updateType(this.props.id, updateBox.value, updateUnit.value);
                 this.closeAllLists();
             });
             a.appendChild(b);
         }
     }
     updateType = (id, e)=>{
-        this.props.updateType(id,e.target.value);
         let updateUnit = document.getElementById("unit"+this.props.id);
+
+        this.props.updateType(id,e.target.value, updateUnit.value);
         updateUnit.disabled = false;
                 
         let suggestions = this.getSuggestions(e.target.value);
@@ -118,7 +119,7 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch => {
     return {
         deleteIngredients: (id) => dispatch(actions.deleteIngredients(id)),
-        updateType: (id, value) => dispatch(actions.updateType(id, value)),
+        updateType: (id, value, unit) => dispatch(actions.updateType(id, value, unit)),
         updateNum: (id, value) => dispatch(actions.updateNum(id, value)),
         updateUnit: (id, value) => dispatch(actions.updateUnit(id, value))
     };

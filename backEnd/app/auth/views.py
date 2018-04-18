@@ -19,7 +19,8 @@ def register():
         customer = Customer(uname=content['name'],
                             email=content['email'],
                             password=content['pwd'],
-                            registered_on=datetime.datetime.now()
+                            registered_on=datetime.datetime.now(),
+                            img="https://static1.squarespace.com/static/557d1981e4b097936a86b629/t/558cf487e4b05d368538793a/1435301000191/"
                             )
         print (content)
         db.session.add(customer)

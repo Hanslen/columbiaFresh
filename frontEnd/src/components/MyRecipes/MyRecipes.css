@@ -63,7 +63,9 @@
     margin: 10px 10px 0 10px;
     /* border: 3px solid #E74C3C; */
     padding: 10px 0 10px 0;
+    background-color: white;
 }
+
 .folderItem{
     width: 200px;
     height: 200px;
@@ -105,9 +107,10 @@
     justify-content: center;
     align-content: center;
     padding: 4px;
-    /* margin-bottom: 10px; */
+    margin-bottom: -10px;
     /* position: absolute;
     bottom: 20px; */
+    background-color: white;
 }
 .subFolder p{
     width: 80%;
@@ -115,4 +118,25 @@
     text-overflow: ellipsis;
     overflow: hidden;
     text-align: center;
+    margin-left: 16px;
+}
+/* .borderBox:hover{
+    border: 2px solid #E74C3C;
+} */
+
+.borderBox:hover .deleteBtn{
+    display: block;
+    color: #E74C3C;
+    opacity: 1;
+    
+}
+.borderBox:hover .subFolder{
+    /* background-color: rgb(226,226,226); */
+}
+
+
+.deleteBtn{
+    opacity: 0.5;
+    display: block;
+    cursor: pointer;
 }

@@ -63,7 +63,8 @@ const authLogout = (state, action) => {
         username: null,
         email: null,
         userId: null,
-        token: null
+        token: null,
+        loading: false
     });
 }
 const authConfirm = (state, action) => {

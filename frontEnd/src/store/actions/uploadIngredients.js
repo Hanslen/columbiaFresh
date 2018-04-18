@@ -6,11 +6,18 @@ export const addIngredients = () => {
         type: actionTypes.ADD_INGREDIENT
     }
 }
-export const updateType = (id, value) => {
+
+export const initializeIngredients = () => {
+    return{
+        type: actionTypes.INITIALIZE_INGREDIENT
+    }
+}
+export const updateType = (id, value, unit) => {
     return {
         type: actionTypes.UPDATE_TYPE,
         id: id,
-        value: value
+        value: value,
+        unit: unit
     }
 }
 export const updateNum = (id, value) => {
@@ -62,6 +69,7 @@ export const loadsuggestionIng = () => {
     return dispatch => {
         Axios.get('/getIngredients').then(res => {
             dispatch(updateSuggestionIng(res.data));
+            // console.log(res.data);
         }).catch(err => {
             console.log(err);
         });
@@ -81,10 +89,8 @@ export const uploadIng = (token, title, img, tag, authorId, description, ingredi
             notes: notes
         };
         Axios.post("/createRecipe", postData).then(res => {
-            dispatch(actions.setAlert("pload recipe successfully :-)", false, "/myprofile#myrecipe"));
-            // alert("Upload recipe successfully :-)");
+            dispatch(actions.setAlert("Upload recipe successfully :-)", false, "/myprofile#myrecipe"));
         }).catch(err => {
-            // alert("Fail to upload the recipe");
             dispatch(actions.setAlert("Fail to upload the recipe", true));
         });
         return {
