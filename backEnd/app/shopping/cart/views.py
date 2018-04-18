@@ -106,7 +106,7 @@ def getCart(customer, content):
 
                     item["price"] = recipe_price
                     item["number"] =  recipe_in.quantity
-                    item["id"] = recipe.rid
+                    item["recipeId"] = recipe.rid
                     item["title"] = recipe.title
                     recipe_list.append(item)
                     ingr_list = []
