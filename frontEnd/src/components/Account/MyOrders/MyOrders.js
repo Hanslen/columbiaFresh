@@ -60,7 +60,7 @@ class myorders extends Component{
                         </div>
                         <div className="col-md-3">
                              <p className={classes.orderSubTitle}>SHIPTO<br/>
-                             <strong>{this.state.orders[0].shipTo}</strong></p>
+                             <strong>{this.props.username}</strong></p>
                          </div>
                          <div className="col-md-3">
                              <p className={classes.orderSubTitle}>ORDER ID<br/>
@@ -121,7 +121,8 @@ class myorders extends Component{
 const mapStateToProps = state => {
     return {
         userId: localStorage.getItem("uid"),
-        token: localStorage.getItem("token")
+        token: localStorage.getItem("token"),
+        username: localStorage.getItem("username")
     };
 };
 const mapDispatchToProps = dispatch => {

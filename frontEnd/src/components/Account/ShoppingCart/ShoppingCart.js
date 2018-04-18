@@ -68,6 +68,17 @@ class shoppingcart extends Component{
             this.setState({selectedId: -1});
             document.getElementById("detail"+recipeId).style.display = "none";
         }
+        const postData = {
+            userId: this.props.userId,
+            token: this.props.token,
+            rid: recipeId
+        };
+        console.log(recipeId);
+        Axios.post("/deleteShoppingCartItem", postData).then(response => {
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
+        });
     }
     showDetailHandler = (id) => {
         if(this.state.selectedId != -1){
@@ -152,7 +163,7 @@ class shoppingcart extends Component{
                                 <a href="#"><strong>{item.title}</strong></a>
                             </div>
                             <div className="col-md-2">
-                                <p><strong style={{color:"#C0392B"}}><font>Total price: ${parseFloat(item.price * item.number).toFixed(2)}</font></strong></p>
+                                <p><strong style={{color:"#C0392B"}}><font>Total price: ${parseFloat(item.price).toFixed(2)}</font></strong></p>
                             </div>
                             <div className="col-md-2">
                                 <p>
