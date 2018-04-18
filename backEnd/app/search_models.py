@@ -114,6 +114,7 @@ class Recipe(db.Model):
         self.description=content['description'],
         self.directions=dire,
         self.uid=uid
+        self.isDeleted=False
 
     def find_cat(self):
         cats = Recipe_in_cate.query.filter(Recipe_in_cate.rid == self.rid).all()
