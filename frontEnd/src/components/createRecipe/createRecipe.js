@@ -8,7 +8,6 @@ import * as actions from '../../store/actions/index';
 import Directions from './uploadComponent/directions';
 import Axios from '../../axios-config';
 import AWS from 'aws-sdk';
-import ReactS3 from 'react-s3';
 import * as classes from './createRecipe.css';
 class createRecipe extends Component{
     state = {
