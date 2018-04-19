@@ -11,12 +11,12 @@ class HomePage extends Component {
 
     state = {
         categories: [
-            {type: "Breakfast", src: "/static/img/breakfast.png"},
-            {type: "Lunch", src: "/static/img/breakfast.png"},
-            {type: "Dinner", src: "/static/img/breakfast.png"},
-            {type: "Wrap", src: "/static/img/breakfast.png"},
-            {type: "Vegan", src: "/static/img/breakfast.png"},
-            {type: "Burger", src: "/static/img/breakfast.png"}
+            {type: "Salad", src: "/static/img/salad.jpeg"},
+            {type: "Meat", src: "/static/img/meat.jpeg"},
+            {type: "Breakfast", src: "/static/img/break.jpeg"},
+            {type: "Dessert", src: "/static/img/dessert.jpeg"},
+            {type: "Chinese", src: "/static/img/warm.jpeg"},
+            {type: "Burger", src: "/static/img/burger.jpeg"}
         ],
         url: "/recipe/id=100"
     };
@@ -26,12 +26,16 @@ class HomePage extends Component {
     }
 
     render() {
-        let categoriesDiv = this.state.categories.map(category => (
+        let categoriesDiv = this.state.categories.map(category => {
+            let linkto = "/search?"+category.type;
+            return(
             <div className="col-md-4" key={category.type}>
+            <Link to={linkto}>
               <div className="card mb-4 box-shadow">
 
                 <img className="card-img-top" id={classes.cardImg} src={category.src} alt="Card image cap" />
                 <div id={classes.cardTypeLabel}>{category.type}</div>
+                {/* <div className={classes.circleBox}></div> */}
                 {/* <div className="card-body"> */}
                   {/* <p className="card-text">{category.type}</p> */}
                   {/* <div className="d-flex justify-content-between align-items-center"> */}
@@ -43,8 +47,9 @@ class HomePage extends Component {
                   {/* </div> */}
                 {/* </div> */}
               </div>
+              </Link>
             </div>
-        ));
+        )});
         return (
             <div>
                 <section className="jumbotron text-center" id={classes.mainBgPic}>
