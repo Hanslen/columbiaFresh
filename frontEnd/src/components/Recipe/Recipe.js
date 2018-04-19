@@ -7,7 +7,7 @@ import Directions from './Directions/Directions';
 import Reservation from '../Reservation/Reservation';
 import Notes from './Notes/Notes';
 import Spinner from '../UI/Spinner/Spinner';
-import { searchKeyword, searchRecipes } from '../../store/actions/search';
+import { searchKeyword, searchPages, searchRecipes } from '../../store/actions/search';
 import { setAlert } from '../../store/actions/index';
 
 class Recipe extends React.Component {
@@ -101,6 +101,7 @@ class Recipe extends React.Component {
     handleSearch(keyword, e) {
         let perPage = 10;
         this.props.onSearch(keyword);
+        this.props.onGetPages(keyword, perPage);
         this.props.onGetResults(keyword, 1, perPage);
     }
 
@@ -202,6 +203,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onSearch: (keyword) => {
             dispatch(searchKeyword(keyword))
+        },
+        onGetPages: (keyword, perPage) => {
+            dispatch(searchPages(keyword, perPage))
         },
         onGetResults: (keyword, page, perPage) => {
             dispatch(searchRecipes(keyword, page, perPage))

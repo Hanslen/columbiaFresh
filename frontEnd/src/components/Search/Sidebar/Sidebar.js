@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from '../../../axios-config';
-import { searchKeyword, searchRecipes } from '../../../store/actions/search';
+import { searchKeyword, searchPages, searchRecipes } from '../../../store/actions/search';
 
 class Sidebar extends React.Component {
 
@@ -50,6 +50,7 @@ class Sidebar extends React.Component {
     handleSearch(keyword, e) {
         let perPage = 10;
         this.props.onSearch(keyword);
+        this.props.onGetPages(keyword, perPage);
         this.props.onGetResults(keyword, 1, perPage);
     }
 
@@ -80,6 +81,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onSearch: (keyword) => {
             dispatch(searchKeyword(keyword))
+        },
+        onGetPages: (keyword, perPage) => {
+            dispatch(searchPages(keyword, perPage))
         },
         onGetResults: (keyword, page, perPage) => {
             dispatch(searchRecipes(keyword, page, perPage))
