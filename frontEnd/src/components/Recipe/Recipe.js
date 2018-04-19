@@ -6,6 +6,7 @@ import Ingredients from './Ingredients/Ingredients';
 import Directions from './Directions/Directions';
 import Reservation from '../Reservation/Reservation';
 import Notes from './Notes/Notes';
+import Spinner from '../UI/Spinner/Spinner';
 import { searchKeyword, searchRecipes } from '../../store/actions/search';
 import { setAlert } from '../../store/actions/index';
 
@@ -14,6 +15,7 @@ class Recipe extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: true,
             rid: this.props.match.params.token,
             title: 'title',
             img: 'http://via.placeholder.com/600x400',
@@ -43,6 +45,7 @@ class Recipe extends React.Component {
     componentDidMount() {
         let rid = this.props.match.params.id;
         let saveRecipe = (data) => this.setState({
+            loading: false,
             rid: data.rid,
             title: data.title,
             img: data.img,
@@ -145,38 +148,43 @@ class Recipe extends React.Component {
 
         let searchURL = "/search?"+this.props.keyword;
         return (
-            <div className="container">
-                <div className="row standard-blank">
-                    <Link to="/"><span className="text-danger">home</span></Link>
-                    <div className="ml-1 mr-1">></div>
-                    <Link to={searchURL}><span className="text-danger">{this.props.keyword}</span></Link>
-                    <div className="ml-1 mr-1">></div>
-                    <div><span className="text-secondary">{this.state.title}</span></div>
-                </div>
-                <div className="row mt-3">
-                    <div className="col-8">
-                        <h1>{this.state.title}</h1>
-                        <img src={this.state.img} />
+            <div>
+            { this.state.loading ?
+                <Spinner /> :
+                <div className="container">
+                    <div className="row standard-blank">
+                        <Link to="/"><span className="text-danger">home</span></Link>
+                        <div className="ml-1 mr-1">></div>
+                        <Link to={searchURL}><span className="text-danger">{this.props.keyword}</span></Link>
+                        <div className="ml-1 mr-1">></div>
+                        <div><span className="text-secondary">{this.state.title}</span></div>
+                    </div>
+                    <div className="row mt-3">
+                        <div className="col-8">
+                            <h1>{this.state.title}</h1>
+                            <img src={this.state.img} />
 
-                        {likeInfo}
-                        
-                        <div className="tagsClass">
-                            {tagItems}
+                            {likeInfo}
+                            
+                            <div className="tagsClass">
+                                {tagItems}
+                            </div>
+                            {authorInfo}
+
+                            <Ingredients rid={this.state.rid} 
+                                calorie={this.state.calorie} 
+                                items={this.state.ingredients} />
+                            <Directions 
+                                preptime={this.state.preptime} 
+                                items={this.state.directions} />
+                            <Notes notes={this.state.notes} />
                         </div>
-                        {authorInfo}
-
-                        <Ingredients rid={this.state.rid} 
-                            calorie={this.state.calorie} 
-                            items={this.state.ingredients} />
-                        <Directions 
-                            preptime={this.state.preptime} 
-                            items={this.state.directions} />
-                        <Notes notes={this.state.notes} />
-                    </div>
-                    <div className="col-4">
-                        <Reservation />
+                        <div className="col-4">
+                            <Reservation />
+                        </div>
                     </div>
                 </div>
+            }
             </div>
         );
     }

@@ -28,7 +28,7 @@ class Order extends React.Component {
         this.handlePlace = this.handlePlace.bind(this);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         let saveCart = (items) => {
             let prices = items.map(item => item.price*item.number);
             let price = prices.reduce((prev, cur) => prev+cur);

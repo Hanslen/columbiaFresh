@@ -61,7 +61,7 @@ const mapDispatchToProps = (dispatch) => {
         onGetResults: (keyword, page, perPage) => {
             dispatch(searchRecipes(keyword, page, perPage))
         }
-    }
-}
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SearchBox));

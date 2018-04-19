@@ -1,11 +1,14 @@
-import React,  {Component } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import classes from './HomePage.css'
 import SearchBox from '../UI/SearchBox/SearchBox';
 import spinner from '../UI/Spinner/Spinner';
 import shoppingcart from '../Account/ShoppingCart/ShoppingCart';
+import { searchKeyword } from '../../store/actions/search';
 
-class homePage extends Component{
+class HomePage extends Component {
+
     state = {
         categories: [
             {type: "Breakfast", src: "/static/img/breakfast.png"},
@@ -17,8 +20,12 @@ class homePage extends Component{
         ],
         url: "/recipe/id=100"
     };
-    did
-    render(){
+
+    componentWillMount() {
+        this.props.onSearch("");
+    }
+
+    render() {
         let categoriesDiv = this.state.categories.map(category => (
             <div className="col-md-4" key={category.type}>
               <div className="card mb-4 box-shadow">
@@ -38,7 +45,7 @@ class homePage extends Component{
               </div>
             </div>
         ));
-        return(
+        return (
             <div>
                 <section className="jumbotron text-center" id={classes.mainBgPic}>
                 
@@ -67,4 +74,13 @@ class homePage extends Component{
         );
     }
 };
-export default homePage;
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSearch: (keyword) => {
+            dispatch(searchKeyword(keyword))
+        },
+    };
+};
+
+export default connect(null, mapDispatchToProps)(HomePage);
