@@ -52,6 +52,11 @@ li.borderless {
     margin-left: 4%;
     margin-right: 4%; */
 }
+.cardbox {
+    width: 256px;
+    border:1px solid #BFBFBF;
+    box-shadow: 3px 2px 3px #888888;
+}
 .greyText {
     color: rgb(128, 128, 128);
 }
