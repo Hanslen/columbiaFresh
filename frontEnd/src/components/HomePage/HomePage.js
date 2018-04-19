@@ -13,12 +13,12 @@ class HomePage extends Component {
         super(props);
         this.state = {
             categories: [
-                {type: "Breakfast", src: "/static/img/breakfast.png"},
-                {type: "Lunch", src: "/static/img/breakfast.png"},
-                {type: "Dinner", src: "/static/img/breakfast.png"},
-                {type: "Wrap", src: "/static/img/breakfast.png"},
-                {type: "Vegan", src: "/static/img/breakfast.png"},
-                {type: "Burger", src: "/static/img/breakfast.png"}
+                {type: "Salad", src: "/static/img/salad.jpeg"},
+                {type: "Meat", src: "/static/img/meat.jpeg"},
+                {type: "Breakfast", src: "/static/img/break.jpeg"},
+                {type: "Dessert", src: "/static/img/dessert.jpeg"},
+                {type: "Chinese", src: "/static/img/warm.jpeg"},
+                {type: "Burger", src: "/static/img/burger.jpeg"}
             ],
             url: "/recipe/id=100"
         };
