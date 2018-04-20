@@ -41,6 +41,7 @@ export const getPages = (keyword, pages) => {
 export const searchRecipes = (keyword, page, perPage) => {
     return (dispatch) => {
         console.log('page: '+page);
+        dispatch(getResults(keyword, []));
         axios.get('/search', {
             params: {
                 query: keyword,

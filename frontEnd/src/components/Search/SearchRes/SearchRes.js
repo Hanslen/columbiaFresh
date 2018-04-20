@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Spinner from '../../UI/Spinner/Spinner';
 import { searchRecipes } from '../../../store/actions/search';
 
 class SearchRes extends React.Component {
@@ -57,29 +58,34 @@ class SearchRes extends React.Component {
         );
         return (
             <div>
-                <ul className="list-group">{listItems}</ul>
-                <br/><br/>
-                <nav aria-label="Page navigation example">
-                    <ul className="pagination justify-content-center">
-                        <li className={this.state.page === 1 ? "page-item disabled" : "page-item"}>
-                            <button className="page-link" 
-                                disabled={this.state.page === 1}
-                                onClick={(e) => this.switchPage(this.state.page-1, e)}>
-                                <span aria-hidden="true">&laquo;</span>
-                                <span className="sr-only">Previous</span>
-                            </button>
-                        </li>
-                        {pages}
-                        <li className={this.state.page === this.props.pages ? "page-item disabled" : "page-item"}>
-                            <button className="page-link" 
-                                disabled={this.state.page === this.props.pages}
-                                onClick={(e) => this.switchPage(this.state.page+1, e)}>
-                                <span aria-hidden="true">&raquo;</span>
-                                <span className="sr-only">Next</span>
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
+            { recipeInfos.length === 0 ?
+                <Spinner /> :
+                <div>
+                    <ul className="list-group">{listItems}</ul>
+                    <br/><br/>
+                    <nav aria-label="Page navigation example">
+                        <ul className="pagination justify-content-center">
+                            <li className={this.state.page === 1 ? "page-item disabled" : "page-item"}>
+                                <button className="page-link" 
+                                    disabled={this.state.page === 1}
+                                    onClick={(e) => this.switchPage(this.state.page-1, e)}>
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span className="sr-only">Previous</span>
+                                </button>
+                            </li>
+                            {pages}
+                            <li className={this.state.page === this.props.pages ? "page-item disabled" : "page-item"}>
+                                <button className="page-link" 
+                                    disabled={this.state.page === this.props.pages}
+                                    onClick={(e) => this.switchPage(this.state.page+1, e)}>
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span className="sr-only">Next</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            }
             </div>
         );
     }
