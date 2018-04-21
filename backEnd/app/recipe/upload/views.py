@@ -56,7 +56,7 @@ def create_recipe(customer, content):
         ingredients = Ingredient.get_all()
 
         for ingr in ingredients:
-            if ingr.isUserCreated is True:
+            if ingr.isUserCreated is False:
                 pool.add(ingr.iname)
 
         add_ingr = content['ingredients']

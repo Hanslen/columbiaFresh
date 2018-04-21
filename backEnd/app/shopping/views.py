@@ -71,6 +71,8 @@ def GetEachOrderContent(customer, content):
                     ingredients_list = Ingredient_in_recipe.get_ingredients_in_recipe(recipe_in.rid)
                     for ingr_in in ingredients_list:
                         item = Ingredient.get_ingredient(ingr_in.iid)
+                        if item.isUserCreated is True:
+                            continue
                         info = item.show_in_order()
                         info['number'] = ingr_in.quantity
                         ingredients.append(info)

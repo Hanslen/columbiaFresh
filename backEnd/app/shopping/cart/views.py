@@ -17,7 +17,6 @@ def deleteShoppingCartItem(customer, content):
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
-
         return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
 
 @app.route('/recipe/increasenum', methods=['POST'])
@@ -90,6 +89,7 @@ def getCart(customer, content):
 
         else:
             recipes = Cart.getCartRecipe(uid)
+            print("recipe id:{}".format(recipes))
             recipe_list = []
             if recipes is not None:
                 for recipe_in in recipes:
