@@ -89,6 +89,17 @@ Link{
     border-radius: 2em;
     margin-top: 4px;
 }
+.helperIcon{
+    color:white;
+    width: 50px;
+
+}
+#recipeIcon{
+    width: 27px;
+    height: 27px;
+    margin-top: 13px;
+    margin-right: 45px;
+}
 .shoppingCart{
     height: 35px;
     margin-right: 35px;

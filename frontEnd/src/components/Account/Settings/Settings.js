@@ -542,6 +542,14 @@ class settings extends Component{
             let expirationMonth = this.state.controls.ExpirationMonth.value;
             let expirationYear = this.state.controls.ExpirationYear.value;
             let cvv = this.state.controls.cvv.value;
+            if(!checkValidity(cardNum, this.state.controls.cardNum.validation)){
+                this.props.setAlert("Please enter a valid credit card information!", true);
+                return ;
+            }
+            if(!checkValidity(cvv, this.state.controls.cvv.validation)){
+                this.props.setAlert("Please enter a valid credit card information!", true);
+                return ;
+            }
             this.props.updateCredit(this.props.userId, this.props.token, cardName, cardNum, expirationMonth, expirationYear,cvv);
         }
         // console.log(this.state.controls);

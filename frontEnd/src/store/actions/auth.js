@@ -157,7 +157,7 @@ export const authSignUp = (email, username, password) => {
                 console.log(response.data);
                 const data = {
                     email: email,
-                    url: "http://localhost:3000/verifyEmail/"+response.data
+                    url: "localhost:3000/verifyEmail/"+response.data
                 };
                 axios.post('/register/confirm_url', data)
                     .then(response => {
