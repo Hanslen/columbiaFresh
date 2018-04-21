@@ -97,6 +97,7 @@ class createRecipe extends Component{
     uploadRecipe = (imgurl) => {
         if(this.state.title == "" || this.state.intro == "" || this.state.ingredients[0][0] == "" || this.props.directions[0] == "" || this.state.notes == ""){
             alert("You must fill all the blanket!");
+            return ;
         }
         this.props.uploadIng(this.props.token, this.state.title, imgurl, this.state.selectedTags, this.props.userId, this.state.intro, this.state.ingredients, this.props.directions, this.state.notes);
     }
