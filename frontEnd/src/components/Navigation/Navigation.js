@@ -246,6 +246,9 @@ class navigation extends Component{
         else if(this.state.controls.password.value.length < 6){
           this.props.setAuthError("The min password length is 6.");
         }
+        else if(this.state.controls.username.value == ""){
+          this.props.setAuthError("Username cannot be empty!");
+        }
         else{
           this.props.setAuthError("Please type the valid email address");
           return ;
