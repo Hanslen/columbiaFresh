@@ -120,6 +120,8 @@ def placeOrder(customer, content):
                     recipe_price = 0
                     for ingr_in in ingredients_list:
                         item = Ingredient.get_ingredient(ingr_in.iid)
+                        if item.isUserCreated is True:
+                            continue
                         recipe_price += ingr_in.quantity * item.orderPrice
 
                     relation = OrderContainsRecipe(oid=order.oid, rid=recipe.rid, quantity=recipe_in.quantity, price=recipe_price)

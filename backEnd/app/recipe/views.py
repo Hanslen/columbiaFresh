@@ -24,9 +24,17 @@ def GetRecipeFolder(customer, content):
 
         return (result, True)
 
+
     except Exception as e:
-        print (e)
-        return (str(e), False)
+
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
+
 
 @app.route('/myrecipe/tags', methods=['POST'])
 @check_token
@@ -42,9 +50,16 @@ def GetRecipeTags(customer, content):
         json['tags'] = list(tags)
         return (json, True)
 
+
     except Exception as e:
-        print (e)
-        return (str(e), False)
+
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
 
 
 @app.route('/getRecipe', methods=['POST'])
@@ -116,9 +131,16 @@ def GetRecipe():
         }
         return (json, True)
 
+
     except Exception as e:
-        print (e)
-        return (str(e), False)
+
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
 
 
 @app.route('/likeRecipe', methods=['POST'])
@@ -201,10 +223,16 @@ def Like_recipe(customer, content):
             }
             return (json, False)
 
-    except Exception as e:
-        print(e)
-        return (str(e), False)
 
+    except Exception as e:
+
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
 
 
 def ProcessSentence(input):

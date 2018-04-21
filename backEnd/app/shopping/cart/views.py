@@ -100,10 +100,11 @@ def getCart(customer, content):
                     recipe_price = 0
                     for ingr_in in ingredients_list:
                         temp = Ingredient.get_ingredient(ingr_in.iid)
+                        if temp.isUserCreated is True:
+                            continue
                         recipe_price += ingr_in.quantity * temp.orderPrice
 
                     item["img"]= recipe.img,
-
                     item["price"] = recipe_price
                     item["number"] =  recipe_in.quantity
                     item["recipeId"] = recipe.rid
@@ -112,6 +113,8 @@ def getCart(customer, content):
                     ingr_list = []
                     for ingr_in in ingredients_list:
                         temp = Ingredient.get_ingredient(ingr_in.iid)
+                        if temp.isUserCreated is True:
+                            continue
                         info = temp.show_in_order()
                         info['number'] = ingr_in.quantity
                         ingr_list.append(info)
