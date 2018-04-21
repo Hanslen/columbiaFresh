@@ -133,14 +133,14 @@ class Recipe extends React.Component {
         let authorURL = "/user/"+this.state.aid;
         let authorInfo = (
             <div>
-                <Link to={authorURL} style={{"textDecoration": "none"}}>
+                {/* <Link to={authorURL} style={{"textDecoration": "none"}}> */}
                     <div className="media mt-3 mb-2">
                         <img className="mr-3 rounded-circle" src={this.state.avatar} style={{width:"40px", height:"40px"}}/>
                         <div className="media-body" style={{lineHeight: 40+'px'}}>
                             {this.state.author}
                         </div>
                     </div>
-                </Link>
+                {/* </Link> */}
                 <p>
                     {this.state.description}
                 </p>
