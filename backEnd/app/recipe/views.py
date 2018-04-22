@@ -265,19 +265,18 @@ def GetIngredients(rid):
 def delete_recipe(customer, content):
     try:
         rid = int(content['rid'])
-        uid = customer.uid
         recipe = Recipe.get_recipe(rid)
         recipe_in_cart = Cart.query.filter(Cart.rid == rid).all()
         print(recipe_in_cart)
         for to_del_recipe in recipe_in_cart:
             print("to_del_recipe_in_cart:{}".format(recipe_in_cart))
-            db.delete(to_del_recipe)
+            db.session.delete(to_del_recipe)
             db.session.commit()
 
         recipe_in_list = Customer_like_recipe.query.filter(Customer_like_recipe.rid == rid).all()
         for to_del_recipe in recipe_in_list:
             print("to_del_recipe_in_favorite_list:{}".format(to_del_recipe))
-            db.delete(to_del_recipe)
+            db.session.delete(to_del_recipe)
             db.session.commit()
         recipe.isDeleted = True
         return ('Delete your recipe successfully!', True)
