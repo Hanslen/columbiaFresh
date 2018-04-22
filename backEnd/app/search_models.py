@@ -4,10 +4,16 @@ class Ingredient(db.Model):
     __tablename__ = 'ingredient'
     iid = db.Column(db.Integer, primary_key=True, index=True)
     iname = db.Column(db.String(100), nullable=False)
-    recipeMetric = db.Column(db.String(100), nullable=False)
-    orderPrice = db.Column(db.Float, nullable=False)
-    shouldConvert = db.Column(db.Boolean, nullable=False)
+    recipeMetric = db.Column(db.String(100))
+    orderPrice = db.Column(db.Float)
+    shouldConvert = db.Column(db.Boolean)
     img = db.Column(db.TEXT)
+    isUserCreated = db.Column(db.Boolean)
+
+    def __init__(self, name, isUserCreated, recipeMetric):
+        self.iname = name
+        self.isUserCreated = isUserCreated
+        self.recipeMetric = recipeMetric
 
     @staticmethod
     def get_ingredient(iid):
@@ -157,7 +163,7 @@ class Recipe(db.Model):
 
     @staticmethod
     def create_recipe(recipe):
-        app.logger.info(recipe.rid)
+        # app.logger.info(recipe.rid)
         db.session.add(recipe)
         db.session.commit()
         return recipe.rid

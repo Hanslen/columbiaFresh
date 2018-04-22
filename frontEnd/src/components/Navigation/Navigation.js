@@ -246,6 +246,9 @@ class navigation extends Component{
         else if(this.state.controls.password.value.length < 6){
           this.props.setAuthError("The min password length is 6.");
         }
+        else if(this.state.controls.username.value == ""){
+          this.props.setAuthError("Username cannot be empty!");
+        }
         else{
           this.props.setAuthError("Please type the valid email address");
           return ;
@@ -363,7 +366,9 @@ class navigation extends Component{
                       </li>:
                         <li className="nav-item">
                           <div className="nav-link">
-                          <Link to="/myprofile#shoppingcart" id={classes.shoppingCartSvg}><ReactSVG path="/static/img/cart.svg" className={classes.shoppingCart} style={{width:25, fill: "white"}} /></Link>
+                          <Link to="/myprofile#shoppingcart" id={classes.shoppingCartSvg}>
+                            <ReactSVG path="/static/img/cart.svg" className={classes.shoppingCart} style={{width:25, fill: "white"}} />
+                          </Link>
                           <div className={classes.shoppingBox}>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" id={classes.shoppingCartSub}>
                               {shoppingCart}
@@ -373,13 +378,22 @@ class navigation extends Component{
                           </div>
                         </li>
                   }
+                  {!this.props.isAuthenticated?
+                  <div></div>:
+                  <li className="nav-item">
+                    <Link to="/myprofile#myrecipe"><img src="/static/img/recipes.png" id={classes.recipeIcon}/></Link>
+                  </li>
+                  }
                   {this.props.isAuthenticated?
                   <li className="nav-item">
+                        {/* <Link to="/myprofile#order"> */}
                           <img className={classes.userIcon} id={classes.userProfileImg} src={this.props.img}/>
+                          {/* </Link> */}
                           <div className={classes.userProfileBox}>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" id={classes.userBoxSub}>
                               <Link className="dropdown-item" to="/myprofile#order">Hi, <strong>{this.props.username}</strong></Link>
                               <Link className="dropdown-item" to="/myprofile#order">My Orders</Link>
+                              <Link className="dropdown-item" to="/myprofile#myrecipe">My Recipes</Link>
                               <Link className="dropdown-item" to="/myprofile#settings" id={classes.noClickDecoration}>Edit Profiles</Link><div className="dropdown-divider"></div>
                               <a className="dropdown-item" id={classes.noClickDecoration}onClick={this.props.onLogOut}>LogOut</a>
                             </div>

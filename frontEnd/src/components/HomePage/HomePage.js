@@ -1,44 +1,55 @@
-import React,  {Component } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import classes from './HomePage.css'
 import SearchBox from '../UI/SearchBox/SearchBox';
 import spinner from '../UI/Spinner/Spinner';
 import shoppingcart from '../Account/ShoppingCart/ShoppingCart';
+import { searchKeyword, searchPages, searchRecipes } from '../../store/actions/search';
 
-class homePage extends Component{
-    state = {
-        categories: [
-            {type: "Breakfast", src: "/static/img/breakfast.png"},
-            {type: "Lunch", src: "/static/img/breakfast.png"},
-            {type: "Dinner", src: "/static/img/breakfast.png"},
-            {type: "Wrap", src: "/static/img/breakfast.png"},
-            {type: "Vegan", src: "/static/img/breakfast.png"},
-            {type: "Burger", src: "/static/img/breakfast.png"}
-        ],
-        url: "/recipe/id=100"
-    };
-    did
-    render(){
-        let categoriesDiv = this.state.categories.map(category => (
-            <div className="col-md-4" key={category.type}>
-              <div className="card mb-4 box-shadow">
+class HomePage extends Component {
 
-                <img className="card-img-top" id={classes.cardImg} src={category.src} alt="Card image cap" />
-                <div id={classes.cardTypeLabel}>{category.type}</div>
-                {/* <div className="card-body"> */}
-                  {/* <p className="card-text">{category.type}</p> */}
-                  {/* <div className="d-flex justify-content-between align-items-center"> */}
-                    {/* <div className="btn-group"> */}
-                      {/* <button type="button" className="btn btn-sm btn-outline-secondary">View</button> */}
-                      {/* <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button> */}
-                    {/* </div> */}
-                    {/* <small className="text-muted">9 mins</small> */}
-                  {/* </div> */}
-                {/* </div> */}
-              </div>
-            </div>
-        ));
-        return(
+    constructor(props) {
+        super(props);
+        this.state = {
+            categories: [
+                {type: "Salad", src: "/static/img/salad.jpeg"},
+                {type: "Meat", src: "/static/img/meat.jpeg"},
+                {type: "Breakfast", src: "/static/img/break.jpeg"},
+                {type: "Dessert", src: "/static/img/dessert.jpeg"},
+                {type: "Chinese", src: "/static/img/warm.jpeg"},
+                {type: "Burger", src: "/static/img/burger.jpeg"}
+            ],
+            url: "/recipe/id=100"
+        };
+    
+        this.handleClick = this.handleClick.bind(this);
+    }
+    
+    componentWillMount() {
+        this.props.onSearch("");
+    }
+
+    handleClick(type, e) {
+        let perPage = 10;
+        this.props.onSearch(type);
+        this.props.onGetPages(type, perPage);
+        this.props.onGetResults(type, 1, perPage);
+    }
+
+    render() {
+        let categoriesDiv = this.state.categories.map(category => {
+            let searchURL = "/search?"+category.type;
+            return (
+                <Link to={searchURL} className="col-md-4" key={category.type}>
+                    <div className="card mb-4 box-shadow" onClick={(e) => this.handleClick(category.type, e)}>
+                        <img className="card-img-top" id={classes.cardImg} src={category.src} alt="Card image cap" />
+                        <div id={classes.cardTypeLabel}>{category.type}</div>
+                    </div>
+                </Link>
+            );
+        });
+        return (
             <div>
                 <section className="jumbotron text-center" id={classes.mainBgPic}>
                 
@@ -67,4 +78,19 @@ class homePage extends Component{
         );
     }
 };
-export default homePage;
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSearch: (keyword) => {
+            dispatch(searchKeyword(keyword))
+        },
+        onGetPages: (keyword, perPage) => {
+            dispatch(searchPages(keyword, perPage))
+        },
+        onGetResults: (keyword, page, perPage) => {
+            dispatch(searchRecipes(keyword, page, perPage))
+        },
+    };
+};
+
+export default connect(null, mapDispatchToProps)(HomePage);

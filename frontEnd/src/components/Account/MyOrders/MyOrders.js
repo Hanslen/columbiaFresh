@@ -11,14 +11,15 @@ class myorders extends Component{
     state = {
         loading: true,
         myFolders:["Delivered", "Dispatching", "Preparing","Cancelled"],
-        orders: []
+        orders: [],
+        temporders: []
     }
     componentWillMount(){
         // console.log("Order will mount"+this.props.userId+" "+this.props.token);
         const postData = {userId: this.props.userId, token: this.props.token};
         // console.log(postData);
         Axios.post("/orders", postData).then(response => {
-            this.setState({orders: response.data.msg, loading: false})
+            this.setState({orders: response.data.msg, temporders:response.data.msg, loading: false})
         }).catch(err => {
             console.log(err);
             this.props.setAlert("Please connect to network, then I can get your orders!", true);
@@ -30,7 +31,14 @@ class myorders extends Component{
             $('#'+this.state.myFolders[f]).removeClass(classes.folderactive);
         }
         $('#'+folder).addClass(classes.folderactive);
+
         this.setState({selectedFolder:folder});
+        if(folder == "Delivered"){
+            this.setState({orders: this.state.temporders});
+        }
+        else{
+            this.setState({orders: []});
+        }
     }
     render(){
         let folderCss = [["fas", "fa-check-circle",classes.folderIcon],["fas", "fa-arrow-alt-circle-up",classes.folderIcon],["fas", "fa-clock",classes.folderIcon],["fas", "fa-ban",classes.folderIcon]];

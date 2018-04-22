@@ -6,7 +6,7 @@ manager = Manager(app)
 migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 manager.add_command("server",
-        Server(host="0.0.0.0", port=5000, use_debugger=True))
+        Server(host="0.0.0.0", port=5000, use_debugger=True), default=True)
 
 @manager.command
 def query_customer_id():
@@ -53,7 +53,14 @@ def query_user():
 @manager.command
 def query():
     from app.search_models import Recipe
-    print(Recipe.query.all())
+    from app.cart_models import Cart
+    lis = Recipe.query.all()
+    for temp in lis:
+        print(temp.title)
+        print(temp.isDeleted)
+        if temp.isDeleted == 1:
+            temp.isDeleted = False
+    print(Cart.query.all())
 
 @manager.command
 def create_order():

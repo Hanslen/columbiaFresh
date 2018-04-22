@@ -5,6 +5,7 @@ def check_token(func):
     def wrapper(*args, **kwargs):
         try:
             content = request.json
+            print(content)
             token = content['token']
             (verify, customer, msg) = Customer.verify_token(token)
 

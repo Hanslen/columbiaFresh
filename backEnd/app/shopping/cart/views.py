@@ -3,6 +3,7 @@ from ...auth import check_token
 from ...cart_models import Cart
 from ...search_models import Recipe, Ingredient_in_recipe, Ingredient
 import sys, os
+import pprint
 
 @app.route('/deleteShoppingCartItem', methods=['POST'])
 @check_token
@@ -17,7 +18,6 @@ def deleteShoppingCartItem(customer, content):
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
-
         return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
 
 @app.route('/recipe/increasenum', methods=['POST'])
@@ -76,8 +76,13 @@ def AddRecipeToCart(customer, content):
                     'message': 'Internal Error...'
                 }
                 return (json, False)
+
     except Exception as e:
-        return (str(e), False)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
+
 
 @app.route('/shoppingCart', methods=['POST'])
 @check_token
@@ -100,10 +105,11 @@ def getCart(customer, content):
                     recipe_price = 0
                     for ingr_in in ingredients_list:
                         temp = Ingredient.get_ingredient(ingr_in.iid)
+                        if temp.isUserCreated is True:
+                            continue
                         recipe_price += ingr_in.quantity * temp.orderPrice
 
                     item["img"]= recipe.img,
-
                     item["price"] = recipe_price
                     item["number"] =  recipe_in.quantity
                     item["recipeId"] = recipe.rid
@@ -112,12 +118,18 @@ def getCart(customer, content):
                     ingr_list = []
                     for ingr_in in ingredients_list:
                         temp = Ingredient.get_ingredient(ingr_in.iid)
+                        if temp.isUserCreated is True:
+                            continue
                         info = temp.show_in_order()
                         info['number'] = ingr_in.quantity
                         ingr_list.append(info)
 
                     item["ingredient"] = ingr_list
             return (recipe_list, True)
+
     except Exception as e:
-        return (str(e), False)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
 

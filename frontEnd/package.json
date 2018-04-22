@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "autoprefixer": "7.1.6",
-    "aws-sdk": "^2.221.1",
+    "aws-sdk": "^2.226.1",
     "axios": "^0.17.1",
     "axios-jsonp-pro": "^1.1.1",
     "babel-core": "6.26.0",

@@ -4,6 +4,7 @@ import re
 from ..search_models import Recipe, Recipe_category, Recipe_in_cate, Customer_like_recipe
 from ..search_models import Ingredient, Ingredient_in_recipe
 from ..models import Customer
+from ..cart_models import Cart
 from ..auth import check_token, return_format
 import os, sys
 
@@ -21,12 +22,19 @@ def GetRecipeFolder(customer, content):
                 json['title'] = recipe.title
                 json['src'] = recipe.img
                 result.append(json)
-
         return (result, True)
 
+
     except Exception as e:
-        print (e)
-        return (str(e), False)
+
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
+
 
 @app.route('/myrecipe/tags', methods=['POST'])
 @check_token
@@ -116,9 +124,16 @@ def GetRecipe():
         }
         return (json, True)
 
+
     except Exception as e:
-        print (e)
-        return (str(e), False)
+
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
 
 
 @app.route('/likeRecipe', methods=['POST'])
@@ -201,10 +216,16 @@ def Like_recipe(customer, content):
             }
             return (json, False)
 
-    except Exception as e:
-        print(e)
-        return (str(e), False)
 
+    except Exception as e:
+
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
 
 
 def ProcessSentence(input):
@@ -244,8 +265,19 @@ def GetIngredients(rid):
 def delete_recipe(customer, content):
     try:
         rid = int(content['rid'])
-        uid = customer.uid
         recipe = Recipe.get_recipe(rid)
+        recipe_in_cart = Cart.query.filter(Cart.rid == rid).all()
+        print(recipe_in_cart)
+        for to_del_recipe in recipe_in_cart:
+            print("to_del_recipe_in_cart:{}".format(recipe_in_cart))
+            db.session.delete(to_del_recipe)
+            db.session.commit()
+
+        recipe_in_list = Customer_like_recipe.query.filter(Customer_like_recipe.rid == rid).all()
+        for to_del_recipe in recipe_in_list:
+            print("to_del_recipe_in_favorite_list:{}".format(to_del_recipe))
+            db.session.delete(to_del_recipe)
+            db.session.commit()
         recipe.isDeleted = True
         return ('Delete your recipe successfully!', True)
 
