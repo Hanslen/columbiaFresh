@@ -6,7 +6,7 @@ manager = Manager(app)
 migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 manager.add_command("server",
-        Server(host="0.0.0.0", port=5000, use_debugger=True))
+        Server(host="0.0.0.0", port=5000, use_debugger=True), default=True)
 
 @manager.command
 def query_customer_id():

@@ -3,6 +3,7 @@ from ...auth import check_token
 from ...cart_models import Cart
 from ...search_models import Recipe, Ingredient_in_recipe, Ingredient
 import sys, os
+import pprint
 
 @app.route('/deleteShoppingCartItem', methods=['POST'])
 @check_token
@@ -75,8 +76,13 @@ def AddRecipeToCart(customer, content):
                     'message': 'Internal Error...'
                 }
                 return (json, False)
+
     except Exception as e:
-        return (str(e), False)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
+
 
 @app.route('/shoppingCart', methods=['POST'])
 @check_token
@@ -89,7 +95,6 @@ def getCart(customer, content):
 
         else:
             recipes = Cart.getCartRecipe(uid)
-            print("recipe id:{}".format(recipes))
             recipe_list = []
             if recipes is not None:
                 for recipe_in in recipes:
@@ -121,6 +126,10 @@ def getCart(customer, content):
 
                     item["ingredient"] = ingr_list
             return (recipe_list, True)
+
     except Exception as e:
-        return (str(e), False)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
 

@@ -3,6 +3,7 @@ from flask import request, jsonify
 import datetime
 from ..models import Customer
 from ..email import send_mail
+import sys, os
 from ..auth import return_format
 
 # need to create cart
@@ -68,6 +69,7 @@ def login():
     try:
         # read the posted values from the UI
         content = request.json
+        print(content)
         customer = Customer.query.filter(Customer.email == content['email']).first()
         if(customer is None):
             return ("Email does not exist", False)
@@ -84,5 +86,8 @@ def login():
         return ("Password is not correct", False)
 
     except Exception as e:
-        print (e)
-        return (str(e), False)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print("exc_type:{}, fname:{}, line:{}".format(exc_type, fname, exc_tb.tb_lineno))
+        return ("exc_type:{}, fname:{}, line:{}, error:{}".format(exc_type, fname, exc_tb.tb_lineno, e), False)
+
