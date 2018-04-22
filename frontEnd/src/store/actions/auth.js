@@ -157,7 +157,8 @@ export const authSignUp = (email, username, password) => {
                 console.log(response.data);
                 const data = {
                     email: email,
-                    url: "localhost:3000/verifyEmail/"+response.data
+                    // url: "localhost:3000/verifyEmail/"+response.data
+                    url: "http://flask-env.ipu3majdk5.us-east-1.elasticbeanstalk.com/verifyEmail/"+response.data
                 };
                 axios.post('/register/confirm_url', data)
                     .then(response => {
