@@ -4,7 +4,7 @@ from collections import defaultdict
 import difflib
 import re
 import math
-from ..search_models import Recipe
+from ..search_models import Recipe, Recipe_category, Recipe_in_cate
 from ..search_models import Ingredient, Ingredient_in_recipe
 from ..models import Customer
 from ..auth import return_format
@@ -119,7 +119,14 @@ def GetScoredRecipes(query):
     all_recipes = Recipe.get_all_recipes()
     score_recipe = defaultdict()
     for recipe in all_recipes:
-        score = difflib.SequenceMatcher(a=query.lower(), b=recipe.title.lower()).ratio()
+        rid = recipe.rid
+        category_ids = Recipe_in_cate.get_recipe_cate(rid)
+        author = Customer.get_customer_info(recipe.uid)
+        combined_content = recipe.title + author.uname
+        for category_id in category_ids:
+            category = Recipe_category.get_recipe_category(category_id.rcid)
+            combined_content += category.rcname
+        score = difflib.SequenceMatcher(a=query.lower(), b=combined_content.lower()).ratio()
         if score not in score_recipe.keys():
             score_recipe[score] = defaultdict()
         score_recipe[score][recipe.rid] = recipe.title
