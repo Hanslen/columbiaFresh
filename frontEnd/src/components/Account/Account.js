@@ -22,7 +22,7 @@ class account extends Component{
             // console.log(response.data);
             this.setState({shoppingCart: response.data});
         }).catch(function(error){
-            // console.log(error.response);
+            console.log(error.response);
         });
     }
     render(){
