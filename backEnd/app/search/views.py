@@ -1,9 +1,9 @@
 from app import app
 from flask import request, jsonify
 from collections import defaultdict
-import difflib
 import re
 import math
+from fuzzywuzzy import fuzz
 from ..search_models import Recipe, Recipe_category, Recipe_in_cate
 from ..search_models import Ingredient, Ingredient_in_recipe
 from ..models import Customer
@@ -52,6 +52,7 @@ def Search_recipe():
         recipes_truncated = []
         score_recipe = GetScoredRecipes(query)
         sorted_score = sorted(score_recipe, reverse=True)
+        print(sorted_score)
         start = perPage * (page_id - 1)
         count = 0
         for key in sorted_score:
@@ -122,11 +123,13 @@ def GetScoredRecipes(query):
         rid = recipe.rid
         category_ids = Recipe_in_cate.get_recipe_cate(rid)
         author = Customer.get_customer_info(recipe.uid)
-        combined_content = recipe.title + author.uname
+        combined_content = recipe.title + " " + author.uname
         for category_id in category_ids:
             category = Recipe_category.get_recipe_category(category_id.rcid)
-            combined_content += category.rcname
-        score = difflib.SequenceMatcher(a=query.lower(), b=combined_content.lower()).ratio()
+            temp = category.rcname.split("-")
+            temp = ' '.join(temp)
+            combined_content += " " + temp
+        score = fuzz.partial_ratio(query.lower(), combined_content.lower())
         if score not in score_recipe.keys():
             score_recipe[score] = defaultdict()
         score_recipe[score][recipe.rid] = recipe.title
