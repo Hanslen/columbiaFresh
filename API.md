@@ -9,6 +9,10 @@ description: Unauthorized
 '401': 
 description: Unexpected error
 
+```
+if status code is 403 or 401:
+return "errorInfo": string
+```
 
 ### Sign Up
 #### post user information and get activate token
@@ -34,6 +38,20 @@ response
   token: string
 }
 ```
+### Check token
+#### check user token
+url
+```
+POST /token
+```
+parameters
+```
+{
+	token:string
+}
+```
+response
+Only need statusCode
 ### Sign Up Verification URL generation
 #### post user email and activate token
 
@@ -45,7 +63,6 @@ url
 parameters
 ```python
 {
-
   email: string
   url: string # url: string # generate by token, e.g. www.columbiaFresh/register/<token>
 }
@@ -67,12 +84,9 @@ None
 response
 ```
 {
-  status: string
-  info: {
     uid: string,
     email: string,
     uname: string
-  }
 }
 ```
 
@@ -89,24 +103,19 @@ parameters
 ```
 {
 email: string
-pwd: string
+password: string
 }
 ```
 
 response
 ```python
 {
-  status: string //Fail, Success
-  info: string # if Fail, return string 
-               # if success, return {
-                                        uid: string,
-                                        token: string,
-                                        email: string,
-                                        img: string,
-                                        uname: string
-                                     }
+	uid: string,
+	token: string,
+	email: string,
+	img: string,
+	uname: string
 }
-
 ```
 ### Upload recipes - get tags
 url
@@ -157,6 +166,25 @@ response:
 }
 ```
 
+### Delete recipe
+url
+```
+POST /deleteRecipe
+```
+postData
+```
+{	
+	token: String,
+	rid: String
+}
+```
+response:
+```
+{
+	msg: String
+}
+```
+
 ### Search recipes
 
 #### get hot menus (hot search word)
@@ -175,6 +203,28 @@ response
 }
 ```
 
+#### get number of result pages
+
+url
+```
+GET /page
+```
+
+parameters
+```
+{
+	query: string,
+	perPage: int
+}
+```
+
+response
+```
+{
+	pages: int
+}
+```
+
 #### get recipe search results
 
 url
@@ -185,8 +235,9 @@ GET /search
 parameters
 ```
 {
-	query: string
-	page: int
+	query: string,
+	page: int,
+	perPage: int
 }
 ```
 
@@ -194,14 +245,17 @@ response
 ```
 {
 	recipes: [{
-    	rid: int, recipe id
-    	url: '/recipe/'+id,
-    	imgurl: string, image url
-    	title: string, recipe name
-    	author: string
-    	likes: int,
-    	ingredients: [string],
-  	}*20]
+		rid: int, recipe id
+		url: '/recipe/'+id,
+		imgurl: string, image url
+		title: string, recipe name
+		author: string
+		likes: int,
+		ingredients: [{
+			name: string,
+			quantity: string
+		}],
+  	}]
 }
 ```
 
@@ -226,24 +280,27 @@ response
 ```
 {
 	rid: int,
-    title: string, recipe title
-    img: string, image url
-    likes: int,
-    isLiked: bool | false, whether user likes the recipe, default false
-    tags: [string],
-    aid: int, author uid
-    avatar: string, url of user avatar
-    author: string, username of author
-    discription: string,
-    calorie: int,
-    preptime: int, in min
-    ingredients: [string],
-    directions: [string],
-    notes: string, footnote
+	title: string, recipe title
+	img: string, image url
+	likes: int,
+	isLiked: bool | false, whether user likes the recipe, default false
+	tags: [string],
+	aid: int, author uid
+	avatar: string, url of user avatar
+	author: string, username of author
+	discription: string,
+	calorie: int,
+	preptime: int, in min
+	ingredients: [{
+		name: string,
+		quantity: string
+	}],
+	directions: [string],
+	notes: string, footnote
 }
 ```
 
-#### add ingredients to shopping cart
+#### add recipes to shopping cart
 
 url
 
@@ -256,8 +313,8 @@ parameters
 ```
 {
 	token: string,
-    uid: int, user id
-    rid: int, recipe id
+	uid: int, user id
+	rid: int, recipe id
 }
 ```
 
@@ -283,9 +340,9 @@ parameters
 ```
 {
 	token: string,
-    uid: int, user id
-    rid: int, recipe id
-    like: bool
+	uid: int, user id
+	rid: int, recipe id
+	like: bool
 }
 ```
 
@@ -300,7 +357,31 @@ response
 }
 ```
 
-### 
+#### place order
+
+url
+
+```
+POST /placeOrder
+```
+
+parameters
+
+```
+{
+	token: string,
+	uid: int, user id
+}
+```
+
+response
+
+```
+{
+    orderId: string,
+    message: string
+}
+```
 
 #### get user orders
 url
@@ -318,14 +399,16 @@ data:
 response
 ```
 {
-  orderPlaceDate: string,
-  totalPrice: string,
-  shipTo: string,
-  orderID: string,
-  deliveredDate: string,
-  soldBy: string,
-  title: string,
-  img: string
+	msg:[{
+		orderPlaceDate: string,
+		totalPrice: string,
+		shipTo: string,
+		orderID: string,
+		deliveredDate: string,
+		soldBy: string,
+		title: string,
+		img: string
+	}]
 }
 
 ```
@@ -343,8 +426,10 @@ postData
 }
 ```
 response
-```
-{
+```{
+date: string,
+msg:[{
+	recipeId: string,
 	img: string,
 	title: string,
 	price: string, (single item price),
@@ -356,7 +441,47 @@ response
 		price: float,
 		number: int
 	}]
+}]}
+```
+### My recipe
+#### get my recipe tags
+url
+```
+POST /myrecipe/tags
+```
+postData
+```
+{
+	userId: string,
+	token: string
 }
+```
+response
+```
+{
+	tag: [string]
+}
+```
+#### get recipe folder items
+url
+```
+POST /myrecipe/folder
+```
+postData
+```
+{
+	userId: String,
+	token: String,
+	tag: String
+}
+```
+response
+```
+[{
+	id: String,
+        title: String,
+        src: String
+}]
 ```
 
 ### Shopping Cart
@@ -375,20 +500,102 @@ postData
 
 response
 ```
-{
-  img: string,
-  title: string, 
-  price: string, (single item price)
-  number: int,
-  item: [{
-      id: int,
+{[{
+      recipeId: int,
       img: string,
       title: string,
       price: float,
-      number: int
+      number: int,
+      ingredient:[{
+      		id: int,
+		img: string,
+		title: string,
+		price: float,
+		number: int
+      }]
    }]
 }
 ```
+#### increase recipe num
+url
+```
+POST /recipe/increasenum
+```
+postData
+```
+{
+	userId: string,
+	token: string,
+	rid: string
+}
+```
+response
+```
+{
+	price: string
+}
+```
+#### decrease recipe num
+url
+```
+POST /recipe/decreasenum
+```
+postData
+```
+{
+	userId: string,
+	token: string,
+	rid: string
+}
+```
+response
+```
+{
+	price: string
+}
+```
+#### delete shoppingCartItem
+url
+```
+POST /deleteShoppingCartItem
+```
+postData
+```
+{
+	userId: string,
+	token: string,
+	rid: string
+}
+```
+response
+```
+{
+	msg: "Success" | "fail"
+}
+```
+
+### Favourite List
+#### get favourite list
+url
+```
+POST /getfavouritelist
+```
+postData
+```
+{
+	userId: string,
+	token: string
+}
+```
+response
+```
+[{
+	id: string,
+	title: string,
+	src: string
+}]
+```
+
 
 ### Settings
 #### get basic information
@@ -415,6 +622,26 @@ response
   userName: string (token != userId)
 }
 ```
+#### update user Icon
+url
+```
+POST /settings/update/userIcon
+```
+postData
+```
+{
+	userId: string,
+	token: string,
+	img: string
+}
+```
+reponse
+```
+{
+	msg: string
+}
+```
+
 #### update basic information
 url
 ```
@@ -444,6 +671,7 @@ url
 ```
 POST /settings/update/password
 ```
+
 postData
 ```
 {
