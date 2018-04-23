@@ -29,7 +29,7 @@ def get_ingredients():
         result = []
         ingredients = Ingredient.get_all()
         for ingr in ingredients:
-            if ingr.isUserCreated is False:
+            if ingr.isUserCreated == 0:
                 result.append([ingr.iname, ingr.recipeMetric])
 
         return (result, True)
@@ -57,7 +57,7 @@ def create_recipe(customer, content):
         ingredients = Ingredient.get_all()
 
         for ingr in ingredients:
-            if ingr.isUserCreated is False:
+            if ingr.isUserCreated == 0:
                 pool.add(ingr.iname)
 
         add_ingr = content['ingredients']
