@@ -19,9 +19,11 @@ class account extends Component{
             token: this.props.token
         }
         Axios.post('/shoppingCart', postData).then(response=>{
-            // console.log(response.data);
+            console.log("Response");
+            console.log(response.data);
             this.setState({shoppingCart: response.data});
         }).catch(function(error){
+            console.log("Error");
             console.log(error.response);
         });
     }
