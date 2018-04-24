@@ -45,13 +45,13 @@ def delete_user():
 
 
 @manager.command
-def query_user():
-    from app.models import Customer
-    customer = Customer.query.all()
+def query_ingr():
+    from app.search_models import Ingredient
+    customer = Ingredient.query.all()
     print(customer)
 
 @manager.command
-def query():
+def delete_recipe():
     from app.search_models import Recipe
     from app.cart_models import Cart
     lis = Recipe.query.all()
@@ -59,7 +59,9 @@ def query():
         print(temp.title)
         print(temp.isDeleted)
         if temp.isDeleted == 1:
-            temp.isDeleted = False
+            print(temp.rid, temp.title)
+            db.session.delete(temp)
+            db.session.commit()
     print(Cart.query.all())
 
 @manager.command
