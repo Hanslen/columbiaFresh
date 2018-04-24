@@ -47,7 +47,7 @@ def delete_user():
 @manager.command
 def query_ingr():
     from app.search_models import Ingredient
-    customer = Ingredient.query.all()
+    customer = Ingredient.query.filter(Ingredient.iid>97).all()
     print(customer)
 
 @manager.command

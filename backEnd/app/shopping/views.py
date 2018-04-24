@@ -9,8 +9,8 @@ import pprint
 @check_token
 def GetUserOrders(customer, content):
     try:
-        uid = str(customer.uid)
-        if uid != content['userId']:
+        uid = customer.uid
+        if uid != int(content['userId']):
             error = "Inconsistent user identifier!"
             return (str(error), False)
         else:
@@ -19,8 +19,8 @@ def GetUserOrders(customer, content):
             if orders is not None:
                 for order in orders:
                     recipes = OrderContainsRecipe.getOrderRecipe(order.oid)
-                    print("order.oid:{}".format(order.oid))
-                    print(recipes)
+                    # print("order.oid:{}".format(order.oid))
+                    # print(recipes)
                     if recipes is not None:
                         first_recipe = Recipe.get_recipe(recipes[0].rid)
                         # Total price should be added
@@ -116,9 +116,9 @@ def placeOrder(customer, content):
 
                 for recipe_in in recipes:
                     recipe = Recipe.get_recipe(recipe_in.rid)
-                    print("recipe_name:{}, recipe_id:{}".format(recipe.title, recipe.rid))
+                    # print("recipe_name:{}, recipe_id:{}".format(recipe.title, recipe.rid))
                     ingredients_list = Ingredient_in_recipe.get_ingredients_in_recipe(recipe_in.rid)
-                    print(ingredients_list)
+                    # print(ingredients_list)
                     recipe_price = 0
                     for ingr_in in ingredients_list:
                         item = Ingredient.get_ingredient(ingr_in.iid)

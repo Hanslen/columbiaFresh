@@ -35,6 +35,9 @@ class Ingredient(db.Model):
             "price": self.orderPrice
 	    }
 
+    def __repr__(self):
+        return '<Ingr: iname:{}, iid:{}, user:{}>'.format(self.iname, self.iid, self.isUserCreated)
+
 class Ingredient_in_cate(db.Model):
     __tablename__ = 'ingredient_in_cate'
     iid = db.Column(db.Integer, db.ForeignKey('ingredient.iid'), primary_key=True)

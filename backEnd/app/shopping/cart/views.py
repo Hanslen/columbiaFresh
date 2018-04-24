@@ -88,8 +88,8 @@ def AddRecipeToCart(customer, content):
 @check_token
 def getCart(customer, content):
     try:
-        uid = str(customer.uid)
-        if uid != content['uid']:
+        uid = customer.uid
+        if uid != int(content['uid']):
             error = "Inconsistent user identifier!"
             return (str(error), False)
 

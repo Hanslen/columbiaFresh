@@ -22,12 +22,47 @@ class SetUpTest(unittest.TestCase):
             content_type='application/json')
 
         test = json.loads(rv.data)
-        print(type(rv.data))
-        print(test)
         with open('local.json', 'w') as f:
             json.dump(test, f)
 
         assert (b'email' in rv.data)
+
+    def test_get_recipe_tags(self):
+        with open('local.json', 'r') as f:
+            data = json.load(f)
+        rv = self.app.get('/getRecipeTags')
+        # self.app.get('/path-to-request', query_string=dict(arg1='data1', arg2='data2', ...))
+        self.assertTrue(rv.status_code is 200)
+
+    def test_shopping_cart(self):
+        with open('local.json', 'r') as f:
+            data = json.load(f)
+        rv = self.app.post('/shoppingCart', data=json.dumps(dict(
+            uid=38,
+            token=data['token'])),
+            content_type='application/json')
+        # self.app.get('/path-to-request', query_string=dict(arg1='data1', arg2='data2', ...))
+        self.assertTrue(rv.status_code is 200)
+
+    def test_orders(self):
+        with open('local.json', 'r') as f:
+            data = json.load(f)
+        rv = self.app.post('/orders', data=json.dumps(dict(
+            userId=38,
+            token=data['token'])),
+            content_type='application/json')
+        # self.app.get('/path-to-request', query_string=dict(arg1='data1', arg2='data2', ...))
+        self.assertTrue(rv.status_code is 200)
+
+    def test_id_identify(self):
+        with open('local.json', 'r') as f:
+            data = json.load(f)
+        rv = self.app.post('/shoppingCart', data=json.dumps(dict(
+            uid=3,
+            token=data['token'])),
+            content_type='application/json')
+        # self.app.get('/path-to-request', query_string=dict(arg1='data1', arg2='data2', ...))
+        assert (b'Inconsistent' in rv.data)
 
     def test_update_address(self):
         with open('local.json', 'r') as f:
@@ -42,8 +77,12 @@ class SetUpTest(unittest.TestCase):
             zipCode='10026')),
             content_type='application/json')
 
-        print(rv.data)
         assert (b'Success' in rv.data)
+
+    def test_search(self):
+        rv = self.app.get('/hotMenu')
+        # self.app.get('/path-to-request', query_string=dict(arg1='data1', arg2='data2', ...))
+        self.assertTrue(rv.status_code is 200)
 
     # def test_update_password(self):
     #     rv = self.app.post('/settings/update/password', data=json.dumps(dict(
@@ -58,7 +97,13 @@ class SetUpTest(unittest.TestCase):
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    tests = [SetUpTest("test_login"), SetUpTest("test_update_address")]
+    tests = [SetUpTest("test_login"),
+             SetUpTest("test_get_recipe_tags"),
+             SetUpTest("test_update_address"),
+             SetUpTest("test_shopping_cart"),
+             SetUpTest("test_orders"),
+             SetUpTest("test_search")
+             ]
     suite.addTests(tests)
 
     runner = unittest.TextTestRunner(verbosity=2)

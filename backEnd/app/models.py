@@ -92,12 +92,10 @@ class Customer(db.Model):
     @password.setter
     def password(self, password):
         self.password_hash = generate_password_hash(password)
-        print("password_hash:%s" % self.password_hash)
+        # print("password_hash:%s" % self.password_hash)
 
     # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     def check_password_hash(self, password):
-        print("password_hash:%s" % self.password_hash)
-        print("password:%s" % password)
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
