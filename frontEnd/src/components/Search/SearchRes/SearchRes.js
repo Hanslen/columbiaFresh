@@ -94,6 +94,7 @@ class SearchRes extends React.Component {
 const mapStateToProps = (state) => {
     return {
         pages: state.pagesReducer.pages,
+        keyword: state.resultsReducer.keyword,
         results: state.resultsReducer.results
     };
 };

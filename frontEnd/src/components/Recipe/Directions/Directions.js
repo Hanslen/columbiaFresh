@@ -18,12 +18,14 @@ class Directions extends React.Component{
                     <div className="col-9">
                         <h3>Directions</h3>
                     </div>
+                    {/*
                     <div className="col-3">
                         <div className="pos-bottom">
                             <i className="far fa-clock"></i>
                             <span> {this.props.preptime} m</span>
                         </div>
                     </div>
+                    */}
                 </div>
                 <hr className="mt-1 mb-1"/>
                 <ul className="list-group">{listItems}</ul>
