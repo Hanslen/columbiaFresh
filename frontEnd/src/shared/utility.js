@@ -37,6 +37,10 @@ export const checkValidity = ( value, rules ) => {
         const pattern = /^\d+$/;
         isValid = pattern.test( value ) && isValid
     }
+    if(rules.isNumber){
+        const pattern = /^\d*\.?\d*$/;
+        isValid = pattern.test(value) && isValid;
+    }
     return isValid;
 }
 

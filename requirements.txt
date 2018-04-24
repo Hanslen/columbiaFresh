@@ -64,4 +64,9 @@ w3lib==1.19.0
 wcwidth==0.1.7
 websocket-client==0.47.0
 Werkzeug==0.14.1
+<<<<<<< HEAD
 zope.interface==4.4.3
+||||||| merged common ancestors
+=======
+fuzzywuzzy==0.16.0
+>>>>>>> c2cfe2717bcf76a311b3e6f4ba2fd627ab5797c7

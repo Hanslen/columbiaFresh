@@ -68,7 +68,8 @@ class ingredientBox extends Component{
         }
     }
     updateQuantity = (id, e) => {
-        if(!checkValidity(e.target.value, {isNumeric: true}) && (e.target.value != "")){
+        console.log("typing");
+        if(!checkValidity(e.target.value, {isNumber: true}) && (e.target.value != "")){
             alert("Please enter a number");
             return ;
         }

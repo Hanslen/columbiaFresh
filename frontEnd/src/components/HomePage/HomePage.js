@@ -56,7 +56,7 @@ class HomePage extends Component {
                     <div className="container" id={classes.headingBox}>
                     <h1 className="jumbotron-heading"><strong>Columbia Fresh</strong></h1>
                     <br/><br/>
-                    <p className="lead" id="jumbotron-sub">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+                    <p className="lead" id="jumbotron-sub"> Our product, an on-line to off-line website called “Columbia Fresh”, is aimed to connect these two groups through our platform. Lead a healthy and convenient life.</p>
                     <br/><br/>
                     {/* <p>
                         <input type="text" className="form-control" placeholder="Tell us what you want to eat...0.0"/><br/>

@@ -107,7 +107,8 @@ class shoppingcart extends Component{
                     {!this.props.notShow?
                         <div className="row">
                                 <div className="col-md-8">
-                                    <img src={detail.img}/>
+                                    {/* <img src={detail.img}/> */}
+                                    <br/>
                                     <a href="#"><strong>{detail.title}</strong></a>
                                 </div>
                                 <div className="col-md-2">
@@ -121,7 +122,8 @@ class shoppingcart extends Component{
                             </div>:
                             <div className="row" key={detail.id}>
                             <div className="col-md-8">
-                                <img src={detail.img}/>
+                                {/* <img src={detail.img}/> */}
+                                <br/>
                                 <a href="#"><strong>{detail.title}</strong></a>
                             </div>
                             <div className="col-md-2">
