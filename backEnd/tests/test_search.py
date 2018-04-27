@@ -5,6 +5,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 from app import app
 import unittest
+from flask import request, jsonify
+
 
 class SetUpTest(unittest.TestCase):
     """This class uses the Flask tests app to run an integration test against a
@@ -13,59 +15,89 @@ class SetUpTest(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
 
-    def test_get_recipe_tags(self):
+    def test_search_with_empty_string(self):
         with open('local.json', 'r') as f:
             data = json.load(f)
-        rv = self.app.get('/getRecipeTags')
-        # self.app.get('/path-to-request', query_string=dict(arg1='data1', arg2='data2', ...))
-        self.assertTrue(rv.status_code is 200)
+        rv = self.app.get('/search?query=&&page=1&&perPage=10')
+        try:
+            self.assertTrue(rv.status_code is 200)
+        except Exception:
+            print("Search function with empty strings exists bugs!")
 
-    def test_shopping_cart(self):
+    def test_search_with_arbitrary_string(self):
         with open('local.json', 'r') as f:
             data = json.load(f)
-        rv = self.app.post('/shoppingCart', data=json.dumps(dict(
-            uid=38,
-            token=data['token'])),
-            content_type='application/json')
-        # self.app.get('/path-to-request', query_string=dict(arg1='data1', arg2='data2', ...))
-        self.assertTrue(rv.status_code is 200)
+        rv = self.app.get('/search?query=lalala&&page=1&&perPage=10')
+        try:
+            self.assertTrue(rv.status_code is 200)
+        except Exception:
+            print("Search function with arbitrary strings exists bugs!")
 
-    def test_orders(self):
+    def test_search_with_overflowing_requesting(self):
         with open('local.json', 'r') as f:
             data = json.load(f)
-        rv = self.app.post('/orders', data=json.dumps(dict(
-            userId=38,
-            token=data['token'])),
-            content_type='application/json')
-        # self.app.get('/path-to-request', query_string=dict(arg1='data1', arg2='data2', ...))
-        self.assertTrue(rv.status_code is 200)
+        rv = self.app.get('/search?query=lalala&&page=100&&perPage=10000')
+        try:
+            self.assertFalse(rv.status_code is 200)
+        except Exception:
+            print("Search function with overflowing prevention exists bugs!")
 
-    def test_id_identify(self):
+    def test_get_hot_menu(self):
         with open('local.json', 'r') as f:
             data = json.load(f)
-        rv = self.app.post('/shoppingCart', data=json.dumps(dict(
-            uid=3,
-            token=data['token'])),
-            content_type='application/json')
-        # self.app.get('/path-to-request', query_string=dict(arg1='data1', arg2='data2', ...))
-        assert (b'Inconsistent' in rv.data)
-
-    def test_update_address(self):
-        with open('local.json', 'r') as f:
-            data = json.load(f)
-        rv = self.app.post('/settings/update/address', data=json.dumps(dict(
-            userId=4,
-            token=data['token'],
-            streetAddress1='350 Manhattan Ave',
-            streetAddress2='',
-            city='New York City',
-            state_province_region='NY',
-            zipCode='10026')),
-            content_type='application/json')
-
-        assert (b'Success' in rv.data)
-
-    def test_search(self):
         rv = self.app.get('/hotMenu')
-        # self.app.get('/path-to-request', query_string=dict(arg1='data1', arg2='data2', ...))
-        self.assertTrue(rv.status_code is 200)
+        try:
+            self.assertIn(b'menu', rv.data)
+        except Exception:
+            print("Hot menu function exists bugs!")
+
+    def test_get_page_numer_normal(self):
+        with open('local.json', 'r') as f:
+            data = json.load(f)
+        rv = self.app.get('/page?query=lalala&&perPage=10000')
+        try:
+            self.assertTrue(rv.status_code is 200)
+        except Exception:
+            print("Getting page number with normal input exists bugs!")
+
+    def test_get_page_numer_abnormal(self):
+        with open('local.json', 'r') as f:
+            data = json.load(f)
+        rv = self.app.get('/page?query=lalala&&perPage=0')
+        try:
+            self.assertFalse(rv.status_code is 200)
+        except Exception:
+            print("Getting page number with abnormal input exists bugs!")
+
+    def test_get_rank_normal(self):
+        with open('local.json', 'r') as f:
+            data = json.load(f)
+        rv = self.app.get('rank?query=&&page=1&&perPage=10')
+        try:
+            self.assertTrue(rv.status_code is 200)
+        except Exception:
+            print("Getting ranked recipe with normal input exists bugs!")
+
+    def test_get_rank_abnormal(self):
+        with open('local.json', 'r') as f:
+            data = json.load(f)
+        rv = self.app.get('rank?query=&&page=100&&perPage=100000')
+        try:
+            self.assertFalse(rv.status_code is 200)
+        except Exception:
+            print("Getting ranked recipe with abnormal input exists bugs!")
+
+if __name__ == '__main__':
+    suite = unittest.TestSuite()
+    tests = [SetUpTest("test_search_with_empty_string"),
+             SetUpTest("test_search_with_arbitrary_string"),
+             SetUpTest("test_search_with_overflowing_requesting"),
+             SetUpTest("test_get_hot_menu"),
+             SetUpTest("test_get_page_numer_normal"),
+             SetUpTest("test_get_page_numer_abnormal"),
+             SetUpTest("test_get_rank_normal"),
+             SetUpTest("test_get_rank_abnormal")
+             ]
+    suite.addTests(tests)
+    runner = unittest.TextTestRunner(verbosity=2)
+    runner.run(suite)

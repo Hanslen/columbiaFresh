@@ -68,6 +68,8 @@ def Get_Search_Results_Pages():
     try:
         query = str(request.args.get('query'))
         perPage = int(request.args.get('perPage'))
+        if perPage == 0:
+            return ("Bad perPage parameter", False)
         total_recipes_number = len(Recipe.get_all_recipes())
         total_pages = math.ceil(total_recipes_number / perPage)
         json = {
