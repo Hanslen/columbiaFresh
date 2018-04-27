@@ -161,12 +161,19 @@ class Recipe(db.Model):
         return recipesName
 
     @staticmethod
+    def get_recipes_by_rank():
+        recipes = Recipe.query.order_by(Recipe.likes.desc()).all()
+        if recipes is None:
+            print("The object does not exist!")
+        else:
+            return recipes
+
+    @staticmethod
     def get_all_recipes():
         return Recipe.query.filter(Recipe.isDeleted == 0).all()
 
     @staticmethod
     def create_recipe(recipe):
-        # app.logger.info(recipe.rid)
         db.session.add(recipe)
         db.session.commit()
         return recipe.rid
