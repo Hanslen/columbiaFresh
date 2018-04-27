@@ -23,6 +23,45 @@ def Get_hot_menu():
         print(e)
         return (str(e), False)
 
+@app.route('/rank', methods=['GET'])
+@return_format
+def Get_Ranked_menu():
+    try:
+        page_id = request.args.get('page')
+        page_id = int(page_id)
+        perPage = int(request.args.get('perPage'))
+        recipes = Recipe.get_recipes_by_rank()
+        recipes_truncated = []
+        start = perPage * (page_id - 1)
+        if start > len(recipes):
+            return ("Doesn't contain the required number of records", False)
+        count = 0
+        for recipe in recipes:
+            author = Customer.get_customer_info(recipe.uid)
+            json = {
+                "rid": recipe.rid,
+                "url": "/recipe/" + str(recipe.rid),
+                "imgurl": recipe.img,
+                "title": recipe.title,
+                "author": author.uname,
+                "likes": recipe.likes,
+                "ingredients": GetIngredients(recipe.rid)
+            }
+            if start <= count:
+                recipes_truncated.append(json)
+                if len(recipes_truncated) >= perPage:
+                    break
+            count += 1
+            if len(recipes_truncated) >= perPage:
+                break
+        json = {
+            "recipes" : recipes_truncated
+        }
+        return (json, True)
+    except Exception as e:
+        print(e)
+        return (str(e), False)
+
 @app.route('/page', methods=['GET'])
 @return_format
 def Get_Search_Results_Pages():
@@ -52,8 +91,9 @@ def Search_recipe():
         recipes_truncated = []
         score_recipe = GetScoredRecipes(query)
         sorted_score = sorted(score_recipe, reverse=True)
-        print(sorted_score)
         start = perPage * (page_id - 1)
+        if start < len(score_recipe):
+            return ("Doesn't contain the required number of records", False)
         count = 0
         for key in sorted_score:
             item = score_recipe[key]
@@ -83,6 +123,8 @@ def Search_recipe():
     except Exception as e:
         print(e)
         return (str(e), False)
+
+
 
 def ProcessSentence(input):
     return re.sub('[!#$%&\'*+,;.^_`|~:]+', '', input)
