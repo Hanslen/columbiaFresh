@@ -23,10 +23,7 @@ class SetUpTest(unittest.TestCase):
             userId=38,
             token=data['token'])),
             content_type='application/json')
-        try:
-            self.assertTrue(rv.status_code is 200)
-        except Exception:
-            print("Get recipe folder function with normal inputs exists bugs!")
+        self.assertTrue(rv.status_code is 200)
 
     def test_get_myrecipe_folder_without_token(self):
         with open('local.json', 'r') as f:
@@ -36,10 +33,7 @@ class SetUpTest(unittest.TestCase):
             userId=38,
             token='')),
             content_type='application/json')
-        try:
-            self.assertFalse(rv.status_code is 200)
-        except Exception:
-            print("Get recipe folder function with no token exists bugs!")
+        self.assertFalse(rv.status_code is 200)
 
     def test_get_myrecipe_folder_without_id(self):
         with open('local.json', 'r') as f:
@@ -49,10 +43,7 @@ class SetUpTest(unittest.TestCase):
             userId=None,
             token=data['token'])),
             content_type='application/json')
-        try:
-            self.assertFalse(rv.status_code is 200)
-        except Exception:
-            print("Get recipe folder function with no USER ID exists bugs!")
+        self.assertFalse(rv.status_code is 200)
 
     def test_get_myrecipe_folder_with_no_tag(self):
         with open('local.json', 'r') as f:
@@ -62,10 +53,7 @@ class SetUpTest(unittest.TestCase):
             userId=38,
             token=data['token'])),
             content_type='application/json')
-        try:
-            self.assertFalse(rv.status_code is 200)
-        except Exception:
-            print("Get recipe folder function with no tag exists bugs!")
+        self.assertTrue(rv.status_code is 200)
 
     def test_get_myrecipe_tag_normal(self):
         with open('local.json', 'r') as f:
@@ -74,10 +62,7 @@ class SetUpTest(unittest.TestCase):
             userId=38,
             token=data['token'])),
             content_type='application/json')
-        try:
-            self.assertTrue(rv.status_code is 200)
-        except Exception:
-            print("Get recipe folder tag function with normal inputs exists bugs!")
+        self.assertTrue(rv.status_code is 200)
 
     def test_get_myrecipe_tag_without_token(self):
         with open('local.json', 'r') as f:
@@ -86,10 +71,7 @@ class SetUpTest(unittest.TestCase):
             userId=38,
             token='')),
             content_type='application/json')
-        try:
-            self.assertFalse(rv.status_code is 200)
-        except Exception:
-            print("Get recipe folder tag function with no token exists bugs!")
+        self.assertFalse(rv.status_code is 200)
 
     def test_get_myrecipe_tag_without_id(self):
         with open('local.json', 'r') as f:
@@ -98,10 +80,7 @@ class SetUpTest(unittest.TestCase):
             userId=None,
             token=data['token'])),
             content_type='application/json')
-        try:
-            self.assertFalse(rv.status_code is 200)
-        except Exception:
-            print("Get recipe folder tag function with no USER ID exists bugs!")
+        self.assertFalse(rv.status_code is 200)
 
     def test_get_recipe_normal(self):
         with open('local.json', 'r') as f:
@@ -111,10 +90,7 @@ class SetUpTest(unittest.TestCase):
             rid=10,
             token=data['token'])),
             content_type='application/json')
-        try:
-            self.assertTrue(rv.status_code is 200)
-        except Exception:
-            print("Get recipe function with normal inputs exists bugs!")
+        self.assertTrue(rv.status_code is 200)
 
     def test_get_recipe_with_no_uid(self):
         with open('local.json', 'r') as f:
@@ -124,10 +100,7 @@ class SetUpTest(unittest.TestCase):
             rid=10,
             token=data['token'])),
             content_type='application/json')
-        try:
-            self.assertTrue(rv.status_code is 200)
-        except Exception:
-            print("Get recipe function with no uid input exists bugs!")
+        self.assertTrue(rv.status_code is 200)
 
     def test_get_recipe_with_no_rid(self):
         with open('local.json', 'r') as f:
@@ -137,10 +110,7 @@ class SetUpTest(unittest.TestCase):
             rid=None,
             token=data['token'])),
             content_type='application/json')
-        try:
-            self.assertFalse(rv.status_code is 200)
-        except Exception:
-            print("Get recipe function with no rid input exists bugs!")
+        self.assertFalse(rv.status_code is 200)
 
     def test_get_recipe_with_no_token(self):
         with open('local.json', 'r') as f:
@@ -150,10 +120,7 @@ class SetUpTest(unittest.TestCase):
             rid=10,
             token='')),
             content_type='application/json')
-        try:
-            self.assertTrue(rv.status_code is 200)
-        except Exception:
-            print("Get recipe function with no token input exists bugs!")
+        self.assertTrue(rv.status_code is 200)
 
 
 
