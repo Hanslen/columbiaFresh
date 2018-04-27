@@ -20,6 +20,9 @@ class myRecipes extends Component{
         userId: null
     }
     componentDidMount(){
+        if(this.props.token == null){
+            this.props.setAlert("Please log in to view other user profile!", true);
+        }
         const pathName = this.props.history.location.pathname;
         const urlSplit = pathName.split('/');
         console.log(urlSplit);
@@ -32,6 +35,7 @@ class myRecipes extends Component{
             userId: postUserId,
             token: this.props.token
         }
+        console.log(postData);
         Axios.post("/myrecipe/tags", postData).then(response=>{
             let updateFolder = response.data.tags;
             updateFolder.push("+ Create a recipe");
@@ -55,8 +59,12 @@ class myRecipes extends Component{
         for(var f in this.state.myFolders){
             $('#my'+this.state.myFolders[f]).removeClass(classes.folderactive);
         }
+        let postDataId = this.props.userId;
+        if(this.state.userId != null){
+            postDataId = this.state.userId;
+        }
         const postData = {
-            userId: this.props.userId,
+            userId: postDataId,
             token: this.props.token,
             tag: folder
         };

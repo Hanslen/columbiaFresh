@@ -14,8 +14,8 @@ class HomePage extends Component {
         this.state = {
             categories: [
                 {type: "Salad", src: "/static/img/salad.jpeg"},
-                {type: "Meat", src: "/static/img/meat.jpeg"},
-                {type: "Breakfast", src: "/static/img/break.jpeg"},
+                {type: "Soup", src: "/static/img/soup.jpeg"},
+                {type: "Bread", src: "/static/img/break.jpeg"},
                 {type: "Dessert", src: "/static/img/dessert.jpeg"},
                 {type: "Chinese", src: "/static/img/warm.jpeg"},
                 {type: "Burger", src: "/static/img/burger.jpeg"}
