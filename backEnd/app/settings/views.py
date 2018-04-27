@@ -21,7 +21,7 @@ def get_info(customer, content):
         result["gender"] = customer.gender,
         result["email"] = customer.email
     else:
-        user = Customer.query(Customer.id == int(content['userId'])).first()
+        user = Customer.query.filter(Customer.uid == int(content['userId'])).first()
         result["icon"] = user.img,
         result["introduction"] = user.introduction,
         result["userName"] = user.uname
