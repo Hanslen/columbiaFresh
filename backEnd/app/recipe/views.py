@@ -112,7 +112,7 @@ def GetRecipe():
             "likes" : recipe_content.likes,
             "isLiked" : isLiked,
             "tags" : categories,
-            "aid" : str(uid),
+            "aid" : author_user_info.uid,
             "avatar" : author_user_info.img,
             "author" : author_user_info.uname,
             "description" : recipe_content.description,
