@@ -53,7 +53,7 @@ export const searchRecipes = (keyword, page, perPage) => {
             let results = response.data.recipes;
             dispatch(getResults(keyword, results));
         }).catch(function (error) {
-            console.log(error);
+            console.log(error.response);
         });
     };
 };

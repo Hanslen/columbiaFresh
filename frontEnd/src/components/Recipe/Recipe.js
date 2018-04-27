@@ -41,6 +41,7 @@ class Recipe extends React.Component {
         };
 
         this.handleLike = this.handleLike.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -64,7 +65,7 @@ class Recipe extends React.Component {
             notes: data.notes
         });
         let saveReputation = (reputation) => this.setState({
-            reputation: reputation/10
+            reputation: reputation/10+1
         });
         console.log(rid);
         axios.post('/getRecipe', {
@@ -112,6 +113,14 @@ class Recipe extends React.Component {
         });
     }
 
+    handleClick() {
+        if (!this.props.token) {
+            this.props.setAlert("Please log in first", true);
+            return;
+        }
+        this.props.history.push("/userprofile/"+this.state.aid);
+    }
+
     handleSearch(keyword, e) {
         let perPage = 10;
         this.props.onSearch(keyword);
@@ -145,8 +154,7 @@ class Recipe extends React.Component {
         });
 
         let authorURL = "/userprofile/"+this.state.aid;
-        //let range = [...Array(this.state.reputation).keys()]
-        let range = [0, 1];
+        let range = [...Array(this.state.reputation).keys()]
         let reputations = range.map(i => 
             <span key={i}>
                 <i class="far fa-gem"></i>
@@ -154,15 +162,20 @@ class Recipe extends React.Component {
         );
         let authorInfo = (
             <div>
-                <Link to={authorURL} style={{"textDecoration": "none"}}>
-                    <div className="media mt-3 mb-2">
+                {/*<Link to={authorURL} style={{"textDecoration": "none"}}>*/}
+                    <div className="media mt-3 mb-2" style={{cursor: "pointer"}}
+                        onClick={this.handleClick}>
                         <img className="mr-3 rounded-circle" src={this.state.avatar} style={{width:"40px", height:"40px"}}/>
-                        <div className="media-body" style={{lineHeight: 40+'px'}}>
-                            {this.state.author}
-                            {reputations}
+                        <div className="media-body">
+                            <span style={{lineHeight: 50+'px', fontSize: 20+'px'}}>
+                                {this.state.author} 
+                            </span>
+                            <span style={{paddingLeft: 5+'px', color: 'grey'}}>
+                                {reputations}
+                            </span>
                         </div>
                     </div>
-                </Link>
+                {/*</Link>*/}
                 <p>
                     {this.state.description}
                 </p>
