@@ -152,12 +152,17 @@ class Recipe(db.Model):
     def get_top_5_hot_recipes():
         recipes = Recipe.query.order_by(Recipe.likes.desc()).all()
         recipesName = []
-        for recipe in recipes:
-            if recipe.isDeleted == 1:
-                continue
-            recipesName.append(recipe.title)
-            if len(recipesName) > 5:
-                break
+        recipesName.append("meat")
+        recipesName.append("drink")
+        recipesName.append("burger")
+        recipesName.append("salad")
+        recipesName.append("dessert")
+        # for recipe in recipes:
+        #     if recipe.isDeleted == 1:
+        #         continue
+        #     recipesName.append(recipe.title)
+        #     if len(recipesName) > 5:
+        #         break
         return recipesName
 
     @staticmethod
