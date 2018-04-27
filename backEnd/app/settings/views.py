@@ -9,6 +9,7 @@ def get_info(customer, content):
         "lastname": None,
         "gender": None,
         "email": None,
+        "icon": customer.img,
         "introduction": customer.introduction,
         "userName": customer.uname
     }

@@ -46,6 +46,9 @@ def update_password(customer, content):
 @app.route('/settings/update/address', methods=['POST'])
 @check_token
 def update_address(customer, content):
+    if len(content['zipCode']) is not 5:
+        return ("Please enter a valid zipCode!", False)
+
     customer.streetAddress1 = content['streetAddress1']
     customer.streetAddress2 = content['streetAddress2']
     customer.city = content['city']
@@ -59,6 +62,18 @@ def update_address(customer, content):
 @app.route('/settings/update/credit', methods=['POST'])
 @check_token
 def update_credit(customer, content):
+    if len(content['cardNumber']) is not 16:
+        return ("The length of card number must be 16!", False)
+
+    if len(content['expirationYear']) is not 4:
+        return ("Please input a valid year!", False)
+
+    if len(content['expirationMonth']) is not 2:
+        return ("Please input a valid expiration month!", False)
+
+    if len(content['CVV']) is not 3:
+        return ("Please input a valid year!", False)
+
     customer.cardName = content['cardName']
     customer.cardNumber = content['cardNumber']
     customer.expirationMonth = content['expirationMonth']

@@ -11,7 +11,7 @@ manager.add_command("server",
 @manager.command
 def query_customer_id():
     from app.models import Customer
-    customer = Customer.get_customer_info_by_email('chenjiaheyeah@gmail.com')
+    customer = Customer.get_customer_info_by_email('dingyi0116@gmail.com')
     print(customer.uid)
 
 @manager.option('-m', '--msg', dest='msg_val', default='world')
