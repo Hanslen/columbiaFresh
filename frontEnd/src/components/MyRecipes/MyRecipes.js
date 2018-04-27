@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import classes from './MyRecipes.css';
 import Button from '../UI/Button/Button';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Axios from '../../axios-config';
 import {connect} from 'react-redux';
 import { stat } from 'fs';
@@ -16,11 +16,20 @@ class myRecipes extends Component{
             id: 1,
             title: "Burger:P",
             src: "/static/img/burger.png"
-        }]
+        }],
+        userId: null
     }
     componentDidMount(){
+        const pathName = this.props.history.location.pathname;
+        const urlSplit = pathName.split('/');
+        console.log(urlSplit);
+        let postUserId = this.props.userId;
+        if(urlSplit.length == 3){
+            postUserId = urlSplit[2];
+            this.setState({userId: urlSplit[2]});
+        }
         const postData = {
-            userId: this.props.userId,
+            userId: postUserId,
             token: this.props.token
         }
         Axios.post("/myrecipe/tags", postData).then(response=>{
@@ -28,7 +37,7 @@ class myRecipes extends Component{
             updateFolder.push("+ Create a recipe");
             this.setState({myFolders: updateFolder});
             const postTagData = {
-                userId: this.props.userId,
+                userId: postUserId,
                 token: this.props.token,
                 tag: updateFolder[0]
             };
@@ -131,12 +140,17 @@ class myRecipes extends Component{
                     </div>
                 </Link>
                     <div className={classes.subFolder}>
-                        <p>{item.title}</p><div className={classes.deleteBtn}><i className="far fa-trash-alt" style={{"marginTop":"3px","marginRight":"2px"}} onClick={(id) => this.deleteRecipe(item.id)}></i></div>
+                        <p>{item.title}</p>
+                        {this.state.userId == null?
+                            <div className={classes.deleteBtn}><i className="far fa-trash-alt" style={{"marginTop":"3px","marginRight":"2px"}} onClick={(id) => this.deleteRecipe(item.id)}></i></div>:
+                            <div></div>
+                        }
+                        
                     </div>
                 </div>
                 </div>);
         });
-        return (<div className="tab-pane fade" id="nav-myRecipes" role="tabpanel" aria-labelledby="nav-myRecipes-tab">
+        return (<div className={this.props.displayClass} id="nav-myRecipes" role="tabpanel" aria-labelledby="nav-myRecipes-tab">
             {this.state.loading?
             <Spinner/>:
             <div>
@@ -170,4 +184,4 @@ const mapDispatchToProps = dispatch => {
         setAlert: (error, isError) => dispatch(actions.setAlert(error, isError))
     };
 }
-export default connect(mapStateToPros, mapDispatchToProps)(myRecipes);
+export default withRouter(connect(mapStateToPros, mapDispatchToProps)(myRecipes));

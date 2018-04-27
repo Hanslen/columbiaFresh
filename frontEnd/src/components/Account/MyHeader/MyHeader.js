@@ -6,6 +6,32 @@ import Axios from '../../../axios-config';
 import AWS from 'aws-sdk';
 import * as actions from '../../../store/actions/index';
 class myheader extends Component{
+    state = {
+        userId: null,
+        username: "Loading",
+        userIcon: ""
+    }
+    componentWillMount(){
+        const pathName = this.props.history.location.pathname;
+        const urlSplit = pathName.split('/');
+        console.log(urlSplit);
+        if(urlSplit.length == 3){
+            this.setState({userId:urlSplit[2]});
+            const postData = {
+                userId: urlSplit[2],
+                token: this.props.token
+            };
+            Axios.post("/settings/basic", postData).then(response => {
+                console.log(response.data);
+                this.setState({username: response.data.userName, userIcon: response.data.icon});
+            }).catch(error => {
+                console.log(error);
+            });
+        }
+        else{
+            this.setState({userId: null});
+        }
+    }
     componentDidMount(){
         if(this.props.history.location.hash == "#settings"){
             $("#nav-settings-tab").trigger("click");
@@ -118,6 +144,7 @@ class myheader extends Component{
         return (
             <div>
                 <div className={classes.headerImg}>
+                    {this.state.userId == null?
                     <div className={classes.introBox}>
                         <img className={classes.imgIcon} src={this.props.img} onClick={this.uploadImg}/>
                         <input type="file" ref="uploadImg" name="selectedFile" onChange={this.imgOnChange} id="uploadImg" style={{display:"none"}}/>
@@ -125,51 +152,83 @@ class myheader extends Component{
                             <p><strong>{this.props.username}</strong></p>
                             <p>Manage and check my profile. :D</p>
                         </div>
-                    </div>    
+                    </div> :
+                    <div className={classes.introBox}>
+                        <img className={classes.imgIcon} src={this.state.userIcon}/>
+                        <div className={classes.introText}>
+                            <p><strong>{this.state.username}</strong></p>
+                            <p>Manage and check my profile. :D</p>
+                        </div>
+
+                    </div>  
+                    }  
                 </div>
                 <nav>
+                    {
+                        this.state.userId == null?
+
                     <div className={navItem.join(" ")} id="nav-tab" role="tablist">
-                        <a className="nav-item nav-link accountHeader active" 
-                            id="nav-myOrder-tab" 
-                            data-toggle="tab" 
-                            href="#nav-myOrder" 
-                            role="tab" 
-                            aria-controls="nav-myOrder" 
-                            aria-selected="true">
-                            <i className="fas fa-home" style={{color:"#00c091"}}></i>My Orders</a>
-                        <a className="nav-item nav-link accountHeader" 
-                            id="nav-shoppingCart-tab" 
-                            data-toggle="tab" 
-                            href="#nav-shoppingCart" 
-                            role="tab" 
-                            aria-controls="nav-shoppingCart" 
-                            aria-selected="false">
-                            <i className="fas fa-shopping-cart" style={{color:"#02b5da"}}></i>Shopping Cart</a>
-                        <a className="nav-item nav-link accountHeader" 
-                            id="nav-myRecipes-tab" 
-                            data-toggle="tab" 
-                            href="#nav-myRecipes" 
-                            role="tab" 
-                            aria-controls="nav-myRecipes" 
-                            aria-selected="false">
-                            <i className="fas fa-utensils" style={{color:"#ff5d47"}}></i>My Recipes</a>
-                        <a className="nav-item nav-link accountHeader" 
-                            id="nav-favoriteList-tab" 
-                            data-toggle="tab" 
-                            href="#nav-favoriteList" 
-                            role="tab" 
-                            aria-controls="nav-favoriteList" 
-                            aria-selected="false">
-                            <i className="fas fa-star" style={{color:"#fb7299"}}></i>My Favorites</a>
-                        <a className="nav-item nav-link accountHeader" 
-                            id="nav-settings-tab" 
-                            data-toggle="tab" 
-                            href="#nav-settings" 
-                            role="tab" 
-                            aria-controls="nav-settings" 
-                            aria-selected="false">
-                            <i className="fas fa-cog" style={{color:"#f3a034"}}></i>Settings</a>
-                    </div>
+                    <a className="nav-item nav-link accountHeader active" 
+                        id="nav-myOrder-tab" 
+                        data-toggle="tab" 
+                        href="#nav-myOrder" 
+                        role="tab" 
+                        aria-controls="nav-myOrder" 
+                        aria-selected="true">
+                        <i className="fas fa-home" style={{color:"#00c091"}}></i>My Orders</a>
+                    <a className="nav-item nav-link accountHeader" 
+                        id="nav-shoppingCart-tab" 
+                        data-toggle="tab" 
+                        href="#nav-shoppingCart" 
+                        role="tab" 
+                        aria-controls="nav-shoppingCart" 
+                        aria-selected="false">
+                        <i className="fas fa-shopping-cart" style={{color:"#02b5da"}}></i>Shopping Cart</a>
+                    <a className="nav-item nav-link accountHeader" 
+                        id="nav-myRecipes-tab" 
+                        data-toggle="tab" 
+                        href="#nav-myRecipes" 
+                        role="tab" 
+                        aria-controls="nav-myRecipes" 
+                        aria-selected="false">
+                        <i className="fas fa-utensils" style={{color:"#ff5d47"}}></i>My Recipes</a>
+                    <a className="nav-item nav-link accountHeader" 
+                        id="nav-favoriteList-tab" 
+                        data-toggle="tab" 
+                        href="#nav-favoriteList" 
+                        role="tab" 
+                        aria-controls="nav-favoriteList" 
+                        aria-selected="false">
+                        <i className="fas fa-star" style={{color:"#fb7299"}}></i>My Favorites</a>
+                    <a className="nav-item nav-link accountHeader" 
+                        id="nav-settings-tab" 
+                        data-toggle="tab" 
+                        href="#nav-settings" 
+                        role="tab" 
+                        aria-controls="nav-settings" 
+                        aria-selected="false">
+                        <i className="fas fa-cog" style={{color:"#f3a034"}}></i>Settings</a>
+                </div>:
+
+                <div className={navItem.join(" ")} id="nav-tab" role="tablist">
+                <a className="nav-item nav-link accountHeader active" 
+                    id="nav-myRecipes-tab" 
+                    data-toggle="tab" 
+                    href="#nav-myRecipes" 
+                    role="tab" 
+                    aria-controls="nav-myRecipes" 
+                    aria-selected="false" style={{"marginLeft":"20%","marginRight":"20%"}}>
+                    <i className="fas fa-utensils" style={{color:"#ff5d47"}}></i>Recipes</a>
+                <a className="nav-item nav-link accountHeader" 
+                    id="nav-favoriteList-tab" 
+                    data-toggle="tab" 
+                    href="#nav-favoriteList" 
+                    role="tab" 
+                    aria-controls="nav-favoriteList" 
+                    aria-selected="false">
+                    <i className="fas fa-star" style={{color:"#fb7299"}}></i>Favorites</a>
+                </div>
+                    }
                     <br/>
                 </nav>
             </div>

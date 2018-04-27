@@ -101,7 +101,7 @@ class shoppingcart extends Component{
         }
         if(this.state.recipes != null && this.state.recipes != 1 && this.state.recipes.length != 0){
             recipes = this.state.recipes.map((item, id) => {
-                console.log(item);
+                // console.log(item);
                 let recipeDetail = item.ingredient.map((detail,idd) => (
                     <div key={detail.title+"ingredint"}>
                     {!this.props.notShow?
