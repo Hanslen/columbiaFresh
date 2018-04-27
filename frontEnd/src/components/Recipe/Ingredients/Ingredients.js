@@ -69,12 +69,14 @@ class Ingredients extends React.Component {
                     <div className="col-9">
                         <h3>Ingredients</h3>
                     </div>
+                    {/*
                     <div className="col-3">
                         <div className="pos-bottom">
                             <i className="fas fa-balance-scale"></i>
                             <span> {this.props.calorie} cal</span>
                         </div>
                     </div>
+                    */}
                 </div>
                 <hr className="mt-1 mb-1"/>
                 <ul className="list-group list-group-flush">{listItems}</ul>

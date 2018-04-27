@@ -58,6 +58,26 @@ export const searchRecipes = (keyword, page, perPage) => {
     };
 };
 
+export const rankRecipes = (keyword, page, perPage) => {
+    return (dispatch) => {
+        console.log('page: '+page);
+        dispatch(getResults(keyword, []));
+        axios.get('/rank', {
+            params: {
+                query: keyword,
+                page,
+                perPage
+            }
+        }).then(function(response) {
+            console.log(response);
+            let results = response.data.recipes;
+            dispatch(getResults(keyword, results));
+        }).catch(function (error) {
+            console.log(error);
+        });
+    };
+};
+
 export const getResults = (keyword, results) => {
     return {
         type: GET_RESULTS,

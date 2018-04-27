@@ -259,6 +259,40 @@ response
 }
 ```
 
+#### get editor's choice
+
+url
+```
+GET /rank
+```
+
+parameters
+```
+{
+	query: string,  // empty
+	page: int,
+	perPage: int
+}
+```
+
+response
+```
+{
+	recipes: [{
+		rid: int, recipe id
+		url: '/recipe/'+id,
+		imgurl: string, image url
+		title: string, recipe name
+		author: string
+		likes: int,
+		ingredients: [{
+			name: string,
+			quantity: string
+		}],
+  	}]
+}
+```
+
 ### Recipe
 #### get recipe information
 
