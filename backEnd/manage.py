@@ -90,7 +90,7 @@ def query_order():
 @manager.command
 def like():
     from app.search_models import Customer_like_recipe
-    print (Customer_like_recipe.query().filter_by(Customer_like_recipe.uid==38).all())
+    print (Customer_like_recipe.query.filter(Customer_like_recipe.uid==38).count())
 
 if __name__ == "__main__":
     manager.run()
