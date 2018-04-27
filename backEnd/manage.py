@@ -11,7 +11,7 @@ manager.add_command("server",
 @manager.command
 def query_customer_id():
     from app.models import Customer
-    customer = Customer.get_customer_info_by_email('chenjiaheyeah@gmail.com')
+    customer = Customer.get_customer_info_by_email('dingyi0116@gmail.com')
     print(customer.uid)
 
 @manager.option('-m', '--msg', dest='msg_val', default='world')
@@ -86,6 +86,11 @@ def query_order():
     db.session.commit()
     result = Recipe.get_recipe_in_order(1)
     print(result)
+
+@manager.command
+def like():
+    from app.search_models import Customer_like_recipe
+    print (Customer_like_recipe.query.filter(Customer_like_recipe.uid==38).count())
 
 if __name__ == "__main__":
     manager.run()

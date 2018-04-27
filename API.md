@@ -656,6 +656,28 @@ response
   userName: string (token != userId)
 }
 ```
+
+#### get user reputation
+
+url
+```
+GET /getReputation?uid
+```
+
+parameters
+```
+{
+	uid: string
+}
+```
+
+response
+```
+{
+	reputation: int, total likes
+}
+```
+
 #### update user Icon
 url
 ```

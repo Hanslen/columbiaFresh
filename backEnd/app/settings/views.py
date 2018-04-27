@@ -1,5 +1,21 @@
 from app import app
-from ..auth import check_token
+from ..auth import check_token, return_format
+from ..models import Customer
+from ..search_models import Customer_like_recipe
+from flask import request
+@app.route('/getReputation', methods=['GET'])
+@return_format
+def get_like():
+    try:
+        json = {
+            "reputation" : Customer_like_recipe.query.filter(Customer_like_recipe.uid==request.args.get('uid')).count()
+        }
+        return (json, True)
+
+    except Exception as e:
+        print(e)
+        return (str(e), False)
+
 
 @app.route('/settings/basic', methods=['POST'])
 @check_token
@@ -9,6 +25,7 @@ def get_info(customer, content):
         "lastname": None,
         "gender": None,
         "email": None,
+        "icon": customer.img,
         "introduction": customer.introduction,
         "userName": customer.uname
     }
@@ -18,6 +35,11 @@ def get_info(customer, content):
         result["lastname"] = customer.lastname,
         result["gender"] = customer.gender,
         result["email"] = customer.email
+    else:
+        user = Customer.query.filter(Customer.uid == int(content['userId'])).first()
+        result["icon"] = user.img,
+        result["introduction"] = user.introduction,
+        result["userName"] = user.uname
 
     return (result, True)
 
