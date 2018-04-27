@@ -9,21 +9,17 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { stat } from 'fs';
 import Axios from '../../axios-config';
-class account extends Component{
+class useraccount extends Component{
     state = {
-        shoppingCart: []
+        shoppingCart: [],
+        userId: null
     }
     componentWillMount(){
-            const postData = {
-                uid: this.props.userId,
-                token: this.props.token
-            }
-            Axios.post('/shoppingCart', postData).then(response=>{
-                this.setState({shoppingCart: response.data});
-            }).catch(function(error){
-                console.log("Error");
-                console.log(error.response);
-            });
+        const pathName = this.props.history.location.pathname;
+        const urlSplit = pathName.split('/');
+        if(urlSplit.length == 3){
+            this.setState({userId:urlSplit[2]});
+        }
 
     }
     render(){
@@ -32,17 +28,7 @@ class account extends Component{
         }
         return (
             <div className="greyBg">
-            {this.state.userId == null?
-                <div className="accountContainer">
-                    <MyHeader/>
-                    <div className="tab-content" id="nav-tabContent">
-                        <MyOrders/>
-                        <FavoriteList/>
-                        <ShoppingCart displayClass="tab-pane fade" notShow={false} items={this.state.shoppingCart}/>
-                        <MyRecipes displayClass="tab-pane fade"/>
-                        <Settings/>
-                    </div>
-                </div>:
+
             <div className="accountContainer">
                 <MyHeader/>
                 <div className="tab-content" id="nav-tabContent">
@@ -50,7 +36,6 @@ class account extends Component{
                     <MyRecipes displayClass="tab-pane fade active show"/>
                 </div>
             </div>
-            }
             </div>
         );
     }
@@ -62,4 +47,4 @@ const mapStateToProps = state => {
         token: localStorage.getItem("token")
     }
 }
-export default connect(mapStateToProps, null)(withRouter(account));
+export default connect(mapStateToProps, null)(withRouter(useraccount));

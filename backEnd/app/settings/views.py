@@ -1,6 +1,21 @@
 from app import app
-from ..auth import check_token
+from ..auth import check_token, return_format
 from ..models import Customer
+from ..search_models import Customer_like_recipe
+from flask import request
+@app.route('/getReputation', methods=['GET'])
+@return_format
+def get_like():
+    try:
+        json = {
+            "reputation" : Customer_like_recipe.query.filter(Customer_like_recipe.uid==request.args.get('uid')).count()
+        }
+        return (json, True)
+
+    except Exception as e:
+        print(e)
+        return (str(e), False)
+
 
 @app.route('/settings/basic', methods=['POST'])
 @check_token

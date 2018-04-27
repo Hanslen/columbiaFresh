@@ -62,7 +62,7 @@ class HomePage extends Component {
                         <input type="text" className="form-control" placeholder="Tell us what you want to eat...0.0"/><br/>
                         <Link to="/search"><button type="button" className="btn btn-primary" style={{color:"white",backgroundColor:"#f3d861",border:"none"}}>Search</button></Link>
                     </p> */}
-                    <SearchBox btnStyle={classes.btnDeep} placeHolder="Tell us what you want to eat :D "/>
+                    <SearchBox btnStyle={classes.btnDeep} placeHolder="Try 'salad' :D "/>
                     <p className="lead" id="jumbotron-sub" style={{fontSize:"0.8em",marginTop:"8%",fontWeight:"bolder"}}>Rowser New American Coffee<br/> Photo by MyThy H.</p>
                     
                     </div>

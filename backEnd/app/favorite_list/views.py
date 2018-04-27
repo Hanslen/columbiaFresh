@@ -6,7 +6,7 @@ from ..search_models import Customer_like_recipe, Recipe
 @check_token
 def GetFavoriteList(customer, content):
     try:
-        uid = str(customer.uid)
+        uid = content['userId']
         favorite_recipe_list = Customer_like_recipe.get_user_liked_recipes(uid)
         liked_recipe = []
         if favorite_recipe_list is None:

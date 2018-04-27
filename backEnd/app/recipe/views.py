@@ -12,7 +12,7 @@ import os, sys
 @check_token
 def GetRecipeFolder(customer, content):
     try:
-        lis = Recipe.get_recipe_by_uid(customer.uid)
+        lis = Recipe.get_recipe_by_uid(int(content['userId']))
 
         result = []
         for recipe in lis:
@@ -41,7 +41,7 @@ def GetRecipeFolder(customer, content):
 def GetRecipeTags(customer, content):
     try:
         json = {}
-        my_recipes = Recipe.get_recipe_by_uid(customer.uid)
+        my_recipes = Recipe.get_recipe_by_uid(int(content['userId']))
         tags = set()
         for recipe in my_recipes:
             cate = recipe.find_cat()
@@ -90,7 +90,7 @@ def GetRecipe():
                 "likes": recipe_content.likes,
                 "isLiked": False,
                 "tags": categories,
-                "aid": str(recipe_content.uid),
+                "aid": author_user_info.uid,
                 "avatar": author_user_info.img,
                 "author": author_user_info.uname,
                 "description": recipe_content.description,
