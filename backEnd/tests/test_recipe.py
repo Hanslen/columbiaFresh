@@ -15,6 +15,7 @@ class SetUpTest(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
 
+
     def test_get_myrecipe_folder_normal(self):
         with open('local.json', 'r') as f:
             data = json.load(f)
@@ -154,7 +155,6 @@ class SetUpTest(unittest.TestCase):
             self.assertTrue(rv.status_code is 200)
         except Exception:
             print("Get recipe function with no token input exists bugs!")
-
 
 
 if __name__ == '__main__':

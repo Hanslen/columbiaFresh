@@ -91,10 +91,10 @@ def Search_recipe():
         page_id = int(page_id)
         perPage = int(request.args.get('perPage'))
         recipes_truncated = []
-        score_recipe = GetScoredRecipes(query)
+        score_recipe, recipe_length = GetScoredRecipes(query)
         sorted_score = sorted(score_recipe, reverse=True)
         start = perPage * (page_id - 1)
-        if start > len(score_recipe):
+        if start > recipe_length:
             return ("Doesn't contain the required number of records", False)
         count = 0
         for key in sorted_score:
@@ -177,4 +177,4 @@ def GetScoredRecipes(query):
         if score not in score_recipe.keys():
             score_recipe[score] = defaultdict()
         score_recipe[score][recipe.rid] = recipe.title
-    return score_recipe
+    return score_recipe, len(all_recipes)
