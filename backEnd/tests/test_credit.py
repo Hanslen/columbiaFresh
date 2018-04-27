@@ -18,24 +18,21 @@ class SetUpTest(unittest.TestCase):
         self.app = app.test_client()
 
 
-
     def test_credit_card_update(self):
         with open('local.json', 'r') as f:
             data = json.load(f)
             rv = self.app.post('/settings/update/credit', data=json.dumps(dict(
             userId=38,
-            token=data['token'],
-            streetAddress1='350 Manhattan Ave',
-            streetAddress2='',
-            city='New York City',
-            state_province_region='NY',
-            zipCode='10026')),
+            cardName = "Yi Ding",
+            cardNumber = "1234567890123456",
+            expirationMonth="May",
+            expirationYear="2018",
+            CVV="100",
+            token=data['token'])),
             content_type='application/json')
 
-        assert (b'Success' in rv.data)
-
         try:
-            self.assertTrue(rv.status_code is 200)
+            self.assertFalse(rv.status_code is 200)
         except Exception:
             print("credit card length not checked!")
 

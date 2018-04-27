@@ -62,6 +62,8 @@ def update_address(customer, content):
 @app.route('/settings/update/credit', methods=['POST'])
 @check_token
 def update_credit(customer, content):
+    if(len(content['cardNumber']) is not 16):
+        return ("Length of card number is not 16!", False)
     customer.cardName = content['cardName']
     customer.cardNumber = content['cardNumber']
     customer.expirationMonth = content['expirationMonth']
