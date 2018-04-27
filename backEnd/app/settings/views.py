@@ -1,5 +1,6 @@
 from app import app
 from ..auth import check_token
+from ..models import Customer
 
 @app.route('/settings/basic', methods=['POST'])
 @check_token
@@ -19,6 +20,11 @@ def get_info(customer, content):
         result["lastname"] = customer.lastname,
         result["gender"] = customer.gender,
         result["email"] = customer.email
+    else:
+        user = Customer.query(Customer.id == int(content['userId'])).first()
+        result["icon"] = user.img,
+        result["introduction"] = user.introduction,
+        result["userName"] = user.uname
 
     return (result, True)
 
