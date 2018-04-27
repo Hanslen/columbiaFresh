@@ -92,7 +92,7 @@ def Search_recipe():
         score_recipe = GetScoredRecipes(query)
         sorted_score = sorted(score_recipe, reverse=True)
         start = perPage * (page_id - 1)
-        if start < len(score_recipe):
+        if start > len(score_recipe):
             return ("Doesn't contain the required number of records", False)
         count = 0
         for key in sorted_score:
