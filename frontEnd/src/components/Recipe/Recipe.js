@@ -25,6 +25,7 @@ class Recipe extends React.Component {
             aid: 123,
             avatar: 'http://via.placeholder.com/40x40',
             author: 'Author Name',
+            reputation: 1,
             description: 'say something',
             calorie: 150,
             preptime: 90,
@@ -62,6 +63,9 @@ class Recipe extends React.Component {
             directions: data.directions,
             notes: data.notes
         });
+        let saveReputation = (reputation) => this.setState({
+            reputation: reputation/10
+        });
         console.log(rid);
         axios.post('/getRecipe', {
             token: this.props.token,
@@ -71,6 +75,16 @@ class Recipe extends React.Component {
             console.log(response);
             let data = response.data;
             saveRecipe(data);
+
+            axios.get('/getReputation', {
+                uid: data.aid
+            }).then(function(response) {
+                console.log(response);
+                saveReputation(response.data.reputation);
+            }).catch(function (error) {
+                console.log(error);
+            });
+
         }).catch(function (error) {
             console.log(error);
         });
@@ -130,17 +144,25 @@ class Recipe extends React.Component {
             );
         });
 
-        let authorURL = "/user/"+this.state.aid;
+        let authorURL = "/userprofile/"+this.state.aid;
+        //let range = [...Array(this.state.reputation).keys()]
+        let range = [0, 1];
+        let reputations = range.map(i => 
+            <span key={i}>
+                <i class="far fa-gem"></i>
+            </span>
+        );
         let authorInfo = (
             <div>
-                {/* <Link to={authorURL} style={{"textDecoration": "none"}}> */}
+                <Link to={authorURL} style={{"textDecoration": "none"}}>
                     <div className="media mt-3 mb-2">
                         <img className="mr-3 rounded-circle" src={this.state.avatar} style={{width:"40px", height:"40px"}}/>
                         <div className="media-body" style={{lineHeight: 40+'px'}}>
                             {this.state.author}
+                            {reputations}
                         </div>
                     </div>
-                {/* </Link> */}
+                </Link>
                 <p>
                     {this.state.description}
                 </p>

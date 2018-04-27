@@ -15,6 +15,7 @@ import createRecipe from './components/createRecipe/createRecipe';
 import orderDetail from './components/Account/OrderDetail/OrderDetail';
 import my404Component from './components/my404Component';
 import supplier from './components/Supplier/Supplier';
+import UserAccount from './components/Account/UserAccount';
 
 class App extends Component {
   componentWillMount(){
@@ -31,6 +32,7 @@ class App extends Component {
         <Route path="/recipe/:id" exact component={Recipe}/>
         <Route path="/createRecipe" exact component={createRecipe}/>
         <Route path="/myprofile" exact component={Account}/>
+        <Route path="/userprofile/:id" exact component={UserAccount}/>
         <Route path="/verifyEmail/:token" exact component={accountManage}/>
         <Route path="/placeorder" exact component={Order}/>
         <Route path="/myorder/:orderId" exact component={orderDetail} />

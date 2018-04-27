@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MyHeader from '../MyHeader/MyHeader';
 import classes from './Favorite.css';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import Axios from '../../../axios-config';
 import * as actions from '../../../store/actions/index';
 import { connect } from 'react-redux';
@@ -14,11 +14,20 @@ class favoritelist extends Component{
             id: 1,
             title: "Porridgeeeeeeeeeeeeeeeeeeeee",
             src: "/static/img/breakfast.png"
-        }]
+        }],
+        userId: null
     }
     componentWillMount(){
+        const pathName = this.props.history.location.pathname;
+        const urlSplit = pathName.split('/');
+
+        let postUserId = this.props.userId;
+        if(urlSplit.length == 3){
+            postUserId = urlSplit[2];
+            this.setState({userId:urlSplit[2]});
+        }
         const postData= {
-            userId: this.props.userId,
+            userId: postUserId,
             token: this.props.token
         }
         Axios.post("/getfavouritelist", postData).then(response => {
@@ -91,4 +100,4 @@ const mapDispatchToProps = dispatch => {
         setAlert: (error, isError) => dispatch(actions.setAlert(error, isError))
     };
 }
-export default connect(mapStateToProps, mapDispatchToProps)(favoritelist);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(favoritelist));
