@@ -18,6 +18,9 @@ class favoritelist extends Component{
         userId: null
     }
     componentWillMount(){
+        if(this.props.token == null){
+            this.props.setAlert("Please log in to view user profile!", true);
+        }
         const pathName = this.props.history.location.pathname;
         const urlSplit = pathName.split('/');
 

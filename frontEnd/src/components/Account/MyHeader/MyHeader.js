@@ -12,9 +12,11 @@ class myheader extends Component{
         userIcon: ""
     }
     componentWillMount(){
+        if(this.props.token == null){
+            this.props.setAlert("Please log in to view other user profile!", true);
+        }
         const pathName = this.props.history.location.pathname;
         const urlSplit = pathName.split('/');
-        console.log(urlSplit);
         if(urlSplit.length == 3){
             this.setState({userId:urlSplit[2]});
             const postData = {
@@ -157,7 +159,7 @@ class myheader extends Component{
                         <img className={classes.imgIcon} src={this.state.userIcon}/>
                         <div className={classes.introText}>
                             <p><strong>{this.state.username}</strong></p>
-                            <p>Manage and check my profile. :D</p>
+                            <p>Welcome to my homepage :D</p>
                         </div>
 
                     </div>  

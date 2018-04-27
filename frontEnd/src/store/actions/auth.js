@@ -234,6 +234,7 @@ export const updateCredit = (userId, token, name, cardNumber, expirationMonth,ex
             expirationYear:expirationYear, 
             CVV: cvv
         };
+        console.log(updateData); 
         let url = "/settings/update/credit";
         axios.post(url, updateData)
             .then(response => {
