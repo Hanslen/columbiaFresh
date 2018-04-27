@@ -64,7 +64,7 @@ class Recipe extends React.Component {
             notes: data.notes
         });
         let saveReputation = (reputation) => this.setState({
-            reputation: reputation/10
+            reputation: reputation/10+1
         });
         console.log(rid);
         axios.post('/getRecipe', {
@@ -145,8 +145,7 @@ class Recipe extends React.Component {
         });
 
         let authorURL = "/userprofile/"+this.state.aid;
-        //let range = [...Array(this.state.reputation).keys()]
-        let range = [0, 1];
+        let range = [...Array(this.state.reputation).keys()]
         let reputations = range.map(i => 
             <span key={i}>
                 <i class="far fa-gem"></i>
@@ -157,8 +156,10 @@ class Recipe extends React.Component {
                 <Link to={authorURL} style={{"textDecoration": "none"}}>
                     <div className="media mt-3 mb-2">
                         <img className="mr-3 rounded-circle" src={this.state.avatar} style={{width:"40px", height:"40px"}}/>
-                        <div className="media-body" style={{lineHeight: 40+'px'}}>
-                            {this.state.author}
+                        <div className="media-body">
+                            <span style={{lineHeight: 50+'px'}}>
+                                {this.state.author} 
+                            </span>
                             {reputations}
                         </div>
                     </div>
