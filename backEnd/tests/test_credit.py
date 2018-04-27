@@ -17,22 +17,23 @@ class SetUpTest(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
 
-    def test_login(self):
-        rv = self.app.post('/login', data=json.dumps(dict(
-            email='dingyi0116@gmail.com',
-            password='12345678')),
-                           content_type='application/json')
 
-        test = json.loads(rv.data)
-        with open('local.json', 'w') as f:
-            json.dump(test, f)
-
-        assert (b'email' in rv.data)
 
     def test_credit_card_update(self):
         with open('local.json', 'r') as f:
             data = json.load(f)
-        rv = self.app.get('/search?query=&&page=1&&perPage=10')
+            rv = self.app.post('/settings/update/credit', data=json.dumps(dict(
+            userId=38,
+            token=data['token'],
+            streetAddress1='350 Manhattan Ave',
+            streetAddress2='',
+            city='New York City',
+            state_province_region='NY',
+            zipCode='10026')),
+            content_type='application/json')
+
+        assert (b'Success' in rv.data)
+
         try:
             self.assertTrue(rv.status_code is 200)
         except Exception:
@@ -40,13 +41,7 @@ class SetUpTest(unittest.TestCase):
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    tests = [SetUpTest("test_login"),
-             SetUpTest("test_get_recipe_tags"),
-             SetUpTest("test_update_address"),
-             SetUpTest("test_shopping_cart"),
-             SetUpTest("test_orders"),
-             SetUpTest("test_search")
-             ]
+    tests = [SetUpTest("test_credit")]
     suite.addTests(tests)
 
     runner = unittest.TextTestRunner(verbosity=2)
