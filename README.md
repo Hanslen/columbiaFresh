@@ -1,5 +1,6 @@
 # columbiaFresh
-：）Amazing Team ：）
+Amazing Team ：）
+Website: [link](http://columbiafresh.s3-website-us-east-1.amazonaws.com/)
 
 ## CI/CD
 * App: CircleCI
